@@ -108,7 +108,7 @@ class Abacus():
 class Suanpan():
 
     def __init__(self, abacus):
-        """ create a Chinese abacus: 15 by (5,2) """
+        """ Create a Chinese abacus: 15 by (5,2). """
         self.abacus = abacus
         self.num_rods = 15
         self.bot_beads = 5
@@ -153,7 +153,7 @@ class Suanpan():
              i.type = 'bead'
              i.state = 0
 
-        # Draw the dividing bar on top 
+        # Draw the dividing bar on top.
         self.bar = Sprite(self.abacus.sprites, x, y+dy,
                           load_image(self.abacus.path, "divider_bar",
                                      w, BHEIGHT*self.abacus.scale))
@@ -162,7 +162,7 @@ class Suanpan():
         self.bar.set_label_color('white')
 
     def value(self):
-        """ Return a string representing the value of each rod """
+        """ Return a string representing the value of each rod. """
         string = ''
         v = []
         for r in range(self.num_rods+1): # +1 for overflow
@@ -191,6 +191,7 @@ class Suanpan():
         return(string)
 
     def hide(self):
+        """ Hide the rod, beads and frame. """
         for i in self.rods:
             i.hide()
         for i in self.beads:
@@ -198,6 +199,7 @@ class Suanpan():
         self.bar.hide()
 
     def show(self):
+        """ Show the rod, beads and frame. """
         for i in self.rods:
             i.set_layer(100)
         for i in self.beads:
@@ -205,7 +207,7 @@ class Suanpan():
         self.bar.set_layer(102)
 
     def label(self, string):
-        """ Label the crossbar with the string. (USed with self.value) """
+        """ Label the crossbar with the string. (Used with self.value) """
         self.bar.set_label(string)
 
     def move_bead(self, bead, dy):
@@ -217,14 +219,14 @@ class Suanpan():
              if dy > 0 and bead.state == 0:
                  bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
                  bead.state = 1
-                 # make sure beads below this bead are also moved
+                 # Make sure beads below this bead are also moved.
                  if b == 0 and self.beads[i+1].state == 0:
                      self.beads[i+1].move_relative((0,
                                                    2*BHEIGHT*self.abacus.scale))
                      self.beads[i+1].state = 1
              elif dy < 0 and bead.state == 1:
                  bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
-                 # make sure beads above this bead are also moved
+                 # Make sure beads above this bead are also moved.
                  if b == 1 and self.beads[i-1].state == 1:
                      self.beads[i-1].move_relative((0,
                                                   -2*BHEIGHT*self.abacus.scale))
@@ -234,7 +236,7 @@ class Suanpan():
              if dy < 0 and bead.state == 0:
                  bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
                  bead.state = 1
-                 # make sure beads above this bead are also moved
+                 # Make sure beads above this bead are also moved.
                  for ii in range(b-self.top_beads+1):
                      if self.beads[i-ii].state == 0:
                          self.beads[i-ii].move_relative((0,
@@ -243,7 +245,7 @@ class Suanpan():
              elif dy > 0 and bead.state == 1:
                  bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
                  bead.state = 0
-                 # make sure beads below this bead are also moved
+                 # Make sure beads below this bead are also moved.
                  for ii in range(self.top_beads+self.bot_beads-b):
                      if self.beads[i+ii].state == 1:
                          self.beads[i+ii].move_relative((0,
@@ -299,7 +301,7 @@ class Soroban():
              i.type = 'bead'
              i.state = 0
 
-        # Draw the dividing bar on top 
+        # Draw the dividing bar on top.
         self.bar = Sprite(self.abacus.sprites, x, y+dy,
                           load_image(self.abacus.path, "divider_bar",
                                      w, BHEIGHT*self.abacus.scale))
@@ -308,6 +310,7 @@ class Soroban():
         self.bar.set_label_color('white')
 
     def hide(self):
+        """ Hide the rod, beads and frame. """
         for i in self.rods:
             i.hide()
         for i in self.beads:
@@ -315,6 +318,7 @@ class Soroban():
         self.bar.hide()
 
     def show(self):
+        """ Show the rod, beads and frame. """
         for i in self.rods:
             i.set_layer(100)
         for i in self.beads:
@@ -339,7 +343,7 @@ class Soroban():
         return(string)
 
     def label(self, string):
-        """ Label the crossbar with the string. (USed with self.value) """
+        """ Label the crossbar with the string. (Used with self.value). """
         self.bar.set_label(string)
 
     def move_bead(self, bead, dy):
@@ -358,7 +362,7 @@ class Soroban():
              if dy < 0 and bead.state == 0:
                  bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
                  bead.state = 1
-                 # make sure beads above this bead are also moved
+                 # Make sure beads above this bead are also moved.
                  for ii in range(b-self.top_beads+1):
                      if self.beads[i-ii].state == 0:
                          self.beads[i-ii].move_relative((0,
@@ -367,7 +371,7 @@ class Soroban():
              elif dy > 0 and bead.state == 1:
                  bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
                  bead.state = 0
-                 # make sure beads below this bead are also moved
+                 # Make sure beads below this bead are also moved.
                  for ii in range(self.top_beads+self.bot_beads-b):
                      if self.beads[i+ii].state == 1:
                          self.beads[i+ii].move_relative((0,
@@ -378,7 +382,7 @@ class Soroban():
 class Schety():
 
     def __init__(self, abacus):
-        """ create a Russian abacus: 15 by 10 """
+        """ Create a Russian abacus: 15 by 10 (with one rod of 4 beads). """
         self.abacus = abacus
         self.num_rods = 15
         self.bot_beads = 10
@@ -431,7 +435,7 @@ class Schety():
              i.type = 'bead'
              i.state = 0
 
-        # Draw a bar for the label on top 
+        # Draw a bar for the label on top.
         self.bar = Sprite(self.abacus.sprites, x, y-BHEIGHT*self.abacus.scale,
                           load_image(self.abacus.path, "divider_bar",
                                      w, BHEIGHT*self.abacus.scale))
@@ -440,6 +444,7 @@ class Schety():
         self.bar.set_label_color('white')
 
     def hide(self):
+        """ Hide the rod, beads and frame. """
         for i in self.rods:
             i.hide()
         for i in self.beads:
@@ -447,6 +452,7 @@ class Schety():
         self.bar.hide()
 
     def show(self):
+        """ Show the rod, beads and frame. """
         for i in self.rods:
             i.set_layer(100)
         for i in self.beads:
@@ -454,17 +460,57 @@ class Schety():
         self.bar.set_layer(102)
 
     def value(self):
-        # TODO: cascade and account for short rod
-        """ Return a string with the value of each rod. """
+        """ Return a string representing the value of each rod. """
         string = ''
-        v = 0
+        v = []
+        for r in range(self.num_rods+1): # +1 for overflow
+            v.append(0)
+
+        # Tally the values on each rod.
         for i, b in enumerate(self.beads):
-            if b.state == 1:
-                v += 1
-            if i%self.bot_beads == self.bot_beads-1:
-                if string != '' or v > 0:
-                    string += str(v)
-                v = 0
+            if i < 100:
+                r = i/self.bot_beads
+                if b.state == 1:
+                    v[r+1] += 1
+            # The 'short' rod
+            elif i < 104:
+                r = 10
+                if b.state == 1:
+                    v[r+1] += 2.5
+            else:
+                r = (i+6)/self.bot_beads
+                if b.state == 1:
+                    v[r+1] += 1
+
+        # Carry to the left if a rod has a value > 9.
+        # First, process the short rod;
+        if v[11] == 10:
+            v[10] += 1
+        else:
+            v[12] += int(v[11])
+            v[13] += int(10*v[11]-10*int(v[11]))
+
+        # then, check the rods to the right of the short rod;
+        for j in range(4):
+            if v[len(v)-j-1] > 9:
+                v[len(v)-j-1] -= 10
+                if j < 3:
+                    v[len(v)-j-2] += 1
+                else:
+                    v[len(v)-j-3] += 1 # skip over the short rod
+
+        # and finally, the rest of the rods.
+        for j in range(6,16):
+            if v[len(v)-j-1] > 9:
+                v[len(v)-j-1] -= 10
+                v[len(v)-j-2] += 1
+
+        # Convert values to a string.
+        for i, j in enumerate(v):
+            if i == 11:
+                string += '.'
+            elif string != '' or j > 0:
+                string += str(j)
         return(string)
 
     def label(self, string):
@@ -472,25 +518,26 @@ class Schety():
         self.bar.set_label(string)
 
     def move_bead(self, bead, dy):
-         # TODO: take into account short rod in rod calculations
+         """ Move a bead (or beads) up or down a rod. """
          i = self.beads.index(bead)
          r = i/self.bot_beads
+         # Take into account the rod with just 4 beads
          if r < 10:
              o = 2
              b = i%self.bot_beads
              n = self.bot_beads
-         elif r == 10:
+         elif i > 99 and i < 104:
              o = 8
              b = i%self.bot_beads
              n = 4
          else:
-             s = 2
+             o = 2
              b = (i+6)%self.bot_beads
              n = self.bot_beads
          if dy < 0 and bead.state == 0:
              bead.move_relative((0, -o*BHEIGHT*self.abacus.scale))
              bead.state = 1
-             # make sure beads above this bead are also moved
+             # Make sure beads above this bead are also moved.
              for ii in range(b+1):
                  if self.beads[i-ii].state == 0:
                      self.beads[i-ii].move_relative((0,
@@ -499,7 +546,7 @@ class Schety():
          elif dy > 0 and bead.state == 1:
              bead.move_relative((0, o*BHEIGHT*self.abacus.scale))
              bead.state = 0
-             # make sure beads below this bead are also moved
+             # Make sure beads below this bead are also moved.
              for ii in range(n-b):
                  if self.beads[i+ii].state == 1:
                      self.beads[i+ii].move_relative((0,
