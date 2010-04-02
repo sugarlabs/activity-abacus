@@ -1,0 +1,59 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-04-02 16:29+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: activity/activity.info:2 /home/walter/Desktop/abacus/abacus.py:55
+msgid "Abacus"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:62
+msgid "suanpan"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:70
+#: /home/walter/Desktop/abacus/AbacusActivity.py:223
+msgid "soroban"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:78
+#: /home/walter/Desktop/abacus/AbacusActivity.py:231
+msgid "schety"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:105
+msgid "Project"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:215
+msgid "saunpan"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/abacus.py:59
+msgid "Saunpan"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/abacus.py:63
+msgid "Soroban"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/abacus.py:67
+msgid "Schety"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/abacus.py:71
+msgid "Quit"
+msgstr ""
