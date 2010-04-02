@@ -1,0 +1,8 @@
+[Activity]
+name = Abacus
+activity_version = 1
+license = GPLv3
+bundle_id = org.sugarlabs.AbacusActivity
+exec = sugar-activity AbacusActivity.AbacusActivity
+icon = activity-abacus
+show_launcher = yes
