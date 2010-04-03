@@ -24,8 +24,9 @@ try: # 0.86+ toolbar widgets
     from sugar.activity.widgets import StopButton
     from sugar.graphics.toolbarbox import ToolbarBox
     from sugar.graphics.toolbarbox import ToolbarButton
+    _new_sugar_system = True
 except ImportError:
-    pass
+    _new_sugar_system = False
 from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.menuitem import MenuItem
 from sugar.graphics.icon import Icon
@@ -46,9 +47,10 @@ from abacus_window import Abacus
 class AbacusActivity(activity.Activity):
 
     def __init__(self, handle):
+        """ Initiate activity. """
         super(AbacusActivity,self).__init__(handle)
 
-        try:
+        if _new_sugar_system:
             # Use 0.86 toolbar design
             toolbar_box = ToolbarBox()
 
@@ -81,6 +83,15 @@ class AbacusActivity(activity.Activity):
             toolbar_box.toolbar.insert(self.russian, -1)
             self.russian.show()
 
+            # Nepohualtzintzin (Mayan abacus) 3:4 (base 20)
+            self.mayan = ToolButton( "Moff" )
+            self.mayan.set_tooltip(_('nepohualtzintzin'))
+            self.mayan.props.sensitive = True
+            self.mayan.connect('clicked', self._mayan_cb)
+            toolbar_box.toolbar.insert(self.mayan, -1)
+            self.mayan.show()
+
+
             separator = gtk.SeparatorToolItem()
             separator.props.draw = False
             separator.set_expand(True)
@@ -89,14 +100,14 @@ class AbacusActivity(activity.Activity):
 
             # The ever-present Stop Button
             stop_button = StopButton(self)
-            stop_button.props.accelerator = '<Ctrl>Q'
+            stop_button.props.accelerator = _('<Ctrl>Q')
             toolbar_box.toolbar.insert(stop_button, -1)
             stop_button.show()
 
             self.set_toolbar_box(toolbar_box)
             toolbar_box.show()
 
-        except NameError:
+        else:
             # Use pre-0.86 toolbar design
             self.toolbox = activity.ActivityToolbox(self)
             self.set_toolbox(self.toolbox)
@@ -108,7 +119,7 @@ class AbacusActivity(activity.Activity):
 
         # Create a canvas
         canvas = gtk.DrawingArea()
-        canvas.set_size_request(gtk.gdk.screen_width(), \
+        canvas.set_size_request(gtk.gdk.screen_width(),
                                 gtk.gdk.screen_height())
         self.set_canvas(canvas)
         canvas.show()
@@ -118,88 +129,74 @@ class AbacusActivity(activity.Activity):
         self.abacus = Abacus(canvas, os.path.join(activity.get_bundle_path(),
                                                   'images/'), self)
 
-        """
-        # Read the slider positions from the Journal
+        # Read the current mode from the Journal
+        # TODO: read/restore bead positions
         try:
-            self.tw.A.spr.move_relative((int(self.metadata['A']),0))
-            self.tw.C.spr.move_relative((int(self.metadata['C']),0))
-            self.tw.C_tab_left.spr.move_relative((int(self.metadata['C']),0))
-            self.tw.C_tab_right.spr.move_relative((int(self.metadata['C'])+\
-                                                   SWIDTH-100,0))
-            self.tw.D.spr.move_relative((int(self.metadata['D']),0))
-            self.tw.R.spr.move_relative((int(self.metadata['R']),0))
-            self.tw.R_tab_top.spr.move_relative((int(self.metadata['R']),0))
-            self.tw.R_tab_bot.spr.move_relative((int(self.metadata['R']),0))
-            self.tw.slider_on_top = self.metadata['slider']
-            if self.tw.slider_on_top == 'A':
-                self._show_a()
+            if self.matadata['abacus'] == 'suanpan':
+                self._chinese_cb(None)
+            elif self.matadata['abacus'] == 'soroban':
+                self._japanese_cb(None)
+            elif self.matadata['abacus'] == 'schety':
+                self._russian_cb(None)
             else:
-                self._show_c()
-            window._update_results_label(self.tw)
-            window._update_slider_labels(self.tw)
+                self._mayan_cb(None)
         except:
-            self._show_c()
-        """
+            pass
 
     def _chinese_cb(self, button):
-        self._show_c()
-        return True
-
-    def _show_c(self):
+        """ Display the suanpan; hide the others """
         self.chinese.set_icon("Con")
         self.japanese.set_icon("Joff")
         self.russian.set_icon("Roff")
+        self.mayan.set_icon("Moff")
         self.abacus.chinese.show()
         self.abacus.japanese.hide()
         self.abacus.russian.hide()
+        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.chinese
 
     def _japanese_cb(self, button):
-        self._show_j()
-        return True
-
-    def _show_j(self):
+        """ Display the soroban; hide the others """
         self.chinese.set_icon("Coff")
         self.japanese.set_icon("Jon")
         self.russian.set_icon("Roff")
+        self.mayan.set_icon("Moff")
         self.abacus.chinese.hide()
         self.abacus.japanese.show()
         self.abacus.russian.hide()
+        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.japanese
 
     def _russian_cb(self, button):
-        self._show_r()
-        return True
-
-    def _show_r(self):
+        """ Display the schety; hide the others """
         self.chinese.set_icon("Coff")
         self.japanese.set_icon("Joff")
         self.russian.set_icon("Ron")
+        self.mayan.set_icon("Moff")
         self.abacus.chinese.hide()
         self.abacus.japanese.hide()
         self.abacus.russian.show()
+        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.russian
 
-    """
-    Write the slider positions to the Journal
-    """
-    """
+    def _mayan_cb(self, button):
+        """ Display the nepohualtzintzin; hide the others """
+        self.chinese.set_icon("Coff")
+        self.japanese.set_icon("Joff")
+        self.russian.set_icon("Roff")
+        self.mayan.set_icon("Mon")
+        self.abacus.chinese.hide()
+        self.abacus.japanese.hide()
+        self.abacus.russian.hide()
+        self.abacus.mayan.show()
+        self.abacus.mode = self.abacus.mayan
+
     def write_file(self, file_path):
-        _logger.debug("Write slider on top: " + self.tw.slider_on_top)
-        self.metadata['slider'] = self.tw.slider_on_top
-        x,y = self.tw.A.spr.get_xy()
-        _logger.debug("Write A offset: " + str(x))
-        self.metadata['A'] = str(x)
-        x,y = self.tw.C.spr.get_xy()
-        _logger.debug("Write C offset: " + str(x))
-        self.metadata['C'] = str(x)
-        x,y = self.tw.D.spr.get_xy()
-        _logger.debug("Write D offset: " + str(x))
-        self.metadata['D'] = str(x)
-        x,y = self.tw.R.spr.get_xy()
-        _logger.debug("Write r offset: " + str(x))
-        self.metadata['R'] = str(x)
-    """
+        """ Write the bead positions to the Journal """
+        _logger.debug("Saving current abacus to Journal: %s " % (
+                       self.abacus.mode.name))
+        self.metadata['abacus'] = self.abacus.mode.name
+        # TODO: Write bead positions
 
 #
 # Project toolbar for pre-0.86 toolbars
@@ -207,6 +204,7 @@ class AbacusActivity(activity.Activity):
 class ProjectToolbar(gtk.Toolbar):
 
     def __init__(self, pc):
+        """ Initiate 'old-style' toolbars."""
         gtk.Toolbar.__init__(self)
         self.activity = pc
 
@@ -233,3 +231,11 @@ class ProjectToolbar(gtk.Toolbar):
         self.activity.russian.connect('clicked', self.activity._russian_cb)
         self.insert(self.activity.russian, -1)
         self.activity.russian.show()
+
+        # Mayan style
+        self.activity.mayan = ToolButton( "Moff" )
+        self.activity.mayan.set_tooltip(_('nepohualtzintzin'))
+        self.activity.mayan.props.sensitive = True
+        self.activity.mayan.connect('clicked', self.activity._mayan_cb)
+        self.insert(self.activity.mayan, -1)
+        self.activity.mayan.show()
