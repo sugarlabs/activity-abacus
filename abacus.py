@@ -68,6 +68,10 @@ class AbacusMain:
         menu.append(menu_items)
         menu_items.connect("activate", self._r_cb)
         menu_items.show()
+        menu_items = gtk.MenuItem(_("Nepohualtzintzin"))
+        menu.append(menu_items)
+        menu_items.connect("activate", self._m_cb)
+        menu_items.show()
         menu_items = gtk.MenuItem(_("Quit"))
         menu.append(menu_items)
         menu_items.connect("activate", self.destroy)
@@ -131,6 +135,7 @@ class AbacusMain:
         self.abacus.chinese.show()
         self.abacus.japanese.hide()
         self.abacus.russian.hide()
+        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.chinese
         return True
 
@@ -138,6 +143,7 @@ class AbacusMain:
         self.abacus.chinese.hide()
         self.abacus.japanese.show()
         self.abacus.russian.hide()
+        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.japanese
         return True
 
@@ -145,7 +151,16 @@ class AbacusMain:
         self.abacus.chinese.hide()
         self.abacus.japanese.hide()
         self.abacus.russian.show()
+        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.russian
+        return True
+
+    def _m_cb(self, widget):
+        self.abacus.chinese.hide()
+        self.abacus.japanese.hide()
+        self.abacus.russian.hide()
+        self.abacus.mayan.show()
+        self.abacus.mode = self.abacus.mayan
         return True
 
     def destroy(self, event, data=None):

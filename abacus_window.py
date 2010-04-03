@@ -107,36 +107,43 @@ class Abacus():
         gtk.main_quit()
 
 
-class Nepohualtzintzin():
+class AbacusGeneric():
 
     def __init__(self, abacus):
-        """ Create a Mayan abacus: 13 by (4,3). """
+        """ Specify parameters that define the abacus """
         self.abacus = abacus
-        self.name = "nepohualtzintzin"
-        self.num_rods = 13
-        self.bot_beads = 4
-        self.top_beads = 3
-        # 4 beads + 2 spaces, divider, 3 bead + 2 spaces
+        self.name = 'suanpan'
+        self.num_rods = 15
+        self.bot_beads = 2
+        self.top_beads = 5
+        self.frame_width = 810
+        self.frame_height = 420
+        self.create()
+
+    def create(self):
+        """ Create an abacus. """
         h = (self.bot_beads+2+1+self.top_beads+2)*BHEIGHT*self.abacus.scale
         w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
-        dy = 5*BHEIGHT*self.abacus.scale
+        dy = (self.top_beads+2)*BHEIGHT*self.abacus.scale
         x = (self.abacus.width-w)/2
         y = (self.abacus.height-h)/2
         o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
 
-        # Draw the frame.
+        # Draw the frame...
         self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
                             y-BHEIGHT*self.abacus.scale,
-                            load_image(self.abacus.path, "mayan_frame",
-                            730*self.abacus.scale, 420*self.abacus.scale))
+                            load_image(self.abacus.path, self.name+"_frame",
+                            self.frame_width*self.abacus.scale,
+                            self.frame_height*self.abacus.scale))
         self.frame.type = 'frame'
 
-        # Draw the rods...
+        # then draw the rods...
         self.rods = []
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
         for i in range(self.num_rods):
             self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y,
-                                    load_image(self.abacus.path, "chinese_rod",
+                                    load_image(self.abacus.path,
+                                               self.name+"_rod",
                                                10*self.abacus.scale, h)))
 
         for i in self.rods:
@@ -154,7 +161,8 @@ class Nepohualtzintzin():
                                                     BHEIGHT*self.abacus.scale)))
             for b in range(self.bot_beads):
                 self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
-                                         y+(8+b)*BHEIGHT*self.abacus.scale,
+                                         y+(self.top_beads+5+b)*BHEIGHT\
+                                            *self.abacus.scale,
                                          load_image(self.abacus.path, "white",
                                                     BWIDTH*self.abacus.scale,
                                                     BHEIGHT*self.abacus.scale)))
@@ -170,37 +178,6 @@ class Nepohualtzintzin():
 
         self.bar.type = 'frame'
         self.bar.set_label_color('white')
-
-    def value(self):
-        """ Return a string representing the value of each rod. """
-        string = ''
-        v = []
-        for r in range(self.num_rods+1): # +1 for overflow
-            v.append(0)
-
-        # Tally the values on each rod.
-        for i, b in enumerate(self.beads):
-            r = i/(self.top_beads+self.bot_beads)
-            j = i%(self.top_beads+self.bot_beads)
-            if b.state == 1:
-                if j < self.top_beads:
-                    v[r+1] += 5*pow(2,self.num_rods-r-1)
-                else:
-                    v[r+1] += 1*pow(2,self.num_rods-r-1)
-
-        # Carry to the left if a rod has a value > 9.
-        for j in range(self.num_rods):
-            if v[len(v)-j-1] > 9:
-                units = v[len(v)-j-1]%10
-                tens = v[len(v)-j-1]-units
-                v[len(v)-j-1] = units
-                v[len(v)-j-2] += tens/10
-
-        # Convert values to a string.
-        for j in v:
-            if string != '' or j > 0:
-                string += str(int(j))
-        return(string)
 
     def hide(self):
         """ Hide the rod, beads and frame. """
@@ -219,6 +196,35 @@ class Nepohualtzintzin():
         for i in self.beads:
             i.set_layer(101)
         self.bar.set_layer(102)
+
+    def value(self):
+        """ Return a string representing the value of each rod. """
+        string = ''
+        v = []
+        for r in range(self.num_rods+1): # +1 for overflow
+            v.append(0)
+
+        # Tally the values on each rod.
+        for i, b in enumerate(self.beads):
+            r = i/(self.top_beads+self.bot_beads)
+            j = i%(self.top_beads+self.bot_beads)
+            if b.state == 1:
+                if j < self.top_beads:
+                    v[r+1] += 5
+                else:
+                    v[r+1] += 1
+
+        # Carry to the left if a rod has a value > 9.
+        for j in range(self.num_rods):
+            if v[len(v)-j-1] > 9:
+                v[len(v)-j-1] -= 10
+                v[len(v)-j-2] += 1
+
+        # Convert values to a string.
+        for j in v:
+            if string != '' or j > 0:
+                string += str(j)
+        return(string)
 
     def label(self, string):
         """ Label the crossbar with the string. (Used with self.value) """
@@ -269,72 +275,21 @@ class Nepohualtzintzin():
                          self.beads[i+ii].state = 0
 
 
-class Suanpan():
+class Nepohualtzintzin(AbacusGeneric):
 
     def __init__(self, abacus):
-        """ Create a Chinese abacus: 15 by (5,2). """
+        """ Specify parameters that define the abacus """
         self.abacus = abacus
-        self.name = "suanpan"
-        self.num_rods = 15
-        self.bot_beads = 5
-        self.top_beads = 2
-        # 5 beads + 2 spaces, divider, 2 bead + 2 spaces
-        h = (self.bot_beads+2+1+self.top_beads+2)*BHEIGHT*self.abacus.scale
-        w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
-        dy = 4*BHEIGHT*self.abacus.scale
-        x = (self.abacus.width-w)/2
-        y = (self.abacus.height-h)/2
-        o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
-
-        # Draw the frame.
-        self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
-                            y-BHEIGHT*self.abacus.scale,
-                            load_image(self.abacus.path, "chinese_frame",
-                            810*self.abacus.scale, 420*self.abacus.scale))
-        self.frame.type = 'frame'
-
-        # Draw the rods...
-        self.rods = []
-        dx = (BWIDTH+BOFFSET)*self.abacus.scale
-        for i in range(self.num_rods):
-            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y,
-                                    load_image(self.abacus.path, "chinese_rod",
-                                               10*self.abacus.scale, h)))
-
-        for i in self.rods:
-             i.type = 'rod'
-
-        # and then the beads.
-        self.beads = []
-        o =  (BWIDTH-BOFFSET)/2*self.abacus.scale/2
-        for i in range(self.num_rods):
-            for b in range(self.top_beads):
-                self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
-                                         y+b*BHEIGHT*self.abacus.scale,
-                                         load_image(self.abacus.path, "white",
-                                                    BWIDTH*self.abacus.scale,
-                                                    BHEIGHT*self.abacus.scale)))
-            for b in range(self.bot_beads):
-                self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
-                                         y+(7+b)*BHEIGHT*self.abacus.scale,
-                                         load_image(self.abacus.path, "white",
-                                                    BWIDTH*self.abacus.scale,
-                                                    BHEIGHT*self.abacus.scale)))
-
-        for i in self.beads:
-             i.type = 'bead'
-             i.state = 0
-
-        # Draw the dividing bar on top.
-        self.bar = Sprite(self.abacus.sprites, x, y+dy,
-                          load_image(self.abacus.path, "divider_bar",
-                                     w, BHEIGHT*self.abacus.scale))
-
-        self.bar.type = 'frame'
-        self.bar.set_label_color('white')
+        self.name = 'nepohualtzintzin'
+        self.num_rods = 13
+        self.bot_beads = 4
+        self.top_beads = 3
+        self.frame_width = 730
+        self.frame_height = 420
+        self.create()
 
     def value(self):
-        """ Return a string representing the value of each rod. """
+        """ Override default: base 20 """
         string = ''
         v = []
         for r in range(self.num_rods+1): # +1 for overflow
@@ -346,88 +301,40 @@ class Suanpan():
             j = i%(self.top_beads+self.bot_beads)
             if b.state == 1:
                 if j < self.top_beads:
-                    v[r+1] += 5
+                    v[r+1] += 5*pow(2,self.num_rods-r-1)
                 else:
-                    v[r+1] += 1
+                    v[r+1] += 1*pow(2,self.num_rods-r-1)
 
         # Carry to the left if a rod has a value > 9.
         for j in range(self.num_rods):
             if v[len(v)-j-1] > 9:
-                v[len(v)-j-1] -= 10
-                v[len(v)-j-2] += 1
+                units = v[len(v)-j-1]%10
+                tens = v[len(v)-j-1]-units
+                v[len(v)-j-1] = units
+                v[len(v)-j-2] += tens/10
 
         # Convert values to a string.
         for j in v:
             if string != '' or j > 0:
-                string += str(j)
+                string += str(int(j))
         return(string)
 
-    def hide(self):
-        """ Hide the rod, beads and frame. """
-        for i in self.rods:
-            i.hide()
-        for i in self.beads:
-            i.hide()
-        self.bar.hide()
-        self.frame.hide()
 
-    def show(self):
-        """ Show the rod, beads and frame. """
-        self.frame.set_layer(99)
-        for i in self.rods:
-            i.set_layer(100)
-        for i in self.beads:
-            i.set_layer(101)
-        self.bar.set_layer(102)
+class Suanpan(AbacusGeneric):
 
-    def label(self, string):
-        """ Label the crossbar with the string. (Used with self.value) """
-        self.bar.set_label(string)
+    def __init__(self, abacus):
+        """ Create a Chinese abacus: 15 by (5,2). """
+        self.abacus = abacus
+        self.name = "suanpan"
+        self.num_rods = 15
+        self.bot_beads = 5
+        self.top_beads = 2
+        self.frame_width = 810
+        self.frame_height = 420
+        self.create()
 
-    def move_bead(self, bead, dy):
-         """ Move a bead (or beads) up or down a rod. """
-         i = self.beads.index(bead)
-         b = i%(self.top_beads+self.bot_beads)
 
-         if b < self.top_beads:
-             if dy > 0 and bead.state == 0:
-                 bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
-                 bead.state = 1
-                 # Make sure beads below this bead are also moved.
-                 if b == 0 and self.beads[i+1].state == 0:
-                     self.beads[i+1].move_relative((0,
-                                                   2*BHEIGHT*self.abacus.scale))
-                     self.beads[i+1].state = 1
-             elif dy < 0 and bead.state == 1:
-                 bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
-                 # Make sure beads above this bead are also moved.
-                 if b == 1 and self.beads[i-1].state == 1:
-                     self.beads[i-1].move_relative((0,
-                                                  -2*BHEIGHT*self.abacus.scale))
-                     self.beads[i-1].state = 0
-                 bead.state = 0
-         else:
-             if dy < 0 and bead.state == 0:
-                 bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
-                 bead.state = 1
-                 # Make sure beads above this bead are also moved.
-                 for ii in range(b-self.top_beads+1):
-                     if self.beads[i-ii].state == 0:
-                         self.beads[i-ii].move_relative((0,
-                                                  -2*BHEIGHT*self.abacus.scale))
-                         self.beads[i-ii].state = 1
-             elif dy > 0 and bead.state == 1:
-                 bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
-                 bead.state = 0
-                 # Make sure beads below this bead are also moved.
-                 for ii in range(self.top_beads+self.bot_beads-b):
-                     if self.beads[i+ii].state == 1:
-                         self.beads[i+ii].move_relative((0,
-                                                   2*BHEIGHT*self.abacus.scale))
-                         self.beads[i+ii].state = 0
-         
-
-class Soroban():
+class Soroban(AbacusGeneric):
 
     def __init__(self, abacus):
         """ create a Japanese abacus: 15 by (4,1) """
@@ -436,141 +343,26 @@ class Soroban():
         self.num_rods = 15
         self.bot_beads = 4
         self.top_beads = 1
-        # 4 beads + 2 spaces, divider, 1 bead + 2 spaces
-        h = (self.bot_beads+2+1+self.top_beads+2)*BHEIGHT*self.abacus.scale
-        w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
-        dy = 3*BHEIGHT*self.abacus.scale
-        x = (self.abacus.width-w)/2
-        y = (self.abacus.height-h)/2
-
-        # Draw the frame.
-        self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
-                            y-BHEIGHT*self.abacus.scale,
-                            load_image(self.abacus.path, "japanese_frame",
-                            810*self.abacus.scale, 360*self.abacus.scale))
-        self.frame.type = 'frame'
-
-        # Draw the rods...
-        self.rods = []
-        o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
-        dx = (BWIDTH+BOFFSET)*self.abacus.scale
-        for i in range(self.num_rods):
-            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y,
-                                    load_image(self.abacus.path, "japanese_rod",
-                                               10, h)))
-
-        for i in self.rods:
-             i.type = 'rod'
-
-        # and then the beads.
-        self.beads = []
-        o =  (BWIDTH-BOFFSET)/2*self.abacus.scale/2
-        for i in range(self.num_rods):
-            for b in range(self.top_beads):
-                self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
-                                         y+b*BHEIGHT*self.abacus.scale,
-                                         load_image(self.abacus.path, "white",
-                                                    BWIDTH*self.abacus.scale,
-                                                    BHEIGHT*self.abacus.scale)))
-            for b in range(self.bot_beads):
-                self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
-                                         y+(6+b)*BHEIGHT*self.abacus.scale,
-                                         load_image(self.abacus.path, "white",
-                                                    BWIDTH*self.abacus.scale,
-                                                    BHEIGHT*self.abacus.scale)))
-
-        for i in self.beads:
-             i.type = 'bead'
-             i.state = 0
-
-        # Draw the dividing bar on top.
-        self.bar = Sprite(self.abacus.sprites, x, y+dy,
-                          load_image(self.abacus.path, "divider_bar",
-                                     w, BHEIGHT*self.abacus.scale))
-
-        self.bar.type = 'frame'
-        self.bar.set_label_color('white')
-
-    def hide(self):
-        """ Hide the rod, beads and frame. """
-        for i in self.rods:
-            i.hide()
-        for i in self.beads:
-            i.hide()
-        self.bar.hide()
-        self.frame.hide()
-
-    def show(self):
-        """ Show the rod, beads and frame. """
-        self.frame.set_layer(99)
-        for i in self.rods:
-            i.set_layer(100)
-        for i in self.beads:
-            i.set_layer(101)
-        self.bar.set_layer(102)
-
-    def value(self):
-        """ Return a string with the value of each rod. """
-        string = ''
-        v = 0
-        for i, b in enumerate(self.beads):
-            if b.state == 1:
-                if i%(self.top_beads+self.bot_beads) < self.top_beads:
-                    v += 5
-                else:
-                    v += 1
-            if i%(self.top_beads+self.bot_beads) == \
-               self.top_beads+self.bot_beads-1:
-                if string != '' or v > 0:
-                    string += str(v)
-                v = 0
-        return(string)
-
-    def label(self, string):
-        """ Label the crossbar with the string. (Used with self.value). """
-        self.bar.set_label(string)
-
-    def move_bead(self, bead, dy):
-         """ Move a bead (or beads) up or down a rod. """
-         i = self.beads.index(bead)
-         b = i%(self.top_beads+self.bot_beads)
-
-         if b < self.top_beads:
-             if dy > 0 and bead.state == 0:
-                 bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
-                 bead.state = 1
-             elif dy < 0 and bead.state == 1:
-                 bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
-                 bead.state = 0
-         else:
-             if dy < 0 and bead.state == 0:
-                 bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
-                 bead.state = 1
-                 # Make sure beads above this bead are also moved.
-                 for ii in range(b-self.top_beads+1):
-                     if self.beads[i-ii].state == 0:
-                         self.beads[i-ii].move_relative((0,
-                                                  -2*BHEIGHT*self.abacus.scale))
-                         self.beads[i-ii].state = 1
-             elif dy > 0 and bead.state == 1:
-                 bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
-                 bead.state = 0
-                 # Make sure beads below this bead are also moved.
-                 for ii in range(self.top_beads+self.bot_beads-b):
-                     if self.beads[i+ii].state == 1:
-                         self.beads[i+ii].move_relative((0,
-                                                   2*BHEIGHT*self.abacus.scale))
-                         self.beads[i+ii].state = 0
+        self.frame_width = 810
+        self.frame_height = 360
+        self.create()
 
 
-class Schety():
+class Schety(AbacusGeneric):
 
     def __init__(self, abacus):
         """ Create a Russian abacus: 15 by 10 (with one rod of 4 beads). """
         self.abacus = abacus
         self.name = "schety"
         self.num_rods = 15
+        self.top_beads = 0
         self.bot_beads = 10
+        self.frame_width = 810
+        self.frame_height = 420
+        self.create()
+
+    def create(self):
+        """ Override default in order to make a short rod """
         # 10 beads + 2 spaces
         h = (self.bot_beads+2)*BHEIGHT*self.abacus.scale
         w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
@@ -580,8 +372,9 @@ class Schety():
         # Draw the frame.
         self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
                             y-BHEIGHT*self.abacus.scale,
-                            load_image(self.abacus.path, "russian_frame",
-                            810*self.abacus.scale, 420*self.abacus.scale))
+                            load_image(self.abacus.path, self.name+"_frame",
+                            self.frame_width*self.abacus.scale,
+                            self.frame_height*self.abacus.scale))
         self.frame.type = 'frame'
 
         # Draw the rods...
@@ -590,7 +383,8 @@ class Schety():
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
         for i in range(self.num_rods):
             self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y,
-                                    load_image(self.abacus.path, "russian_rod",
+                                    load_image(self.abacus.path,
+                                               self.name+"_rod",
                                                10, h)))
 
         for i in self.rods:
@@ -635,26 +429,8 @@ class Schety():
         self.bar.type = 'frame'
         self.bar.set_label_color('white')
 
-    def hide(self):
-        """ Hide the rod, beads and frame. """
-        for i in self.rods:
-            i.hide()
-        for i in self.beads:
-            i.hide()
-        self.bar.hide()
-        self.frame.hide()
-
-    def show(self):
-        """ Show the rod, beads and frame. """
-        self.frame.set_layer(99)
-        for i in self.rods:
-            i.set_layer(100)
-        for i in self.beads:
-            i.set_layer(101)
-        self.bar.set_layer(102)
-
     def value(self):
-        """ Return a string representing the value of each rod. """
+        """ Override to account for fourths """
         string = ''
         v = []
         for r in range(self.num_rods+1): # +1 for overflow
@@ -707,12 +483,8 @@ class Schety():
                 string += str(j)
         return(string)
 
-    def label(self, string):
-        """ Label the crossbar with the string. (USed with self.value) """
-        self.bar.set_label(string)
-
     def move_bead(self, bead, dy):
-         """ Move a bead (or beads) up or down a rod. """
+         """ Override to account for short rod """
          i = self.beads.index(bead)
          r = i/self.bot_beads
          # Take into account the rod with just 4 beads

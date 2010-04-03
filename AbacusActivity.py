@@ -132,11 +132,11 @@ class AbacusActivity(activity.Activity):
         # Read the current mode from the Journal
         # TODO: read/restore bead positions
         try:
-            if self.matadata['abacus'] == 'suanpan':
+            if self.metadata['abacus'] == 'suanpan':
                 self._chinese_cb(None)
-            elif self.matadata['abacus'] == 'soroban':
+            elif self.metadata['abacus'] == 'soroban':
                 self._japanese_cb(None)
-            elif self.matadata['abacus'] == 'schety':
+            elif self.metadata['abacus'] == 'schety':
                 self._russian_cb(None)
             else:
                 self._mayan_cb(None)
@@ -154,6 +154,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.russian.hide()
         self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.chinese
+        _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def _japanese_cb(self, button):
         """ Display the soroban; hide the others """
@@ -166,6 +167,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.russian.hide()
         self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.japanese
+        _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def _russian_cb(self, button):
         """ Display the schety; hide the others """
@@ -178,6 +180,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.russian.show()
         self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.russian
+        _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def _mayan_cb(self, button):
         """ Display the nepohualtzintzin; hide the others """
@@ -190,6 +193,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.russian.hide()
         self.abacus.mayan.show()
         self.abacus.mode = self.abacus.mayan
+        _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def write_file(self, file_path):
         """ Write the bead positions to the Journal """
