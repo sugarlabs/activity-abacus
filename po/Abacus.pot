@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-02 16:29+0000\n"
+"POT-Creation-Date: 2010-04-03 12:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,25 +20,34 @@ msgstr ""
 msgid "Abacus"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:62
+#: /home/walter/Desktop/abacus/AbacusActivity.py:64
 msgid "suanpan"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:70
-#: /home/walter/Desktop/abacus/AbacusActivity.py:223
+#: /home/walter/Desktop/abacus/AbacusActivity.py:72
+#: /home/walter/Desktop/abacus/AbacusActivity.py:221
 msgid "soroban"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:78
-#: /home/walter/Desktop/abacus/AbacusActivity.py:231
+#: /home/walter/Desktop/abacus/AbacusActivity.py:80
+#: /home/walter/Desktop/abacus/AbacusActivity.py:229
 msgid "schety"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:105
+#: /home/walter/Desktop/abacus/AbacusActivity.py:88
+#: /home/walter/Desktop/abacus/AbacusActivity.py:237
+msgid "nepohualtzintzin"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:103
+msgid "<Ctrl>Q"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:116
 msgid "Project"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:215
+#: /home/walter/Desktop/abacus/AbacusActivity.py:213
 msgid "saunpan"
 msgstr ""
 
@@ -55,5 +64,9 @@ msgid "Schety"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/abacus.py:71
+msgid "Nepohualtzintzin"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/abacus.py:75
 msgid "Quit"
 msgstr ""
