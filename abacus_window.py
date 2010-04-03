@@ -17,7 +17,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 from gettext import gettext as _
-import math
+from math import pow
 import os
 
 try:
@@ -177,20 +177,22 @@ class Nepohualtzintzin():
             j = i%(self.top_beads+self.bot_beads)
             if b.state == 1:
                 if j < self.top_beads:
-                    v[r+1] += 5
+                    v[r+1] += 5*pow(2,self.num_rods-r-1)
                 else:
-                    v[r+1] += 1
+                    v[r+1] += 1*pow(2,self.num_rods-r-1)
 
         # Carry to the left if a rod has a value > 9.
         for j in range(self.num_rods):
             if v[len(v)-j-1] > 9:
-                v[len(v)-j-1] -= 10
-                v[len(v)-j-2] += 1
+                units = v[len(v)-j-1]%10
+                tens = v[len(v)-j-1]-units
+                v[len(v)-j-1] = units
+                v[len(v)-j-2] += tens/10
 
         # Convert values to a string.
         for j in v:
             if string != '' or j > 0:
-                string += str(j)
+                string += str(int(j))
         return(string)
 
     def hide(self):
