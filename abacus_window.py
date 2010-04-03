@@ -112,6 +112,7 @@ class Nepohualtzintzin():
     def __init__(self, abacus):
         """ Create a Mayan abacus: 13 by (4,3). """
         self.abacus = abacus
+        self.name = "nepohualtzintzin"
         self.num_rods = 13
         self.bot_beads = 4
         self.top_beads = 3
@@ -163,7 +164,6 @@ class Nepohualtzintzin():
         self.bar.type = 'frame'
         self.bar.set_label_color('white')
 
-    # TODO: increment by 20
     def value(self):
         """ Return a string representing the value of each rod. """
         string = ''
@@ -215,7 +215,6 @@ class Nepohualtzintzin():
         """ Label the crossbar with the string. (Used with self.value) """
         self.bar.set_label(string)
 
-    # TODO: top bead move need to interate
     def move_bead(self, bead, dy):
          """ Move a bead (or beads) up or down a rod. """
          i = self.beads.index(bead)
@@ -266,6 +265,7 @@ class Suanpan():
     def __init__(self, abacus):
         """ Create a Chinese abacus: 15 by (5,2). """
         self.abacus = abacus
+        self.name = "suanpan"
         self.num_rods = 15
         self.bot_beads = 5
         self.top_beads = 2
@@ -414,6 +414,7 @@ class Soroban():
     def __init__(self, abacus):
         """ create a Japanese abacus: 15 by (4,1) """
         self.abacus = abacus
+        self.name = "soroban"
         self.num_rods = 15
         self.bot_beads = 4
         self.top_beads = 1
@@ -540,6 +541,7 @@ class Schety():
     def __init__(self, abacus):
         """ Create a Russian abacus: 15 by 10 (with one rod of 4 beads). """
         self.abacus = abacus
+        self.name = "schety"
         self.num_rods = 15
         self.bot_beads = 10
         # 10 beads + 2 spaces
