@@ -122,10 +122,17 @@ class Nepohualtzintzin():
         dy = 5*BHEIGHT*self.abacus.scale
         x = (self.abacus.width-w)/2
         y = (self.abacus.height-h)/2
+        o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
+
+        # Draw the frame.
+        self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
+                            y-BHEIGHT*self.abacus.scale,
+                            load_image(self.abacus.path, "mayan_frame",
+                            730*self.abacus.scale, 420*self.abacus.scale))
+        self.frame.type = 'frame'
 
         # Draw the rods...
         self.rods = []
-        o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
         for i in range(self.num_rods):
             self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y,
@@ -202,9 +209,11 @@ class Nepohualtzintzin():
         for i in self.beads:
             i.hide()
         self.bar.hide()
+        self.frame.hide()
 
     def show(self):
         """ Show the rod, beads and frame. """
+        self.frame.set_layer(99)
         for i in self.rods:
             i.set_layer(100)
         for i in self.beads:
@@ -275,10 +284,17 @@ class Suanpan():
         dy = 4*BHEIGHT*self.abacus.scale
         x = (self.abacus.width-w)/2
         y = (self.abacus.height-h)/2
+        o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
+
+        # Draw the frame.
+        self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
+                            y-BHEIGHT*self.abacus.scale,
+                            load_image(self.abacus.path, "chinese_frame",
+                            810*self.abacus.scale, 420*self.abacus.scale))
+        self.frame.type = 'frame'
 
         # Draw the rods...
         self.rods = []
-        o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
         for i in range(self.num_rods):
             self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y,
@@ -353,9 +369,11 @@ class Suanpan():
         for i in self.beads:
             i.hide()
         self.bar.hide()
+        self.frame.hide()
 
     def show(self):
         """ Show the rod, beads and frame. """
+        self.frame.set_layer(99)
         for i in self.rods:
             i.set_layer(100)
         for i in self.beads:
@@ -425,6 +443,13 @@ class Soroban():
         x = (self.abacus.width-w)/2
         y = (self.abacus.height-h)/2
 
+        # Draw the frame.
+        self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
+                            y-BHEIGHT*self.abacus.scale,
+                            load_image(self.abacus.path, "japanese_frame",
+                            810*self.abacus.scale, 360*self.abacus.scale))
+        self.frame.type = 'frame'
+
         # Draw the rods...
         self.rods = []
         o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
@@ -473,9 +498,11 @@ class Soroban():
         for i in self.beads:
             i.hide()
         self.bar.hide()
+        self.frame.hide()
 
     def show(self):
         """ Show the rod, beads and frame. """
+        self.frame.set_layer(99)
         for i in self.rods:
             i.set_layer(100)
         for i in self.beads:
@@ -550,6 +577,13 @@ class Schety():
         x = (self.abacus.width-w)/2
         y = (self.abacus.height-h)/2
 
+        # Draw the frame.
+        self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
+                            y-BHEIGHT*self.abacus.scale,
+                            load_image(self.abacus.path, "russian_frame",
+                            810*self.abacus.scale, 420*self.abacus.scale))
+        self.frame.type = 'frame'
+
         # Draw the rods...
         self.rods = []
         o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
@@ -608,9 +642,11 @@ class Schety():
         for i in self.beads:
             i.hide()
         self.bar.hide()
+        self.frame.hide()
 
     def show(self):
         """ Show the rod, beads and frame. """
+        self.frame.set_layer(99)
         for i in self.rods:
             i.set_layer(100)
         for i in self.beads:
