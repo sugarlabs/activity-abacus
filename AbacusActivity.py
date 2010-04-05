@@ -130,7 +130,6 @@ class AbacusActivity(activity.Activity):
                                                   'images/'), self)
 
         # Read the current mode from the Journal
-        # TODO: read/restore bead positions
         try:
             if self.metadata['abacus'] == 'suanpan':
                 self._chinese_cb(None)
@@ -140,6 +139,10 @@ class AbacusActivity(activity.Activity):
                 self._russian_cb(None)
             else:
                 self._mayan_cb(None)
+        except:
+            pass
+        try:
+            self.abacus.mode.set_value(self.metadata['value'])
         except:
             pass
 
@@ -200,7 +203,7 @@ class AbacusActivity(activity.Activity):
         _logger.debug("Saving current abacus to Journal: %s " % (
                        self.abacus.mode.name))
         self.metadata['abacus'] = self.abacus.mode.name
-        # TODO: Write bead positions
+        self.metadata['value'] = self.abacus.mode.value()
 
 #
 # Project toolbar for pre-0.86 toolbars

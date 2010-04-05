@@ -197,6 +197,55 @@ class AbacusGeneric():
             i.set_layer(101)
         self.bar.set_layer(102)
 
+    def set_value(self, string):
+        """ Set abacus to value in string """
+        v = []
+        for r in range(self.num_rods):
+            v.append(0)
+
+        # Convert string to column values.
+        o = len(string) - self.num_rods
+        for i in range(self.num_rods):
+            v[self.num_rods-i-1] = int(string[o+self.num_rods-i-1])
+        if o > 0:
+            v[0] += int(string[0])*10
+
+        # Move the beads to correspond to column values.
+        for r in range(self.num_rods):
+            self.set_rod_value(r, v[r])
+
+    def set_rod_value(self, r, v):
+        """ Move beads on rod r to represent value v """
+        bot = v%5
+        top = (v-bot)/5
+        top_bead_index = r*(self.top_beads+self.bot_beads)
+        bot_bead_index = r*(self.top_beads+self.bot_beads)+self.top_beads
+
+        print v, top, bot, r, top_bead_index, bot_bead_index
+
+        # Clear the top.
+        for i in range(self.top_beads):
+            if self.beads[top_bead_index+i].state:
+                self.beads[top_bead_index+i].move((0, 
+                                                  -2*BHEIGHT*self.abacus.scale))
+        # Clear the bottom.
+        for i in range(self.bot_beads):
+            if self.beads[bot_bead_index+i].state:
+                self.beads[bot_bead_index+i].move((0, 
+                                                   2*BHEIGHT*self.abacus.scale))
+
+        # Set the top.
+        for i in range(top):
+            self.beads[top_bead_index+self.top_beads-i-1].move_relative((0, 
+                                                   2*BHEIGHT*self.abacus.scale))
+            self.beads[top_bead_index+self.top_beads-i-1].state = 1 
+
+        # Set the bottom
+        for i in range(bot):
+            self.beads[bot_bead_index+i].move_relative((0,
+                                                  -2*BHEIGHT*self.abacus.scale))
+            self.beads[bot_bead_index+i].state = 1 
+
     def value(self):
         """ Return a string representing the value of each rod. """
         string = ''
