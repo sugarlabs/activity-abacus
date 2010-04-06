@@ -19,6 +19,8 @@ import gtk
 from gettext import gettext as _
 from math import pow
 import os
+import logging
+_logger = logging.getLogger("abacus-activity")
 
 try:
     from sugar.graphics import style
@@ -118,6 +120,7 @@ class AbacusGeneric():
         self.top_beads = 5
         self.frame_width = 810
         self.frame_height = 420
+        self.base = 10
         self.create()
 
     def create(self):
@@ -199,16 +202,19 @@ class AbacusGeneric():
 
     def set_value(self, string):
         """ Set abacus to value in string """
+        # String has two bytes per column.
         v = []
         for r in range(self.num_rods):
             v.append(0)
 
         # Convert string to column values.
-        o = len(string) - self.num_rods
-        for i in range(self.num_rods):
-            v[self.num_rods-i-1] = int(string[o+self.num_rods-i-1])
-        if o > 0:
-            v[0] += int(string[0])*10
+        if len(string) == 2*self.num_rods:
+            for i in range(self.num_rods):
+                v[self.num_rods-i-1] = int(
+                              string[2*self.num_rods-i*2-1:2*self.num_rods-i*2])
+        else:
+            _logger.debug("bad saved string %s (%d != 2*%d)" % (string,
+                          len(string), self.num_rods))
 
         # Move the beads to correspond to column values.
         for r in range(self.num_rods):
@@ -221,32 +227,30 @@ class AbacusGeneric():
         top_bead_index = r*(self.top_beads+self.bot_beads)
         bot_bead_index = r*(self.top_beads+self.bot_beads)+self.top_beads
 
-        print v, top, bot, r, top_bead_index, bot_bead_index
-
         # Clear the top.
         for i in range(self.top_beads):
             if self.beads[top_bead_index+i].state:
                 self.beads[top_bead_index+i].move((0, 
                                                   -2*BHEIGHT*self.abacus.scale))
+            self.beads[top_bead_index+i].state = 0
         # Clear the bottom.
         for i in range(self.bot_beads):
             if self.beads[bot_bead_index+i].state:
                 self.beads[bot_bead_index+i].move((0, 
                                                    2*BHEIGHT*self.abacus.scale))
-
+            self.beads[bot_bead_index+i].state = 0
         # Set the top.
         for i in range(top):
             self.beads[top_bead_index+self.top_beads-i-1].move_relative((0, 
                                                    2*BHEIGHT*self.abacus.scale))
             self.beads[top_bead_index+self.top_beads-i-1].state = 1 
-
         # Set the bottom
         for i in range(bot):
             self.beads[bot_bead_index+i].move_relative((0,
                                                   -2*BHEIGHT*self.abacus.scale))
             self.beads[bot_bead_index+i].state = 1 
 
-    def value(self):
+    def value(self, count_beads=False):
         """ Return a string representing the value of each rod. """
         string = ''
         v = []
@@ -263,16 +267,22 @@ class AbacusGeneric():
                 else:
                     v[r+1] += 1
 
-        # Carry to the left if a rod has a value > 9.
-        for j in range(self.num_rods):
-            if v[len(v)-j-1] > 9:
-                v[len(v)-j-1] -= 10
-                v[len(v)-j-2] += 1
+        if count_beads:
+            # Save the value associated with each rod as a 2-byte int.
+            for j in v[1:]:
+                string += "%2d" % (j)
+        else:
+            # Carry to the left if a rod has a value > 9.
+            for j in range(self.num_rods):
+                if v[len(v)-j-1] > 9:
+                    v[len(v)-j-1] -= 10
+                    v[len(v)-j-2] += 1
 
-        # Convert values to a string.
-        for j in v:
-            if string != '' or j > 0:
-                string += str(j)
+            # Convert values to a string.
+            for j in v:
+                if string != '' or j > 0:
+                    string += str(j)
+
         return(string)
 
     def label(self, string):
@@ -335,9 +345,10 @@ class Nepohualtzintzin(AbacusGeneric):
         self.top_beads = 3
         self.frame_width = 730
         self.frame_height = 420
+        self.base = 20
         self.create()
 
-    def value(self):
+    def value(self, count_beads=False):
         """ Override default: base 20 """
         string = ''
         v = []
@@ -349,23 +360,31 @@ class Nepohualtzintzin(AbacusGeneric):
             r = i/(self.top_beads+self.bot_beads)
             j = i%(self.top_beads+self.bot_beads)
             if b.state == 1:
-                if j < self.top_beads:
-                    v[r+1] += 5*pow(2,self.num_rods-r-1)
+                if count_beads:
+                    f = 1
                 else:
-                    v[r+1] += 1*pow(2,self.num_rods-r-1)
+                    f = pow(2,self.num_rods-r-1)
+                if j < self.top_beads:
+                    v[r+1] += 5*f
+                else:
+                    v[r+1] += 1*f
 
-        # Carry to the left if a rod has a value > 9.
-        for j in range(self.num_rods):
-            if v[len(v)-j-1] > 9:
-                units = v[len(v)-j-1]%10
-                tens = v[len(v)-j-1]-units
-                v[len(v)-j-1] = units
-                v[len(v)-j-2] += tens/10
-
-        # Convert values to a string.
-        for j in v:
-            if string != '' or j > 0:
-                string += str(int(j))
+        if count_beads:
+            # Save the value associated with each rod as a 2-byte int.
+            for j in v[1:]:
+                string += "%2d" % (j)
+        else:
+            # Carry to the left if a rod has a value > 9.
+            for j in range(self.num_rods):
+                if v[len(v)-j-1] > 9:
+                    units = v[len(v)-j-1]%10
+                    tens = v[len(v)-j-1]-units
+                    v[len(v)-j-1] = units
+                    v[len(v)-j-2] += tens/10
+            # Convert values to a string.
+            for j in v:
+                if string != '' or j > 0:
+                    string += str(int(j))
         return(string)
 
 
@@ -380,6 +399,7 @@ class Suanpan(AbacusGeneric):
         self.top_beads = 2
         self.frame_width = 810
         self.frame_height = 420
+        self.base = 10
         self.create()
 
 
@@ -394,6 +414,7 @@ class Soroban(AbacusGeneric):
         self.top_beads = 1
         self.frame_width = 810
         self.frame_height = 360
+        self.base = 10
         self.create()
 
 
@@ -408,6 +429,7 @@ class Schety(AbacusGeneric):
         self.bot_beads = 10
         self.frame_width = 810
         self.frame_height = 420
+        self.base = 10
         self.create()
 
     def create(self):
@@ -478,7 +500,7 @@ class Schety(AbacusGeneric):
         self.bar.type = 'frame'
         self.bar.set_label_color('white')
 
-    def value(self):
+    def value(self, count_beads=False):
         """ Override to account for fourths """
         string = ''
         v = []
@@ -495,42 +517,77 @@ class Schety(AbacusGeneric):
             elif i < 104:
                 r = 10
                 if b.state == 1:
-                    v[r+1] += 2.5
+                    if count_beads:
+                        v[r+1] += 1
+                    else:
+                        v[r+1] += 2.5
             else:
                 r = (i+6)/self.bot_beads
                 if b.state == 1:
                     v[r+1] += 1
 
-        # Carry to the left if a rod has a value > 9.
-        # First, process the short rod;
-        if v[11] == 10:
-            v[10] += 1
+        if count_beads:
+            # Save the number of beads on each rod as a 2-byte int.
+            for j in v[1:]:
+                string += "%2d" % (j)
         else:
-            v[12] += int(v[11])
-            v[13] += int(10*v[11]-10*int(v[11]))
+            # Carry to the left if a rod has a value > 9.
+            # First, process the short rod;
+            if v[11] == 10:
+                v[10] += 1
+            else:
+                v[12] += int(v[11])
+                v[13] += int(10*v[11]-10*int(v[11]))
 
-        # then, check the rods to the right of the short rod;
-        for j in range(4):
-            if v[len(v)-j-1] > 9:
-                v[len(v)-j-1] -= 10
-                if j < 3:
+            # then, check the rods to the right of the short rod;
+            for j in range(4):
+                if v[len(v)-j-1] > 9:
+                    v[len(v)-j-1] -= 10
+                    if j < 3:
+                        v[len(v)-j-2] += 1
+                    else:
+                        v[len(v)-j-3] += 1 # skip over the short rod
+
+            # and finally, the rest of the rods.
+            for j in range(6,16):
+                if v[len(v)-j-1] > 9:
+                    v[len(v)-j-1] -= 10
                     v[len(v)-j-2] += 1
-                else:
-                    v[len(v)-j-3] += 1 # skip over the short rod
 
-        # and finally, the rest of the rods.
-        for j in range(6,16):
-            if v[len(v)-j-1] > 9:
-                v[len(v)-j-1] -= 10
-                v[len(v)-j-2] += 1
-
-        # Convert values to a string.
-        for i, j in enumerate(v):
-            if i == 11:
-                string += '.'
-            elif string != '' or j > 0:
-                string += str(j)
+            # Convert values to a string.
+            for i, j in enumerate(v):
+                if i == 11:
+                    string += '.'
+                elif string != '' or j > 0:
+                    string += str(j)
         return(string)
+
+    def set_rod_value(self, r, v):
+        """ Move beads on rod r to represent value v """
+        if r == 10:
+            beads = 4
+            bead_index = r*(self.bot_beads)
+            o = 8
+        elif r < 10:
+            beads = 10
+            bead_index = r*(self.bot_beads)
+            o = 2
+        else:
+            beads = 10
+            bead_index = r*(self.bot_beads)-6
+            o = 2
+
+        # Clear the rod.
+        for i in range(beads):
+            if self.beads[bead_index+i].state:
+                self.beads[bead_index+i].move((0, o*BHEIGHT*self.abacus.scale))
+            self.beads[bead_index+i].state = 0
+
+        # Set the rod.
+        for i in range(v):
+            self.beads[bead_index+i].move_relative((0,
+                                                  -o*BHEIGHT*self.abacus.scale))
+            self.beads[bead_index+i].state = 1 
 
     def move_bead(self, bead, dy):
          """ Override to account for short rod """

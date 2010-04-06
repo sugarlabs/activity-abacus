@@ -91,7 +91,6 @@ class AbacusActivity(activity.Activity):
             toolbar_box.toolbar.insert(self.mayan, -1)
             self.mayan.show()
 
-
             separator = gtk.SeparatorToolItem()
             separator.props.draw = False
             separator.set_expand(True)
@@ -143,6 +142,7 @@ class AbacusActivity(activity.Activity):
             pass
         try:
             self.abacus.mode.set_value(self.metadata['value'])
+            self.abacus.mode.label(self.abacus.mode.value())
         except:
             pass
 
@@ -202,8 +202,11 @@ class AbacusActivity(activity.Activity):
         """ Write the bead positions to the Journal """
         _logger.debug("Saving current abacus to Journal: %s " % (
                        self.abacus.mode.name))
-        self.metadata['abacus'] = self.abacus.mode.name
-        self.metadata['value'] = self.abacus.mode.value()
+        try:
+            self.metadata['abacus'] = self.abacus.mode.name
+            self.metadata['value'] = self.abacus.mode.value(True)
+        except:
+            pass
 
 #
 # Project toolbar for pre-0.86 toolbars
