@@ -79,10 +79,14 @@ class Abacus():
     def _button_press_cb(self, win, event):
         win.grab_focus()
         x, y = map(int, event.get_coords())
-        self.dragpos = y
         self.press = self.sprites.find_sprite((x,y))
-        if self.press is not None and self.press.type != 'bead':
-            self.press = None
+        if self.press is not None:
+            if self.press.type == 'bead':
+                self.dragpos = y
+            elif self.press.type == 'mark':
+                self.dragpos = x
+            else:
+                self.press = None
         return True
 
     def _mouse_move_cb(self, win, event):
@@ -91,8 +95,11 @@ class Abacus():
             return True
         win.grab_focus()
         x, y = map(int, event.get_coords())
-        dy = y-self.dragpos
-        self.mode.move_bead(self.press, dy)
+        if self.press.type == 'bead':
+            self.mode.move_bead(self.press, y-self.dragpos)
+        elif self.press.type == 'mark':
+            mx, my = self.mode.mark.get_xy()
+            self.mode.move_mark(x-mx)
 
     def _button_release_cb(self, win, event):
         if self.press == None:
@@ -174,7 +181,7 @@ class AbacusGeneric():
              i.type = 'bead'
              i.state = 0
 
-        # Draw the dividing bar on top.
+        # Draw the dividing bar...
         self.bar = Sprite(self.abacus.sprites, x, y+dy,
                           load_image(self.abacus.path, "divider_bar",
                                      w, BHEIGHT*self.abacus.scale))
@@ -182,23 +189,34 @@ class AbacusGeneric():
         self.bar.type = 'frame'
         self.bar.set_label_color('white')
 
+        # and the mark.
+        o =  (BWIDTH+BOFFSET-15)*self.abacus.scale/2
+        self.mark = Sprite(self.abacus.sprites, x+(self.num_rods-1)*dx+o,
+                           y-(BHEIGHT-15)*self.abacus.scale,
+                           load_image(self.abacus.path, "indicator",
+                                      20*self.abacus.scale,
+                                      15*self.abacus.scale))
+        self.mark.type = 'mark'
+
     def hide(self):
-        """ Hide the rod, beads and frame. """
+        """ Hide the rod, beads, mark, and frame. """
         for i in self.rods:
             i.hide()
         for i in self.beads:
             i.hide()
         self.bar.hide()
         self.frame.hide()
+        self.mark.hide()
 
     def show(self):
-        """ Show the rod, beads and frame. """
+        """ Show the rod, beads, mark, and frame. """
         self.frame.set_layer(99)
         for i in self.rods:
             i.set_layer(100)
         for i in self.beads:
             i.set_layer(101)
         self.bar.set_layer(102)
+        self.mark.set_layer(103)
 
     def set_value(self, string):
         """ Set abacus to value in string """
@@ -288,6 +306,17 @@ class AbacusGeneric():
     def label(self, string):
         """ Label the crossbar with the string. (Used with self.value) """
         self.bar.set_label(string)
+
+    def move_mark(self, dx):
+        """
+        if dx > 0:
+            dx = int(((dx+(BWIDTH+BOFFSET)/2*self.abacus.scale)/\
+                     (BWIDTH+BOFFSET))*(BWIDTH+BOFFSET))
+        else:
+            dx = int(((dx-(BWIDTH+BOFFSET)/2*self.abacus.scale)/\
+                     (BWIDTH+BOFFSET))*(BWIDTH+BOFFSET))
+        """
+        self.mark.move_relative((dx, 0))
 
     def move_bead(self, bead, dy):
          """ Move a bead (or beads) up or down a rod. """
@@ -499,6 +528,14 @@ class Schety(AbacusGeneric):
 
         self.bar.type = 'frame'
         self.bar.set_label_color('white')
+
+        # and the mark.
+        self.mark = Sprite(self.abacus.sprites, x+(self.num_rods-1)*dx+o,
+                           y-(BHEIGHT-15)*self.abacus.scale,
+                           load_image(self.abacus.path, "indicator",
+                                      20*self.abacus.scale,
+                                      15*self.abacus.scale))
+        self.mark.type = 'mark'
 
     def value(self, count_beads=False):
         """ Override to account for fourths """
