@@ -128,15 +128,28 @@ class AbacusGeneric():
         self.frame_width = 810
         self.frame_height = 420
         self.base = 10
+        self.colors = [load_image(self.abacus.path, "white",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow1",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow2",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow3",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale)]
         self.create()
 
     def create(self):
         """ Create an abacus. """
-        h = (self.bot_beads+2+1+self.top_beads+2)*BHEIGHT*self.abacus.scale
+        rod_w = 10*self.abacus.scale
+        rod_h = (self.bot_beads+2+1+self.top_beads+2)*BHEIGHT*self.abacus.scale
         w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
         dy = (self.top_beads+2)*BHEIGHT*self.abacus.scale
         x = (self.abacus.width-w)/2
-        y = (self.abacus.height-h)/2
+        y = (self.abacus.height-rod_h)/2
         o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
 
         # Draw the frame...
@@ -149,12 +162,10 @@ class AbacusGeneric():
 
         # then draw the rods...
         self.rods = []
+        rod = load_image(self.abacus.path, self.name+"_rod", rod_w, rod_h)
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
         for i in range(self.num_rods):
-            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y,
-                                    load_image(self.abacus.path,
-                                               self.name+"_rod",
-                                               10*self.abacus.scale, h)))
+            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y, rod))
 
         for i in self.rods:
              i.type = 'rod'
@@ -166,20 +177,17 @@ class AbacusGeneric():
             for b in range(self.top_beads):
                 self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
                                          y+b*BHEIGHT*self.abacus.scale,
-                                         load_image(self.abacus.path, "white",
-                                                    BWIDTH*self.abacus.scale,
-                                                    BHEIGHT*self.abacus.scale)))
+                                         self.colors[0]))
             for b in range(self.bot_beads):
                 self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
                                          y+(self.top_beads+5+b)*BHEIGHT\
                                             *self.abacus.scale,
-                                         load_image(self.abacus.path, "white",
-                                                    BWIDTH*self.abacus.scale,
-                                                    BHEIGHT*self.abacus.scale)))
+                                         self.colors[0]))
 
         for i in self.beads:
              i.type = 'bead'
              i.state = 0
+             i.level = 0
 
         # Draw the dividing bar...
         self.bar = Sprite(self.abacus.sprites, x, y+dy,
@@ -308,60 +316,74 @@ class AbacusGeneric():
         self.bar.set_label(string)
 
     def move_mark(self, dx):
-        """
-        if dx > 0:
-            dx = int(((dx+(BWIDTH+BOFFSET)/2*self.abacus.scale)/\
-                     (BWIDTH+BOFFSET))*(BWIDTH+BOFFSET))
-        else:
-            dx = int(((dx-(BWIDTH+BOFFSET)/2*self.abacus.scale)/\
-                     (BWIDTH+BOFFSET))*(BWIDTH+BOFFSET))
-        """
+        """ Move indicator horizontally across the top of the frame. """
         self.mark.move_relative((dx, 0))
 
+    def set_color(self, bead, level=3):
+        print "setting bead %d to level %d" % (self.beads.index(bead), level)
+        bead.set_image(self.colors[level])
+        bead.inval()
+        bead.level = level
+
+    def fade_colors(self):
+        for bead in self.beads:
+            if bead.level > 0:
+                self.set_color(bead, bead.level-1)
+  
     def move_bead(self, bead, dy):
          """ Move a bead (or beads) up or down a rod. """
          i = self.beads.index(bead)
          b = i%(self.top_beads+self.bot_beads)
-
          if b < self.top_beads:
              if dy > 0 and bead.state == 0:
+                 self.fade_colors()
+                 self.set_color(bead)
                  bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
                  bead.state = 1
                  # Make sure beads below this bead are also moved.
                  for ii in range(self.top_beads-b):
                      if self.beads[i+ii].state == 0:
+                         self.set_color(self.beads[i+ii])
                          self.beads[i+ii].move_relative((0,
                                                    2*BHEIGHT*self.abacus.scale))
                          self.beads[i+ii].state = 1
              elif dy < 0 and bead.state == 1:
+                 self.fade_colors()
+                 self.set_color(bead)
                  bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
                  bead.state = 0
                  # Make sure beads above this bead are also moved.
                  for ii in range(b+1):
                      if self.beads[i-ii].state == 1:
+                         self.set_color(self.beads[i-ii])
                          self.beads[i-ii].move_relative((0,
                                                   -2*BHEIGHT*self.abacus.scale))
                          self.beads[i-ii].state = 0
          else:
              if dy < 0 and bead.state == 0:
+                 self.fade_colors()
+                 self.set_color(bead)
                  bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
                  bead.state = 1
                  # Make sure beads above this bead are also moved.
                  for ii in range(b-self.top_beads+1):
                      if self.beads[i-ii].state == 0:
+                         self.set_color(self.beads[i-ii])
                          self.beads[i-ii].move_relative((0,
                                                   -2*BHEIGHT*self.abacus.scale))
                          self.beads[i-ii].state = 1
              elif dy > 0 and bead.state == 1:
+                 self.fade_colors()
+                 self.set_color(bead)
                  bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
                  bead.state = 0
                  # Make sure beads below this bead are also moved.
                  for ii in range(self.top_beads+self.bot_beads-b):
                      if self.beads[i+ii].state == 1:
+                         self.set_color(self.beads[i+ii])
                          self.beads[i+ii].move_relative((0,
                                                    2*BHEIGHT*self.abacus.scale))
                          self.beads[i+ii].state = 0
-
 
 class Nepohualtzintzin(AbacusGeneric):
 
@@ -375,6 +397,18 @@ class Nepohualtzintzin(AbacusGeneric):
         self.frame_width = 730
         self.frame_height = 420
         self.base = 20
+        self.colors = [load_image(self.abacus.path, "white",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow1",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow2",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow3",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale)]
         self.create()
 
     def value(self, count_beads=False):
@@ -429,6 +463,18 @@ class Suanpan(AbacusGeneric):
         self.frame_width = 810
         self.frame_height = 420
         self.base = 10
+        self.colors = [load_image(self.abacus.path, "white",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow1",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow2",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow3",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale)]
         self.create()
 
 
@@ -444,6 +490,18 @@ class Soroban(AbacusGeneric):
         self.frame_width = 810
         self.frame_height = 360
         self.base = 10
+        self.colors = [load_image(self.abacus.path, "white",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow1",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow2",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow3",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale)]
         self.create()
 
 
@@ -459,15 +517,34 @@ class Schety(AbacusGeneric):
         self.frame_width = 810
         self.frame_height = 420
         self.base = 10
+        self.black = load_image(self.abacus.path, "black",
+                                BWIDTH*self.abacus.scale,
+                                BHEIGHT*self.abacus.scale)
+        self.white = load_image(self.abacus.path, "white",
+                                BWIDTH*self.abacus.scale,
+                                BHEIGHT*self.abacus.scale)
+        self.colors = [load_image(self.abacus.path, "white",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow1",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow2",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale),
+                       load_image(self.abacus.path, "yellow3",
+                                  BWIDTH*self.abacus.scale,
+                                  BHEIGHT*self.abacus.scale)]
         self.create()
 
     def create(self):
         """ Override default in order to make a short rod """
         # 10 beads + 2 spaces
-        h = (self.bot_beads+2)*BHEIGHT*self.abacus.scale
+        rod_w = 10*self.abacus.scale
+        rod_h = (self.bot_beads+2)*BHEIGHT*self.abacus.scale
         w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
         x = (self.abacus.width-w)/2
-        y = (self.abacus.height-h)/2
+        y = (self.abacus.height-rod_h)/2
 
         # Draw the frame.
         self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
@@ -479,13 +556,11 @@ class Schety(AbacusGeneric):
 
         # Draw the rods...
         self.rods = []
+        rod = load_image(self.abacus.path, self.name+"_rod", rod_w, rod_h)
         o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
         for i in range(self.num_rods):
-            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y,
-                                    load_image(self.abacus.path,
-                                               self.name+"_rod",
-                                               10, h)))
+            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y, rod))
 
         for i in self.rods:
              i.type = 'rod'
@@ -497,25 +572,21 @@ class Schety(AbacusGeneric):
             if i == 10:
                 for b in range(4):
                     if b in [1,2]:
-                        color = 'black'
+                        color = self.black
                     else:
-                        color = 'white'
+                        color = self.white
                     self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
-                                         y+(8+b)*BHEIGHT*self.abacus.scale,
-                                         load_image(self.abacus.path, color,
-                                                    BWIDTH*self.abacus.scale,
-                                                    BHEIGHT*self.abacus.scale)))
+                                             y+(8+b)*BHEIGHT*self.abacus.scale,
+                                             color))
             else:
                 for b in range(self.bot_beads):
                     if b in [4,5]:
-                        color = 'black'
+                        color = self.black
                     else:
-                        color = 'white'
+                        color = self.white
                     self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
-                                         y+(2+b)*BHEIGHT*self.abacus.scale,
-                                         load_image(self.abacus.path, color,
-                                                    BWIDTH*self.abacus.scale,
-                                                    BHEIGHT*self.abacus.scale)))
+                                             y+(2+b)*BHEIGHT*self.abacus.scale,
+                                             color))
 
         for i in self.beads:
              i.type = 'bead'
@@ -530,6 +601,7 @@ class Schety(AbacusGeneric):
         self.bar.set_label_color('white')
 
         # and the mark.
+        o =  (BWIDTH+BOFFSET-15)*self.abacus.scale/2
         self.mark = Sprite(self.abacus.sprites, x+(self.num_rods-1)*dx+o,
                            y-(BHEIGHT-15)*self.abacus.scale,
                            load_image(self.abacus.path, "indicator",
