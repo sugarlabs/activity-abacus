@@ -11,12 +11,11 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-from constants import *
+from constants import BHEIGHT, BWIDTH, BOFFSET
 
 import pygtk
 pygtk.require('2.0')
 import gtk
-from gettext import gettext as _
 from math import pow
 import os
 import logging
@@ -28,7 +27,7 @@ try:
 except:
     GRID_CELL_SIZE = 0
 
-from sprites import *
+from sprites import Sprites, Sprite
 
 def load_image(path, name, w, h):
     """ create a pixbuf from a SVG stored in a file """
@@ -144,9 +143,9 @@ class AbacusGeneric():
 
     def create(self):
         """ Create an abacus. """
-        rod_w = 10*self.abacus.scale
         rod_h = (self.bot_beads+2+1+self.top_beads+2)*BHEIGHT*self.abacus.scale
         w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
+        dx = (BWIDTH+BOFFSET)*self.abacus.scale
         dy = (self.top_beads+2)*BHEIGHT*self.abacus.scale
         x = (self.abacus.width-w)/2
         y = (self.abacus.height-rod_h)/2
@@ -159,16 +158,6 @@ class AbacusGeneric():
                             self.frame_width*self.abacus.scale,
                             self.frame_height*self.abacus.scale))
         self.frame.type = 'frame'
-
-        # then draw the rods...
-        self.rods = []
-        rod = load_image(self.abacus.path, self.name+"_rod", rod_w, rod_h)
-        dx = (BWIDTH+BOFFSET)*self.abacus.scale
-        for i in range(self.num_rods):
-            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y, rod))
-
-        for i in self.rods:
-             i.type = 'rod'
 
         # and then the beads.
         self.beads = []
@@ -185,13 +174,13 @@ class AbacusGeneric():
                                          self.colors[0]))
 
         for i in self.beads:
-             i.type = 'bead'
-             i.state = 0
-             i.level = 0
+            i.type = 'bead'
+            i.state = 0
+            i.level = 0
 
         # Draw the dividing bar...
         self.bar = Sprite(self.abacus.sprites, x, y+dy,
-                          load_image(self.abacus.path, "divider_bar",
+                          load_image(self.abacus.path, self.name+"_bar",
                                      w, BHEIGHT*self.abacus.scale))
 
         self.bar.type = 'frame'
@@ -208,8 +197,6 @@ class AbacusGeneric():
 
     def hide(self):
         """ Hide the rod, beads, mark, and frame. """
-        for i in self.rods:
-            i.hide()
         for i in self.beads:
             i.hide()
         self.bar.hide()
@@ -218,9 +205,7 @@ class AbacusGeneric():
 
     def show(self):
         """ Show the rod, beads, mark, and frame. """
-        self.frame.set_layer(99)
-        for i in self.rods:
-            i.set_layer(100)
+        self.frame.set_layer(100)
         for i in self.beads:
             i.set_layer(101)
         self.bar.set_layer(102)
@@ -248,7 +233,7 @@ class AbacusGeneric():
 
     def set_rod_value(self, r, v):
         """ Move beads on rod r to represent value v """
-        bot = v%5
+        bot = v % 5
         top = (v-bot)/5
         top_bead_index = r*(self.top_beads+self.bot_beads)
         bot_bead_index = r*(self.top_beads+self.bot_beads)+self.top_beads
@@ -286,7 +271,7 @@ class AbacusGeneric():
         # Tally the values on each rod.
         for i, b in enumerate(self.beads):
             r = i/(self.top_beads+self.bot_beads)
-            j = i%(self.top_beads+self.bot_beads)
+            j = i % (self.top_beads+self.bot_beads)
             if b.state == 1:
                 if j < self.top_beads:
                     v[r+1] += 5
@@ -320,70 +305,71 @@ class AbacusGeneric():
         self.mark.move_relative((dx, 0))
 
     def set_color(self, bead, level=3):
-        print "setting bead %d to level %d" % (self.beads.index(bead), level)
+        """ Set color of bead to one of four fade levels. """
         bead.set_image(self.colors[level])
         bead.inval()
         bead.level = level
 
     def fade_colors(self):
+        """ Reduce the fade level of every bead. """
         for bead in self.beads:
             if bead.level > 0:
                 self.set_color(bead, bead.level-1)
   
     def move_bead(self, bead, dy):
-         """ Move a bead (or beads) up or down a rod. """
-         i = self.beads.index(bead)
-         b = i%(self.top_beads+self.bot_beads)
-         if b < self.top_beads:
-             if dy > 0 and bead.state == 0:
-                 self.fade_colors()
-                 self.set_color(bead)
-                 bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
-                 bead.state = 1
-                 # Make sure beads below this bead are also moved.
-                 for ii in range(self.top_beads-b):
-                     if self.beads[i+ii].state == 0:
-                         self.set_color(self.beads[i+ii])
-                         self.beads[i+ii].move_relative((0,
+        """ Move a bead (or beads) up or down a rod. """
+        i = self.beads.index(bead)
+        b = i % (self.top_beads+self.bot_beads)
+        if b < self.top_beads:
+            if dy > 0 and bead.state == 0:
+                self.fade_colors()
+                self.set_color(bead)
+                bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
+                bead.state = 1
+                # Make sure beads below this bead are also moved.
+                for ii in range(self.top_beads-b):
+                    if self.beads[i+ii].state == 0:
+                        self.set_color(self.beads[i+ii])
+                        self.beads[i+ii].move_relative((0,
                                                    2*BHEIGHT*self.abacus.scale))
-                         self.beads[i+ii].state = 1
-             elif dy < 0 and bead.state == 1:
-                 self.fade_colors()
-                 self.set_color(bead)
-                 bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
-                 bead.state = 0
-                 # Make sure beads above this bead are also moved.
-                 for ii in range(b+1):
-                     if self.beads[i-ii].state == 1:
-                         self.set_color(self.beads[i-ii])
-                         self.beads[i-ii].move_relative((0,
+                        self.beads[i+ii].state = 1
+            elif dy < 0 and bead.state == 1:
+                self.fade_colors()
+                self.set_color(bead)
+                bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
+                bead.state = 0
+                # Make sure beads above this bead are also moved.
+                for ii in range(b+1):
+                    if self.beads[i-ii].state == 1:
+                        self.set_color(self.beads[i-ii])
+                        self.beads[i-ii].move_relative((0,
                                                   -2*BHEIGHT*self.abacus.scale))
-                         self.beads[i-ii].state = 0
-         else:
-             if dy < 0 and bead.state == 0:
-                 self.fade_colors()
-                 self.set_color(bead)
-                 bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
-                 bead.state = 1
-                 # Make sure beads above this bead are also moved.
-                 for ii in range(b-self.top_beads+1):
-                     if self.beads[i-ii].state == 0:
-                         self.set_color(self.beads[i-ii])
-                         self.beads[i-ii].move_relative((0,
+                        self.beads[i-ii].state = 0
+        else:
+            if dy < 0 and bead.state == 0:
+                self.fade_colors()
+                self.set_color(bead)
+                bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
+                bead.state = 1
+                # Make sure beads above this bead are also moved.
+                for ii in range(b-self.top_beads+1):
+                    if self.beads[i-ii].state == 0:
+                        self.set_color(self.beads[i-ii])
+                        self.beads[i-ii].move_relative((0,
                                                   -2*BHEIGHT*self.abacus.scale))
-                         self.beads[i-ii].state = 1
-             elif dy > 0 and bead.state == 1:
-                 self.fade_colors()
-                 self.set_color(bead)
-                 bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
-                 bead.state = 0
-                 # Make sure beads below this bead are also moved.
-                 for ii in range(self.top_beads+self.bot_beads-b):
-                     if self.beads[i+ii].state == 1:
-                         self.set_color(self.beads[i+ii])
-                         self.beads[i+ii].move_relative((0,
+                        self.beads[i-ii].state = 1
+            elif dy > 0 and bead.state == 1:
+                self.fade_colors()
+                self.set_color(bead)
+                bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
+                bead.state = 0
+                # Make sure beads below this bead are also moved.
+                for ii in range(self.top_beads+self.bot_beads-b):
+                    if self.beads[i+ii].state == 1:
+                        self.set_color(self.beads[i+ii])
+                        self.beads[i+ii].move_relative((0,
                                                    2*BHEIGHT*self.abacus.scale))
-                         self.beads[i+ii].state = 0
+                        self.beads[i+ii].state = 0
 
 class Nepohualtzintzin(AbacusGeneric):
 
@@ -394,7 +380,7 @@ class Nepohualtzintzin(AbacusGeneric):
         self.num_rods = 13
         self.bot_beads = 4
         self.top_beads = 3
-        self.frame_width = 730
+        self.frame_width = 715
         self.frame_height = 420
         self.base = 20
         self.colors = [load_image(self.abacus.path, "white",
@@ -421,7 +407,7 @@ class Nepohualtzintzin(AbacusGeneric):
         # Tally the values on each rod.
         for i, b in enumerate(self.beads):
             r = i/(self.top_beads+self.bot_beads)
-            j = i%(self.top_beads+self.bot_beads)
+            j = i % (self.top_beads+self.bot_beads)
             if b.state == 1:
                 if count_beads:
                     f = 1
@@ -440,7 +426,7 @@ class Nepohualtzintzin(AbacusGeneric):
             # Carry to the left if a rod has a value > 9.
             for j in range(self.num_rods):
                 if v[len(v)-j-1] > 9:
-                    units = v[len(v)-j-1]%10
+                    units = v[len(v)-j-1] % 10
                     tens = v[len(v)-j-1]-units
                     v[len(v)-j-1] = units
                     v[len(v)-j-2] += tens/10
@@ -540,8 +526,8 @@ class Schety(AbacusGeneric):
     def create(self):
         """ Override default in order to make a short rod """
         # 10 beads + 2 spaces
-        rod_w = 10*self.abacus.scale
         rod_h = (self.bot_beads+2)*BHEIGHT*self.abacus.scale
+        dx = (BWIDTH+BOFFSET)*self.abacus.scale
         w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
         x = (self.abacus.width-w)/2
         y = (self.abacus.height-rod_h)/2
@@ -553,17 +539,6 @@ class Schety(AbacusGeneric):
                             self.frame_width*self.abacus.scale,
                             self.frame_height*self.abacus.scale))
         self.frame.type = 'frame'
-
-        # Draw the rods...
-        self.rods = []
-        rod = load_image(self.abacus.path, self.name+"_rod", rod_w, rod_h)
-        o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
-        dx = (BWIDTH+BOFFSET)*self.abacus.scale
-        for i in range(self.num_rods):
-            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+o, y, rod))
-
-        for i in self.rods:
-             i.type = 'rod'
 
         # and then the beads.
         self.beads = []
@@ -589,12 +564,12 @@ class Schety(AbacusGeneric):
                                              color))
 
         for i in self.beads:
-             i.type = 'bead'
-             i.state = 0
+            i.type = 'bead'
+            i.state = 0
 
         # Draw a bar for the label on top.
         self.bar = Sprite(self.abacus.sprites, x, y-BHEIGHT*self.abacus.scale,
-                          load_image(self.abacus.path, "divider_bar",
+                          load_image(self.abacus.path, self.name+"_bar",
                                      w, BHEIGHT*self.abacus.scale))
 
         self.bar.type = 'frame'
@@ -699,37 +674,37 @@ class Schety(AbacusGeneric):
             self.beads[bead_index+i].state = 1 
 
     def move_bead(self, bead, dy):
-         """ Override to account for short rod """
-         i = self.beads.index(bead)
-         r = i/self.bot_beads
-         # Take into account the rod with just 4 beads
-         if r < 10:
-             o = 2
-             b = i%self.bot_beads
-             n = self.bot_beads
-         elif i > 99 and i < 104:
-             o = 8
-             b = i%self.bot_beads
-             n = 4
-         else:
-             o = 2
-             b = (i+6)%self.bot_beads
-             n = self.bot_beads
-         if dy < 0 and bead.state == 0:
-             bead.move_relative((0, -o*BHEIGHT*self.abacus.scale))
-             bead.state = 1
-             # Make sure beads above this bead are also moved.
-             for ii in range(b+1):
-                 if self.beads[i-ii].state == 0:
-                     self.beads[i-ii].move_relative((0,
+        """ Override to account for short rod """
+        i = self.beads.index(bead)
+        r = i/self.bot_beads
+        # Take into account the rod with just 4 beads
+        if r < 10:
+            o = 2
+            b = i % self.bot_beads
+            n = self.bot_beads
+        elif i > 99 and i < 104:
+            o = 8
+            b = i % self.bot_beads
+            n = 4
+        else:
+            o = 2
+            b = (i+6) % self.bot_beads
+            n = self.bot_beads
+        if dy < 0 and bead.state == 0:
+            bead.move_relative((0, -o*BHEIGHT*self.abacus.scale))
+            bead.state = 1
+            # Make sure beads above this bead are also moved.
+            for ii in range(b+1):
+                if self.beads[i-ii].state == 0:
+                    self.beads[i-ii].move_relative((0,
                                                   -o*BHEIGHT*self.abacus.scale))
-                     self.beads[i-ii].state = 1
-         elif dy > 0 and bead.state == 1:
-             bead.move_relative((0, o*BHEIGHT*self.abacus.scale))
-             bead.state = 0
-             # Make sure beads below this bead are also moved.
-             for ii in range(n-b):
-                 if self.beads[i+ii].state == 1:
-                     self.beads[i+ii].move_relative((0,
+                    self.beads[i-ii].state = 1
+        elif dy > 0 and bead.state == 1:
+            bead.move_relative((0, o*BHEIGHT*self.abacus.scale))
+            bead.state = 0
+            # Make sure beads below this bead are also moved.
+            for ii in range(n-b):
+                if self.beads[i+ii].state == 1:
+                    self.beads[i+ii].move_relative((0,
                                                    o*BHEIGHT*self.abacus.scale))
-                     self.beads[i+ii].state = 0
+                    self.beads[i+ii].state = 0
