@@ -14,7 +14,7 @@
 BWIDTH = 40
 BHEIGHT = 30
 BOFFSET = 10
-FSTROKE = 30
+FSTROKE = 60
 
 import pygtk
 pygtk.require('2.0')
@@ -54,6 +54,13 @@ def _svg_rect(w, h, rx, ry, x, y, fill, stroke):
     svg_string += "          x=\"%f\"\n" % (x)
     svg_string += "          y=\"%f\"\n" % (y)
     svg_string += _svg_style("fill:%s;stroke:%s;" % (fill, stroke))
+    return svg_string
+
+def _svg_indicator():
+    """ Returns a wedge-shaped indicator as SVG """
+    svg_string = "%s %s" % ("<path d=\"m1.5 1.5 L 18.5 1.5 L 10 13.5 L 1.5",
+                            "1.5 z\"\n")
+    svg_string += _svg_style("fill:#ff0000;stroke:#ff0000;stroke-width:3.0;")
     return svg_string
 
 def _svg_bead(fill, stroke):
@@ -202,10 +209,11 @@ class AbacusGeneric():
         if self.top_beads > 0:
             self.frame_height = (self.bot_beads+self.top_beads+5)*BHEIGHT +\
                                 FSTROKE*2
-            dy = (self.top_beads+2)*BHEIGHT*self.abacus.scale
+            # dy = (self.top_beads+2)*BHEIGHT*self.abacus.scale
+            dy = (FSTROKE+((self.top_beads+1)*BHEIGHT))*self.abacus.scale
         else:
             self.frame_height = (self.bot_beads+2)*BHEIGHT + FSTROKE*2
-            dy = -FSTROKE
+            dy = 0
         rod_colors = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
                       "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
                       "#876a00", "#986200", "#ab5600", "#d60000", "#e30038"]
@@ -292,12 +300,13 @@ class AbacusGeneric():
         self.bar.set_label_color('white')
 
         # and finally, the mark.
+        mark = _svg_header(20, 15, self.abacus.scale) +\
+               _svg_indicator() +\
+               _svg_footer()
         o =  (BWIDTH+BOFFSET-(FSTROKE/2))*self.abacus.scale/2
         self.mark = Sprite(self.abacus.sprites, x+(self.num_rods-1)*dx+o,
                            y-(BHEIGHT-(FSTROKE/2))*self.abacus.scale,
-                           load_image(self.abacus.path, "indicator",
-                                      20*self.abacus.scale,
-                                      15*self.abacus.scale))
+                           _svg_str_to_pixbuf(mark))
         self.mark.type = 'mark'
 
     def hide(self):
@@ -388,7 +397,7 @@ class AbacusGeneric():
                     v[r+1] += 1
 
         if count_beads:
-            # Save the value associated with each rod as a 2-byte int.
+            # Save the value associated with each rod as a 2-byte integer.
             for j in v[1:]:
                 string += "%2d" % (j)
         else:
@@ -572,13 +581,14 @@ class Schety(AbacusGeneric):
         self.create()
 
     def create(self):
-        self.frame_width = self.num_rods*(BWIDTH+BOFFSET)+60
+        self.frame_width = self.num_rods*(BWIDTH+BOFFSET)+(FSTROKE*2)
         if self.top_beads > 0:
-            self.frame_height = (self.bot_beads+self.top_beads+5)*BHEIGHT+60
+            self.frame_height = (self.bot_beads+self.top_beads+5)*BHEIGHT +\
+                                 (FSTROKE*2)
             dy = (self.top_beads+2)*BHEIGHT*self.abacus.scale
         else:
-            self.frame_height = (self.bot_beads+2)*BHEIGHT+60
-            dy = -30
+            self.frame_height = (self.bot_beads+2)*BHEIGHT+(FSTROKE*2)
+            dy = 0
         rod_colors = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
                       "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
                       "#876a00", "#986200", "#ab5600", "#d60000", "#e30038"]
@@ -603,10 +613,11 @@ class Schety(AbacusGeneric):
         # Draw the frame...
         frame = _svg_header(self.frame_width, self.frame_height,
                             self.abacus.scale) +\
-                _svg_rect(self.frame_width, self.frame_height, 15, 15, 0, 0,
-                          "#000000", "#000000") +\
-                _svg_rect(self.frame_width-60, self.frame_height-60, 0, 0,
-                          30, 30, "#808080", "#000000") +\
+                _svg_rect(self.frame_width, self.frame_height, (FSTROKE/2),
+                          (FSTROKE/2), 0, 0, "#000000", "#000000") +\
+                _svg_rect(self.frame_width-(FSTROKE*2),
+                          self.frame_height-(FSTROKE*2), 0, 0,
+                          FSTROKE, FSTROKE, "#808080", "#000000") +\
                 _svg_footer()
         self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
                             y-BHEIGHT*self.abacus.scale,
@@ -620,8 +631,9 @@ class Schety(AbacusGeneric):
         bo =  (BWIDTH-BOFFSET)*self.abacus.scale/4
         ro =  (BWIDTH+5)*self.abacus.scale/2
         for i in range(self.num_rods):
-            rod = _svg_header(10, self.frame_height-60, self.abacus.scale) +\
-                  _svg_rect(10, self.frame_height-60, 0, 0, 0, 0,
+            rod = _svg_header(10, self.frame_height-(FSTROKE*2),
+                              self.abacus.scale) +\
+                  _svg_rect(10, self.frame_height-(FSTROKE*2), 0, 0, 0, 0,
                             rod_colors[(i+5)%len(rod_colors)], "#404040") +\
                   _svg_footer()
             self.rods.append(Sprite(self.abacus.sprites, x+i*dx+ro,
@@ -651,8 +663,9 @@ class Schety(AbacusGeneric):
             i.state = 0
 
         # Draw the dividing bar...
-        bar = _svg_header(self.frame_width-60, BHEIGHT, self.abacus.scale) +\
-              _svg_rect(self.frame_width-60, BHEIGHT, 0, 0, 0, 0,
+        bar = _svg_header(self.frame_width-(FSTROKE*2), BHEIGHT,
+                          self.abacus.scale) +\
+              _svg_rect(self.frame_width-(FSTROKE*2), BHEIGHT, 0, 0, 0, 0,
                         "#000000", "#000000") +\
               _svg_footer()
         self.bar = Sprite(self.abacus.sprites, x, y+dy,
@@ -662,12 +675,14 @@ class Schety(AbacusGeneric):
         self.bar.set_label_color('white')
 
         # and the mark.
-        o =  (BWIDTH+BOFFSET-15)*self.abacus.scale/2
+        # and finally, the mark.
+        mark = _svg_header(20, 15, self.abacus.scale) +\
+               _svg_indicator() +\
+               _svg_footer()
+        o =  (BWIDTH+BOFFSET-(FSTROKE/2))*self.abacus.scale/2
         self.mark = Sprite(self.abacus.sprites, x+(self.num_rods-1)*dx+o,
-                           y-(BHEIGHT-15)*self.abacus.scale,
-                           load_image(self.abacus.path, "indicator",
-                                      20*self.abacus.scale,
-                                      15*self.abacus.scale))
+                           y-(BHEIGHT-(FSTROKE/2))*self.abacus.scale,
+                           _svg_str_to_pixbuf(mark))
         self.mark.type = 'mark'
 
     def value(self, count_beads=False):
@@ -795,7 +810,7 @@ class Schety(AbacusGeneric):
                                                    o*BHEIGHT*self.abacus.scale))
                     self.beads[i+ii].state = 0
 
-
+# Experimental code
 class Fractions(AbacusGeneric):
 
     def __init__(self, abacus):
