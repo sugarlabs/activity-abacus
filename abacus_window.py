@@ -14,7 +14,7 @@
 BWIDTH = 40
 BHEIGHT = 30
 BOFFSET = 10
-FSTROKE = 60
+FSTROKE = 45
 
 import pygtk
 pygtk.require('2.0')
@@ -87,7 +87,6 @@ def _svg_header(w, h, scale):
     svg_string += "%s%f%s%f%s" % ("<g\n       transform=\"matrix(", 
                                   scale, ",0,0,", scale,
                                   ",0,0)\">\n")
-    # svg_string += _svg_background()
     return svg_string
 
 def _svg_footer():
@@ -100,10 +99,6 @@ def _svg_style(extras=""):
     """ Returns SVG style for shape rendering """
     return "%s%s%s" % ("style=\"", extras, "\"/>\n")
 
-def load_image(path, name, w, h):
-    """ create a pixbuf from a SVG stored in a file """
-    return gtk.gdk.pixbuf_new_from_file_at_size(
-        os.path.join(path+name+'.svg'), int(w), int(h))
 
 class Abacus():
 
@@ -140,11 +135,13 @@ class Abacus():
         self.russian = Schety(self)
         # self.russian = Fractions(self)
         self.mayan = Nepohualtzintzin(self)
+        self.binary = Binary(self)
 
         self.chinese.show()
         self.japanese.hide()
         self.russian.hide()
         self.mayan.hide()
+        self.binary.hide()
         self.mode = self.chinese
 
     def _button_press_cb(self, win, event):
@@ -201,7 +198,6 @@ class AbacusGeneric():
         self.num_rods = 15
         self.bot_beads = 2
         self.top_beads = 5
-        self.base = 10
         self.create()
 
     def create(self):
@@ -309,10 +305,16 @@ class AbacusGeneric():
                                          y+b*BHEIGHT*self.abacus.scale,
                                          self.colors[0]))
             for b in range(self.bot_beads):
-                self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
-                                         y+(self.top_beads+5+b)*BHEIGHT\
-                                            *self.abacus.scale,
-                                         self.colors[0]))
+                if self.top_beads > 0:
+                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
+                                             y+(self.top_beads+5+b)*BHEIGHT\
+                                                *self.abacus.scale,
+                                             self.colors[0]))
+                else:
+                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
+                                             y+(2+b)*BHEIGHT\
+                                                *self.abacus.scale,
+                                             self.colors[0]))
 
         for i in self.beads:
             i.type = 'bead'
@@ -508,7 +510,6 @@ class Nepohualtzintzin(AbacusGeneric):
         self.num_rods = 13
         self.bot_beads = 4
         self.top_beads = 3
-        self.base = 20
         self.create()
 
     def value(self, count_beads=False):
@@ -561,7 +562,6 @@ class Suanpan(AbacusGeneric):
         self.num_rods = 15
         self.bot_beads = 5
         self.top_beads = 2
-        self.base = 10
         self.create()
 
 
@@ -574,9 +574,49 @@ class Soroban(AbacusGeneric):
         self.num_rods = 15
         self.bot_beads = 4
         self.top_beads = 1
-        self.base = 10
         self.create()
 
+
+class Binary(AbacusGeneric):
+
+    def __init__(self, abacus):
+        """ create a Binary abacus: 15 by (1,0) """
+        self.abacus = abacus
+        self.name = 'binary'
+        self.num_rods = 15
+        self.bot_beads = 1
+        self.top_beads = 0
+        self.create()
+
+    def value(self, count_beads=False):
+        """ Override for base 2 """
+        string = ''
+        value = 0
+        v = []
+        for r in range(self.num_rods+1): # +1 for overflow
+            v.append(0)
+
+        # Tally the values on each rod.
+        for i, b in enumerate(self.beads):
+            r = i/(self.top_beads+self.bot_beads)
+            j = i % (self.top_beads+self.bot_beads)
+            if b.state == 1:
+                if j < self.top_beads:
+                    v[r+1] += 5
+                else:
+                    v[r+1] += 1
+
+        if count_beads:
+            # Save the value associated with each rod as a 2-byte integer.
+            for j in v[1:]:
+                string += "%2d" % (j)
+        else:
+            for j in range(self.num_rods):
+                if v[len(v)-j-1] == 1:
+                    value += pow(2,j)
+            string = str(int(value))
+
+        return(string)
 
 class Schety(AbacusGeneric):
 
@@ -587,7 +627,6 @@ class Schety(AbacusGeneric):
         self.num_rods = 15
         self.top_beads = 0
         self.bot_beads = 10
-        self.base = 10
         self.create()
 
     def draw_rods_and_beads(self, x, y):
@@ -605,7 +644,6 @@ class Schety(AbacusGeneric):
         self.white = _svg_str_to_pixbuf(white)
         self.black = _svg_str_to_pixbuf(black)
 
-        # 10 beads + 2 spaces
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
 
         self.beads = []
@@ -621,6 +659,7 @@ class Schety(AbacusGeneric):
             self.rods.append(Sprite(self.abacus.sprites, x+i*dx+ro,
                                     y,
                                     _svg_str_to_pixbuf(rod)))     
+
             if i == 10:
                 for b in range(4):
                     if b in [1,2]:
@@ -780,40 +819,38 @@ class Fractions(AbacusGeneric):
         self.name = "schety"
         self.num_rods = 15
         self.top_beads = 0
-        self.bot_beads = 10
-        self.frame_width = 810
-        self.frame_height = 420
-        self.base = 10
+        self.bot_beads = 12
         self.create()
 
-    def create(self):
-        """ Override default in order to make fraction rods. """
-        # 10 beads + 2 spaces
-        rod_h = (self.bot_beads+2)*BHEIGHT*self.abacus.scale
-        dx = (BWIDTH+BOFFSET)*self.abacus.scale
-        w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
-        x = (self.abacus.width-w)/2
-        y = (self.abacus.height-rod_h)/2
+    def draw_rods_and_beads(self, x, y):
+        """ Override default in order to make a short rod """
+        rod_colors = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
+                      "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
+                      "#876a00", "#986200", "#ab5600", "#d60000", "#e30038"]
 
-        # Draw the frame.
-        self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
-                            y-BHEIGHT*self.abacus.scale,
-                            load_image(self.abacus.path, self.name+"_frame",
-                            self.frame_width*self.abacus.scale,
-                            self.frame_height*self.abacus.scale))
-        self.frame.type = 'frame'
-
-        # and then the beads.
         white = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
                 _svg_bead("#ffffff", "#000000") +\
                 _svg_footer()
         self.white = _svg_str_to_pixbuf(white)
+
+        dx = (BWIDTH+BOFFSET)*self.abacus.scale
+
         self.beads = []
         self.rods = []
-        o =  (BWIDTH-BOFFSET)/2*self.abacus.scale/2
+        bo =  (BWIDTH-BOFFSET)*self.abacus.scale/4
+        ro =  (BWIDTH+5)*self.abacus.scale/2
         for i in range(self.num_rods):
+            rod = _svg_header(10, self.frame_height-(FSTROKE*2),
+                              self.abacus.scale) +\
+                  _svg_rect(10, self.frame_height-(FSTROKE*2), 0, 0, 0, 0,
+                            rod_colors[(i+5)%len(rod_colors)], "#404040") +\
+                  _svg_footer()
+            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+ro,
+                                    y,
+                                    _svg_str_to_pixbuf(rod)))     
+
             for b in range(self.bead_count[i]):
-                self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
+                self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
                                          y+(12-self.bead_count[i]+b)*BHEIGHT*\
                                          self.abacus.scale,
                                          self.white))
@@ -821,23 +858,6 @@ class Fractions(AbacusGeneric):
         for i in self.beads:
             i.type = 'bead'
             i.state = 0
-
-        # Draw a bar for the label on top.
-        self.bar = Sprite(self.abacus.sprites, x, y-BHEIGHT*self.abacus.scale,
-                          load_image(self.abacus.path, self.name+"_bar",
-                                     w, BHEIGHT*self.abacus.scale))
-
-        self.bar.type = 'frame'
-        self.bar.set_label_color('white')
-
-        # and the mark.
-        o =  (BWIDTH+BOFFSET-15)*self.abacus.scale/2
-        self.mark = Sprite(self.abacus.sprites, x+(self.num_rods-1)*dx+o,
-                           y-(BHEIGHT-15)*self.abacus.scale,
-                           load_image(self.abacus.path, "indicator",
-                                      20*self.abacus.scale,
-                                      15*self.abacus.scale))
-        self.mark.type = 'mark'
 
     def value(self, count_beads=False):
         """ Override to account for fourths """

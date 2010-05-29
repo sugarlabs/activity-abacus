@@ -71,6 +71,9 @@ class AbacusMain:
         menu_items = gtk.MenuItem(_("Nepohualtzintzin"))
         menu.append(menu_items)
         menu_items.connect("activate", self._m_cb)
+        menu_items = gtk.MenuItem(_("Binary"))
+        menu.append(menu_items)
+        menu_items.connect("activate", self._b_cb)
         menu_items.show()
         menu_items = gtk.MenuItem(_("Quit"))
         menu.append(menu_items)
@@ -131,36 +134,41 @@ class AbacusMain:
     def set_title(self, title):
         self.win.set_title(title)
 
-    def _c_cb(self, widget):
-        self.abacus.chinese.show()
+    def _hide_all(self):
+        self.abacus.chinese.hide()
         self.abacus.japanese.hide()
         self.abacus.russian.hide()
         self.abacus.mayan.hide()
+        self.abacus.binary.hide()
+
+    def _c_cb(self, widget):
+        self._hide_all()
+        self.abacus.chinese.show()
         self.abacus.mode = self.abacus.chinese
         return True
 
     def _j_cb(self, widget):
-        self.abacus.chinese.hide()
+        self._hide_all()
         self.abacus.japanese.show()
-        self.abacus.russian.hide()
-        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.japanese
         return True
 
     def _r_cb(self, widget):
-        self.abacus.chinese.hide()
-        self.abacus.japanese.hide()
+        self._hide_all()
         self.abacus.russian.show()
-        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.russian
         return True
 
     def _m_cb(self, widget):
-        self.abacus.chinese.hide()
-        self.abacus.japanese.hide()
-        self.abacus.russian.hide()
+        self._hide_all()
         self.abacus.mayan.show()
         self.abacus.mode = self.abacus.mayan
+        return True
+
+    def _b_cb(self, widget):
+        self._hide_all()
+        self.abacus.binary.show()
+        self.abacus.mode = self.abacus.binary
         return True
 
     def destroy(self, event, data=None):

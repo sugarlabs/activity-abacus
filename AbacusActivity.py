@@ -91,6 +91,14 @@ class AbacusActivity(activity.Activity):
             toolbar_box.toolbar.insert(self.mayan, -1)
             self.mayan.show()
 
+            # Binary (base 2)
+            self.binary = ToolButton( "Boff" )
+            self.binary.set_tooltip(_('binary'))
+            self.binary.props.sensitive = True
+            self.binary.connect('clicked', self._binary_cb)
+            toolbar_box.toolbar.insert(self.binary, -1)
+            self.binary.show()
+
             separator = gtk.SeparatorToolItem()
             separator.props.draw = False
             separator.set_expand(True)
@@ -136,8 +144,12 @@ class AbacusActivity(activity.Activity):
                 self._japanese_cb(None)
             elif self.metadata['abacus'] == 'schety':
                 self._russian_cb(None)
-            else:
+            elif self.metadata['abacus'] == 'nepohualtzintzin':
                 self._mayan_cb(None)
+            elif self.metadata['abacus'] == 'binary':
+                self._binary_cb(None)
+            else:
+                self._chinese_cb(None)
         except:
             pass
         try:
@@ -146,56 +158,56 @@ class AbacusActivity(activity.Activity):
         except:
             pass
 
-    def _chinese_cb(self, button):
-        """ Display the suanpan; hide the others """
-        self.chinese.set_icon("Con")
+    def _all_off(self):
+        self.chinese.set_icon("Coff")
         self.japanese.set_icon("Joff")
         self.russian.set_icon("Roff")
         self.mayan.set_icon("Moff")
-        self.abacus.chinese.show()
+        self.binary.set_icon("Boff")
+        self.abacus.chinese.hide()
         self.abacus.japanese.hide()
         self.abacus.russian.hide()
         self.abacus.mayan.hide()
+        self.abacus.binary.hide()
+
+    def _chinese_cb(self, button):
+        """ Display the suanpan; hide the others """
+        self._all_off()
+        self.chinese.set_icon("Con")
+        self.abacus.chinese.show()
         self.abacus.mode = self.abacus.chinese
         _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def _japanese_cb(self, button):
         """ Display the soroban; hide the others """
-        self.chinese.set_icon("Coff")
+        self._all_off()
         self.japanese.set_icon("Jon")
-        self.russian.set_icon("Roff")
-        self.mayan.set_icon("Moff")
-        self.abacus.chinese.hide()
         self.abacus.japanese.show()
-        self.abacus.russian.hide()
-        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.japanese
         _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def _russian_cb(self, button):
         """ Display the schety; hide the others """
-        self.chinese.set_icon("Coff")
-        self.japanese.set_icon("Joff")
+        self._all_off()
         self.russian.set_icon("Ron")
-        self.mayan.set_icon("Moff")
-        self.abacus.chinese.hide()
-        self.abacus.japanese.hide()
         self.abacus.russian.show()
-        self.abacus.mayan.hide()
         self.abacus.mode = self.abacus.russian
         _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def _mayan_cb(self, button):
         """ Display the nepohualtzintzin; hide the others """
-        self.chinese.set_icon("Coff")
-        self.japanese.set_icon("Joff")
-        self.russian.set_icon("Roff")
+        self._all_off()
         self.mayan.set_icon("Mon")
-        self.abacus.chinese.hide()
-        self.abacus.japanese.hide()
-        self.abacus.russian.hide()
         self.abacus.mayan.show()
         self.abacus.mode = self.abacus.mayan
+        _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
+
+    def _binary_cb(self, button):
+        """ Display the binary; hide the others """
+        self._all_off()
+        self.binary.set_icon("Bon")
+        self.abacus.binary.show()
+        self.abacus.mode = self.abacus.binary
         _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def write_file(self, file_path):
@@ -249,3 +261,11 @@ class ProjectToolbar(gtk.Toolbar):
         self.activity.mayan.connect('clicked', self.activity._mayan_cb)
         self.insert(self.activity.mayan, -1)
         self.activity.mayan.show()
+
+        # Binary style
+        self.activity.binary = ToolButton( "Boff" )
+        self.activity.binary.set_tooltip(_('binary'))
+        self.activity.binary.props.sensitive = True
+        self.activity.binary.connect('clicked', self.activity._binary_cb)
+        self.insert(self.activity.binary, -1)
+        self.activity.binary.show()
