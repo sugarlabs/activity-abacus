@@ -205,20 +205,75 @@ class AbacusGeneric():
         self.create()
 
     def create(self):
+        """ Create and position the sprites that compose the abacus """
+
+        # Width is a function of the number of rods
         self.frame_width = self.num_rods*(BWIDTH+BOFFSET)+FSTROKE*2
+
+        # Height is a function of the number of beads
         if self.top_beads > 0:
             self.frame_height = (self.bot_beads+self.top_beads+5)*BHEIGHT +\
                                 FSTROKE*2
-            # dy = (self.top_beads+2)*BHEIGHT*self.abacus.scale
-            dy = (FSTROKE+((self.top_beads+1)*BHEIGHT))*self.abacus.scale
         else:
             self.frame_height = (self.bot_beads+2)*BHEIGHT + FSTROKE*2
-            dy = 0
+
+        # Draw the frame...
+        x = (self.abacus.width-(self.frame_width*self.abacus.scale))/2
+        y = (self.abacus.height-(self.frame_height*self.abacus.scale))/2
+        frame = _svg_header(self.frame_width, self.frame_height,
+                            self.abacus.scale) +\
+                _svg_rect(self.frame_width, self.frame_height, 
+                          FSTROKE/2, FSTROKE/2, 0, 0, "#000000", "#000000") +\
+                _svg_rect(self.frame_width-(FSTROKE*2), 
+                          self.frame_height-(FSTROKE*2), 0, 0,
+                          FSTROKE, FSTROKE, "#808080", "#000000") +\
+                _svg_footer()
+        self.frame = Sprite(self.abacus.sprites, x, y, 
+                            _svg_str_to_pixbuf(frame))
+        self.frame.type = 'frame'
+
+        # and then the rods and beads.
+        self.rods = []
+        self.beads = []
+        x += FSTROKE*self.abacus.scale
+        y += FSTROKE*self.abacus.scale
+
+        self.draw_rods_and_beads(x, y)
+
+        # Draw the dividing bar...
+        bar = _svg_header(self.frame_width-(FSTROKE*2), BHEIGHT,
+                          self.abacus.scale) +\
+              _svg_rect(self.frame_width-(FSTROKE*2), BHEIGHT, 0, 0, 0, 0,
+                        "#000000", "#000000") +\
+              _svg_footer()
+        if self.top_beads > 0:
+            self.bar = Sprite(self.abacus.sprites, x,
+                              y+(self.top_beads+2)*BHEIGHT*self.abacus.scale,
+                              _svg_str_to_pixbuf(bar))
+        else:
+            self.bar = Sprite(self.abacus.sprites, x,
+                              y-FSTROKE*self.abacus.scale,
+                              _svg_str_to_pixbuf(bar))
+
+        self.bar.type = 'frame'
+        self.bar.set_label_color('white')
+
+        # and finally, the mark.
+        mark = _svg_header(20, 15, self.abacus.scale) +\
+               _svg_indicator() +\
+               _svg_footer()
+        dx = (BWIDTH+BOFFSET)*self.abacus.scale
+        self.mark = Sprite(self.abacus.sprites, x+(self.num_rods-1)*dx,
+                           y-((FSTROKE/2)*self.abacus.scale),
+                           _svg_str_to_pixbuf(mark))
+        self.mark.type = 'mark'
+
+    def draw_rods_and_beads(self, x, y):
+        """ Draw the rods and beads """
         rod_colors = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
                       "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
                       "#876a00", "#986200", "#ab5600", "#d60000", "#e30038"]
 
-        """ Create an abacus. """
         white = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
                 _svg_bead("#ffffff", "#000000") +\
                 _svg_footer()
@@ -235,31 +290,8 @@ class AbacusGeneric():
                        _svg_str_to_pixbuf(yellow1),
                        _svg_str_to_pixbuf(yellow2),
                        _svg_str_to_pixbuf(yellow3)]
-        rod_h = (self.bot_beads+2+1+self.top_beads+2)*BHEIGHT*self.abacus.scale
-        w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
+
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
-        x = (self.abacus.width-w)/2
-        y = (self.abacus.height-rod_h)/2
-        o =  (BWIDTH+BOFFSET-5)*self.abacus.scale/2
-
-        # Draw the frame...
-        frame = _svg_header(self.frame_width, self.frame_height,
-                            self.abacus.scale) +\
-                _svg_rect(self.frame_width, self.frame_height, 
-                          FSTROKE/2, FSTROKE/2, 0, 0, "#000000", "#000000") +\
-                _svg_rect(self.frame_width-(FSTROKE*2), 
-                          self.frame_height-(FSTROKE*2), 0, 0,
-                          FSTROKE, FSTROKE, "#808080", "#000000") +\
-                _svg_footer()
-        self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
-                            y-BHEIGHT*self.abacus.scale,
-                            _svg_str_to_pixbuf(frame))
-        self.frame.type = 'frame'
-
-        # and then the rods and beads.
-        self.rods = []
-        self.beads = []
-
         bo =  (BWIDTH-BOFFSET)*self.abacus.scale/4
         ro =  (BWIDTH+5)*self.abacus.scale/2
         for i in range(self.num_rods):
@@ -286,28 +318,6 @@ class AbacusGeneric():
             i.type = 'bead'
             i.state = 0
             i.level = 0
-
-        # Draw the dividing bar...
-        bar = _svg_header(self.frame_width-(FSTROKE*2), BHEIGHT,
-                          self.abacus.scale) +\
-              _svg_rect(self.frame_width-(FSTROKE*2), BHEIGHT, 0, 0, 0, 0,
-                        "#000000", "#000000") +\
-              _svg_footer()
-        self.bar = Sprite(self.abacus.sprites, x, y+dy,
-                          _svg_str_to_pixbuf(bar))
-
-        self.bar.type = 'frame'
-        self.bar.set_label_color('white')
-
-        # and finally, the mark.
-        mark = _svg_header(20, 15, self.abacus.scale) +\
-               _svg_indicator() +\
-               _svg_footer()
-        o =  (BWIDTH+BOFFSET-(FSTROKE/2))*self.abacus.scale/2
-        self.mark = Sprite(self.abacus.sprites, x+(self.num_rods-1)*dx+o,
-                           y-(BHEIGHT-(FSTROKE/2))*self.abacus.scale,
-                           _svg_str_to_pixbuf(mark))
-        self.mark.type = 'mark'
 
     def hide(self):
         """ Hide the rod, beads, mark, and frame. """
@@ -580,20 +590,12 @@ class Schety(AbacusGeneric):
         self.base = 10
         self.create()
 
-    def create(self):
-        self.frame_width = self.num_rods*(BWIDTH+BOFFSET)+(FSTROKE*2)
-        if self.top_beads > 0:
-            self.frame_height = (self.bot_beads+self.top_beads+5)*BHEIGHT +\
-                                 (FSTROKE*2)
-            dy = (self.top_beads+2)*BHEIGHT*self.abacus.scale
-        else:
-            self.frame_height = (self.bot_beads+2)*BHEIGHT+(FSTROKE*2)
-            dy = 0
+    def draw_rods_and_beads(self, x, y):
+        """ Override default in order to make a short rod """
         rod_colors = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
                       "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
                       "#876a00", "#986200", "#ab5600", "#d60000", "#e30038"]
 
-        """ Override default in order to make a short rod """
         white = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
                 _svg_bead("#ffffff", "#000000") +\
                 _svg_footer()
@@ -604,30 +606,10 @@ class Schety(AbacusGeneric):
         self.black = _svg_str_to_pixbuf(black)
 
         # 10 beads + 2 spaces
-        rod_h = (self.bot_beads+2)*BHEIGHT*self.abacus.scale
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
-        w = (self.num_rods+1)*(BWIDTH+BOFFSET)*self.abacus.scale
-        x = (self.abacus.width-w)/2
-        y = (self.abacus.height-rod_h)/2
 
-        # Draw the frame...
-        frame = _svg_header(self.frame_width, self.frame_height,
-                            self.abacus.scale) +\
-                _svg_rect(self.frame_width, self.frame_height, (FSTROKE/2),
-                          (FSTROKE/2), 0, 0, "#000000", "#000000") +\
-                _svg_rect(self.frame_width-(FSTROKE*2),
-                          self.frame_height-(FSTROKE*2), 0, 0,
-                          FSTROKE, FSTROKE, "#808080", "#000000") +\
-                _svg_footer()
-        self.frame = Sprite(self.abacus.sprites, x-BHEIGHT*self.abacus.scale,
-                            y-BHEIGHT*self.abacus.scale,
-                            _svg_str_to_pixbuf(frame))
-        self.frame.type = 'frame'
-
-        # and then the beads.
         self.beads = []
         self.rods = []
-        o =  (BWIDTH-BOFFSET)/2*self.abacus.scale/2
         bo =  (BWIDTH-BOFFSET)*self.abacus.scale/4
         ro =  (BWIDTH+5)*self.abacus.scale/2
         for i in range(self.num_rods):
@@ -645,7 +627,7 @@ class Schety(AbacusGeneric):
                         color = self.black
                     else:
                         color = self.white
-                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
+                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
                                              y+(8+b)*BHEIGHT*self.abacus.scale,
                                              color))
             else:
@@ -654,36 +636,13 @@ class Schety(AbacusGeneric):
                         color = self.black
                     else:
                         color = self.white
-                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+o,
+                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
                                              y+(2+b)*BHEIGHT*self.abacus.scale,
                                              color))
 
         for i in self.beads:
             i.type = 'bead'
             i.state = 0
-
-        # Draw the dividing bar...
-        bar = _svg_header(self.frame_width-(FSTROKE*2), BHEIGHT,
-                          self.abacus.scale) +\
-              _svg_rect(self.frame_width-(FSTROKE*2), BHEIGHT, 0, 0, 0, 0,
-                        "#000000", "#000000") +\
-              _svg_footer()
-        self.bar = Sprite(self.abacus.sprites, x, y+dy,
-                          _svg_str_to_pixbuf(bar))
-
-        self.bar.type = 'frame'
-        self.bar.set_label_color('white')
-
-        # and the mark.
-        # and finally, the mark.
-        mark = _svg_header(20, 15, self.abacus.scale) +\
-               _svg_indicator() +\
-               _svg_footer()
-        o =  (BWIDTH+BOFFSET-(FSTROKE/2))*self.abacus.scale/2
-        self.mark = Sprite(self.abacus.sprites, x+(self.num_rods-1)*dx+o,
-                           y-(BHEIGHT-(FSTROKE/2))*self.abacus.scale,
-                           _svg_str_to_pixbuf(mark))
-        self.mark.type = 'mark'
 
     def value(self, count_beads=False):
         """ Override to account for fourths """
