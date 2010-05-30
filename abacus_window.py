@@ -316,6 +316,8 @@ class AbacusGeneric():
                                                 *self.abacus.scale,
                                              self.colors[0]))
 
+        for r in self.rods:
+            r.type = "frame"
         for i in self.beads:
             i.type = 'bead'
             i.state = 0
@@ -680,6 +682,8 @@ class Schety(AbacusGeneric):
                                              y+(2+b)*BHEIGHT*self.abacus.scale,
                                              color))
 
+        for r in self.rods:
+            r.type = "frame"
         for i in self.beads:
             i.type = 'bead'
             i.state = 0
@@ -856,6 +860,8 @@ class Fractions(AbacusGeneric):
                                          self.abacus.scale,
                                          self.white))
 
+        for r in self.rods:
+            r.type = "frame"
         for i in self.beads:
             i.type = 'bead'
             i.state = 0
