@@ -17,18 +17,8 @@ pygtk.require('2.0')
 import gtk
 
 from gettext import gettext as _
-import os
 
 from abacus_window import Abacus
-
-def makepath(path):
-    """ Make a path if it doesn't previously exist """
-    from os import makedirs
-    from os.path import normpath, dirname, exists
-
-    dpath = normpath(dirname(path))
-    if not exists(dpath):
-        makedirs(dpath)
 
 class AbacusMain:
     def __init__(self):
@@ -74,6 +64,9 @@ class AbacusMain:
         menu_items = gtk.MenuItem(_("Binary"))
         menu.append(menu_items)
         menu_items.connect("activate", self._b_cb)
+        menu_items = gtk.MenuItem(_("Fraction"))
+        menu.append(menu_items)
+        menu_items.connect("activate", self._f_cb)
         menu_items.show()
         menu_items = gtk.MenuItem(_("Quit"))
         menu.append(menu_items)
@@ -107,27 +100,8 @@ class AbacusMain:
 
         self.win.show_all()
 
-        if os.path.exists('/usr/share/abacus/images/'):
-            self.abacus = Abacus(canvas, '/usr/share/abacus/images/')
-        elif os.path.exists('/usr/local/share/abacus/images/'):
-            self.abacus = Abacus(canvas, '/usr/local/share/abacus/images/')
-        else:
-            self.abacus = Abacus(canvas, os.path.abspath('.')+'/images/')
+        self.abacus = Abacus(canvas)
         self.abacus.win = self.win
-
-        """
-
-        canvas = gtk.DrawingArea()
-        vbox.pack_end(canvas, True, True)
-        canvas.show()
-
-        menu_bar.append(root_menu)
-        self.win.show_all()
-
-        # Join the activity
-        self.abacus = Abacus(canvas, os.path.join(os.path.abspath('.'),
-                                                  'images/'))
-        """
 
         self.abacus.activity = self
 
@@ -140,6 +114,7 @@ class AbacusMain:
         self.abacus.russian.hide()
         self.abacus.mayan.hide()
         self.abacus.binary.hide()
+        self.abacus.fraction.hide()
 
     def _c_cb(self, widget):
         self._hide_all()
@@ -169,6 +144,12 @@ class AbacusMain:
         self._hide_all()
         self.abacus.binary.show()
         self.abacus.mode = self.abacus.binary
+        return True
+
+    def _f_cb(self, widget):
+        self._hide_all()
+        self.abacus.fraction.show()
+        self.abacus.mode = self.abacus.fraction
         return True
 
     def destroy(self, event, data=None):

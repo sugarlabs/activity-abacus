@@ -34,7 +34,6 @@ from sugar.datastore import datastore
 
 from gettext import gettext as _
 import locale
-import os.path
 
 import logging
 _logger = logging.getLogger("abacus-activity")
@@ -61,7 +60,7 @@ class AbacusActivity(activity.Activity):
 
             # Suanpan (Chinese abacus) 2:5
             self.chinese = ToolButton( "Con" )
-            self.chinese.set_tooltip(_('suanpan'))
+            self.chinese.set_tooltip(_('Suanpan'))
             self.chinese.props.sensitive = True
             self.chinese.connect('clicked', self._chinese_cb)
             toolbar_box.toolbar.insert(self.chinese, -1)
@@ -69,7 +68,7 @@ class AbacusActivity(activity.Activity):
 
             # Soroban (Japanese abacus) 1:4
             self.japanese = ToolButton( "Joff" )
-            self.japanese.set_tooltip(_('soroban'))
+            self.japanese.set_tooltip(_('Soroban'))
             self.japanese.props.sensitive = True
             self.japanese.connect('clicked', self._japanese_cb)
             toolbar_box.toolbar.insert(self.japanese, -1)
@@ -77,7 +76,7 @@ class AbacusActivity(activity.Activity):
 
             # Schety (Russian abacus) 0:10
             self.russian = ToolButton( "Roff" )
-            self.russian.set_tooltip(_('schety'))
+            self.russian.set_tooltip(_('Schety'))
             self.russian.props.sensitive = True
             self.russian.connect('clicked', self._russian_cb)
             toolbar_box.toolbar.insert(self.russian, -1)
@@ -85,7 +84,7 @@ class AbacusActivity(activity.Activity):
 
             # Nepohualtzintzin (Mayan abacus) 3:4 (base 20)
             self.mayan = ToolButton( "Moff" )
-            self.mayan.set_tooltip(_('nepohualtzintzin'))
+            self.mayan.set_tooltip(_('Nepohualtzintzin'))
             self.mayan.props.sensitive = True
             self.mayan.connect('clicked', self._mayan_cb)
             toolbar_box.toolbar.insert(self.mayan, -1)
@@ -93,11 +92,19 @@ class AbacusActivity(activity.Activity):
 
             # Binary (base 2)
             self.binary = ToolButton( "Boff" )
-            self.binary.set_tooltip(_('binary'))
+            self.binary.set_tooltip(_('Binary'))
             self.binary.props.sensitive = True
             self.binary.connect('clicked', self._binary_cb)
             toolbar_box.toolbar.insert(self.binary, -1)
             self.binary.show()
+
+            # Fractions (1/2, 1/3, 1/4, 1/5, 1/6, 1/8, 1/9, 1/10, 1/12)
+            self.fraction = ToolButton( "Foff" )
+            self.fraction.set_tooltip(_('Fraction'))
+            self.fraction.props.sensitive = True
+            self.fraction.connect('clicked', self._fraction_cb)
+            toolbar_box.toolbar.insert(self.fraction, -1)
+            self.fraction.show()
 
             separator = gtk.SeparatorToolItem()
             separator.props.draw = False
@@ -133,8 +140,7 @@ class AbacusActivity(activity.Activity):
         self.show_all()
 
         # Initialize the canvas
-        self.abacus = Abacus(canvas, os.path.join(activity.get_bundle_path(),
-                                                  'images/'), self)
+        self.abacus = Abacus(canvas, self)
 
         # Read the current mode from the Journal
         try:
@@ -148,6 +154,8 @@ class AbacusActivity(activity.Activity):
                 self._mayan_cb(None)
             elif self.metadata['abacus'] == 'binary':
                 self._binary_cb(None)
+            elif self.metadata['abacus'] == 'fraction':
+                self._fraction_cb(None)
             else:
                 self._chinese_cb(None)
         except:
@@ -164,11 +172,13 @@ class AbacusActivity(activity.Activity):
         self.russian.set_icon("Roff")
         self.mayan.set_icon("Moff")
         self.binary.set_icon("Boff")
+        self.fraction.set_icon("Foff")
         self.abacus.chinese.hide()
         self.abacus.japanese.hide()
         self.abacus.russian.hide()
         self.abacus.mayan.hide()
         self.abacus.binary.hide()
+        self.abacus.fraction.hide()
 
     def _chinese_cb(self, button):
         """ Display the suanpan; hide the others """
@@ -210,6 +220,14 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode = self.abacus.binary
         _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
+    def _fraction_cb(self, button):
+        """ Display the fraction; hide the others """
+        self._all_off()
+        self.fraction.set_icon("Fon")
+        self.abacus.fraction.show()
+        self.abacus.mode = self.abacus.fraction
+        _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
+
     def write_file(self, file_path):
         """ Write the bead positions to the Journal """
         _logger.debug("Saving current abacus to Journal: %s " % (
@@ -232,7 +250,7 @@ class ProjectToolbar(gtk.Toolbar):
 
         # Chinese style
         self.activity.chinese = ToolButton( "Con" )
-        self.activity.chinese.set_tooltip(_('saunpan'))
+        self.activity.chinese.set_tooltip(_('Saunpan'))
         self.activity.chinese.props.sensitive = True
         self.activity.chinese.connect('clicked', self.activity._chinese_cb)
         self.insert(self.activity.chinese, -1)
@@ -240,7 +258,7 @@ class ProjectToolbar(gtk.Toolbar):
 
         # Japanese style
         self.activity.japanese = ToolButton( "Joff" )
-        self.activity.japanese.set_tooltip(_('soroban'))
+        self.activity.japanese.set_tooltip(_('Soroban'))
         self.activity.japanese.props.sensitive = True
         self.activity.japanese.connect('clicked', self.activity._japanese_cb)
         self.insert(self.activity.japanese, -1)
@@ -248,7 +266,7 @@ class ProjectToolbar(gtk.Toolbar):
 
         # Russian style
         self.activity.russian = ToolButton( "Roff" )
-        self.activity.russian.set_tooltip(_('schety'))
+        self.activity.russian.set_tooltip(_('Schety'))
         self.activity.russian.props.sensitive = True
         self.activity.russian.connect('clicked', self.activity._russian_cb)
         self.insert(self.activity.russian, -1)
@@ -256,7 +274,7 @@ class ProjectToolbar(gtk.Toolbar):
 
         # Mayan style
         self.activity.mayan = ToolButton( "Moff" )
-        self.activity.mayan.set_tooltip(_('nepohualtzintzin'))
+        self.activity.mayan.set_tooltip(_('Nepohualtzintzin'))
         self.activity.mayan.props.sensitive = True
         self.activity.mayan.connect('clicked', self.activity._mayan_cb)
         self.insert(self.activity.mayan, -1)
@@ -264,8 +282,16 @@ class ProjectToolbar(gtk.Toolbar):
 
         # Binary style
         self.activity.binary = ToolButton( "Boff" )
-        self.activity.binary.set_tooltip(_('binary'))
+        self.activity.binary.set_tooltip(_('Binary'))
         self.activity.binary.props.sensitive = True
         self.activity.binary.connect('clicked', self.activity._binary_cb)
         self.insert(self.activity.binary, -1)
         self.activity.binary.show()
+
+        # Fraction style
+        self.activity.fraction = ToolButton( "Foff" )
+        self.activity.fraction.set_tooltip(_('Fraction'))
+        self.activity.fraction.props.sensitive = True
+        self.activity.fraction.connect('clicked', self.activity._fraction_cb)
+        self.insert(self.activity.fraction, -1)
+        self.activity.fraction.show()

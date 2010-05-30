@@ -102,9 +102,8 @@ def _svg_style(extras=""):
 
 class Abacus():
 
-    def __init__(self, canvas, path, parent=None):
+    def __init__(self, canvas, parent=None):
         """ Abacus class """
-        self.path = path
         self.activity = parent
 
         if parent is None:        # Starting from command line
@@ -133,15 +132,16 @@ class Abacus():
         self.chinese = Suanpan(self)
         self.japanese = Soroban(self)
         self.russian = Schety(self)
-        # self.russian = Fractions(self)
         self.mayan = Nepohualtzintzin(self)
         self.binary = Binary(self)
+        self.fraction = Fractions(self)
 
         self.chinese.show()
         self.japanese.hide()
         self.russian.hide()
         self.mayan.hide()
         self.binary.hide()
+        self.fraction.hide()
         self.mode = self.chinese
 
     def _button_press_cb(self, win, event):
@@ -618,6 +618,7 @@ class Binary(AbacusGeneric):
 
         return(string)
 
+
 class Schety(AbacusGeneric):
 
     def __init__(self, abacus):
@@ -816,7 +817,7 @@ class Fractions(AbacusGeneric):
             1/5, 1/6, 1/8, 1/9, 1/10, 1/12). """
         self.bead_count = (10, 10, 10, 10, 10, 10, 2, 3, 4, 5, 6, 8, 9, 10, 12)
         self.abacus = abacus
-        self.name = "schety"
+        self.name = "fraction"
         self.num_rods = 15
         self.top_beads = 0
         self.bot_beads = 12
@@ -843,7 +844,7 @@ class Fractions(AbacusGeneric):
             rod = _svg_header(10, self.frame_height-(FSTROKE*2),
                               self.abacus.scale) +\
                   _svg_rect(10, self.frame_height-(FSTROKE*2), 0, 0, 0, 0,
-                            rod_colors[(i+5)%len(rod_colors)], "#404040") +\
+                            rod_colors[(i+9)%len(rod_colors)], "#404040") +\
                   _svg_footer()
             self.rods.append(Sprite(self.abacus.sprites, x+i*dx+ro,
                                     y,
@@ -851,7 +852,7 @@ class Fractions(AbacusGeneric):
 
             for b in range(self.bead_count[i]):
                 self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
-                                         y+(12-self.bead_count[i]+b)*BHEIGHT*\
+                                         y+(14-self.bead_count[i]+b)*BHEIGHT*\
                                          self.abacus.scale,
                                          self.white))
 
@@ -860,9 +861,10 @@ class Fractions(AbacusGeneric):
             i.state = 0
 
     def value(self, count_beads=False):
-        """ Override to account for fourths """
+        """ Override to account for fractions """
         string = ''
         v = []
+        value = 0
         for r in range(self.num_rods+1): # +1 for overflow
             v.append(0)
 
@@ -874,61 +876,25 @@ class Fractions(AbacusGeneric):
                 r+=1
                 j+=self.bead_count[r]
             if b.state == 1:
-                if count_beads:
-                    v[r+1] += 1
-                else:
-                    v[r+1] += 10/self.bead_count[r]
+                v[r+1] += 1
 
         if count_beads:
             # Save the number of beads on each rod as a 2-byte int.
             for j in v[1:]:
                 string += "%2d" % (j)
         else:
-            # Carry to the left if a rod has a value > 9.
-            # First, process the short rod;
-            if v[11] == 10:
-                v[10] += 1
-            else:
-                v[12] += int(v[11])
-                v[13] += int(10*v[11]-10*int(v[11]))
+            for r in range(self.num_rods):
+                if r < 6:
+                    value += pow(10,5-r)*v[r+1]
+                else:
+                    value += float(v[r+1])/self.bead_count[r]
+            string = str(value)
 
-            # then, check the rods to the right of the short rod;
-            for j in range(4):
-                if v[len(v)-j-1] > 9:
-                    v[len(v)-j-1] -= 10
-                    if j < 3:
-                        v[len(v)-j-2] += 1
-                    else:
-                        v[len(v)-j-3] += 1 # skip over the short rod
-
-            # and finally, the rest of the rods.
-            for j in range(6,16):
-                if v[len(v)-j-1] > 9:
-                    v[len(v)-j-1] -= 10
-                    v[len(v)-j-2] += 1
-
-            # Convert values to a string.
-            for i, j in enumerate(v):
-                if i == 11:
-                    string += '.'
-                elif string != '' or j > 0:
-                    string += str(j)
         return(string)
 
     def set_rod_value(self, r, v):
         """ Move beads on rod r to represent value v """
-        if r == 10:
-            beads = 4
-            bead_index = r*(self.bot_beads)
-            o = 8
-        elif r < 10:
-            beads = 10
-            bead_index = r*(self.bot_beads)
-            o = 2
-        else:
-            beads = 10
-            bead_index = r*(self.bot_beads)-6
-            o = 2
+        o = self.bot_beads - self.bead_count[r] + 2
 
         # Clear the rod.
         for i in range(beads):
@@ -943,22 +909,19 @@ class Fractions(AbacusGeneric):
             self.beads[bead_index+i].state = 1 
 
     def move_bead(self, bead, dy):
-        """ Override to account for short rod """
+        """ Override to account for short rods """
         i = self.beads.index(bead)
-        r = i/self.bot_beads
-        # Take into account the rod with just 4 beads
-        if r < 10:
-            o = 2
-            b = i % self.bot_beads
-            n = self.bot_beads
-        elif i > 99 and i < 104:
-            o = 8
-            b = i % self.bot_beads
-            n = 4
-        else:
-            o = 2
-            b = (i+6) % self.bot_beads
-            n = self.bot_beads
+        # Find out which row i corresponds to
+        count = 0
+        for r in range(len(self.bead_count)):
+            count += self.bead_count[r]
+            if i < count:
+                break
+        # Take into account the number of beads per rod
+        o = self.bot_beads - self.bead_count[r] + 2
+        b = i - (count-self.bead_count[r])
+        n = self.bead_count[r]
+
         if dy < 0 and bead.state == 0:
             bead.move_relative((0, -o*BHEIGHT*self.abacus.scale))
             bead.state = 1
