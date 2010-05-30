@@ -809,7 +809,7 @@ class Schety(AbacusGeneric):
                                                    o*BHEIGHT*self.abacus.scale))
                     self.beads[i+ii].state = 0
 
-# Experimental code
+
 class Fractions(AbacusGeneric):
 
     def __init__(self, abacus):
