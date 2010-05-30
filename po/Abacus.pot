@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-03 12:36+0000\n"
+"POT-Creation-Date: 2010-05-29 20:49-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,57 +16,57 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: activity/activity.info:2 /home/walter/Desktop/abacus/abacus.py:55
+#: activity/activity.info:2 /home/walter/Desktop/abacus/abacus.py:45
 msgid "Abacus"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:64
-msgid "suanpan"
+#: /home/walter/Desktop/abacus/AbacusActivity.py:63
+msgid "Suanpan"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:72
-#: /home/walter/Desktop/abacus/AbacusActivity.py:221
-msgid "soroban"
-msgstr ""
-
-#: /home/walter/Desktop/abacus/AbacusActivity.py:80
-#: /home/walter/Desktop/abacus/AbacusActivity.py:229
-msgid "schety"
-msgstr ""
-
-#: /home/walter/Desktop/abacus/AbacusActivity.py:88
-#: /home/walter/Desktop/abacus/AbacusActivity.py:237
-msgid "nepohualtzintzin"
-msgstr ""
-
-#: /home/walter/Desktop/abacus/AbacusActivity.py:103
-msgid "<Ctrl>Q"
-msgstr ""
-
-#: /home/walter/Desktop/abacus/AbacusActivity.py:116
-msgid "Project"
-msgstr ""
-
-#: /home/walter/Desktop/abacus/AbacusActivity.py:213
-msgid "saunpan"
-msgstr ""
-
-#: /home/walter/Desktop/abacus/abacus.py:59
-msgid "Saunpan"
-msgstr ""
-
-#: /home/walter/Desktop/abacus/abacus.py:63
+#: /home/walter/Desktop/abacus/AbacusActivity.py:71
+#: /home/walter/Desktop/abacus/AbacusActivity.py:261
+#: /home/walter/Desktop/abacus/abacus.py:53
 msgid "Soroban"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/abacus.py:67
+#: /home/walter/Desktop/abacus/AbacusActivity.py:79
+#: /home/walter/Desktop/abacus/AbacusActivity.py:269
+#: /home/walter/Desktop/abacus/abacus.py:57
 msgid "Schety"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/abacus.py:71
+#: /home/walter/Desktop/abacus/AbacusActivity.py:87
+#: /home/walter/Desktop/abacus/AbacusActivity.py:277
+#: /home/walter/Desktop/abacus/abacus.py:61
 msgid "Nepohualtzintzin"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/abacus.py:75
+#: /home/walter/Desktop/abacus/AbacusActivity.py:95
+#: /home/walter/Desktop/abacus/AbacusActivity.py:285
+#: /home/walter/Desktop/abacus/abacus.py:64
+msgid "Binary"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:103
+#: /home/walter/Desktop/abacus/AbacusActivity.py:293
+#: /home/walter/Desktop/abacus/abacus.py:67
+msgid "Fraction"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:117
+msgid "<Ctrl>Q"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:130
+msgid "Project"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:253
+#: /home/walter/Desktop/abacus/abacus.py:49
+msgid "Saunpan"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/abacus.py:71
 msgid "Quit"
 msgstr ""
