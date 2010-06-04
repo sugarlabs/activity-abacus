@@ -162,7 +162,7 @@ class AbacusActivity(activity.Activity):
                 self._mayan_cb(None)
             elif self.metadata['abacus'] == 'binary':
                 self._binary_cb(None)
-            elif self.metadata['abacus'] == 'hex':
+            elif self.metadata['abacus'] == 'hexadecimal':
                 self._hex_cb(None)
             elif self.metadata['abacus'] == 'fraction':
                 self._fraction_cb(None)
