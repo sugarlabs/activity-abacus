@@ -205,6 +205,7 @@ class Abacus():
         self.binary = Binary(self)
         self.hex = Hex(self)
         self.fraction = Fractions(self)
+        self.custom = None
 
         self.chinese.show()
         self.japanese.hide()
@@ -560,6 +561,21 @@ class AbacusGeneric():
                     if self.beads[i+ii].state == 1:
                         self.beads[i+ii].set_color(self.colors[3])
                         self.beads[i+ii].move_down()
+
+
+class Custom(AbacusGeneric):
+    """ A custom-made abacus """
+
+    def __init__(self, abacus, rods, top, bottom, factor, base):
+        """ Specify parameters that define the abacus """
+        self.abacus = abacus
+        self.name = 'custom'
+        self.num_rods = rods
+        self.bot_beads = bottom
+        self.top_beads = top
+        self.base = base
+        self.top_factor = factor
+        self.create()
 
 
 class Nepohualtzintzin(AbacusGeneric):

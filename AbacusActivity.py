@@ -38,7 +38,7 @@ import locale
 import logging
 _logger = logging.getLogger("abacus-activity")
 
-from abacus_window import Abacus
+from abacus_window import Abacus, Custom
 
 #
 # Sugar activity
@@ -113,6 +113,125 @@ class AbacusActivity(activity.Activity):
             self.fraction.connect('clicked', self._fraction_cb)
             toolbar_box.toolbar.insert(self.fraction, -1)
             self.fraction.show()
+
+            separator = gtk.SeparatorToolItem()
+            separator.props.draw = False
+            separator.set_expand(False)
+            separator.show()
+            toolbar_box.toolbar.insert(separator, -1)
+
+            # The Customization submenu (roll your own)
+            custom_toolbar = gtk.Toolbar()
+
+            self._rods_label = gtk.Label(_("Rods:")+" ")
+            self._rods_label.set_line_wrap(True)
+            self._rods_label.show()
+            self._rods_toolitem = gtk.ToolItem()
+            self._rods_toolitem.add(self._rods_label)
+            custom_toolbar.insert(self._rods_toolitem, -1)
+            self._rods_toolitem.show()
+
+            self._rods_spin_adj = gtk.Adjustment(15, 1, 20, 1, 32, 0)
+            self._rods_spin = gtk.SpinButton(self._rods_spin_adj, 0, 0)
+            self._rods_spin_id = self._rods_spin.connect('value-changed',
+                                                       self._rods_spin_cb)
+            self._rods_spin.set_numeric(True)
+            self._rods_spin.show()
+            self.tool_item_rods = gtk.ToolItem()
+            self.tool_item_rods.add(self._rods_spin)
+            custom_toolbar.insert(self.tool_item_rods, -1)
+            self.tool_item_rods.show()
+
+            self._top_label = gtk.Label(" "+_("Top:")+" ")
+            self._top_label.set_line_wrap(True)
+            self._top_label.show()
+            self._top_toolitem = gtk.ToolItem()
+            self._top_toolitem.add(self._top_label)
+            custom_toolbar.insert(self._top_toolitem, -1)
+            self._top_toolitem.show()
+
+            self._top_spin_adj = gtk.Adjustment(2, 0, 4, 1, 32, 0)
+            self._top_spin = gtk.SpinButton(self._top_spin_adj, 0, 0)
+            self._top_spin_id = self._top_spin.connect('value-changed',
+                                                       self._top_spin_cb)
+            self._top_spin.set_numeric(True)
+            self._top_spin.show()
+            self.tool_item_top = gtk.ToolItem()
+            self.tool_item_top.add(self._top_spin)
+            custom_toolbar.insert(self.tool_item_top, -1)
+            self.tool_item_top.show()
+
+            self._bottom_label = gtk.Label(" "+_("Bottom:")+" ")
+            self._bottom_label.set_line_wrap(True)
+            self._bottom_label.show()
+            self._bottom_toolitem = gtk.ToolItem()
+            self._bottom_toolitem.add(self._bottom_label)
+            custom_toolbar.insert(self._bottom_toolitem, -1)
+            self._bottom_toolitem.show()
+
+            self._bottom_spin_adj = gtk.Adjustment(5, 1, 15, 1, 32, 0)
+            self._bottom_spin = gtk.SpinButton(self._bottom_spin_adj, 0, 0)
+            self._bottom_spin_id = self._bottom_spin.connect('value-changed',
+                                                       self._bottom_spin_cb)
+            self._bottom_spin.set_numeric(True)
+            self._bottom_spin.show()
+            self.tool_item_bottom = gtk.ToolItem()
+            self.tool_item_bottom.add(self._bottom_spin)
+            custom_toolbar.insert(self.tool_item_bottom, -1)
+            self.tool_item_bottom.show()
+
+            self._value_label = gtk.Label(" "+_("Factor:")+" ")
+            self._value_label.set_line_wrap(True)
+            self._value_label.show()
+            self._value_toolitem = gtk.ToolItem()
+            self._value_toolitem.add(self._value_label)
+            custom_toolbar.insert(self._value_toolitem, -1)
+            self._value_toolitem.show()
+
+            self._value_spin_adj = gtk.Adjustment(5, 1, 20, 1, 32, 0)
+            self._value_spin = gtk.SpinButton(self._value_spin_adj, 0, 0)
+            self._value_spin_id = self._value_spin.connect('value-changed',
+                                                       self._value_spin_cb)
+            self._value_spin.set_numeric(True)
+            self._value_spin.show()
+            self.tool_item_value = gtk.ToolItem()
+            self.tool_item_value.add(self._value_spin)
+            custom_toolbar.insert(self.tool_item_value, -1)
+            self.tool_item_value.show()
+
+            self._base_label = gtk.Label(" "+_("Base:")+" ")
+            self._base_label.set_line_wrap(True)
+            self._base_label.show()
+            self._base_toolitem = gtk.ToolItem()
+            self._base_toolitem.add(self._base_label)
+            custom_toolbar.insert(self._base_toolitem, -1)
+            self._base_toolitem.show()
+
+            self._base_spin_adj = gtk.Adjustment(10, 1, 20, 1, 32, 0)
+            self._base_spin = gtk.SpinButton(self._base_spin_adj, 0, 0)
+            self._base_spin_id = self._base_spin.connect('value-changed',
+                                                       self._base_spin_cb)
+            self._base_spin.set_numeric(True)
+            self._base_spin.show()
+            self.tool_item_base = gtk.ToolItem()
+            self.tool_item_base.add(self._base_spin)
+            custom_toolbar.insert(self.tool_item_base, -1)
+            self.tool_item_base.show()
+
+            # Custom
+            self._custom = ToolButton( "new-game" )
+            self._custom.set_tooltip(_('Custom'))
+            self._custom.props.sensitive = True
+            self._custom.connect('clicked', self._custom_cb)
+            custom_toolbar.insert(self._custom, -1)
+            self._custom.show()
+
+            custom_toolbar_button = ToolbarButton(
+                    page=custom_toolbar,
+                    icon_name='view-source')
+            custom_toolbar.show()
+            toolbar_box.toolbar.insert(custom_toolbar_button, -1)
+            custom_toolbar_button.show()
 
             separator = gtk.SeparatorToolItem()
             separator.props.draw = False
@@ -191,6 +310,41 @@ class AbacusActivity(activity.Activity):
         self.abacus.binary.hide()
         self.abacus.hex.hide()
         self.abacus.fraction.hide()
+        if self.abacus.custom is not None:
+            self.abacus.custom.hide()
+
+    def _rods_spin_cb(self, button):
+        print self._rods_spin.get_value_as_int()
+        return
+
+    def _top_spin_cb(self, button):
+        print self._top_spin.get_value_as_int()
+        return
+
+    def _bottom_spin_cb(self, button):
+        print self._bottom_spin.get_value_as_int()
+        return
+
+    def _value_spin_cb(self, button):
+        print self._value_spin.get_value_as_int()
+        return
+
+    def _base_spin_cb(self, button):
+        print self._base_spin.get_value_as_int()
+        return
+
+    def _custom_cb(self, button):
+        """ Display the custom abacus; hide the others """
+        self._all_off()
+        self.abacus.custom = Custom(self.abacus,
+                             self._rods_spin.get_value_as_int(),
+                             self._top_spin.get_value_as_int(),
+                             self._bottom_spin.get_value_as_int(),
+                             self._value_spin.get_value_as_int(),
+                             self._base_spin.get_value_as_int())
+        self.abacus.custom.show()
+        self.abacus.mode = self.abacus.custom
+        _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def _chinese_cb(self, button):
         """ Display the suanpan; hide the others """

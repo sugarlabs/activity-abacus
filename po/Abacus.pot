@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-29 20:49-0400\n"
+"POT-Creation-Date: 2010-06-04 14:14-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,48 +25,54 @@ msgid "Suanpan"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:71
-#: /home/walter/Desktop/abacus/AbacusActivity.py:261
+#: /home/walter/Desktop/abacus/AbacusActivity.py:281
 #: /home/walter/Desktop/abacus/abacus.py:53
 msgid "Soroban"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:79
-#: /home/walter/Desktop/abacus/AbacusActivity.py:269
+#: /home/walter/Desktop/abacus/AbacusActivity.py:289
 #: /home/walter/Desktop/abacus/abacus.py:57
 msgid "Schety"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:87
-#: /home/walter/Desktop/abacus/AbacusActivity.py:277
+#: /home/walter/Desktop/abacus/AbacusActivity.py:297
 #: /home/walter/Desktop/abacus/abacus.py:61
 msgid "Nepohualtzintzin"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:95
-#: /home/walter/Desktop/abacus/AbacusActivity.py:285
+#: /home/walter/Desktop/abacus/AbacusActivity.py:305
 #: /home/walter/Desktop/abacus/abacus.py:64
 msgid "Binary"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:103
-#: /home/walter/Desktop/abacus/AbacusActivity.py:293
+#: /home/walter/Desktop/abacus/AbacusActivity.py:313
 #: /home/walter/Desktop/abacus/abacus.py:67
+msgid "Hexadecimal"
+msgstr ""
+
+#: /home/walter/Desktop/abacus/AbacusActivity.py:111
+#: /home/walter/Desktop/abacus/AbacusActivity.py:321
+#: /home/walter/Desktop/abacus/abacus.py:70
 msgid "Fraction"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:117
+#: /home/walter/Desktop/abacus/AbacusActivity.py:125
 msgid "<Ctrl>Q"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:130
+#: /home/walter/Desktop/abacus/AbacusActivity.py:138
 msgid "Project"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:253
+#: /home/walter/Desktop/abacus/AbacusActivity.py:273
 #: /home/walter/Desktop/abacus/abacus.py:49
 msgid "Saunpan"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/abacus.py:71
+#: /home/walter/Desktop/abacus/abacus.py:74
 msgid "Quit"
 msgstr ""
