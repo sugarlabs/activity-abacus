@@ -64,6 +64,9 @@ class AbacusMain:
         menu_items = gtk.MenuItem(_("Binary"))
         menu.append(menu_items)
         menu_items.connect("activate", self._b_cb)
+        menu_items = gtk.MenuItem(_("Hexadecimal"))
+        menu.append(menu_items)
+        menu_items.connect("activate", self._h_cb)
         menu_items = gtk.MenuItem(_("Fraction"))
         menu.append(menu_items)
         menu_items.connect("activate", self._f_cb)
@@ -114,6 +117,7 @@ class AbacusMain:
         self.abacus.russian.hide()
         self.abacus.mayan.hide()
         self.abacus.binary.hide()
+        self.abacus.hex.hide()
         self.abacus.fraction.hide()
 
     def _c_cb(self, widget):
@@ -144,6 +148,12 @@ class AbacusMain:
         self._hide_all()
         self.abacus.binary.show()
         self.abacus.mode = self.abacus.binary
+        return True
+
+    def _h_cb(self, widget):
+        self._hide_all()
+        self.abacus.hex.show()
+        self.abacus.mode = self.abacus.hex
         return True
 
     def _f_cb(self, widget):

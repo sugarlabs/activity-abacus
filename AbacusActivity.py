@@ -98,6 +98,14 @@ class AbacusActivity(activity.Activity):
             toolbar_box.toolbar.insert(self.binary, -1)
             self.binary.show()
 
+            # Hexadecimal (base 16)
+            self.hex = ToolButton( "Hoff" )
+            self.hex.set_tooltip(_('Hexadecimal'))
+            self.hex.props.sensitive = True
+            self.hex.connect('clicked', self._hex_cb)
+            toolbar_box.toolbar.insert(self.hex, -1)
+            self.hex.show()
+
             # Fractions (1/2, 1/3, 1/4, 1/5, 1/6, 1/8, 1/9, 1/10, 1/12)
             self.fraction = ToolButton( "Foff" )
             self.fraction.set_tooltip(_('Fraction'))
@@ -154,6 +162,8 @@ class AbacusActivity(activity.Activity):
                 self._mayan_cb(None)
             elif self.metadata['abacus'] == 'binary':
                 self._binary_cb(None)
+            elif self.metadata['abacus'] == 'hex':
+                self._hex_cb(None)
             elif self.metadata['abacus'] == 'fraction':
                 self._fraction_cb(None)
             else:
@@ -172,12 +182,14 @@ class AbacusActivity(activity.Activity):
         self.russian.set_icon("Roff")
         self.mayan.set_icon("Moff")
         self.binary.set_icon("Boff")
+        self.hex.set_icon("Hoff")
         self.fraction.set_icon("Foff")
         self.abacus.chinese.hide()
         self.abacus.japanese.hide()
         self.abacus.russian.hide()
         self.abacus.mayan.hide()
         self.abacus.binary.hide()
+        self.abacus.hex.hide()
         self.abacus.fraction.hide()
 
     def _chinese_cb(self, button):
@@ -218,6 +230,14 @@ class AbacusActivity(activity.Activity):
         self.binary.set_icon("Bon")
         self.abacus.binary.show()
         self.abacus.mode = self.abacus.binary
+        _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
+
+    def _hex_cb(self, button):
+        """ Display the hex; hide the others """
+        self._all_off()
+        self.hex.set_icon("Hon")
+        self.abacus.hex.show()
+        self.abacus.mode = self.abacus.hex
         _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def _fraction_cb(self, button):
@@ -287,6 +307,14 @@ class ProjectToolbar(gtk.Toolbar):
         self.activity.binary.connect('clicked', self.activity._binary_cb)
         self.insert(self.activity.binary, -1)
         self.activity.binary.show()
+
+        # Hexadecimal style
+        self.activity.hex = ToolButton( "Hoff" )
+        self.activity.hex.set_tooltip(_('Hexadecimal'))
+        self.activity.hex.props.sensitive = True
+        self.activity.hex.connect('clicked', self.activity._hex_cb)
+        self.insert(self.activity.hex, -1)
+        self.activity.hex.show()
 
         # Fraction style
         self.activity.fraction = ToolButton( "Foff" )

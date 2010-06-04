@@ -15,6 +15,12 @@ BWIDTH = 40
 BHEIGHT = 30
 BOFFSET = 10
 FSTROKE = 45
+FRAME_LAYER = 100
+ROD_LAYER = 101
+BEAD_LAYER = 102
+BAR_LAYER = 103
+MARK_LAYER = 104
+
 ROD_COLORS = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
               "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
               "#876a00", "#986200", "#ab5600", "#d60000", "#e30038"]
@@ -102,11 +108,71 @@ def _svg_style(extras=""):
     """ Returns SVG style for shape rendering """
     return "%s%s%s" % ("style=\"", extras, "\"/>\n")
 
+class Bead():
+    """ The Bead class is used to define the individual beads. """
+
+    def __init__(self, sprite, offset, value):
+        """ We store an sprite, an offset, and a value for each bead """
+        self.spr = sprite
+        self.offset = offset
+        if value < 1:
+            self.value = value
+        else:
+            self.value = int(value)
+        self.state = 0
+        self.spr.type = 'bead'
+        self.level = 0 # Used for changing color
+
+    def hide(self):
+        """ Hide the sprite associated with the bead """
+        self.spr.hide()
+
+    def show(self):
+        """ Show the sprite associated with the bead """
+        self.spr.set_layer(BEAD_LAYER)
+
+    def move_up(self):
+        """ Move a bead up as far as it will go, """
+        self.spr.move_relative((0, -self.offset))
+        self.state = 1-self.state
+        self.set_level(3)
+
+    def move_down(self):
+        """ Move a bead down as far as it will go. """
+        self.spr.move_relative((0, self.offset))
+        self.state = 1-self.state
+        self.set_level(3)
+
+    def get_value(self):
+        """ Return a value if bead state is 1 """
+        if self.state == 1:
+            return self.value
+        else:
+            return 0
+
+    def get_state(self):
+        """ Is the bead 'active' """
+        return self.state
+
+    def set_color(self, color):
+        """ Set color of bead """
+        self.spr.set_image(color)
+        self.spr.inval()
+        self.show()
+
+    def get_level(self):
+        """ Return color level of bead -- used for fade """
+        return self.level
+
+    def set_level(self, level):
+        """ Set color level of bead -- used for fade """
+        self.level = level
 
 class Abacus():
+    """ The Abacus class is used to define the user interaction. """
 
     def __init__(self, canvas, parent=None):
-        """ Abacus class """
+        """ Initialize the canvas and set up the callbacks. """
         self.activity = parent
 
         if parent is None:        # Starting from command line
@@ -137,6 +203,7 @@ class Abacus():
         self.russian = Schety(self)
         self.mayan = Nepohualtzintzin(self)
         self.binary = Binary(self)
+        self.hex = Hex(self)
         self.fraction = Fractions(self)
 
         self.chinese.show()
@@ -144,6 +211,7 @@ class Abacus():
         self.russian.hide()
         self.mayan.hide()
         self.binary.hide()
+        self.hex.hide()
         self.fraction.hide()
         self.mode = self.chinese
 
@@ -193,15 +261,22 @@ class Abacus():
 
 
 class AbacusGeneric():
+    """ A generic abacus: a frame, rods, and beads. """
 
     def __init__(self, abacus):
         """ Specify parameters that define the abacus """
         self.abacus = abacus
+        self.set_parameters()
+        self.create()
+
+    def set_parameters(self):
+        """ Define the physical paramters. """
         self.name = "suanpan"
         self.num_rods = 15
-        self.bot_beads = 2
-        self.top_beads = 5
-        self.create()
+        self.bot_beads = 5
+        self.top_beads = 2
+        self.base = 10
+        self.top_factor = 5
 
     def create(self):
         """ Create and position the sprites that compose the abacus """
@@ -299,47 +374,52 @@ class AbacusGeneric():
                                     _svg_str_to_pixbuf(_rod)))
 
             for b in range(self.top_beads):
-                self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
-                                         y+b*BHEIGHT*self.abacus.scale,
-                                         self.colors[0]))
+                self.beads.append(Bead(Sprite(self.abacus.sprites, x+i*dx+bo,
+                                              y+b*BHEIGHT*self.abacus.scale,
+                                              self.colors[0]),
+                                       2*BHEIGHT*self.abacus.scale,
+                                       self.top_factor*(pow(self.base,
+                                                        self.num_rods-i-1))))
             for b in range(self.bot_beads):
                 if self.top_beads > 0:
-                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
-                                             y+(self.top_beads+5+b)*BHEIGHT\
-                                                *self.abacus.scale,
-                                             self.colors[0]))
+                    self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                                  x+i*dx+bo,
+                                                  y+(self.top_beads+5+b)*\
+                                                  BHEIGHT*self.abacus.scale,
+                                                  self.colors[0]),
+                                           2*BHEIGHT*self.abacus.scale,
+                                           pow(self.base,self.num_rods-i-1)))
                 else:
-                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
-                                             y+(2+b)*BHEIGHT\
-                                                *self.abacus.scale,
-                                             self.colors[0]))
+                    self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                                  x+i*dx+bo,
+                                                  y+(2+b)*BHEIGHT\
+                                                  *self.abacus.scale,
+                                                  self.colors[0]),
+                                           2*BHEIGHT*self.abacus.scale,
+                                           pow(self.base,self.num_rods-i-1)))
 
-        for r in self.rods:
-            r.type = "frame"
-        for i in self.beads:
-            i.type = 'bead'
-            i.state = 0
-            i.level = 0
+        for rod in self.rods:
+            rod.type = "frame"
 
     def hide(self):
         """ Hide the rod, beads, mark, and frame. """
-        for i in self.rods:
-            i.hide()
-        for i in self.beads:
-            i.hide()
+        for rod in self.rods:
+            rod.hide()
+        for bead in self.beads:
+            bead.hide()
         self.bar.hide()
         self.frame.hide()
         self.mark.hide()
 
     def show(self):
         """ Show the rod, beads, mark, and frame. """
-        self.frame.set_layer(100)
-        for i in self.rods:
-            i.set_layer(101)
-        for i in self.beads:
-            i.set_layer(102)
-        self.bar.set_layer(103)
-        self.mark.set_layer(104)
+        self.frame.set_layer(FRAME_LAYER)
+        for rod in self.rods:
+            rod.set_layer(ROD_LAYER)
+        for bead in self.beads:
+            bead.show()
+        self.bar.set_layer(BAR_LAYER)
+        self.mark.set_layer(MARK_LAYER)
 
     def set_value(self, string):
         """ Set abacus to value in string """
@@ -364,33 +444,25 @@ class AbacusGeneric():
 
     def set_rod_value(self, r, v):
         """ Move beads on rod r to represent value v """
-        bot = v % 5
-        top = (v-bot)/5
+        bot = v % self.top_factor
+        top = (v-bot)/self.top_factor
         top_bead_index = r*(self.top_beads+self.bot_beads)
         bot_bead_index = r*(self.top_beads+self.bot_beads)+self.top_beads
 
         # Clear the top.
         for i in range(self.top_beads):
-            if self.beads[top_bead_index+i].state:
-                self.beads[top_bead_index+i].move_relative((0, 
-                                                  -2*BHEIGHT*self.abacus.scale))
-            self.beads[top_bead_index+i].state = 0
+            if self.beads[top_bead_index+i].get_state() == 1:
+                self.beads[top_bead_index+i].move_up()
         # Clear the bottom.
         for i in range(self.bot_beads):
-            if self.beads[bot_bead_index+i].state:
-                self.beads[bot_bead_index+i].move_relative((0, 
-                                                   2*BHEIGHT*self.abacus.scale))
-            self.beads[bot_bead_index+i].state = 0
+            if self.beads[bot_bead_index+i].get_state() == 1:
+                self.beads[bot_bead_index+i].move_down()
         # Set the top.
         for i in range(top):
-            self.beads[top_bead_index+self.top_beads-i-1].move_relative((0, 
-                                                   2*BHEIGHT*self.abacus.scale))
-            self.beads[top_bead_index+self.top_beads-i-1].state = 1 
+            self.beads[top_bead_index+self.top_beads-i-1].move_down()
         # Set the bottom
         for i in range(bot):
-            self.beads[bot_bead_index+i].move_relative((0,
-                                                  -2*BHEIGHT*self.abacus.scale))
-            self.beads[bot_bead_index+i].state = 1 
+            self.beads[bot_bead_index+i].move_up()
 
     def value(self, count_beads=False):
         """ Return a string representing the value of each rod. """
@@ -400,12 +472,12 @@ class AbacusGeneric():
             v.append(0)
 
         # Tally the values on each rod.
-        for i, b in enumerate(self.beads):
+        for i, bead in enumerate(self.beads):
             r = i/(self.top_beads+self.bot_beads)
             j = i % (self.top_beads+self.bot_beads)
-            if b.state == 1:
+            if bead.get_state() == 1:
                 if j < self.top_beads:
-                    v[r+1] += 5
+                    v[r+1] += self.top_factor
                 else:
                     v[r+1] += 1
 
@@ -414,16 +486,10 @@ class AbacusGeneric():
             for j in v[1:]:
                 string += "%2d" % (j)
         else:
-            # Carry to the left if a rod has a value > 9.
-            for j in range(self.num_rods):
-                if v[len(v)-j-1] > 9:
-                    v[len(v)-j-1] -= 10
-                    v[len(v)-j-2] += 1
-
-            # Convert values to a string.
-            for j in v:
-                if string != '' or j > 0:
-                    string += str(j)
+            sum = 0
+            for bead in self.beads:
+                sum += bead.get_value()
+            string = str(sum)
 
         return(string)
 
@@ -435,203 +501,145 @@ class AbacusGeneric():
         """ Move indicator horizontally across the top of the frame. """
         self.mark.move_relative((dx, 0))
 
-    def set_color(self, bead, level=3):
-        """ Set color of bead to one of four fade levels. """
-        bead.set_image(self.colors[level])
-        bead.inval()
-        bead.level = level
-
     def fade_colors(self):
-        """ Reduce the fade level of every bead. """
+        """ Reduce the saturation level of every bead. """
         for bead in self.beads:
-            if bead.level > 0:
-                self.set_color(bead, bead.level-1)
-  
-    def move_bead(self, bead, dy):
+            if bead.get_level() > 0:
+                bead.set_color(self.colors[bead.get_level()-1])
+                bead.set_level(bead.get_level()-1)
+
+    def move_bead(self, sprite, dy):
         """ Move a bead (or beads) up or down a rod. """
-        i = self.beads.index(bead)
+
+        # find the bead associated with the sprite
+        i = -1
+        for bead in self.beads:
+            if sprite == bead.spr:
+                i = self.beads.index(bead)
+                break
+        if i == -1:
+            print "bead not found"
+            return
+
         b = i % (self.top_beads+self.bot_beads)
         if b < self.top_beads:
-            if dy > 0 and bead.state == 0:
+            if dy > 0 and bead.get_state() == 0:
                 self.fade_colors()
-                self.set_color(bead)
-                bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
-                bead.state = 1
+                bead.set_color(self.colors[3])
+                bead.move_down()
                 # Make sure beads below this bead are also moved.
                 for ii in range(self.top_beads-b):
                     if self.beads[i+ii].state == 0:
-                        self.set_color(self.beads[i+ii])
-                        self.beads[i+ii].move_relative((0,
-                                                   2*BHEIGHT*self.abacus.scale))
-                        self.beads[i+ii].state = 1
+                        self.beads[i+ii].set_color(self.colors[3])
+                        self.beads[i+ii].move_down()
             elif dy < 0 and bead.state == 1:
                 self.fade_colors()
-                self.set_color(bead)
-                bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
-                bead.state = 0
+                bead.set_color(self.colors[3])
+                bead.move_up()
                 # Make sure beads above this bead are also moved.
                 for ii in range(b+1):
                     if self.beads[i-ii].state == 1:
-                        self.set_color(self.beads[i-ii])
-                        self.beads[i-ii].move_relative((0,
-                                                  -2*BHEIGHT*self.abacus.scale))
-                        self.beads[i-ii].state = 0
+                        self.beads[i-ii].set_color(self.colors[3])
+                        self.beads[i-ii].move_up()
         else:
             if dy < 0 and bead.state == 0:
                 self.fade_colors()
-                self.set_color(bead)
-                bead.move_relative((0, -2*BHEIGHT*self.abacus.scale))
-                bead.state = 1
+                bead.set_color(self.colors[3])
+                bead.move_up()
                 # Make sure beads above this bead are also moved.
                 for ii in range(b-self.top_beads+1):
                     if self.beads[i-ii].state == 0:
-                        self.set_color(self.beads[i-ii])
-                        self.beads[i-ii].move_relative((0,
-                                                  -2*BHEIGHT*self.abacus.scale))
-                        self.beads[i-ii].state = 1
+                        self.beads[i-ii].set_color(self.colors[3])
+                        self.beads[i-ii].move_up()
             elif dy > 0 and bead.state == 1:
                 self.fade_colors()
-                self.set_color(bead)
-                bead.move_relative((0, 2*BHEIGHT*self.abacus.scale))
-                bead.state = 0
+                bead.set_color(self.colors[3])
+                bead.move_down()
                 # Make sure beads below this bead are also moved.
                 for ii in range(self.top_beads+self.bot_beads-b):
                     if self.beads[i+ii].state == 1:
-                        self.set_color(self.beads[i+ii])
-                        self.beads[i+ii].move_relative((0,
-                                                   2*BHEIGHT*self.abacus.scale))
-                        self.beads[i+ii].state = 0
+                        self.beads[i+ii].set_color(self.colors[3])
+                        self.beads[i+ii].move_down()
+
 
 class Nepohualtzintzin(AbacusGeneric):
+    """ A Mayan abacus """
 
-    def __init__(self, abacus):
+    def set_parameters(self):
         """ Specify parameters that define the abacus """
-        self.abacus = abacus
         self.name = 'nepohualtzintzin'
         self.num_rods = 13
         self.bot_beads = 4
         self.top_beads = 3
-        self.create()
-
-    def value(self, count_beads=False):
-        """ Override default: base 20 """
-        string = ''
-        v = []
-        for r in range(self.num_rods+1): # +1 for overflow
-            v.append(0)
-
-        # Tally the values on each rod.
-        for i, b in enumerate(self.beads):
-            r = i/(self.top_beads+self.bot_beads)
-            j = i % (self.top_beads+self.bot_beads)
-            if b.state == 1:
-                if count_beads:
-                    f = 1
-                else:
-                    f = pow(2, self.num_rods-r-1)
-                if j < self.top_beads:
-                    v[r+1] += 5*f
-                else:
-                    v[r+1] += 1*f
-
-        if count_beads:
-            # Save the value associated with each rod as a 2-byte int.
-            for j in v[1:]:
-                string += "%2d" % (j)
-        else:
-            # Carry to the left if a rod has a value > 9.
-            for j in range(self.num_rods):
-                if v[len(v)-j-1] > 9:
-                    units = v[len(v)-j-1] % 10
-                    tens = v[len(v)-j-1]-units
-                    v[len(v)-j-1] = units
-                    v[len(v)-j-2] += tens/10
-
-            # Convert values to a string.
-            for j in v:
-                if string != '' or j > 0:
-                    string += str(int(j))
-        return(string)
+        self.base = 20
+        self.top_factor = 5
 
 
 class Suanpan(AbacusGeneric):
+    """ A Chinese abacus """
 
-    def __init__(self, abacus):
+    def set_parameters(self):
         """ Create a Chinese abacus: 15 by (5,2). """
-        self.abacus = abacus
         self.name = 'saunpan'
         self.num_rods = 15
         self.bot_beads = 5
         self.top_beads = 2
-        self.create()
+        self.base = 10
+        self.top_factor = 5
 
 
 class Soroban(AbacusGeneric):
+    """ A Japanese abacus """
 
-    def __init__(self, abacus):
+    def set_parameters(self):
         """ create a Japanese abacus: 15 by (4,1) """
-        self.abacus = abacus
         self.name = 'soroban'
         self.num_rods = 15
         self.bot_beads = 4
         self.top_beads = 1
-        self.create()
+        self.base = 10
+        self.top_factor = 5
+
+
+class Hex(AbacusGeneric):
+    """ A hexadecimal abacus """
+
+    def set_parameters(self):
+        """ create a hexadecimal abacus: 15 by (7,1) """
+        self.name = 'hexadecimal'
+        self.num_rods = 15
+        self.bot_beads = 7
+        self.top_beads = 1
+        self.base = 16
+        self.top_factor = 8
 
 
 class Binary(AbacusGeneric):
+    """ A binary abacus """
 
-    def __init__(self, abacus):
+    def set_parameters(self):
         """ create a Binary abacus: 15 by (1,0) """
-        self.abacus = abacus
         self.name = 'binary'
         self.num_rods = 15
         self.bot_beads = 1
         self.top_beads = 0
-        self.create()
-
-    def value(self, count_beads=False):
-        """ Override for base 2 """
-        string = ''
-        value = 0
-        v = []
-        for r in range(self.num_rods+1): # +1 for overflow
-            v.append(0)
-
-        # Tally the values on each rod.
-        for i, b in enumerate(self.beads):
-            r = i/(self.top_beads+self.bot_beads)
-            j = i % (self.top_beads+self.bot_beads)
-            if b.state == 1:
-                if j < self.top_beads:
-                    v[r+1] += 5
-                else:
-                    v[r+1] += 1
-
-        if count_beads:
-            # Save the value associated with each rod as a 2-byte integer.
-            for j in v[1:]:
-                string += "%2d" % (j)
-        else:
-            for j in range(self.num_rods):
-                if v[len(v)-j-1] == 1:
-                    value += pow(2, j)
-            string = str(int(value))
-
-        return(string)
+        self.base = 2
+        self.top_factor = 1
 
 
 class Schety(AbacusGeneric):
+    """ A Russian abacus """
 
-    def __init__(self, abacus):
+    def set_parameters(self):
         """ Create a Russian abacus: 15 by 10 (with one rod of 4 beads). """
-        self.abacus = abacus
         self.name = "schety"
         self.num_rods = 15
         self.top_beads = 0
         self.bot_beads = 10
         self.bead_count = (10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 10, 10,
                            10, 10)
-        self.create()
+        self.base = 10
+        self.top_factor = 5
 
     def draw_rods_and_beads(self, x, y):
         """ Override default in order to make a short rod """
@@ -665,86 +673,56 @@ class Schety(AbacusGeneric):
                         color = self.black
                     else:
                         color = self.white
-                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
-                                             y+(8+b)*BHEIGHT*self.abacus.scale,
-                                             color))
+                    self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                                  x+i*dx+bo,
+                                                  y+(8+b)*BHEIGHT*\
+                                                  self.abacus.scale,
+                                                  color),
+                                           8*BHEIGHT*self.abacus.scale,
+                                           0.25)) # 1/4 ruples
+            elif i < 10:
+                for b in range(self.bot_beads):
+                    if b in [4, 5]:
+                        color = self.black
+                    else:
+                        color = self.white
+                    self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                                  x+i*dx+bo,
+                                                  y+(2+b)*BHEIGHT*\
+                                                  self.abacus.scale,
+                                                  color),
+                                           2*BHEIGHT*self.abacus.scale,
+                                           pow(10,9-i)))
             else:
                 for b in range(self.bot_beads):
                     if b in [4, 5]:
                         color = self.black
                     else:
                         color = self.white
-                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo,
-                                             y+(2+b)*BHEIGHT*self.abacus.scale,
-                                             color))
+                    self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                                  x+i*dx+bo,
+                                                  y+(2+b)*BHEIGHT*\
+                                                  self.abacus.scale,
+                                                  color),
+                                           2*BHEIGHT*self.abacus.scale,
+                                           1.0/pow(10,i-10)))
 
         for r in self.rods:
             r.type = "frame"
-        for i in self.beads:
-            i.type = 'bead'
-            i.state = 0
 
-    def value(self, count_beads=False):
-        """ Override to account for fractions """
-        string = ''
-        v = []
-        value = 0
-        for r in range(self.num_rods+1): # +1 for overflow
-            v.append(0)
+    def move_bead(self, sprite, dy):
+        """ Move a bead (or beads) up or down a rod. """
 
-        j = -1
-        r = -1
-        # Tally the values on each rod.
-        for i, b in enumerate(self.beads):
-            if j < i:
-                r += 1
-                j += self.bead_count[r]
-            if b.state == 1:
-                v[r+1] += 1
+        # find the bead associated with the sprite
+        i = -1
+        for bead in self.beads:
+            if sprite == bead.spr:
+                i = self.beads.index(bead)
+                break
+        if i == -1:
+            print "bead not found"
+            return
 
-        if count_beads:
-            # Save the number of beads on each rod as a 2-byte int.
-            for j in v[1:]:
-                string += "%2d" % (j)
-        else:
-            for r in range(self.num_rods):
-                if r < 10:
-                    value += pow(10, 9-r)*v[r+1]
-                elif r == 10: # short rod
-                    value += float(0.25*v[r+1])
-                else:
-                    value += float(v[r+1])/pow(10, 5-(self.num_rods-r))
-            string = str(int(value))
-            if value-int(value) > 0: # if it is float...
-                string = str(value)
-
-        return(string)
-
-    def set_rod_value(self, r, v):
-        """ Move beads on rod r to represent value v """
-        o = self.bot_beads - self.bead_count[r] + 2
-        beads = self.bead_count[r]
-        bead_index = 0
-        if r > 0:
-            for i in range(r):
-                bead_index += self.bead_count[i]
-
-        # Clear the rod.
-        for i in range(beads):
-            if self.beads[bead_index+i].state:
-                self.beads[bead_index+i].move_relative((0,
-                                                   o*BHEIGHT*self.abacus.scale))
-            self.beads[bead_index+i].state = 0
-
-        # Set the rod.
-        for i in range(v):
-            self.beads[bead_index+i].move_relative((0,
-                                                  -o*BHEIGHT*self.abacus.scale))
-            self.beads[bead_index+i].state = 1 
-
-    def move_bead(self, bead, dy):
-        """ Override to account for short rods """
-        i = self.beads.index(bead)
         # Find out which row i corresponds to
         count = 0
         for r in range(len(self.bead_count)):
@@ -757,38 +735,32 @@ class Schety(AbacusGeneric):
         n = self.bead_count[r]
 
         if dy < 0 and bead.state == 0:
-            bead.move_relative((0, -o*BHEIGHT*self.abacus.scale))
-            bead.state = 1
+            bead.move_up()
             # Make sure beads above this bead are also moved.
             for ii in range(b+1):
-                if self.beads[i-ii].state == 0:
-                    self.beads[i-ii].move_relative((0,
-                                                  -o*BHEIGHT*self.abacus.scale))
-                    self.beads[i-ii].state = 1
+                if self.beads[i-ii].get_state() == 0:
+                    self.beads[i-ii].move_up()
         elif dy > 0 and bead.state == 1:
-            bead.move_relative((0, o*BHEIGHT*self.abacus.scale))
-            bead.state = 0
+            bead.move_down()
             # Make sure beads below this bead are also moved.
             for ii in range(n-b):
-                if self.beads[i+ii].state == 1:
-                    self.beads[i+ii].move_relative((0,
-                                                   o*BHEIGHT*self.abacus.scale))
-                    self.beads[i+ii].state = 0
+                if self.beads[i+ii].get_state() == 1:
+                    self.beads[i+ii].move_down()
 
 
 class Fractions(Schety):
     """ Inherit from Russian abacus. """
 
-    def __init__(self, abacus):
+    def set_parameters(self):
         """ Create an abacus with fractions: 15 by 10 (with 1/2, 1/3. 1/4,
             1/5, 1/6, 1/8, 1/9, 1/10, 1/12). """
         self.bead_count = (10, 10, 10, 10, 10, 10, 2, 3, 4, 5, 6, 8, 9, 10, 12)
-        self.abacus = abacus
         self.name = "fraction"
         self.num_rods = 15
         self.top_beads = 0
         self.bot_beads = 12
-        self.create()
+        self.base = 10
+        self.top_factor = 5
 
     def draw_rods_and_beads(self, x, y):
         """ Override default in order to make a short rod """
@@ -818,50 +790,21 @@ class Fractions(Schety):
 
             for b in range(self.bead_count[i]):
                 if i < 6: # whole-number beads are white
-                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo, y+\
-                                             (14-self.bead_count[i]+b)*BHEIGHT*\
-                                             self.abacus.scale,
-                                             self.white))
+                    self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                                  x+i*dx+bo,
+                                                  y+(14-self.bead_count[i]+b)*\
+                                                  BHEIGHT*self.abacus.scale,
+                                                  self.white),
+                                           4*BHEIGHT*self.abacus.scale,
+                                           pow(10,5-i)))
                 else: # fraction beads are black
-                    self.beads.append(Sprite(self.abacus.sprites, x+i*dx+bo, y+\
-                                             (14-self.bead_count[i]+b)*BHEIGHT*\
-                                             self.abacus.scale,
-                                             self.black))
-
+                    self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                                  x+i*dx+bo,
+                                                  y+(14-self.bead_count[i]+b)*\
+                                                  BHEIGHT*self.abacus.scale,
+                                                  self.black),
+                                           (14-self.bead_count[i])*BHEIGHT*\
+                                           self.abacus.scale,
+                                           1.0/self.bead_count[i]))
         for r in self.rods:
             r.type = "frame"
-        for i in self.beads:
-            i.type = 'bead'
-            i.state = 0
-
-    def value(self, count_beads=False):
-        """ Override to account for fractions """
-        string = ''
-        v = []
-        value = 0
-        for r in range(self.num_rods+1): # +1 for overflow
-            v.append(0)
-
-        j = -1
-        r = -1
-        # Tally the values on each rod.
-        for i, b in enumerate(self.beads):
-            if j < i:
-                r += 1
-                j += self.bead_count[r]
-            if b.state == 1:
-                v[r+1] += 1
-
-        if count_beads:
-            # Save the number of beads on each rod as a 2-byte int.
-            for j in v[1:]:
-                string += "%2d" % (j)
-        else:
-            for r in range(self.num_rods):
-                if r < 6:
-                    value += pow(10, 5-r)*v[r+1]
-                else:
-                    value += float(v[r+1])/self.bead_count[r]
-            string = str(value)
-
-        return(string)

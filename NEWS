@@ -1,3 +1,8 @@
+8
+
+* added hexadecimal
+* code cleanup to make it easier to modify/extend
+
 7
 
 * fixed restore bug with fraction abacus
