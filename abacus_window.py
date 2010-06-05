@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #Copyright (c) 2010, Walter Bender
-
+#Copyright (c) 2010, Tuukka Hastrup
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3 of the License, or
@@ -25,15 +26,6 @@ ROD_COLORS = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
               "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
               "#876a00", "#986200", "#ab5600", "#d60000", "#e30038"]
 
-# This dictionary does not give consistent results
-BEAD_LABELS = {0.5:'1/2', 1.0/3:'1/3', 0.25:'1/4', 0.2:'1/5', 1.0/6:'1/6',
-               0.125:'1/8', 1.0/9:'1/9', 0.1:'1/10', 1.0/12:'1/12', 
-               2.0/3:'2/3', 0.4:'2/5', 2.0/9:'2/9', 0.75:'3/4', 0.6:'3/5',
-               0.375:'3/8', 0.3:'3/10', 0.8:'4/5', 4.0/9:'4/9', 5.0/6:'5/6', 
-               0.625:'5/8', 5.0/9:'5/9', 5.0/12:'5/12', 0.875:'7/8',
-               7.0/9:'7/9', 0.7:'7/10', 7.0/12:'7/12', 8.0/9:'8/9', 0.9:'9/10',
-               11.0/12:'11/12', 1.0:'1'}
-
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -48,6 +40,38 @@ except:
     GRID_CELL_SIZE = 0
 
 from sprites import Sprites, Sprite
+
+def dec2frac(d):
+    """ Convert float  to its approximate fractional representation. """
+
+    """
+    This code was translated to Python from the answers at
+    http://stackoverflow.com/questions/95727/how-to-convert-floats-to-human-readable-fractions/681534#681534
+	
+    For example:
+    >>> 3./5
+    0.59999999999999998
+
+    >>> dec2frac(3./5)
+    "3/5"
+
+    """
+
+    df = 1.0
+    top = 1
+    bot = 1
+
+    while abs(df - d) > 0.000001:
+        if df < d:
+	    top += 1
+        else:
+	    bot += 1
+            top = int(d * bot)
+        df = float(top) / bot
+
+    if bot == 1:
+	return "%s" % top
+    return "%s/%s" % (top, bot)
 
 #
 # Utilities for generating artwork as SVG
@@ -187,10 +211,7 @@ class Bead():
         value = self.get_value()
         if self.state == 1 and value < 10000 and value > 0.05:
             value = self.get_value()
-            if value in BEAD_LABELS:
-                self.spr.set_label(BEAD_LABELS[value])
-            else:
-                self.spr.set_label(value)
+            self.spr.set_label(dec2frac(value))
         else:
             self.spr.set_label("")
 
@@ -278,10 +299,7 @@ class Abacus():
         sum = ""
         for x in self.mode.get_rod_values():
             if x > 0:
-                if x in BEAD_LABELS:
-                    rod_value = BEAD_LABELS[x]
-                else:
-                    rod_value = str(x)
+                rod_value = dec2frac(x)
                 if sum == "":
                     sum = rod_value
                 else:
