@@ -268,7 +268,7 @@ class Abacus():
         if self.press == None:
             return True
         self.press = None
-        # self.mode.label(self.mode.value())
+        # might be worth removing 0s and converting decimals to mixed fractions
         self.mode.label(" + ".join([str(x) for x in self.mode.rod_values()])+\
                         " = "+self.mode.value())
         return True
