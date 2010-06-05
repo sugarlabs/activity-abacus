@@ -1,6 +1,6 @@
 [Activity]
 name = Abacus
-activity_version = 9
+activity_version = 10
 license = GPLv3
 bundle_id = org.sugarlabs.AbacusActivity
 exec = sugar-activity AbacusActivity.AbacusActivity
