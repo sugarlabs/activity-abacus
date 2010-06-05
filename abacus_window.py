@@ -61,7 +61,7 @@ def dec2frac(d):
     top = 1
     bot = 1
 
-    while abs(df - d) > 0.000001:
+    while abs(df - d) > 0.00000001:
         if df < d:
 	    top += 1
         else:
