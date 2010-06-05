@@ -177,6 +177,7 @@ class Bead():
         self.level = level
 
     def update_label(self):
+        """ Label active beads """
         value = self.get_value()
         if self.state == 1 and value < 10000 and value > 0.05:
             value = self.get_value()
@@ -267,7 +268,9 @@ class Abacus():
         if self.press == None:
             return True
         self.press = None
-        self.mode.label(self.mode.value())
+        # self.mode.label(self.mode.value())
+        self.mode.label(" + ".join([str(x) for x in self.mode.rod_values()])+\
+                        " = "+self.mode.value())
         return True
 
     def _expose_cb(self, win, event):
@@ -581,6 +584,16 @@ class AbacusGeneric():
                         self.beads[i+ii].set_color(self.colors[3])
                         self.beads[i+ii].move_down()
 
+    def rod_values(self):
+        """ Return the sum of the values per rod as an array """
+        v = [0] * (self.num_rods + 1)
+
+        for i, bead in enumerate(self.beads):
+            r = i/(self.top_beads+self.bot_beads)
+            v[r+1] += bead.get_value()
+
+        return v[1:]
+
 
 class Custom(AbacusGeneric):
     """ A custom-made abacus """
@@ -764,7 +777,7 @@ class Schety(AbacusGeneric):
             print "bead not found"
             return
 
-        # Find out which row i corresponds to
+        # Find out which rod i corresponds to
         count = 0
         for r in range(len(self.bead_count)):
             count += self.bead_count[r]
@@ -787,6 +800,20 @@ class Schety(AbacusGeneric):
             for ii in range(n-b):
                 if self.beads[i+ii].get_state() == 1:
                     self.beads[i+ii].move_down()
+
+    def rod_values(self):
+        """ Return the sum of the values per rod as an array """
+        v = [0] * (self.num_rods + 1)
+
+        for i, bead in enumerate(self.beads):
+            count = 0
+            for r in range(len(self.bead_count)):
+                count += self.bead_count[r]
+                if i < count:
+                    break
+            v[r+1] += bead.get_value()
+
+        return v[1:]
 
 
 class Fractions(Schety):
