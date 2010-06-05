@@ -25,8 +25,14 @@ ROD_COLORS = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
               "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
               "#876a00", "#986200", "#ab5600", "#d60000", "#e30038"]
 
-BEAD_LABELS = {0.5:'1/2',0.25:'1/4', 0.125:'1/8', 0.2:'1/5', 0.1:'1/10',
-               1.0/3:'1/3', 1.0/6:'1/6', 1.0/9:'1/9', 1.0/12:'1/12'}
+# This dictionary does not give consistent results
+BEAD_LABELS = {0.5:'1/2', 1.0/3:'1/3', 0.25:'1/4', 0.2:'1/5', 1.0/6:'1/6',
+               0.125:'1/8', 1.0/9:'1/9', 0.1:'1/10', 1.0/12:'1/12', 
+               2.0/3:'2/3', 0.4:'2/5', 2.0/9:'2/9', 0.75:'3/4', 0.6:'3/5',
+               0.375:'3/8', 0.3:'3/10', 0.8:'4/5', 4.0/9:'4/9', 5.0/6:'5/6', 
+               0.625:'5/8', 5.0/9:'5/9', 5.0/12:'5/12', 0.875:'7/8',
+               7.0/9:'7/9', 0.7:'7/10', 7.0/12:'7/12', 8.0/9:'8/9', 0.9:'9/10',
+               11.0/12:'11/12', 1.0:'1'}
 
 import pygtk
 pygtk.require('2.0')
@@ -268,9 +274,22 @@ class Abacus():
         if self.press == None:
             return True
         self.press = None
-        # might be worth removing 0s and converting decimals to mixed fractions
-        self.mode.label(" + ".join([str(x) for x in self.mode.rod_values()])+\
-                        " = "+self.mode.value())
+        # The complexity below is to make the label as simple as possible
+        sum = ""
+        for x in self.mode.get_rod_values():
+            if x > 0:
+                if x in BEAD_LABELS:
+                    rod_value = BEAD_LABELS[x]
+                else:
+                    rod_value = str(x)
+                if sum == "":
+                    sum = rod_value
+                else:
+                    sum += " + %s" % (rod_value)
+        if sum == "":
+            self.mode.label("")
+        else:
+            self.mode.label(sum + " = " + self.mode.value())
         return True
 
     def _expose_cb(self, win, event):
@@ -584,7 +603,7 @@ class AbacusGeneric():
                         self.beads[i+ii].set_color(self.colors[3])
                         self.beads[i+ii].move_down()
 
-    def rod_values(self):
+    def get_rod_values(self):
         """ Return the sum of the values per rod as an array """
         v = [0] * (self.num_rods + 1)
 
@@ -801,7 +820,50 @@ class Schety(AbacusGeneric):
                 if self.beads[i+ii].get_state() == 1:
                     self.beads[i+ii].move_down()
 
-    def rod_values(self):
+    def value(self, count_beads=False):
+        """ Return a string representing the value of each rod. """
+        string = ''
+        v = []
+        for r in range(self.num_rods+1): # +1 for overflow
+            v.append(0)
+
+        # Tally the values on each rod.
+        for i, bead in enumerate(self.beads):
+            count = 0
+            for r in range(len(self.bead_count)):
+                count += self.bead_count[r]
+                if i < count:
+                    break
+            if bead.get_state() == 1:
+                v[r+1] += 1
+
+        if count_beads:
+            # Save the value associated with each rod as a 2-byte integer.
+            for j in v[1:]:
+                string += "%2d" % (j)
+        else:
+            sum = 0
+            for bead in self.beads:
+                sum += bead.get_value()
+            string = str(sum)
+
+        return(string)
+
+    def set_rod_value(self, rod, value):
+        """ Move beads on rod r to represent value v """
+        bead_index = 0
+        for r in range(rod):
+            bead_index += self.bead_count[r]
+
+        # Clear the beads
+        for i in range(self.bead_count[rod]):
+            if self.beads[bead_index+i].get_state() == 1:
+                self.beads[bead_index+i].move_down()
+        # Set the beads
+        for i in range(value):
+            self.beads[bead_index+i].move_up()
+
+    def get_rod_values(self):
         """ Return the sum of the values per rod as an array """
         v = [0] * (self.num_rods + 1)
 
