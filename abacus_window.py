@@ -25,6 +25,8 @@ ROD_COLORS = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
               "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
               "#876a00", "#986200", "#ab5600", "#d60000", "#e30038"]
 
+BEAD_LABELS = {0.5:'1/2',0.25:'1/4', 0.125:'1/8', 0.2:'1/5', 0.1:'1/10',
+               1.0/3:'1/3', 1.0/6:'1/6', 1.0/9:'1/9', 1.0/12:'1/12'}
 
 import pygtk
 pygtk.require('2.0')
@@ -131,17 +133,19 @@ class Bead():
         """ Show the sprite associated with the bead """
         self.spr.set_layer(BEAD_LAYER)
 
-    def move_up(self):
-        """ Move a bead up as far as it will go, """
-        self.spr.move_relative((0, -self.offset))
+    def move(self, offset):
+        self.spr.move_relative((0, offset))
         self.state = 1-self.state
         self.set_level(3)
+        self.update_label()
+
+    def move_up(self):
+        """ Move a bead up as far as it will go, """
+        self.move(-self.offset)
 
     def move_down(self):
         """ Move a bead down as far as it will go. """
-        self.spr.move_relative((0, self.offset))
-        self.state = 1-self.state
-        self.set_level(3)
+        self.move(self.offset)
 
     def get_value(self):
         """ Return a value if bead state is 1 """
@@ -160,6 +164,10 @@ class Bead():
         self.spr.inval()
         self.show()
 
+    def set_label_color(self, color):
+        """ Set the label color for a bead (default is black). """
+        self.spr.set_label_color(color)
+
     def get_level(self):
         """ Return color level of bead -- used for fade """
         return self.level
@@ -167,6 +175,17 @@ class Bead():
     def set_level(self, level):
         """ Set color level of bead -- used for fade """
         self.level = level
+
+    def update_label(self):
+        value = self.get_value()
+        if self.state == 1 and value < 10000 and value > 0.05:
+            value = self.get_value()
+            if value in BEAD_LABELS:
+                self.spr.set_label(BEAD_LABELS[value])
+            else:
+                self.spr.set_label(value)
+        else:
+            self.spr.set_label("")
 
 class Abacus():
     """ The Abacus class is used to define the user interaction. """
@@ -696,6 +715,8 @@ class Schety(AbacusGeneric):
                                                   color),
                                            8*BHEIGHT*self.abacus.scale,
                                            0.25)) # 1/4 ruples
+                    if color == self.black:
+                        self.beads[-1].set_label_color("#ffffff")
             elif i < 10:
                 for b in range(self.bot_beads):
                     if b in [4, 5]:
@@ -709,6 +730,8 @@ class Schety(AbacusGeneric):
                                                   color),
                                            2*BHEIGHT*self.abacus.scale,
                                            pow(10,9-i)))
+                    if color == self.black:
+                        self.beads[-1].set_label_color("#ffffff")
             else:
                 for b in range(self.bot_beads):
                     if b in [4, 5]:
@@ -722,6 +745,8 @@ class Schety(AbacusGeneric):
                                                   color),
                                            2*BHEIGHT*self.abacus.scale,
                                            1.0/pow(10,i-10)))
+                    if color == self.black:
+                        self.beads[-1].set_label_color("#ffffff")
 
         for r in self.rods:
             r.type = "frame"
@@ -822,5 +847,7 @@ class Fractions(Schety):
                                            (14-self.bead_count[i])*BHEIGHT*\
                                            self.abacus.scale,
                                            1.0/self.bead_count[i]))
+                    self.beads[-1].set_label_color("#ffffff")
+
         for r in self.rods:
             r.type = "frame"
