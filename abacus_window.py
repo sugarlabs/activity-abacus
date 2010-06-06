@@ -57,6 +57,8 @@ def dec2frac(d):
 
     """
 
+    if d > 1:
+        return "%s" % d
     df = 1.0
     top = 1
     bot = 1
