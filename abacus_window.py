@@ -258,6 +258,7 @@ class Abacus():
         self.mayan = Nepohualtzintzin(self)
         self.binary = Binary(self)
         self.hex = Hex(self)
+        self.decimal = Decimal(self)
         self.fraction = Fractions(self)
         self.custom = None
 
@@ -266,6 +267,7 @@ class Abacus():
         self.russian.hide()
         self.mayan.hide()
         self.binary.hide()
+        self.decimal.hide()
         self.hex.hide()
         self.fraction.hide()
         self.mode = self.chinese
@@ -296,6 +298,7 @@ class Abacus():
         elif self.press.type == 'mark':
             mx, my = self.mode.mark.get_xy()
             self.mode.move_mark(x-mx)
+        return True
 
     def _button_release_cb(self, win, event):
         """ Callback to handle the button releases """
@@ -695,6 +698,19 @@ class Hex(AbacusGeneric):
         self.top_beads = 1
         self.base = 16
         self.top_factor = 8
+
+
+class Decimal(AbacusGeneric):
+    """ A decimal abacus """
+
+    def set_parameters(self):
+        """ create a decimal abacus: 10 by (10,0) """
+        self.name = 'decimal'
+        self.num_rods = 10
+        self.bot_beads = 10
+        self.top_beads = 0
+        self.base = 10
+        self.top_factor = 5
 
 
 class Binary(AbacusGeneric):

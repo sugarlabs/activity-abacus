@@ -74,6 +74,14 @@ class AbacusActivity(activity.Activity):
             toolbar_box.toolbar.insert(self.japanese, -1)
             self.japanese.show()
 
+            # Decimal (decimal abacus) 0:10
+            self.decimal = ToolButton( "Doff" )
+            self.decimal.set_tooltip(_('Decimal'))
+            self.decimal.props.sensitive = True
+            self.decimal.connect('clicked', self._decimal_cb)
+            toolbar_box.toolbar.insert(self.decimal, -1)
+            self.decimal.show()
+
             # Schety (Russian abacus) 0:10
             self.russian = ToolButton( "Roff" )
             self.russian.set_tooltip(_('Schety'))
@@ -288,6 +296,8 @@ class AbacusActivity(activity.Activity):
                 self._hex_cb(None)
             elif self.metadata['abacus'] == 'fraction':
                 self._fraction_cb(None)
+            elif self.metadata['abacus'] == 'decimal':
+                self._decimal_cb(None)
             else:
                 self._chinese_cb(None)
         except:
@@ -306,6 +316,7 @@ class AbacusActivity(activity.Activity):
         self.binary.set_icon("Boff")
         self.hex.set_icon("Hoff")
         self.fraction.set_icon("Foff")
+        self.decimal.set_icon("Doff")
         self.abacus.chinese.hide()
         self.abacus.japanese.hide()
         self.abacus.russian.hide()
@@ -313,6 +324,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.binary.hide()
         self.abacus.hex.hide()
         self.abacus.fraction.hide()
+        self.abacus.decimal.hide()
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
 
@@ -390,6 +402,14 @@ class AbacusActivity(activity.Activity):
         self.hex.set_icon("Hon")
         self.abacus.hex.show()
         self.abacus.mode = self.abacus.hex
+        _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
+
+    def _decimal_cb(self, button):
+        """ Display the decimal; hide the others """
+        self._all_off()
+        self.decimal.set_icon("Don")
+        self.abacus.decimal.show()
+        self.abacus.mode = self.abacus.decimal
         _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
     def _fraction_cb(self, button):
@@ -580,6 +600,14 @@ class ProjectToolbar(gtk.Toolbar):
         self.activity.hex.connect('clicked', self.activity._hex_cb)
         self.insert(self.activity.hex, -1)
         self.activity.hex.show()
+
+        # decimal style
+        self.activity.decimal = ToolButton( "Doff" )
+        self.activity.decimal.set_tooltip(_('Decimal'))
+        self.activity.decimal.props.sensitive = True
+        self.activity.decimal.connect('clicked', self.activity._decimal_cb)
+        self.insert(self.activity.decimal, -1)
+        self.activity.decimal.show()
 
         # Fraction style
         self.activity.fraction = ToolButton( "Foff" )

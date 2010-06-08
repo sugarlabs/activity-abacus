@@ -53,6 +53,7 @@ class AbacusMain:
 		"b": _("Binary"),
 		"h": _("Hexadecimal"),
 		"f": _("Fraction"),
+		"d": _("Decimal")
 	}
 
         menu = gtk.Menu()
@@ -109,6 +110,7 @@ class AbacusMain:
 		"j": self.abacus.japanese,
 		"m": self.abacus.mayan,
 		"r": self.abacus.russian,
+		"d": self.abacus.decimal
 	}
 	self.abacus.mode.hide()
 	self.abacus.mode = ABACI[user]
