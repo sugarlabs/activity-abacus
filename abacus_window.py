@@ -21,6 +21,7 @@ ROD_LAYER = 101
 BEAD_LAYER = 102
 BAR_LAYER = 103
 MARK_LAYER = 104
+MAX_FADE_LEVEL = 3
 
 ROD_COLORS = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
               "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
@@ -145,17 +146,20 @@ def _svg_style(extras=""):
 class Bead():
     """ The Bead class is used to define the individual beads. """
 
-    def __init__(self, sprite, offset, value):
-        """ We store an sprite, an offset, and a value for each bead """
+    def __init__(self, sprite, offset, value, max_fade=MAX_FADE_LEVEL):
+        """ We store a sprite, an offset, and a value for each bead """
         self.spr = sprite
         self.offset = offset
+        # decimals will be converted to fractions;
+        # and we want to avoid decimal points in our whole numbers
         if value < 1:
             self.value = value
         else:
             self.value = int(value)
         self.state = 0
         self.spr.type = 'bead'
-        self.level = 0 # Used for changing color
+        self.fade_level = 0 # Used for changing color
+        self.max_fade_level = MAX_FADE_LEVEL
 
     def hide(self):
         """ Hide the sprite associated with the bead """
@@ -166,9 +170,10 @@ class Bead():
         self.spr.set_layer(BEAD_LAYER)
 
     def move(self, offset):
+        """ Generic move method: sets state and level """
         self.spr.move_relative((0, offset))
         self.state = 1-self.state
-        self.set_level(3)
+        self.set_fade_level(self.max_fade_level)
         self.update_label()
 
     def move_up(self):
@@ -200,13 +205,13 @@ class Bead():
         """ Set the label color for a bead (default is black). """
         self.spr.set_label_color(color)
 
-    def get_level(self):
-        """ Return color level of bead -- used for fade """
-        return self.level
+    def get_fade_level(self):
+        """ Return color fade level of bead """
+        return self.fade_level
 
-    def set_level(self, level):
-        """ Set color level of bead -- used for fade """
-        self.level = level
+    def set_fade_level(self, fade_level):
+        """ Set color fade level of bead """
+        self.fade_level = fade_level
 
     def update_label(self):
         """ Label active beads """
@@ -406,22 +411,13 @@ class AbacusGeneric():
 
     def draw_rods_and_beads(self, x, y):
         """ Draw the rods and beads """
-        _white = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
-                 _svg_bead("#ffffff", "#000000") +\
-                 _svg_footer()
-        _yellow1 = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
-                 _svg_bead("#ffffcc", "#000000") +\
-                 _svg_footer()
-        _yellow2 = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
-                 _svg_bead("#ffff88", "#000000") +\
-                 _svg_footer()
-        _yellow3 = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
-                 _svg_bead("#ffff00", "#000000") +\
-                 _svg_footer()
-        self.colors = [_svg_str_to_pixbuf(_white),
-                       _svg_str_to_pixbuf(_yellow1),
-                       _svg_str_to_pixbuf(_yellow2),
-                       _svg_str_to_pixbuf(_yellow3)]
+        self.colors = []
+        for i in range(MAX_FADE_LEVEL+1):
+            _fade = "#ffff%02x" % (int(255-(i*255/MAX_FADE_LEVEL)))
+            self.colors.append(_svg_str_to_pixbuf(_svg_header(BWIDTH, BHEIGHT,
+                                                            self.abacus.scale)+\
+                                                  _svg_bead(_fade, "#000000") +\
+                                                  _svg_footer()))
 
         dx = (BWIDTH+BOFFSET)*self.abacus.scale
         bo =  (BWIDTH-BOFFSET)*self.abacus.scale/4
@@ -566,9 +562,9 @@ class AbacusGeneric():
     def fade_colors(self):
         """ Reduce the saturation level of every bead. """
         for bead in self.beads:
-            if bead.get_level() > 0:
-                bead.set_color(self.colors[bead.get_level()-1])
-                bead.set_level(bead.get_level()-1)
+            if bead.get_fade_level() > 0:
+                bead.set_color(self.colors[bead.get_fade_level()-1])
+                bead.set_fade_level(bead.get_fade_level()-1)
 
     def move_bead(self, sprite, dy):
         """ Move a bead (or beads) up or down a rod. """
