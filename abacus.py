@@ -45,32 +45,21 @@ class AbacusMain:
         self.win.set_title(_("Abacus"))
         self.win.connect("delete_event", lambda w,e: gtk.main_quit())
 
+	ABACI = {
+		"c": _("Saunpan"),
+		"j": _("Soroban"),
+		"r": _("Schety"),
+		"m": _("Nepohualtzintzin"),
+		"b": _("Binary"),
+		"h": _("Hexadecimal"),
+		"f": _("Fraction"),
+	}
+
         menu = gtk.Menu()
-        menu_items = gtk.MenuItem(_("Saunpan"))
-        menu.append(menu_items)
-        menu_items.connect("activate", self._c_cb)
-        menu_items.show()
-        menu_items = gtk.MenuItem(_("Soroban"))
-        menu.append(menu_items)
-        menu_items.connect("activate", self._j_cb)
-        menu_items.show()
-        menu_items = gtk.MenuItem(_("Schety"))
-        menu.append(menu_items)
-        menu_items.connect("activate", self._r_cb)
-        menu_items.show()
-        menu_items = gtk.MenuItem(_("Nepohualtzintzin"))
-        menu.append(menu_items)
-        menu_items.connect("activate", self._m_cb)
-        menu_items = gtk.MenuItem(_("Binary"))
-        menu.append(menu_items)
-        menu_items.connect("activate", self._b_cb)
-        menu_items = gtk.MenuItem(_("Hexadecimal"))
-        menu.append(menu_items)
-        menu_items.connect("activate", self._h_cb)
-        menu_items = gtk.MenuItem(_("Fraction"))
-        menu.append(menu_items)
-        menu_items.connect("activate", self._f_cb)
-        menu_items.show()
+	for k, v in ABACI.iteritems():
+		menu_items = gtk.MenuItem(v)
+		menu.append(menu_items)
+		menu_items.connect("activate", self._switch_abacus_cb, k)
         menu_items = gtk.MenuItem(_("Quit"))
         menu.append(menu_items)
         menu_items.connect("activate", self.destroy)
@@ -111,55 +100,19 @@ class AbacusMain:
     def set_title(self, title):
         self.win.set_title(title)
 
-    def _hide_all(self):
-        self.abacus.chinese.hide()
-        self.abacus.japanese.hide()
-        self.abacus.russian.hide()
-        self.abacus.mayan.hide()
-        self.abacus.binary.hide()
-        self.abacus.hex.hide()
-        self.abacus.fraction.hide()
-
-    def _c_cb(self, widget):
-        self._hide_all()
-        self.abacus.chinese.show()
-        self.abacus.mode = self.abacus.chinese
-        return True
-
-    def _j_cb(self, widget):
-        self._hide_all()
-        self.abacus.japanese.show()
-        self.abacus.mode = self.abacus.japanese
-        return True
-
-    def _r_cb(self, widget):
-        self._hide_all()
-        self.abacus.russian.show()
-        self.abacus.mode = self.abacus.russian
-        return True
-
-    def _m_cb(self, widget):
-        self._hide_all()
-        self.abacus.mayan.show()
-        self.abacus.mode = self.abacus.mayan
-        return True
-
-    def _b_cb(self, widget):
-        self._hide_all()
-        self.abacus.binary.show()
-        self.abacus.mode = self.abacus.binary
-        return True
-
-    def _h_cb(self, widget):
-        self._hide_all()
-        self.abacus.hex.show()
-        self.abacus.mode = self.abacus.hex
-        return True
-
-    def _f_cb(self, widget):
-        self._hide_all()
-        self.abacus.fraction.show()
-        self.abacus.mode = self.abacus.fraction
+    def _switch_abacus_cb(self, widget, user):
+	ABACI = {
+		"b": self.abacus.binary,
+		"c": self.abacus.chinese,
+		"f": self.abacus.fraction,
+		"h": self.abacus.hex,
+		"j": self.abacus.japanese,
+		"m": self.abacus.mayan,
+		"r": self.abacus.russian,
+	}
+	self.abacus.mode.hide()
+	self.abacus.mode = ABACI[user]
+	self.abacus.mode.show()
         return True
 
     def destroy(self, event, data=None):
