@@ -323,17 +323,21 @@ class Abacus():
         self.press = None
         # The complexity below is to make the label as simple as possible
         sum = ""
+        multiple_rods = False
         for x in self.mode.get_rod_values():
             if x > 0:
                 rod_value = dec2frac(x)
                 if sum == "":
                     sum = rod_value
                 else:
+                    multiple_rods = True
                     sum += " + %s" % (rod_value)
         if sum == "":
             self.mode.label("")
-        else:
+        elif multiple_rods:
             self.mode.label(sum + " = " + self.mode.value())
+        else:
+            self.mode.label(self.mode.value())
         return True
 
     def _expose_cb(self, win, event):
