@@ -31,6 +31,8 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 from math import pow
+from gettext import gettext as _
+
 import logging
 _logger = logging.getLogger("abacus-activity")
 
@@ -48,7 +50,7 @@ def dec2frac(d):
     """
     This code was translated to Python from the answers at
     http://stackoverflow.com/questions/95727/how-to-convert-floats-to-human-readable-fractions/681534#681534
-	
+    
     For example:
     >>> 3./5
     0.59999999999999998
@@ -66,14 +68,14 @@ def dec2frac(d):
 
     while abs(df - d) > 0.00000001:
         if df < d:
-	    top += 1
+            top += 1
         else:
-	    bot += 1
+            bot += 1
             top = int(d * bot)
         df = float(top) / bot
 
     if bot == 1:
-	return "%s" % top
+        return "%s" % top
     return "%s/%s" % (top, bot)
 
 #
@@ -143,6 +145,7 @@ def _svg_style(extras=""):
     """ Returns SVG style for shape rendering """
     return "%s%s%s" % ("style=\"", extras, "\"/>\n")
 
+
 class Bead():
     """ The Bead class is used to define the individual beads. """
 
@@ -160,14 +163,17 @@ class Bead():
         self.spr.type = 'bead'
         self.fade_level = 0 # Used for changing color
         self.max_fade_level = MAX_FADE_LEVEL
+        return
 
     def hide(self):
         """ Hide the sprite associated with the bead """
         self.spr.hide()
+        return
 
     def show(self):
         """ Show the sprite associated with the bead """
         self.spr.set_layer(BEAD_LAYER)
+        return
 
     def move(self, offset):
         """ Generic move method: sets state and level """
@@ -175,14 +181,17 @@ class Bead():
         self.state = 1-self.state
         self.set_fade_level(self.max_fade_level)
         self.update_label()
+        return
 
     def move_up(self):
         """ Move a bead up as far as it will go, """
         self.move(-self.offset)
+        return
 
     def move_down(self):
         """ Move a bead down as far as it will go. """
         self.move(self.offset)
+        return
 
     def get_value(self):
         """ Return a value if bead state is 1 """
@@ -200,10 +209,12 @@ class Bead():
         self.spr.set_image(color)
         self.spr.inval()
         self.show()
+        return
 
     def set_label_color(self, color):
         """ Set the label color for a bead (default is black). """
         self.spr.set_label_color(color)
+        return
 
     def get_fade_level(self):
         """ Return color fade level of bead """
@@ -212,6 +223,7 @@ class Bead():
     def set_fade_level(self, fade_level):
         """ Set color fade level of bead """
         self.fade_level = fade_level
+        return
 
     def update_label(self):
         """ Label active beads """
@@ -221,6 +233,8 @@ class Bead():
             self.spr.set_label(dec2frac(value))
         else:
             self.spr.set_label("")
+        return
+
 
 class Abacus():
     """ The Abacus class is used to define the user interaction. """
@@ -282,6 +296,8 @@ class Abacus():
                 self.dragpos = y
             elif self.press.type == 'mark':
                 self.dragpos = x
+            elif self.press.type == 'reset':
+                self.mode.reset_abacus()
             else:
                 self.press = None
         return True
@@ -338,6 +354,7 @@ class AbacusGeneric():
         self.abacus = abacus
         self.set_parameters()
         self.create()
+        return
 
     def set_parameters(self):
         """ Define the physical paramters. """
@@ -347,6 +364,7 @@ class AbacusGeneric():
         self.top_beads = 2
         self.base = 10
         self.top_factor = 5
+        return
 
     def create(self):
         """ Create and position the sprites that compose the abacus """
@@ -376,11 +394,26 @@ class AbacusGeneric():
                             _svg_str_to_pixbuf(_frame))
         self.frame.type = 'frame'
 
+        # Draw the reset button
+        x += FSTROKE*self.abacus.scale
+        y += FSTROKE*self.abacus.scale
+        _reset_button = _svg_header(self.frame_width-(FSTROKE*2), BHEIGHT,
+                            self.abacus.scale) +\
+                        _svg_rect(self.frame_width-(FSTROKE*2), BHEIGHT, 0, 0,
+                            0, 0, "#802020", "#000000") +\
+                        _svg_footer()
+
+        self.reset_button = Sprite(self.abacus.sprites, x,
+                            y+(-2*FSTROKE+self.frame_height+\
+                                        (FSTROKE-BHEIGHT)/2)*self.abacus.scale, 
+                            _svg_str_to_pixbuf(_reset_button))
+        self.reset_button.type = 'reset'
+        self.reset_button.set_label_color("#ffffff")
+        self.reset_button.set_label(_("Reset"))
+
         # and then the rods and beads.
         self.rods = []
         self.beads = []
-        x += FSTROKE*self.abacus.scale
-        y += FSTROKE*self.abacus.scale
 
         self.draw_rods_and_beads(x, y)
 
@@ -388,7 +421,7 @@ class AbacusGeneric():
         _bar = _svg_header(self.frame_width-(FSTROKE*2), BHEIGHT,
                            self.abacus.scale) +\
                _svg_rect(self.frame_width-(FSTROKE*2), BHEIGHT, 0, 0, 0, 0,
-                         "#000000", "#000000") +\
+                           "#000000", "#000000") +\
                _svg_footer()
         if self.top_beads > 0:
             self.bar = Sprite(self.abacus.sprites, x,
@@ -411,6 +444,7 @@ class AbacusGeneric():
                            y-((FSTROKE/2)*self.abacus.scale),
                            _svg_str_to_pixbuf(_mark))
         self.mark.type = 'mark'
+        return
 
     def draw_rods_and_beads(self, x, y):
         """ Draw the rods and beads """
@@ -461,6 +495,7 @@ class AbacusGeneric():
 
         for rod in self.rods:
             rod.type = "frame"
+        return
 
     def hide(self):
         """ Hide the rod, beads, mark, and frame. """
@@ -471,6 +506,8 @@ class AbacusGeneric():
         self.bar.hide()
         self.frame.hide()
         self.mark.hide()
+        self.reset_button.hide()
+        return
 
     def show(self):
         """ Show the rod, beads, mark, and frame. """
@@ -481,6 +518,8 @@ class AbacusGeneric():
             bead.show()
         self.bar.set_layer(BAR_LAYER)
         self.mark.set_layer(MARK_LAYER)
+        self.reset_button.set_layer(BAR_LAYER)
+        return
 
     def set_value(self, string):
         """ Set abacus to value in string """
@@ -502,6 +541,7 @@ class AbacusGeneric():
         # Move the beads to correspond to column values.
         for r in range(self.num_rods):
             self.set_rod_value(r, v[r])
+        return
 
     def set_rod_value(self, r, v):
         """ Move beads on rod r to represent value v """
@@ -524,6 +564,30 @@ class AbacusGeneric():
         # Set the bottom
         for i in range(bot):
             self.beads[bot_bead_index+i].move_up()
+        return
+
+    def reset_abacus(self):
+        """ Reset beads to original position """
+        for r in range(self.num_rods):
+            top_bead_index = r*(self.top_beads+self.bot_beads)
+            bot_bead_index = r*(self.top_beads+self.bot_beads)+self.top_beads
+
+            # Clear the top.
+            for i in range(self.top_beads):
+                #if self.name != 'fraction' and self.name != 'schety':
+                self.beads[top_bead_index+i].set_color(self.colors[0])
+                if self.beads[top_bead_index+i].get_state() == 1:
+                   self.beads[top_bead_index+i].move_up()
+
+            # Clear the bottom.
+            for i in range(self.bot_beads):
+                #if self.name != 'fraction' and self.name != 'schety':
+                self.beads[bot_bead_index+i].set_color(self.colors[0])
+                if self.beads[bot_bead_index+i].get_state() == 1:
+                   self.beads[bot_bead_index+i].move_down()
+
+        self.label("")
+        return
 
     def value(self, count_beads=False):
         """ Return a string representing the value of each rod. """
@@ -557,10 +621,12 @@ class AbacusGeneric():
     def label(self, string):
         """ Label the crossbar with the string. (Used with self.value) """
         self.bar.set_label(string)
+        return
 
     def move_mark(self, dx):
         """ Move indicator horizontally across the top of the frame. """
         self.mark.move_relative((dx, 0))
+        return
 
     def fade_colors(self):
         """ Reduce the saturation level of every bead. """
@@ -568,6 +634,7 @@ class AbacusGeneric():
             if bead.get_fade_level() > 0:
                 bead.set_color(self.colors[bead.get_fade_level()-1])
                 bead.set_fade_level(bead.get_fade_level()-1)
+        return
 
     def move_bead(self, sprite, dy):
         """ Move a bead (or beads) up or down a rod. """
@@ -621,6 +688,7 @@ class AbacusGeneric():
                     if self.beads[i+ii].state == 1:
                         self.beads[i+ii].set_color(self.colors[3])
                         self.beads[i+ii].move_down()
+        return
 
     def get_rod_values(self):
         """ Return the sum of the values per rod as an array """
@@ -646,6 +714,7 @@ class Custom(AbacusGeneric):
         self.base = base
         self.top_factor = factor
         self.create()
+        return
 
 
 class Nepohualtzintzin(AbacusGeneric):
@@ -659,6 +728,7 @@ class Nepohualtzintzin(AbacusGeneric):
         self.top_beads = 3
         self.base = 20
         self.top_factor = 5
+        return
 
 
 class Suanpan(AbacusGeneric):
@@ -672,6 +742,7 @@ class Suanpan(AbacusGeneric):
         self.top_beads = 2
         self.base = 10
         self.top_factor = 5
+        return
 
 
 class Soroban(AbacusGeneric):
@@ -685,6 +756,7 @@ class Soroban(AbacusGeneric):
         self.top_beads = 1
         self.base = 10
         self.top_factor = 5
+        return
 
 
 class Hex(AbacusGeneric):
@@ -698,6 +770,7 @@ class Hex(AbacusGeneric):
         self.top_beads = 1
         self.base = 16
         self.top_factor = 8
+        return
 
 
 class Decimal(AbacusGeneric):
@@ -711,6 +784,7 @@ class Decimal(AbacusGeneric):
         self.top_beads = 0
         self.base = 10
         self.top_factor = 5
+        return
 
 
 class Binary(AbacusGeneric):
@@ -724,6 +798,7 @@ class Binary(AbacusGeneric):
         self.top_beads = 0
         self.base = 2
         self.top_factor = 1
+        return
 
 
 class Schety(AbacusGeneric):
@@ -739,6 +814,19 @@ class Schety(AbacusGeneric):
                            10, 10)
         self.base = 10
         self.top_factor = 5
+        return
+
+    def reset_abacus(self):
+        """ Reset beads to original position, overriding Generic """
+        bead_index = 0
+        for r in range(self.num_rods):
+            for i in range(self.bead_count[r]):
+                if self.beads[bead_index+i].get_state() == 1:
+                    self.beads[bead_index+i].move_down()
+            bead_index += self.bead_count[r]
+
+        self.bar.set_label("")
+        return
 
     def draw_rods_and_beads(self, x, y):
         """ Override default in order to make a short rod """
@@ -814,6 +902,7 @@ class Schety(AbacusGeneric):
 
         for r in self.rods:
             r.type = "frame"
+        return
 
     def move_bead(self, sprite, dy):
         """ Move a bead (or beads) up or down a rod. """
@@ -851,6 +940,7 @@ class Schety(AbacusGeneric):
             for ii in range(n-b):
                 if self.beads[i+ii].get_state() == 1:
                     self.beads[i+ii].move_down()
+        return
 
     def value(self, count_beads=False):
         """ Return a string representing the value of each rod. """
@@ -923,6 +1013,7 @@ class Fractions(Schety):
         self.bot_beads = 12
         self.base = 10
         self.top_factor = 5
+        return
 
     def draw_rods_and_beads(self, x, y):
         """ Override default in order to make a short rod """
@@ -972,3 +1063,4 @@ class Fractions(Schety):
 
         for r in self.rods:
             r.type = "frame"
+        return

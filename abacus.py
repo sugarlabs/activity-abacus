@@ -61,6 +61,9 @@ class AbacusMain:
 		menu_items = gtk.MenuItem(v)
 		menu.append(menu_items)
 		menu_items.connect("activate", self._switch_abacus_cb, k)
+        menu_items = gtk.MenuItem(_("Reset"))
+        menu.append(menu_items)
+        menu_items.connect("activate", self._reset)
         menu_items = gtk.MenuItem(_("Quit"))
         menu.append(menu_items)
         menu_items.connect("activate", self.destroy)
@@ -100,6 +103,7 @@ class AbacusMain:
 
     def set_title(self, title):
         self.win.set_title(title)
+        return
 
     def _switch_abacus_cb(self, widget, user):
 	ABACI = {
@@ -116,6 +120,11 @@ class AbacusMain:
 	self.abacus.mode = ABACI[user]
 	self.abacus.mode.show()
         return True
+
+    def _reset(self, event, data=None):
+        """ Reset beads to initial position """
+        self.abacus.mode.reset_abacus()
+        return
 
     def destroy(self, event, data=None):
         """ Callback for destroy event. """
