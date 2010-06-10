@@ -282,6 +282,14 @@ class AbacusActivity(activity.Activity):
 
         # Read the current mode from the Journal
         try:
+            self._rods_spin.set_value(int(self.metadata['rods']))
+            self._top_spin.set_value(int(self.metadata['top']))
+            self._bottom_spin.set_value(int(self.metadata['bottom']))
+            self._value_spin.set_value(int(self.metadata['factor']))
+            self._base_spin.set_value(int(self.metadata['base']))
+        except:
+            pass
+        try:
             if self.metadata['abacus'] == 'suanpan':
                 self._chinese_cb(None)
             elif self.metadata['abacus'] == 'soroban':
@@ -298,6 +306,8 @@ class AbacusActivity(activity.Activity):
                 self._fraction_cb(None)
             elif self.metadata['abacus'] == 'decimal':
                 self._decimal_cb(None)
+            elif self.metadata['abacus'] == 'custom':
+                self._custom_cb(None)
             else:
                 self._chinese_cb(None)
         except:
@@ -427,6 +437,11 @@ class AbacusActivity(activity.Activity):
         try:
             self.metadata['abacus'] = self.abacus.mode.name
             self.metadata['value'] = self.abacus.mode.value(True)
+            self.metadata['rods'] = str(self._rods_spin.get_value_as_int())
+            self.metadata['top'] = str(self._top_spin.get_value_as_int())
+            self.metadata['bottom'] = str(self._bottom_spin.get_value_as_int())
+            self.metadata['factor'] = str(self._value_spin.get_value_as_int())
+            self.metadata['base'] = str(self._base_spin.get_value_as_int())
         except:
             pass
 
