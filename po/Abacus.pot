@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-09 14:55-0400\n"
+"POT-Creation-Date: 2010-06-25 11:21-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,75 +30,75 @@ msgid "Suanpan"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:71
-#: /home/walter/Desktop/abacus/AbacusActivity.py:566
+#: /home/walter/Desktop/abacus/AbacusActivity.py:581
 #: /home/walter/Desktop/abacus/abacus.py:50
 msgid "Soroban"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:79
-#: /home/walter/Desktop/abacus/AbacusActivity.py:606
+#: /home/walter/Desktop/abacus/AbacusActivity.py:621
 #: /home/walter/Desktop/abacus/abacus.py:56
 msgid "Decimal"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:87
-#: /home/walter/Desktop/abacus/AbacusActivity.py:574
+#: /home/walter/Desktop/abacus/AbacusActivity.py:589
 #: /home/walter/Desktop/abacus/abacus.py:51
 msgid "Schety"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:95
-#: /home/walter/Desktop/abacus/AbacusActivity.py:582
+#: /home/walter/Desktop/abacus/AbacusActivity.py:597
 #: /home/walter/Desktop/abacus/abacus.py:52
 msgid "Nepohualtzintzin"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:103
-#: /home/walter/Desktop/abacus/AbacusActivity.py:590
+#: /home/walter/Desktop/abacus/AbacusActivity.py:605
 #: /home/walter/Desktop/abacus/abacus.py:53
 msgid "Binary"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:111
-#: /home/walter/Desktop/abacus/AbacusActivity.py:598
+#: /home/walter/Desktop/abacus/AbacusActivity.py:613
 #: /home/walter/Desktop/abacus/abacus.py:54
 msgid "Hexadecimal"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:119
-#: /home/walter/Desktop/abacus/AbacusActivity.py:614
+#: /home/walter/Desktop/abacus/AbacusActivity.py:629
 #: /home/walter/Desktop/abacus/abacus.py:55
 msgid "Fraction"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:134
-#: /home/walter/Desktop/abacus/AbacusActivity.py:443
+#: /home/walter/Desktop/abacus/AbacusActivity.py:458
 msgid "Rods:"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:153
-#: /home/walter/Desktop/abacus/AbacusActivity.py:462
+#: /home/walter/Desktop/abacus/AbacusActivity.py:477
 msgid "Top:"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:172
-#: /home/walter/Desktop/abacus/AbacusActivity.py:481
+#: /home/walter/Desktop/abacus/AbacusActivity.py:496
 msgid "Bottom:"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:191
-#: /home/walter/Desktop/abacus/AbacusActivity.py:500
+#: /home/walter/Desktop/abacus/AbacusActivity.py:515
 msgid "Factor:"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:210
-#: /home/walter/Desktop/abacus/AbacusActivity.py:519
+#: /home/walter/Desktop/abacus/AbacusActivity.py:534
 msgid "Base:"
 msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:231
 #: /home/walter/Desktop/abacus/AbacusActivity.py:268
-#: /home/walter/Desktop/abacus/AbacusActivity.py:540
+#: /home/walter/Desktop/abacus/AbacusActivity.py:555
 msgid "Custom"
 msgstr ""
 
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: /home/walter/Desktop/abacus/AbacusActivity.py:558
+#: /home/walter/Desktop/abacus/AbacusActivity.py:573
 #: /home/walter/Desktop/abacus/abacus.py:49
 msgid "Saunpan"
 msgstr ""
