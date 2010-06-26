@@ -40,6 +40,16 @@ _logger = logging.getLogger("abacus-activity")
 
 from abacus_window import Abacus, Custom
 
+def button_factory(icon_name, tooltip, callback, toolbar):
+    """Factory for making toolbar buttons"""
+    my_button = ToolButton( icon_name )
+    my_button.set_tooltip(tooltip)
+    my_button.props.sensitive = True
+    my_button.connect('clicked', callback)
+    toolbar.insert(my_button, -1)
+    my_button.show()
+    return my_button
+
 #
 # Sugar activity
 #
@@ -59,74 +69,53 @@ class AbacusActivity(activity.Activity):
             activity_button.show()
 
             # Suanpan (Chinese abacus) 2:5
-            self.chinese = ToolButton( "Con" )
-            self.chinese.set_tooltip(_('Suanpan'))
-            self.chinese.props.sensitive = True
-            self.chinese.connect('clicked', self._chinese_cb)
-            toolbar_box.toolbar.insert(self.chinese, -1)
-            self.chinese.show()
-
-            # Soroban (Japanese abacus) 1:4
-            self.japanese = ToolButton( "Joff" )
-            self.japanese.set_tooltip(_('Soroban'))
-            self.japanese.props.sensitive = True
-            self.japanese.connect('clicked', self._japanese_cb)
-            toolbar_box.toolbar.insert(self.japanese, -1)
-            self.japanese.show()
+            self.chinese = button_factory('Con', _('Suanpan'), self._chinese_cb,
+                                          toolbar_box.toolbar)
 
             # Decimal (decimal abacus) 0:10
-            self.decimal = ToolButton( "Doff" )
-            self.decimal.set_tooltip(_('Decimal'))
-            self.decimal.props.sensitive = True
-            self.decimal.connect('clicked', self._decimal_cb)
-            toolbar_box.toolbar.insert(self.decimal, -1)
-            self.decimal.show()
-
-            # Schety (Russian abacus) 0:10
-            self.russian = ToolButton( "Roff" )
-            self.russian.set_tooltip(_('Schety'))
-            self.russian.props.sensitive = True
-            self.russian.connect('clicked', self._russian_cb)
-            toolbar_box.toolbar.insert(self.russian, -1)
-            self.russian.show()
-
-            # Nepohualtzintzin (Mayan abacus) 3:4 (base 20)
-            self.mayan = ToolButton( "Moff" )
-            self.mayan.set_tooltip(_('Nepohualtzintzin'))
-            self.mayan.props.sensitive = True
-            self.mayan.connect('clicked', self._mayan_cb)
-            toolbar_box.toolbar.insert(self.mayan, -1)
-            self.mayan.show()
-
-            # Binary (base 2)
-            self.binary = ToolButton( "Boff" )
-            self.binary.set_tooltip(_('Binary'))
-            self.binary.props.sensitive = True
-            self.binary.connect('clicked', self._binary_cb)
-            toolbar_box.toolbar.insert(self.binary, -1)
-            self.binary.show()
-
-            # Hexadecimal (base 16)
-            self.hex = ToolButton( "Hoff" )
-            self.hex.set_tooltip(_('Hexadecimal'))
-            self.hex.props.sensitive = True
-            self.hex.connect('clicked', self._hex_cb)
-            toolbar_box.toolbar.insert(self.hex, -1)
-            self.hex.show()
-
-            # Fractions (1/2, 1/3, 1/4, 1/5, 1/6, 1/8, 1/9, 1/10, 1/12)
-            self.fraction = ToolButton( "Foff" )
-            self.fraction.set_tooltip(_('Fraction'))
-            self.fraction.props.sensitive = True
-            self.fraction.connect('clicked', self._fraction_cb)
-            toolbar_box.toolbar.insert(self.fraction, -1)
-            self.fraction.show()
+            self.decimal = button_factory("Doff", _('Decimal'),
+                                          self._decimal_cb, toolbar_box.toolbar)
 
             separator = gtk.SeparatorToolItem()
             separator.props.draw = False
             separator.set_expand(False)
             separator.show()
             toolbar_box.toolbar.insert(separator, -1)
+
+            # The Abacus toolbar (all of the variations)
+            abacus_toolbar = gtk.Toolbar()
+
+            # Soroban (Japanese abacus) 1:4
+            self.japanese = button_factory("Joff", _('Soroban'),
+                                           self._japanese_cb, abacus_toolbar)
+
+            # Schety (Russian abacus) 0:10
+            self.russian = button_factory("Roff", _('Schety'),
+                                          self._russian_cb, abacus_toolbar)
+
+            # Nepohualtzintzin (Mayan abacus) 3:4 (base 20)
+            self.mayan = button_factory("Moff", _('Nepohualtzintzin'),
+                                        self._mayan_cb, abacus_toolbar)
+
+            # Binary (base 2)
+            self.binary = button_factory("Boff", _('Binary'), self._binary_cb,
+                                         abacus_toolbar)
+
+            # Hexadecimal (base 16)
+            self.hex = button_factory("Hoff", _('Hexadecimal'), self._hex_cb,
+                                      abacus_toolbar)
+
+            # Fractions (1/2, 1/3, 1/4,...)
+            self.fraction = button_factory("Foff", _('Fraction'),
+                                           self._fraction_cb, abacus_toolbar)
+
+            abacus_toolbar_button = ToolbarButton(
+                    page=abacus_toolbar,
+                    icon_name='list-add')
+            abacus_toolbar.show()
+            toolbar_box.toolbar.insert(abacus_toolbar_button, -1)
+            abacus_toolbar_button.show()
+
 
             # The Customization submenu (roll your own)
             custom_toolbar = gtk.Toolbar()
@@ -256,6 +245,9 @@ class AbacusActivity(activity.Activity):
             self.set_toolbar_box(toolbar_box)
             toolbar_box.show()
 
+            # no sharing at the moment...
+            # self.max_participants = 1
+
         else:
             # Use pre-0.86 toolbar design
             self.toolbox = activity.ActivityToolbox(self)
@@ -268,6 +260,12 @@ class AbacusActivity(activity.Activity):
             self.toolbox.add_toolbar( _('Custom'), self.customToolbar )
 
             self.toolbox.show()
+
+            # no sharing at the moment...
+            # try:
+            #    self.toolbox.share.hide()
+            # except:
+            #    self.toolbox.props.visible = False
 
         # Create a canvas
         canvas = gtk.DrawingArea()
