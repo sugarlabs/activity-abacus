@@ -338,7 +338,20 @@ class Abacus():
         if self.press.type == 'bead':
             self.mode.move_bead(self.press, y-self.dragpos)
         self.press = None
-        # The complexity below is to make the label as simple as possible
+        self.mode.label(self.generate_label())        
+        return True
+
+    def _expose_cb(self, win, event):
+        """ Callback to handle window expose events """
+        self.sprites.redraw_sprites()
+        return True
+
+    def _destroy_cb(self, win, event):
+        """ Callback to handle quit """
+        gtk.main_quit()
+
+    def generate_label(self):
+        """ The complexity below is to make the label as simple as possible """
         sum = ""
         multiple_rods = False
         for x in self.mode.get_rod_values():
@@ -357,7 +370,7 @@ class Abacus():
                     multiple_rods = True
                     sum += " – %s" % (rod_value)
         if sum == "":
-            self.mode.label("")
+            return ""
         else:
             abacus_value = float(self.mode.value())
             if abacus_value == 0:
@@ -379,20 +392,9 @@ class Abacus():
             if value == "":
                 value = "0"
             if multiple_rods:
-                self.mode.label(sum + " = " + value)
+                return sum + " = " + value
             else:
-                self.mode.label(value)
-        return True
-
-    def _expose_cb(self, win, event):
-        """ Callback to handle window expose events """
-        self.sprites.redraw_sprites()
-        return True
-
-    def _destroy_cb(self, win, event):
-        """ Callback to handle quit """
-        gtk.main_quit()
-
+                return value
 
 class AbacusGeneric():
     """ A generic abacus: a frame, rods, and beads. """

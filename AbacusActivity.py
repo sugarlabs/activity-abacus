@@ -168,7 +168,7 @@ class AbacusActivity(activity.Activity):
                                    _abacus_toolbar)
         self.fraction = _button_factory("Foff", _('Fraction'),
                                         self._fraction_cb, _abacus_toolbar)
-        self.caacupe = _button_factory("Foff", _('Caacupe'),
+        self.caacupe = _button_factory("Foff", _('Caacupé'),
                                         self._caacupe_cb, _abacus_toolbar)
 
         self._rods_label = _label_factory(_("Rods:")+" ", _custom_toolbar)
@@ -240,7 +240,7 @@ class AbacusActivity(activity.Activity):
             pass
         try:
             self.abacus.mode.set_value(self.metadata['value'])
-            self.abacus.mode.label(self.abacus.mode.value())
+            self.abacus.mode.label(self.abacus.generate_label())
         except:
             pass
 
