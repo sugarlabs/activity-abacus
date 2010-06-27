@@ -38,7 +38,9 @@ import locale
 import logging
 _logger = logging.getLogger("abacus-activity")
 
-from abacus_window import Abacus, Custom
+from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
+                          Nepohualtzintzin, Binary, Hex, Decimal, Fractions,\
+                          Caacupe
 
 def _button_factory(icon_name, tooltip, callback, toolbar):
     """Factory for making toolbar buttons"""
@@ -166,6 +168,8 @@ class AbacusActivity(activity.Activity):
                                    _abacus_toolbar)
         self.fraction = _button_factory("Foff", _('Fraction'),
                                         self._fraction_cb, _abacus_toolbar)
+        self.caacupe = _button_factory("Foff", _('Caacupe'),
+                                        self._caacupe_cb, _abacus_toolbar)
 
         self._rods_label = _label_factory(_("Rods:")+" ", _custom_toolbar)
         self._rods_spin = _spin_factory(15, 1, 20, self._rods_spin_cb,
@@ -224,6 +228,8 @@ class AbacusActivity(activity.Activity):
                 self._hex_cb(None)
             elif self.metadata['abacus'] == 'fraction':
                 self._fraction_cb(None)
+            elif self.metadata['abacus'] == 'caacupe':
+                self._caacupe_cb(None)
             elif self.metadata['abacus'] == 'decimal':
                 self._decimal_cb(None)
             elif self.metadata['abacus'] == 'custom':
@@ -254,14 +260,24 @@ class AbacusActivity(activity.Activity):
         self.hex.set_icon("Hoff")
         self.fraction.set_icon("Foff")
         self.decimal.set_icon("Doff")
-        self.abacus.chinese.hide()
-        self.abacus.japanese.hide()
-        self.abacus.russian.hide()
-        self.abacus.mayan.hide()
-        self.abacus.binary.hide()
-        self.abacus.hex.hide()
-        self.abacus.fraction.hide()
-        self.abacus.decimal.hide()
+        if self.abacus.chinese is not None:
+            self.abacus.chinese.hide()
+        if self.abacus.japanese is not None:
+            self.abacus.japanese.hide()
+        if self.abacus.russian is not None:
+            self.abacus.russian.hide()
+        if self.abacus.mayan is not None:
+            self.abacus.mayan.hide()
+        if self.abacus.binary is not None:
+            self.abacus.binary.hide()
+        if self.abacus.hex is not None:
+            self.abacus.hex.hide()
+        if self.abacus.fraction is not None:
+            self.abacus.fraction.hide()
+        if self.abacus.decimal is not None:
+            self.abacus.decimal.hide()
+        if self.abacus.caacupe is not None:
+            self.abacus.caacupe.hide()
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
 
@@ -291,6 +307,8 @@ class AbacusActivity(activity.Activity):
 
     def _custom_cb(self, button):
         """ Display the custom abacus; hide the others """
+        if self.abacus.custom is not None:
+            self.abacus.custom.hide()
         self.abacus.custom = Custom(self.abacus,
                              self._rods_spin.get_value_as_int(),
                              self._top_spin.get_value_as_int(),
@@ -301,35 +319,57 @@ class AbacusActivity(activity.Activity):
 
     def _chinese_cb(self, button):
         """ Display the suanpan; hide the others """
+        if self.abacus.chinese is None:
+            self.abacus.chinese = Suanpan(self.abacus)
         self._select_abacus(self.chinese, 'Con', self.abacus.chinese)
 
     def _japanese_cb(self, button):
         """ Display the soroban; hide the others """
+        if self.abacus.japanese is None:
+            self.abacus.japanese = Soroban(self.abacus)
         self._select_abacus(self.japanese, 'Jon', self.abacus.japanese)
 
     def _russian_cb(self, button):
         """ Display the schety; hide the others """
+        if self.abacus.russian is None:
+            self.abacus.russian = Schety(self.abacus)
         self._select_abacus(self.russian, 'Ron', self.abacus.russian)
 
     def _mayan_cb(self, button):
         """ Display the nepohualtzintzin; hide the others """
+        if self.abacus.mayan is None:
+            self.abacus.mayan = Nepohualtzintzin(self.abacus)
         self._select_abacus(self.mayan, 'Mon', self.abacus.mayan)
 
     def _binary_cb(self, button):
         """ Display the binary; hide the others """
+        if self.abacus.binary is None:
+            self.abacus.binary = Binary(self.abacus)
         self._select_abacus(self.binary, 'Bon', self.abacus.binary)
 
     def _hex_cb(self, button):
         """ Display the hex; hide the others """
+        if self.abacus.hex is None:
+            self.abacus.hex = Hex(self.abacus)
         self._select_abacus(self.hex, 'Hon', self.abacus.hex)
 
     def _decimal_cb(self, button):
         """ Display the decimal; hide the others """
+        if self.abacus.decimal is None:
+            self.abacus.decimal = Decimal(self.abacus)
         self._select_abacus(self.decimal, 'Don', self.abacus.decimal)
 
     def _fraction_cb(self, button):
         """ Display the fraction; hide the others """
+        if self.abacus.fraction is None:
+            self.abacus.fraction = Fractions(self.abacus)
         self._select_abacus(self.fraction, 'Fon', self.abacus.fraction)
+
+    def _caacupe_cb(self, button):
+        """ Display the Caacupe; hide the others """
+        if self.abacus.caacupe is None:
+            self.abacus.caacupe = Caacupe(self.abacus)
+        self._select_abacus(self.caacupe, 'Fon', self.abacus.caacupe)
 
     def write_file(self, file_path):
         """ Write the bead positions to the Journal """
