@@ -30,7 +30,7 @@ ROD_COLORS = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
 import pygtk
 pygtk.require('2.0')
 import gtk
-from math import pow
+from math import pow, floor, ceil
 from gettext import gettext as _
 
 import logging
@@ -76,6 +76,8 @@ def dec2frac(d):
 
     if bot == 1:
         return "%s" % top
+    elif top == 0:
+        return ""
     return "%s/%s" % (top, bot)
 
 #
@@ -149,7 +151,8 @@ def _svg_style(extras=""):
 class Bead():
     """ The Bead class is used to define the individual beads. """
 
-    def __init__(self, sprite, offset, value, max_fade=MAX_FADE_LEVEL):
+    def __init__(self, sprite, offset, value, max_fade=MAX_FADE_LEVEL,
+                 tristate=False):
         """ We store a sprite, an offset, and a value for each bead """
         self.spr = sprite
         self.offset = offset
@@ -163,6 +166,7 @@ class Bead():
         self.spr.type = 'bead'
         self.fade_level = 0 # Used for changing color
         self.max_fade_level = MAX_FADE_LEVEL
+        self.tristate = tristate # beads can be +/- or off
         return
 
     def hide(self):
@@ -178,7 +182,17 @@ class Bead():
     def move(self, offset):
         """ Generic move method: sets state and level """
         self.spr.move_relative((0, offset))
-        self.state = 1-self.state
+        if not self.tristate:
+            self.state = 1-self.state
+        elif self.state == 1: # moving bead back to center
+            self.state = 0
+        elif self.state == -1: # moving bead back to center
+            self.state = 0
+        else: # bead is in the center
+            if offset > 0: # moving bead down to bottom
+                self.state = -1
+            else: # moving bead up to top
+                self.state = 1
         self.set_fade_level(self.max_fade_level)
         self.update_label()
         return
@@ -194,11 +208,8 @@ class Bead():
         return
 
     def get_value(self):
-        """ Return a value if bead state is 1 """
-        if self.state == 1:
-            return self.value
-        else:
-            return 0
+        """ Return a value based upon bead state """
+        return self.state*self.value
 
     def get_state(self):
         """ Is the bead 'active' """
@@ -230,7 +241,16 @@ class Bead():
         value = self.get_value()
         if self.state == 1 and value < 10000 and value > 0.05:
             value = self.get_value()
-            self.spr.set_label(dec2frac(value))
+            if value < 1:
+                self.spr.set_label(dec2frac(value))
+            else:
+                self.spr.set_label(int(value))
+        elif self.state == -1 and value > -10000 and value < -0.05:
+            value = self.get_value()
+            if value > -1:
+                self.spr.set_label("–" + dec2frac(-value))
+            else:
+                self.spr.set_label(int(value))
         else:
             self.spr.set_label("")
         return
@@ -267,23 +287,17 @@ class Abacus():
         self.press = None
 
         self.chinese = Suanpan(self)
-        self.japanese = Soroban(self)
-        self.russian = Schety(self)
-        self.mayan = Nepohualtzintzin(self)
-        self.binary = Binary(self)
-        self.hex = Hex(self)
-        self.decimal = Decimal(self)
-        self.fraction = Fractions(self)
+        self.japanese = None
+        self.russian = None
+        self.mayan = None
+        self.binary = None
+        self.hex = None
+        self.decimal = None
+        self.fraction = None
+        self.caacupe = None
         self.custom = None
 
         self.chinese.show()
-        self.japanese.hide()
-        self.russian.hide()
-        self.mayan.hide()
-        self.binary.hide()
-        self.decimal.hide()
-        self.hex.hide()
-        self.fraction.hide()
         self.mode = self.chinese
 
     def _button_press_cb(self, win, event):
@@ -309,17 +323,20 @@ class Abacus():
             return True
         win.grab_focus()
         x, y = map(int, event.get_coords())
-        if self.press.type == 'bead':
-            self.mode.move_bead(self.press, y-self.dragpos)
-        elif self.press.type == 'mark':
+        if self.press.type == 'mark':
             mx, my = self.mode.mark.get_xy()
             self.mode.move_mark(x-mx)
         return True
 
     def _button_release_cb(self, win, event):
         """ Callback to handle the button releases """
-        if self.press == None:
+        if self.press is None:
+            self.dragpos = 0
             return True
+        win.grab_focus()
+        x, y = map(int, event.get_coords())
+        if self.press.type == 'bead':
+            self.mode.move_bead(self.press, y-self.dragpos)
         self.press = None
         # The complexity below is to make the label as simple as possible
         sum = ""
@@ -332,12 +349,39 @@ class Abacus():
                 else:
                     multiple_rods = True
                     sum += " + %s" % (rod_value)
+            elif x < 0:
+                rod_value = dec2frac(-x)
+                if sum == "":
+                    sum = "–%s" % (rod_value)
+                else:
+                    multiple_rods = True
+                    sum += " – %s" % (rod_value)
         if sum == "":
             self.mode.label("")
-        elif multiple_rods:
-            self.mode.label(sum + " = " + self.mode.value())
         else:
-            self.mode.label(self.mode.value())
+            abacus_value = float(self.mode.value())
+            if abacus_value == 0:
+                value = '0'
+            elif abacus_value > 0:
+                whole = int(floor(abacus_value))
+                fraction = abacus_value-whole
+                if whole == 0:
+                    value = dec2frac(fraction)
+                else:
+                    value = "%d %s" % (whole, dec2frac(fraction))
+            else:
+                whole = int(ceil(abacus_value))
+                fraction = abacus_value-whole
+                if whole == 0:
+                    value = "–%s" % (dec2frac(-fraction))
+                else:
+                    value = "–%d %s" % (-whole, dec2frac(-fraction))
+            if value == "":
+                value = "0"
+            if multiple_rods:
+                self.mode.label(sum + " = " + value)
+            else:
+                self.mode.label(value)
         return True
 
     def _expose_cb(self, win, event):
@@ -827,6 +871,8 @@ class Schety(AbacusGeneric):
             for i in range(self.bead_count[r]):
                 if self.beads[bead_index+i].get_state() == 1:
                     self.beads[bead_index+i].move_down()
+                elif self.beads[bead_index+i].get_state() == -1:
+                    self.beads[bead_index+i].move_up()
             bead_index += self.bead_count[r]
 
         self.bar.set_label("")
@@ -1067,4 +1113,129 @@ class Fractions(Schety):
 
         for r in self.rods:
             r.type = "frame"
+        return
+
+class Caacupe(Fractions):
+    """ Inherit from Fraction abacus. """
+
+    def set_parameters(self):
+        """ Create an abacus with fractions: 15 by 10 (with 1/2, 1/3. 1/4,
+            1/5, 1/6, 1/8, 1/9, 1/10, 1/12). """
+        self.bead_count = (10, 10, 10, 10, 10, 10, 2, 3, 4, 5, 6, 8, 9, 10, 12)
+        self.bead_offset = (2, 2, 2, 2, 2, 2, 6, 5.5, 5, 4.5, 4, 3, 2.5, 2, 1)
+        self.name = "fraction" # "caacupe"
+        self.num_rods = 15
+        self.top_beads = 0
+        self.bot_beads = 12
+        self.base = 10
+        self.top_factor = 5
+        return
+
+    def draw_rods_and_beads(self, x, y):
+        """ Override default in order to center beads vertically """
+        _white = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
+                _svg_bead("#ffffff", "#000000") +\
+                _svg_footer()
+        self.white = _svg_str_to_pixbuf(_white)
+        _black = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
+                 _svg_bead("#000000", "#000000") +\
+                 _svg_footer()
+        self.black = _svg_str_to_pixbuf(_black)
+
+        dx = (BWIDTH+BOFFSET)*self.abacus.scale
+
+        self.beads = []
+        self.rods = []
+        bo =  (BWIDTH-BOFFSET)*self.abacus.scale/4
+        ro =  (BWIDTH+5)*self.abacus.scale/2
+        for i in range(self.num_rods):
+            _rod = _svg_header(10, self.frame_height-(FSTROKE*2),
+                               self.abacus.scale) +\
+                   _svg_rect(10, self.frame_height-(FSTROKE*2), 0, 0, 0, 0,
+                            ROD_COLORS[(i+9)%len(ROD_COLORS)], "#404040") +\
+                   _svg_footer()
+            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+ro, y,
+                                    _svg_str_to_pixbuf(_rod)))
+
+            for b in range(self.bead_count[i]):
+                if i < 6: # whole-number beads are white
+                    self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                                  x+i*dx+bo,
+                                                  y+(14-self.bead_count[i]-\
+                                                  self.bead_offset[i]+b)*\
+                                                  BHEIGHT*self.abacus.scale,
+                                                  self.white),
+                                           self.bead_offset[i]*BHEIGHT*\
+                                           self.abacus.scale,
+                                           pow(10,5-i), 0, True))
+                else: # fraction beads are black
+                    self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                                  x+i*dx+bo,
+                                                  y+(14-self.bead_count[i]-\
+                                                  self.bead_offset[i]+b)*\
+                                                  BHEIGHT*self.abacus.scale,
+                                                  self.black),
+                                           self.bead_offset[i]*BHEIGHT*\
+                                           self.abacus.scale,
+                                           1.0/self.bead_count[i], 0, True))
+                    self.beads[-1].set_label_color("#ffffff")
+
+        for r in self.rods:
+            r.type = "frame"
+        return
+
+    def move_bead(self, sprite, dy):
+        """ Move a bead (or beads) up or down a rod from the middle. """
+
+        # find the bead associated with the sprite
+        i = -1
+        for bead in self.beads:
+            if sprite == bead.spr:
+                i = self.beads.index(bead)
+                break
+        if i == -1:
+            print "bead not found"
+            return
+
+        # Find out which rod i corresponds to
+        count = 0
+        for r in range(len(self.bead_count)):
+            count += self.bead_count[r]
+            if i < count:
+                break
+        # Take into account the number of beads per rod
+        o = self.bot_beads - self.bead_count[r] + 2
+        b = i - (count-self.bead_count[r])
+        n = self.bead_count[r]
+
+        if dy < 0 and bead.state == 0:
+            print "move up: %d %d" % (dy, bead.state)
+            bead.move_up()
+            # Make sure beads above this bead are also moved.
+            for ii in range(b+1):
+                if self.beads[i-ii].get_state() == 0:
+                    self.beads[i-ii].move_up()
+        elif dy < 0 and bead.state == -1:
+            print "move up: %d %d" % (dy, bead.state)
+            bead.move_up()
+            # Make sure beads above this bead are also moved.
+            for ii in range(b+1):
+                if self.beads[i-ii].get_state() == -1:
+                    self.beads[i-ii].move_up()
+        elif dy > 0 and bead.state == 1:
+            print "move down: %d %d" % (dy, bead.state)
+            bead.move_down()
+            # Make sure beads below this bead are also moved.
+            for ii in range(n-b):
+                if self.beads[i+ii].get_state() == 1:
+                    self.beads[i+ii].move_down()
+        elif dy > 0 and bead.state == 0:
+            print "move down: %d %d" % (dy, bead.state)
+            bead.move_down()
+            # Make sure beads below this bead are also moved.
+            for ii in range(n-b):
+                if self.beads[i+ii].get_state() == 0:
+                    self.beads[i+ii].move_down()
+        else:
+            print "no move: %d %d" % (dy, bead.state)
         return
