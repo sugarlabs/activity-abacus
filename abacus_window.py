@@ -111,18 +111,18 @@ def _svg_indicator():
     svg_string += _svg_style("fill:#ff0000;stroke:#ff0000;stroke-width:3.0;")
     return svg_string
 
-def _svg_bead(fill, stroke):
-    """ Returns a bead-shaped SVG object """
-    svg_string = "%s %s %s %s" % ("<path d=\"m1.5 15 A 15 13.5 90 0 1",
-                                  "15 1.5 L 25 1.5 A 15 13.5 90 0 1 38.5",
-                                  "15 A 15 13.5 90 0 1 25 28.5 L 15",
-                                  "28.5 A 15 13.5 90 0 1 1.5 15 z\"\n")
+def _svg_bead(fill, stroke, scale=1.0):
+    """ Returns a bead-shaped SVG object; scale is used to elongate """
+    _h = 15+30*(scale-1.0)
+    _h2 = 30*scale-1.5
+    svg_string = "<path d=\"m 1.5 15 A 15 13.5 90 0 1 15 1.5 L 25 1.5 A 15 13.5 90 0 1 38.5 15 L 38.5 %f A 15 13.5 90 0 1 25 %f L 15 %f A 15 13.5 90 0 1 1.5 %f L 1.5 15 z\"\n" %\
+        (_h, _h2, _h2, _h)
     svg_string += _svg_style("fill:%s;stroke:%s;stroke-width:1.5" %\
                              (fill, stroke))
     return svg_string
 
-def _svg_header(w, h, scale):
-    """ Returns SVG header """
+def _svg_header(w, h, scale, hscale=1.0):
+    """ Returns SVG header; some beads are elongated (hscale) """
     svg_string = "<?xml version=\"1.0\" encoding=\"UTF-8\""
     svg_string += " standalone=\"no\"?>\n"
     svg_string += "<!-- Created with Python -->\n"
@@ -131,7 +131,7 @@ def _svg_header(w, h, scale):
     svg_string += "   xmlns=\"http://www.w3.org/2000/svg\"\n"
     svg_string += "   version=\"1.0\"\n"
     svg_string += "%s%f%s" % ("   width=\"", w*scale, "\"\n")
-    svg_string += "%s%f%s" % ("   height=\"", h*scale, "\">\n")
+    svg_string += "%s%f%s" % ("   height=\"", h*scale*hscale, "\">\n")
     svg_string += "%s%f%s%f%s" % ("<g\n       transform=\"matrix(", 
                                   scale, ",0,0,", scale,
                                   ",0,0)\">\n")
@@ -295,6 +295,7 @@ class Abacus():
         self.decimal = None
         self.fraction = None
         self.caacupe = None
+        self.cuisenaire = None
         self.custom = None
 
         self.chinese.show()
@@ -1258,3 +1259,58 @@ class Caacupe(Fractions):
             for i in range(-value):
                 self.beads[bead_index+self.bead_count[rod]-i-1].move_down()
 
+class Cuisenaire(Caacupe):
+    """ Inherit from Caacupe abacus. """
+
+    def set_parameters(self):
+        """ Create an abacus with fractions: 10 by 10 (with 1/1, 1/2, 1/3. 1/4,
+            1/5, 1/6, 1/7, 1/8, 1/9, 1/10). """
+        self.bead_count = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        self.name = "cuisenaire"
+        self.num_rods = 10
+        self.top_beads = 0
+        self.bot_beads = 10
+        self.base = 10
+        self.top_factor = 5
+        return
+
+    def draw_rods_and_beads(self, x, y):
+        """ Override default in order to center beads vertically; beads
+        are scaled vertically to match their value """
+        self.bead_pixbuf = []
+        for i in range(self.num_rods):
+            _bead = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale,
+                                        10.0/(i+1)) +\
+                                        _svg_bead("#FFFFFF", "#000000",
+                                                  10.0/(i+1)) +\
+                                                  _svg_footer()
+            self.bead_pixbuf.append(_svg_str_to_pixbuf(_bead))
+
+        dx = (BWIDTH+BOFFSET)*self.abacus.scale
+
+        self.beads = []
+        self.rods = []
+        bo =  (BWIDTH-BOFFSET)*self.abacus.scale/4
+        ro =  (BWIDTH+5)*self.abacus.scale/2
+        for i in range(self.num_rods):
+            _rod = _svg_header(10, self.frame_height-(FSTROKE*2),
+                               self.abacus.scale) +\
+                   _svg_rect(10, self.frame_height-(FSTROKE*2), 0, 0, 0, 0,
+                            ROD_COLORS[(i+9)%len(ROD_COLORS)], "#404040") +\
+                   _svg_footer()
+            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+ro, y,
+                                    _svg_str_to_pixbuf(_rod)))
+
+            for b in range(self.bead_count[i]):
+                self.beads.append(Bead(
+                        Sprite(self.abacus.sprites,
+                               x+i*dx+bo,
+                               y+(1+b*10.0/(i+1))*BHEIGHT*self.abacus.scale,
+                               self.bead_pixbuf[i]),
+                               BHEIGHT*self.abacus.scale,
+                        1.0/(i+1), 0, True))
+                self.beads[-1].set_label_color("#000000")
+
+        for r in self.rods:
+            r.type = "frame"
+        return

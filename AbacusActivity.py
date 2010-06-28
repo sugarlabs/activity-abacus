@@ -40,7 +40,7 @@ _logger = logging.getLogger("abacus-activity")
 
 from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
                           Nepohualtzintzin, Binary, Hex, Decimal, Fractions,\
-                          Caacupe
+                          Caacupe, Cuisenaire
 
 def _button_factory(icon_name, tooltip, callback, toolbar):
     """Factory for making toolbar buttons"""
@@ -171,6 +171,8 @@ class AbacusActivity(activity.Activity):
                                         self._fraction_cb, _abacus_toolbar)
         self.caacupe = _button_factory("caacupe-off", _('Caacupé'),
                                         self._caacupe_cb, _abacus_toolbar)
+        self.cuisenaire = _button_factory("cuisenaire-off", _('Rods'),
+                                        self._cuisenaire_cb, _abacus_toolbar)
 
         self._rods_label = _label_factory(_("Rods:")+" ", _custom_toolbar)
         self._rods_spin = _spin_factory(15, 1, 20, self._rods_spin_cb,
@@ -231,6 +233,8 @@ class AbacusActivity(activity.Activity):
                 self._fraction_cb(None)
             elif self.metadata['abacus'] == 'caacupe':
                 self._caacupe_cb(None)
+            elif self.metadata['abacus'] == 'cuisenaire':
+                self._cuisenaire_cb(None)
             elif self.metadata['abacus'] == 'decimal':
                 self._decimal_cb(None)
             elif self.metadata['abacus'] == 'custom':
@@ -262,6 +266,7 @@ class AbacusActivity(activity.Activity):
         self.hex.set_icon("hex-off")
         self.fraction.set_icon("fraction-off")
         self.caacupe.set_icon("caacupe-off")
+        self.caacupe.set_icon("cuisenaire-off")
         self.decimal.set_icon("decimal-off")
         if self.abacus.chinese is not None:
             self.abacus.chinese.hide()
@@ -281,6 +286,8 @@ class AbacusActivity(activity.Activity):
             self.abacus.decimal.hide()
         if self.abacus.caacupe is not None:
             self.abacus.caacupe.hide()
+        if self.abacus.cuisenaire is not None:
+            self.abacus.cuisenaire.hide()
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
 
@@ -382,6 +389,13 @@ class AbacusActivity(activity.Activity):
             self.abacus.caacupe = Caacupe(self.abacus)
         self._select_abacus(self.caacupe, self.abacus.caacupe.name+"-on",
                             self.abacus.caacupe)
+
+    def _cuisenaire_cb(self, button):
+        """ Display Cuisenaire-like rods; hide the others """
+        if self.abacus.cuisenaire is None:
+            self.abacus.cuisenaire = Cuisenaire(self.abacus)
+        self._select_abacus(self.cuisenaire, self.abacus.cuisenaire.name+"-on",
+                            self.abacus.cuisenaire)
 
     def write_file(self, file_path):
         """ Write the bead positions to the Journal """
