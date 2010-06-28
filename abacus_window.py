@@ -573,17 +573,17 @@ class AbacusGeneric():
 
     def set_value(self, string):
         """ Set abacus to value in string """
-        _logger.debug("restoring %s: %s" % (self.name, string))
+        _logger.debug("restoring %s: [%s]" % (self.name, string))
         # String has two bytes per column.
         v = []
         for r in range(self.num_rods):
             v.append(0)
 
-        # Convert string to column values.
+        # Convert string to column values
         if len(string) == 2*self.num_rods:
             for i in range(self.num_rods):
                 v[self.num_rods-i-1] = int(
-                              string[2*self.num_rods-i*2-1:2*self.num_rods-i*2])
+                              string[2*self.num_rods-i*2-2:2*self.num_rods-i*2])
         else:
             _logger.debug("bad saved string %s (%d != 2*%d)" % (string,
                           len(string), self.num_rods))
@@ -1010,6 +1010,8 @@ class Schety(AbacusGeneric):
                     break
             if bead.get_state() == 1:
                 v[r+1] += 1
+            elif bead.get_state() == -1:
+                v[r+1] -= 1
 
         if count_beads:
             # Save the value associated with each rod as a 2-byte integer.
@@ -1125,7 +1127,7 @@ class Caacupe(Fractions):
             1/5, 1/6, 1/8, 1/9, 1/10, 1/12). """
         self.bead_count = (10, 10, 10, 10, 10, 10, 2, 3, 4, 5, 6, 8, 9, 10, 12)
         self.bead_offset = (2, 2, 2, 2, 2, 2, 6, 5.5, 5, 4.5, 4, 3, 2.5, 2, 1)
-        self.name = "fraction" # "caacupe"
+        self.name = "caacupe"
         self.num_rods = 15
         self.top_beads = 0
         self.bot_beads = 12
@@ -1189,7 +1191,7 @@ class Caacupe(Fractions):
     def move_bead(self, sprite, dy):
         """ Move a bead (or beads) up or down a rod from the middle. """
 
-        # find the bead associated with the sprite
+        # Find the bead associated with the sprite
         i = -1
         for bead in self.beads:
             if sprite == bead.spr:
@@ -1211,33 +1213,48 @@ class Caacupe(Fractions):
         n = self.bead_count[r]
 
         if dy < 0 and bead.state == 0:
-            print "move up: %d %d" % (dy, bead.state)
             bead.move_up()
             # Make sure beads above this bead are also moved.
             for ii in range(b+1):
                 if self.beads[i-ii].get_state() == 0:
                     self.beads[i-ii].move_up()
         elif dy < 0 and bead.state == -1:
-            print "move up: %d %d" % (dy, bead.state)
             bead.move_up()
             # Make sure beads above this bead are also moved.
             for ii in range(b+1):
                 if self.beads[i-ii].get_state() == -1:
                     self.beads[i-ii].move_up()
         elif dy > 0 and bead.state == 1:
-            print "move down: %d %d" % (dy, bead.state)
             bead.move_down()
             # Make sure beads below this bead are also moved.
             for ii in range(n-b):
                 if self.beads[i+ii].get_state() == 1:
                     self.beads[i+ii].move_down()
         elif dy > 0 and bead.state == 0:
-            print "move down: %d %d" % (dy, bead.state)
             bead.move_down()
             # Make sure beads below this bead are also moved.
             for ii in range(n-b):
                 if self.beads[i+ii].get_state() == 0:
                     self.beads[i+ii].move_down()
-        else:
-            print "no move: %d %d" % (dy, bead.state)
         return
+
+    def set_rod_value(self, rod, value):
+        """ Move beads on rod r to represent value v (v can go negative)"""
+        bead_index = 0
+        for r in range(rod):
+            bead_index += self.bead_count[r]
+
+        # Clear the beads
+        for i in range(self.bead_count[rod]):
+            if self.beads[bead_index+i].get_state() == 1:
+                self.beads[bead_index+i].move_down()
+            if self.beads[bead_index+i].get_state() == -1:
+                self.beads[bead_index+i].move_up()
+        # Set the beads
+        if value > 0:
+            for i in range(value):
+                self.beads[bead_index+i].move_up()
+        elif value < 0:
+            for i in range(-value):
+                self.beads[bead_index+self.bead_count[rod]-i-1].move_down()
+
