@@ -18,7 +18,9 @@ import gtk
 
 from gettext import gettext as _
 
-from abacus_window import Abacus
+from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
+                          Nepohualtzintzin, Binary, Hex, Decimal, Fractions,\
+                          Caacupe, Cuisenaire
 
 class AbacusMain:
     def __init__(self):
@@ -46,14 +48,16 @@ class AbacusMain:
         self.win.connect("delete_event", lambda w,e: gtk.main_quit())
 
 	ABACI = {
-		"c": _("Saunpan"),
+		"c": _("Suanpan"),
 		"j": _("Soroban"),
 		"r": _("Schety"),
 		"m": _("Nepohualtzintzin"),
 		"b": _("Binary"),
 		"h": _("Hexadecimal"),
 		"f": _("Fraction"),
-		"d": _("Decimal")
+		"d": _("Decimal"),
+		"C": _("Caacupe"),
+		"R": _("Cuisenaire")
 	}
 
         menu = gtk.Menu()
@@ -114,9 +118,27 @@ class AbacusMain:
 		"j": self.abacus.japanese,
 		"m": self.abacus.mayan,
 		"r": self.abacus.russian,
-		"d": self.abacus.decimal
+		"d": self.abacus.decimal,
+		"C": self.abacus.caacupe,
+		"R": self.abacus.cuisenaire
 	}
+
+        FACTORY = {
+		"c": Suanpan(self.abacus),
+		"j": Soroban(self.abacus),
+		"r": Schety(self.abacus),
+		"m": Nepohualtzintzin(self.abacus),
+		"b": Binary(self.abacus),
+		"h": Hex(self.abacus),
+		"f": Fractions(self.abacus),
+		"d": Decimal(self.abacus),
+		"C": Caacupe(self.abacus),
+		"R": Cuisenaire(self.abacus)
+        }
+
 	self.abacus.mode.hide()
+        if ABACI[user] is None:
+            ABACI[user] = FACTORY[user]
 	self.abacus.mode = ABACI[user]
 	self.abacus.mode.show()
         return True
