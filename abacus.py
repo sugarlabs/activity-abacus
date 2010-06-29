@@ -22,6 +22,7 @@ from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
                           Nepohualtzintzin, Binary, Hex, Decimal, Fractions,\
                           Caacupe, Cuisenaire
 
+
 class AbacusMain:
     def __init__(self):
         self.r = 0
@@ -48,7 +49,7 @@ class AbacusMain:
         self.win.connect("delete_event", lambda w,e: gtk.main_quit())
 
 	ABACI = {
-		"c": _("Suanpan"),
+		"c": _("Saunpan"),
 		"j": _("Soroban"),
 		"r": _("Schety"),
 		"m": _("Nepohualtzintzin"),
@@ -105,6 +106,25 @@ class AbacusMain:
 
         self.abacus.activity = self
 
+        self.abacus.japanese = Soroban(self.abacus)
+        self.abacus.japanese.hide()
+	self.abacus.russian = Schety(self.abacus)
+        self.abacus.russian.hide()
+	self.abacus.mayan = Nepohualtzintzin(self.abacus)
+        self.abacus.mayan.hide()
+	self.abacus.binary = Binary(self.abacus)
+        self.abacus.binary.hide()
+	self.abacus.hex = Hex(self.abacus)
+        self.abacus.hex.hide()
+	self.abacus.fraction = Fractions(self.abacus)
+        self.abacus.fraction.hide()
+	self.abacus.decimal = Decimal(self.abacus)
+        self.abacus.decimal.hide()
+        self.abacus.caacupe = Caacupe(self.abacus)
+        self.abacus.caacupe.hide()
+        self.abacus.cuisenaire = Cuisenaire(self.abacus)
+        self.abacus.cuisenaire.hide()
+
     def set_title(self, title):
         self.win.set_title(title)
         return
@@ -122,23 +142,7 @@ class AbacusMain:
 		"C": self.abacus.caacupe,
 		"R": self.abacus.cuisenaire
 	}
-
-        FACTORY = {
-		"c": Suanpan(self.abacus),
-		"j": Soroban(self.abacus),
-		"r": Schety(self.abacus),
-		"m": Nepohualtzintzin(self.abacus),
-		"b": Binary(self.abacus),
-		"h": Hex(self.abacus),
-		"f": Fractions(self.abacus),
-		"d": Decimal(self.abacus),
-		"C": Caacupe(self.abacus),
-		"R": Cuisenaire(self.abacus)
-        }
-
 	self.abacus.mode.hide()
-        if ABACI[user] is None:
-            ABACI[user] = FACTORY[user]
 	self.abacus.mode = ABACI[user]
 	self.abacus.mode.show()
         return True

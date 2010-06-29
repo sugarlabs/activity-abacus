@@ -550,7 +550,6 @@ class AbacusGeneric():
 
     def hide(self):
         """ Hide the rod, beads, mark, and frame. """
-        print "hiding %s" % (self.name)
         for rod in self.rods:
             rod.hide()
         for bead in self.beads:
