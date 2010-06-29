@@ -711,7 +711,8 @@ class AbacusGeneric():
                 # Make sure beads below this bead are also moved.
                 for ii in range(self.top_beads-b):
                     if self.beads[i+ii].state == 0:
-                        self.beads[i+ii].set_color(self.colors[3])
+                        if bead.max_fade_level > 0:
+                            self.beads[i+ii].set_color(self.colors[3])
                         self.beads[i+ii].move_down()
             elif dy < 0 and bead.state == 1:
                 if bead.max_fade_level > 0:
@@ -721,7 +722,8 @@ class AbacusGeneric():
                 # Make sure beads above this bead are also moved.
                 for ii in range(b+1):
                     if self.beads[i-ii].state == 1:
-                        self.beads[i-ii].set_color(self.colors[3])
+                        if bead.max_fade_level > 0:
+                            self.beads[i-ii].set_color(self.colors[3])
                         self.beads[i-ii].move_up()
         else:
             if dy < 0 and bead.state == 0:
@@ -732,7 +734,8 @@ class AbacusGeneric():
                 # Make sure beads above this bead are also moved.
                 for ii in range(b-self.top_beads+1):
                     if self.beads[i-ii].state == 0:
-                        self.beads[i-ii].set_color(self.colors[3])
+                        if bead.max_fade_level > 0:
+                            self.beads[i-ii].set_color(self.colors[3])
                         self.beads[i-ii].move_up()
             elif dy > 0 and bead.state == 1:
                 if bead.max_fade_level > 0:
@@ -742,7 +745,8 @@ class AbacusGeneric():
                 # Make sure beads below this bead are also moved.
                 for ii in range(self.top_beads+self.bot_beads-b):
                     if self.beads[i+ii].state == 1:
-                        self.beads[i+ii].set_color(self.colors[3])
+                        if bead.max_fade_level > 0:
+                            self.beads[i+ii].set_color(self.colors[3])
                         self.beads[i+ii].move_down()
         return
 
