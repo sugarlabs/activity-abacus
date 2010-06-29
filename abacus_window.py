@@ -390,7 +390,7 @@ class Abacus():
                     value = "–%s" % (dec2frac(-fraction))
                 else:
                     value = "–%d %s" % (-whole, dec2frac(-fraction))
-            if value == "":
+            if value == "" or value == "-":
                 value = "0"
             if multiple_rods:
                 return sum + " = " + value
@@ -1277,11 +1277,17 @@ class Cuisenaire(Caacupe):
     def draw_rods_and_beads(self, x, y):
         """ Override default in order to center beads vertically; beads
         are scaled vertically to match their value """
+
+        COLORS = ("#FFFFFF", "#FF0000", "#88FF00", "#FF00FF", "#FFFF00",
+                  "#00CC00", "#000000", "#AA6600", "#00CCFF", "#FF8800")
+        LABELS = ("#000000", "#FFFFFF", "#000000", "#FFFFFF", "#000000",
+                  "#000000", "#FFFFFF", "#FFFFFF", "#000000", "#000000")
+
         self.bead_pixbuf = []
         for i in range(self.num_rods):
             _bead = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale,
                                         10.0/(i+1)) +\
-                                        _svg_bead("#FFFFFF", "#000000",
+                                        _svg_bead(COLORS[i], "#000000",
                                                   10.0/(i+1)) +\
                                                   _svg_footer()
             self.bead_pixbuf.append(_svg_str_to_pixbuf(_bead))
@@ -1296,7 +1302,7 @@ class Cuisenaire(Caacupe):
             _rod = _svg_header(10, self.frame_height-(FSTROKE*2),
                                self.abacus.scale) +\
                    _svg_rect(10, self.frame_height-(FSTROKE*2), 0, 0, 0, 0,
-                            ROD_COLORS[(i+9)%len(ROD_COLORS)], "#404040") +\
+                            "#404040", "#404040") +\
                    _svg_footer()
             self.rods.append(Sprite(self.abacus.sprites, x+i*dx+ro, y,
                                     _svg_str_to_pixbuf(_rod)))
@@ -1309,7 +1315,7 @@ class Cuisenaire(Caacupe):
                                self.bead_pixbuf[i]),
                                BHEIGHT*self.abacus.scale,
                         1.0/(i+1), 0, True))
-                self.beads[-1].set_label_color("#000000")
+                self.beads[-1].set_label_color(LABELS[i])
 
         for r in self.rods:
             r.type = "frame"
