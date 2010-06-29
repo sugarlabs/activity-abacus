@@ -165,7 +165,7 @@ class Bead():
         self.state = 0
         self.spr.type = 'bead'
         self.fade_level = 0 # Used for changing color
-        self.max_fade_level = MAX_FADE_LEVEL
+        self.max_fade_level = max_fade
         self.tristate = tristate # beads can be +/- or off
         return
 
@@ -390,7 +390,7 @@ class Abacus():
                     value = "–%s" % (dec2frac(-fraction))
                 else:
                     value = "–%d %s" % (-whole, dec2frac(-fraction))
-            if value == "" or value == "-":
+            if value == "" or value == "–":
                 value = "0"
             if multiple_rods:
                 return sum + " = " + value
@@ -550,6 +550,7 @@ class AbacusGeneric():
 
     def hide(self):
         """ Hide the rod, beads, mark, and frame. """
+        print "hiding %s" % (self.name)
         for rod in self.rods:
             rod.hide()
         for bead in self.beads:
@@ -703,8 +704,9 @@ class AbacusGeneric():
         b = i % (self.top_beads+self.bot_beads)
         if b < self.top_beads:
             if dy > 0 and bead.get_state() == 0:
-                self.fade_colors()
-                bead.set_color(self.colors[3])
+                if bead.max_fade_level > 0:
+                    self.fade_colors()
+                    bead.set_color(self.colors[3])
                 bead.move_down()
                 # Make sure beads below this bead are also moved.
                 for ii in range(self.top_beads-b):
@@ -712,8 +714,9 @@ class AbacusGeneric():
                         self.beads[i+ii].set_color(self.colors[3])
                         self.beads[i+ii].move_down()
             elif dy < 0 and bead.state == 1:
-                self.fade_colors()
-                bead.set_color(self.colors[3])
+                if bead.max_fade_level > 0:
+                    self.fade_colors()
+                    bead.set_color(self.colors[3])
                 bead.move_up()
                 # Make sure beads above this bead are also moved.
                 for ii in range(b+1):
@@ -722,8 +725,9 @@ class AbacusGeneric():
                         self.beads[i-ii].move_up()
         else:
             if dy < 0 and bead.state == 0:
-                self.fade_colors()
-                bead.set_color(self.colors[3])
+                if bead.max_fade_level > 0:
+                    self.fade_colors()
+                    bead.set_color(self.colors[3])
                 bead.move_up()
                 # Make sure beads above this bead are also moved.
                 for ii in range(b-self.top_beads+1):
@@ -731,8 +735,9 @@ class AbacusGeneric():
                         self.beads[i-ii].set_color(self.colors[3])
                         self.beads[i-ii].move_up()
             elif dy > 0 and bead.state == 1:
-                self.fade_colors()
-                bead.set_color(self.colors[3])
+                if bead.max_fade_level > 0:
+                    self.fade_colors()
+                    bead.set_color(self.colors[3])
                 bead.move_down()
                 # Make sure beads below this bead are also moved.
                 for ii in range(self.top_beads+self.bot_beads-b):
@@ -787,7 +792,7 @@ class Suanpan(AbacusGeneric):
 
     def set_parameters(self):
         """ Create a Chinese abacus: 15 by (5,2). """
-        self.name = 'saunpan'
+        self.name = 'suanpan'
         self.num_rods = 15
         self.bot_beads = 5
         self.top_beads = 2
@@ -837,6 +842,46 @@ class Decimal(AbacusGeneric):
         self.top_factor = 5
         return
 
+    def draw_rods_and_beads(self, x, y):
+        """ Draw the rods and beads: override bead color"""
+
+        COLORS = ("#FFFFFF", "#FF0000", "#88FF00", "#FF00FF", "#FFFF00",
+                  "#00CC00", "#000000", "#AA6600", "#00CCFF", "#FF8800")
+        LABELS = ("#000000", "#FFFFFF", "#000000", "#FFFFFF", "#000000",
+                  "#000000", "#FFFFFF", "#FFFFFF", "#000000", "#000000")
+
+        self.bead_pixbuf = []
+        for i in range(self.num_rods):
+            _bead = _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) +\
+                    _svg_bead(COLORS[i], "#000000") +\
+                    _svg_footer()
+            self.bead_pixbuf.append(_svg_str_to_pixbuf(_bead))
+
+        dx = (BWIDTH+BOFFSET)*self.abacus.scale
+        bo =  (BWIDTH-BOFFSET)*self.abacus.scale/4
+        ro =  (BWIDTH+5)*self.abacus.scale/2
+        for i in range(self.num_rods):
+            _rod = _svg_header(10, self.frame_height-(FSTROKE*2),
+                               self.abacus.scale) +\
+                   _svg_rect(10, self.frame_height-(FSTROKE*2), 0, 0, 0, 0,
+                             "#404040", "#404040") +\
+                   _svg_footer()
+            self.rods.append(Sprite(self.abacus.sprites, x+i*dx+ro, y,
+                                    _svg_str_to_pixbuf(_rod)))
+
+            for b in range(self.bot_beads):
+                self.beads.append(Bead(Sprite(self.abacus.sprites,
+                                              x+i*dx+bo,
+                                              y+(2+b)*\
+                                                  BHEIGHT*self.abacus.scale,
+                                              self.bead_pixbuf[i]),
+                                           2*BHEIGHT*self.abacus.scale,
+                                           pow(self.base,self.num_rods-i-1), 0))
+                self.beads[-1].set_label_color(LABELS[i])
+
+        for rod in self.rods:
+            rod.type = "frame"
+        return
 
 class Binary(AbacusGeneric):
     """ A binary abacus """
