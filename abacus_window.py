@@ -344,7 +344,7 @@ class Abacus():
 
     def _expose_cb(self, win, event):
         """ Callback to handle window expose events """
-        self.sprites.redraw_sprites()
+        self.sprites.redraw_sprites(event.area)
         return True
 
     def _destroy_cb(self, win, event):
