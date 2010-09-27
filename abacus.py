@@ -49,7 +49,7 @@ class AbacusMain:
         self.win.connect("delete_event", lambda w,e: gtk.main_quit())
 
 	ABACI = {
-		"c": _("Saunpan"),
+		"c": _("Suanpan"),
 		"j": _("Soroban"),
 		"r": _("Schety"),
 		"m": _("Nepohualtzintzin"),
@@ -57,8 +57,8 @@ class AbacusMain:
 		"h": _("Hexadecimal"),
 		"f": _("Fraction"),
 		"d": _("Decimal"),
-		"C": _("Caacupe"),
-		"R": _("Cuisenaire")
+		"C": _("Caacupé"),
+		"R": _("Rods")
 	}
 
         menu = gtk.Menu()
