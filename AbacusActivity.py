@@ -264,7 +264,7 @@ class AbacusActivity(activity.Activity):
         self.russian.set_icon("schety-off")
         self.mayan.set_icon("nepohualtzintzin-off")
         self.binary.set_icon("binary-off")
-        self.hex.set_icon("hex-off")
+        self.hex.set_icon("hexadecimal-off")
         self.fraction.set_icon("fraction-off")
         self.caacupe.set_icon("caacupe-off")
         self.cuisenaire.set_icon("cuisenaire-off")
