@@ -22,6 +22,7 @@ BEAD_LAYER = 102
 BAR_LAYER = 103
 MARK_LAYER = 104
 MAX_FADE_LEVEL = 3
+CURSOR = '█'
 
 ROD_COLORS = ["#006ffe", "#007ee7", "#0082c4", "#0089ab", "#008c8b",
               "#008e68", "#008e4c", "#008900", "#5e7700", "#787000",
@@ -31,6 +32,9 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 from math import pow, floor, ceil
+
+import os
+import locale
 from gettext import gettext as _
 
 import logging
@@ -279,12 +283,21 @@ class Abacus():
         self.canvas.connect("button-press-event", self._button_press_cb)
         self.canvas.connect("button-release-event", self._button_release_cb)
         self.canvas.connect("motion-notify-event", self._mouse_move_cb)
+        self.canvas.connect("key_press_event", self._keypress_cb)
         self.width = gtk.gdk.screen_width()
         self.height = gtk.gdk.screen_height()-GRID_CELL_SIZE
         self.sprites = Sprites(self.canvas)
         self.scale = gtk.gdk.screen_height()/900.0
         self.dragpos = 0
         self.press = None
+        self.last = None
+
+        lang = os.environ['LANG']
+        if lang != '' and lang is not None:
+            locale.setlocale(locale.LC_NUMERIC, lang)
+        self.decimal_point = locale.localeconv()['decimal_point']
+        if self.decimal_point == '' or self.decimal_point is None:
+            self.decimal_point = '.'
 
         self.chinese = Suanpan(self)
         self.japanese = None
@@ -306,6 +319,7 @@ class Abacus():
         win.grab_focus()
         x, y = map(int, event.get_coords())
         self.press = self.sprites.find_sprite((x,y))
+        self.last = self.press
         if self.press is not None:
             if self.press.type == 'bead':
                 self.dragpos = y
@@ -313,6 +327,9 @@ class Abacus():
                 self.dragpos = x
             elif self.press.type == 'reset':
                 self.mode.reset_abacus()
+            elif self.press == self.mode.bar: # prepare for typing in a value
+                self.mode.label(self.generate_label(sum_only=True)+CURSOR)
+                self.press = None
             else:
                 self.press = None
         return True
@@ -339,8 +356,67 @@ class Abacus():
         if self.press.type == 'bead':
             self.mode.move_bead(self.press, y-self.dragpos)
         self.press = None
-        self.mode.label(self.generate_label())        
+        self.mode.label(self.generate_label())
         return True
+
+    def _keypress_cb(self, area, event):
+        """ Keypress: moving the slides with the arrow keys """
+        k = gtk.gdk.keyval_name(event.keyval)
+        if k in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'period',
+                 'minus', 'Return', 'BackSpace', 'comma']:
+            if self.last == self.mode.bar:
+                self._process_numeric_input(self.last, k)
+            else:
+                print self.last, '!= bar', k
+        elif k == 'r':
+            self.mode.reset_abacus()
+        return True
+
+    def _process_numeric_input(self, sprite, keyname):
+        ''' Make sure numeric input is valid. '''
+        oldnum = sprite.labels[0].replace(CURSOR, '')
+        newnum = oldnum
+        if len(oldnum) == 0:
+            oldnum = '0'
+        if keyname == 'minus':
+            if oldnum == '0':
+                newnum = '-'
+            elif oldnum[0] != '-':
+                newnum = '-' + oldnum
+            else:
+                newnum = oldnum
+        elif keyname == 'comma' and self.decimal_point == ',' and \
+                ',' not in oldnum:
+            newnum = oldnum + ','
+        elif keyname == 'period' and self.decimal_point == '.' and \
+                '.' not in oldnum:
+            newnum = oldnum + '.'
+        elif keyname == 'BackSpace':
+            if len(oldnum) > 0:
+                newnum = oldnum[:len(oldnum)-1]
+            else:
+                newnum = ''
+        elif keyname in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            if oldnum == '0':
+                newnum = keyname
+            else:
+                newnum = oldnum + keyname
+        elif keyname == 'Return':
+            self.mode.reset_abacus()
+            self.mode.set_value_from_number(
+                float(newnum.replace(self.decimal_point, '.')))
+            self.mode.label(self.generate_label())
+            return
+        else:
+            newnum = oldnum
+        if newnum == '.':
+            newnum = '0.'
+        if len(newnum) > 0 and newnum != '-':
+            try:
+                float(newnum.replace(self.decimal_point, '.'))
+            except ValueError, e:
+                newnum = oldnum
+        sprite.set_label(newnum + CURSOR)
 
     def _expose_cb(self, win, event):
         """ Callback to handle window expose events """
@@ -351,7 +427,7 @@ class Abacus():
         """ Callback to handle quit """
         gtk.main_quit()
 
-    def generate_label(self):
+    def generate_label(self, sum_only=False):
         """ The complexity below is to make the label as simple as possible """
         sum = ""
         multiple_rods = False
@@ -392,7 +468,7 @@ class Abacus():
                     value = "–%d %s" % (-whole, dec2frac(-fraction))
             if value == "" or value == "–":
                 value = "0"
-            if multiple_rods:
+            if multiple_rods and not sum_only:
                 return sum + " = " + value
             else:
                 return value
@@ -584,7 +660,7 @@ class AbacusGeneric():
         if len(string) == 2*self.num_rods:
             for i in range(self.num_rods):
                 v[self.num_rods-i-1] = int(
-                              string[2*self.num_rods-i*2-2:2*self.num_rods-i*2])
+                    string[2*self.num_rods-i*2-2:2*self.num_rods-i*2])
         else:
             _logger.debug("bad saved string %s (%d != 2*%d)" % (string,
                           len(string), self.num_rods))
@@ -594,13 +670,32 @@ class AbacusGeneric():
             self.set_rod_value(r, v[r])
         return
 
+    def set_value_from_number(self, number):
+        """ Set abacus to value in string """
+        for r in range(self.num_rods):
+            number -= self.set_rod(r, number)
+            if number == 0:
+                break
+
+    def set_rod(self, rod, number):
+        bead = rod * (self.top_beads + self.bot_beads)
+        bead_value = self.beads[bead + self.top_beads].value
+        if bead_value != 0:
+            count = int(number / bead_value)
+            print rod, bead_value, count
+            self.set_rod_value(rod, count)
+        return count * bead_value
+
     def set_rod_value(self, r, v):
         """ Move beads on rod r to represent value v """
-        bot = v % self.top_factor
-        top = (v-bot)/self.top_factor
-        top_bead_index = r*(self.top_beads+self.bot_beads)
-        bot_bead_index = r*(self.top_beads+self.bot_beads)+self.top_beads
-
+        if self.top_beads > 0:
+            bot = v % self.top_factor
+            top = (v - bot) / self.top_factor
+        else:
+            bot = v
+            top = 0
+        top_bead_index = r * (self.top_beads + self.bot_beads)
+        bot_bead_index = top_bead_index + self.top_beads
         # Clear the top.
         for i in range(self.top_beads):
             if self.beads[top_bead_index+i].get_state() == 1:
@@ -626,14 +721,16 @@ class AbacusGeneric():
             # Clear the top.
             for i in range(self.top_beads):
                 #if self.name != 'fraction' and self.name != 'schety':
-                self.beads[top_bead_index+i].set_color(self.colors[0])
+                if hasattr(self, 'colors'):
+                    self.beads[top_bead_index+i].set_color(self.colors[0])
                 if self.beads[top_bead_index+i].get_state() == 1:
                    self.beads[top_bead_index+i].move_up()
 
             # Clear the bottom.
             for i in range(self.bot_beads):
                 #if self.name != 'fraction' and self.name != 'schety':
-                self.beads[bot_bead_index+i].set_color(self.colors[0])
+                if hasattr(self, 'colors'):
+                    self.beads[bot_bead_index+i].set_color(self.colors[0])
                 if self.beads[bot_bead_index+i].get_state() == 1:
                    self.beads[bot_bead_index+i].move_down()
 
@@ -842,7 +939,7 @@ class Decimal(AbacusGeneric):
         self.bot_beads = 10
         self.top_beads = 0
         self.base = 10
-        self.top_factor = 5
+        self.top_factor = 1
         return
 
     def draw_rods_and_beads(self, x, y):
@@ -912,7 +1009,7 @@ class Schety(AbacusGeneric):
         self.bead_count = (10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 4, 10, 10,
                            10, 10)
         self.base = 10
-        self.top_factor = 5
+        self.top_factor = 1
         return
 
     def reset_abacus(self):
@@ -1115,7 +1212,7 @@ class Fractions(Schety):
         self.top_beads = 0
         self.bot_beads = 12
         self.base = 10
-        self.top_factor = 5
+        self.top_factor = 1
         return
 
     def draw_rods_and_beads(self, x, y):
@@ -1181,7 +1278,7 @@ class Caacupe(Fractions):
         self.top_beads = 0
         self.bot_beads = 12
         self.base = 10
-        self.top_factor = 5
+        self.top_factor = 1
         return
 
     def draw_rods_and_beads(self, x, y):
@@ -1319,7 +1416,7 @@ class Cuisenaire(Caacupe):
         self.top_beads = 0
         self.bot_beads = 10
         self.base = 10
-        self.top_factor = 5
+        self.top_factor = 1
         return
 
     def draw_rods_and_beads(self, x, y):
