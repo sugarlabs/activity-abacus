@@ -95,8 +95,12 @@ class AbacusActivity(activity.Activity):
         """ Initiate activity. """
         super(AbacusActivity,self).__init__(handle)
 
+        # no sharing
+        self.max_participants = 1
+
         _abacus_toolbar = gtk.Toolbar()
         _custom_toolbar = gtk.Toolbar()
+
         if _new_sugar_system:
             # Use 0.86 toolbar design
             toolbox = ToolbarBox()
@@ -130,9 +134,6 @@ class AbacusActivity(activity.Activity):
             toolbox.toolbar.insert(stop_button, -1)
             stop_button.show()
 
-            # no sharing
-            self.max_participants = 1
-
             self.set_toolbox(toolbox)
             _abacus_toolbar_button.set_expanded(True)
             toolbox.show()
@@ -165,8 +166,8 @@ class AbacusActivity(activity.Activity):
                                      self._mayan_cb, _abacus_toolbar)
         self.binary = _button_factory("binary-off", _('Binary'),
                                       self._binary_cb, _abacus_toolbar)
-        self.hex = _button_factory("hex-off", _('Hexadecimal'), self._hex_cb,
-                                   _abacus_toolbar)
+        self.hex = _button_factory("hexadecimal-off", _('Hexadecimal'),
+                                   self._hex_cb, _abacus_toolbar)
         self.fraction = _button_factory("fraction-off", _('Fraction'),
                                         self._fraction_cb, _abacus_toolbar)
         self.caacupe = _button_factory("caacupe-off", _('Caacupé'),
@@ -266,7 +267,7 @@ class AbacusActivity(activity.Activity):
         self.hex.set_icon("hex-off")
         self.fraction.set_icon("fraction-off")
         self.caacupe.set_icon("caacupe-off")
-        self.caacupe.set_icon("cuisenaire-off")
+        self.cuisenaire.set_icon("cuisenaire-off")
         self.decimal.set_icon("decimal-off")
         if self.abacus.chinese is not None:
             self.abacus.chinese.hide()
