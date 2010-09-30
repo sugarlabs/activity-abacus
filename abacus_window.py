@@ -37,6 +37,7 @@ import os
 import locale
 from gettext import gettext as _
 
+import traceback
 import logging
 _logger = logging.getLogger("abacus-activity")
 
@@ -329,6 +330,19 @@ class Abacus():
                 self.mode.reset_abacus()
             elif self.press == self.mode.bar: # prepare for typing in a value
                 self.mode.label(self.generate_label(sum_only=True)+CURSOR)
+                number = self.press.labels[0].replace(CURSOR, '')
+                if '/' in number: # need to convert to decimal form
+                    try:
+                        userdefined = {}
+                        exec "def f(): return " + number.replace(' ', '+')+'.' \
+                            in globals(), userdefined
+                        value = userdefined.values()[0]()
+                        number = str(value)
+                        self.press.set_label(
+                            number.replace('.', self.decimal_point) + CURSOR)
+                    except:
+                        traceback.print_exc()
+                        number = ''
                 self.press = None
             else:
                 self.press = None
@@ -366,8 +380,6 @@ class Abacus():
                  'minus', 'Return', 'BackSpace', 'comma']:
             if self.last == self.mode.bar:
                 self._process_numeric_input(self.last, k)
-            else:
-                print self.last, '!= bar', k
         elif k == 'r':
             self.mode.reset_abacus()
         return True
@@ -682,7 +694,6 @@ class AbacusGeneric():
         bead_value = self.beads[bead + self.top_beads].value
         if bead_value != 0:
             count = int(number / bead_value)
-            print rod, bead_value, count
             self.set_rod_value(rod, count)
         return count * bead_value
 
@@ -1102,6 +1113,17 @@ class Schety(AbacusGeneric):
             r.type = "frame"
         return
 
+    def set_rod(self, rod, number):
+        """ Set a number of beads on a rod """
+        bead = 0
+        for r in range(rod):
+            bead += self.bead_count[r]
+        bead_value = self.beads[bead].value
+        if bead_value != 0:
+            count = int(number / bead_value)
+            self.set_rod_value(rod, count)
+        return count * bead_value
+
     def move_bead(self, sprite, dy):
         """ Move a bead (or beads) up or down a rod. """
 
@@ -1176,7 +1198,6 @@ class Schety(AbacusGeneric):
         bead_index = 0
         for r in range(rod):
             bead_index += self.bead_count[r]
-
         # Clear the beads
         for i in range(self.bead_count[rod]):
             if self.beads[bead_index+i].get_state() == 1:
