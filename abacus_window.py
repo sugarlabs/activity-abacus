@@ -33,7 +33,6 @@ pygtk.require('2.0')
 import gtk
 from math import pow, floor, ceil
 
-import os
 import locale
 from gettext import gettext as _
 
@@ -293,9 +292,7 @@ class Abacus():
         self.press = None
         self.last = None
 
-        lang = os.environ['LANG']
-        if lang != '' and lang is not None:
-            locale.setlocale(locale.LC_NUMERIC, lang)
+        locale.setlocale(locale.LC_NUMERIC, '')
         self.decimal_point = locale.localeconv()['decimal_point']
         if self.decimal_point == '' or self.decimal_point is None:
             self.decimal_point = '.'
