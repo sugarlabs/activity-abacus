@@ -679,12 +679,22 @@ class AbacusGeneric():
             self.set_rod_value(r, v[r])
         return
 
+    def max_value(self):
+        """ Maximum value possible on abacus """
+        max = 0
+        for bead in self.beads:
+            max += bead.value
+        return max
+
     def set_value_from_number(self, number):
         """ Set abacus to value in string """
-        for r in range(self.num_rods):
-            number -= self.set_rod(r, number)
-            if number == 0:
-                break
+        if number > self.max_value():
+            self.reset_abacus()
+        else:
+            for r in range(self.num_rods):
+                number -= self.set_rod(r, number)
+                if number == 0:
+                    break
 
     def set_rod(self, rod, number):
         bead = rod * (self.top_beads + self.bot_beads)
