@@ -1,3 +1,13 @@
+19
+
+* type in values, copy/paste from clipboard
+* abacus value propogates as you move between abaci
+
+18
+
+* optimization of redraw code
+* Spanish translations
+
 17
 
 * fixed problem with moving multiple beads on decimal abacus
