@@ -688,9 +688,9 @@ class AbacusGeneric():
 
     def set_value_from_number(self, number):
         """ Set abacus to value in string """
-        if number > self.max_value():
-            self.reset_abacus()
-        else:
+        print "setting %s to %f" % (self.name, number)
+        self.reset_abacus()
+        if number <= self.max_value():
             for r in range(self.num_rods):
                 number -= self.set_rod(r, number)
                 if number == 0:
