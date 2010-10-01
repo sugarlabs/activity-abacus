@@ -342,8 +342,8 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.label(self.abacus.generate_label())
 
     def _japanese_cb(self, button):
-        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the soroban; hide the others """
+        value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.japanese is None:
             self.abacus.japanese = Soroban(self.abacus)
         self._select_abacus(self.japanese, self.abacus.japanese.name+"-on",
@@ -359,8 +359,8 @@ class AbacusActivity(activity.Activity):
                             self.abacus.russian)
 
     def _mayan_cb(self, button):
-        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the nepohualtzintzin; hide the others """
+        value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.mayan is None:
             self.abacus.mayan = Nepohualtzintzin(self.abacus)
         self._select_abacus(self.mayan, self.abacus.mayan.name+"-on",
@@ -369,8 +369,8 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.label(self.abacus.generate_label())
 
     def _binary_cb(self, button):
-        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the binary; hide the others """
+        value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.binary is None:
             self.abacus.binary = Binary(self.abacus)
         self._select_abacus(self.binary, self.abacus.binary.name+"-on",
@@ -379,8 +379,8 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.label(self.abacus.generate_label())
 
     def _hex_cb(self, button):
-        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the hex; hide the others """
+        value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.hex is None:
             self.abacus.hex = Hex(self.abacus)
         self._select_abacus(self.hex, self.abacus.hex.name+"-on",
@@ -389,8 +389,8 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.label(self.abacus.generate_label())
 
     def _decimal_cb(self, button):
-        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the decimal; hide the others """
+        value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.decimal is None:
             self.abacus.decimal = Decimal(self.abacus)
         self._select_abacus(self.decimal, self.abacus.decimal.name+"-on",
