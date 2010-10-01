@@ -159,15 +159,15 @@ class AbacusActivity(activity.Activity):
         # Add the buttons and spinners to the toolbars
         self.japanese = _button_factory("soroban-off", _('Soroban'),
                                         self._japanese_cb, _abacus_toolbar)
-        self.russian = _button_factory("schety-off", _('Schety'),
-                                       self._russian_cb, _abacus_toolbar)
         self.mayan = _button_factory("nepohualtzintzin-off",
                                      _('Nepohualtzintzin'),
                                      self._mayan_cb, _abacus_toolbar)
-        self.binary = _button_factory("binary-off", _('Binary'),
-                                      self._binary_cb, _abacus_toolbar)
         self.hex = _button_factory("hexadecimal-off", _('Hexadecimal'),
                                    self._hex_cb, _abacus_toolbar)
+        self.binary = _button_factory("binary-off", _('Binary'),
+                                      self._binary_cb, _abacus_toolbar)
+        self.russian = _button_factory("schety-off", _('Schety'),
+                                       self._russian_cb, _abacus_toolbar)
         self.fraction = _button_factory("fraction-off", _('Fraction'),
                                         self._fraction_cb, _abacus_toolbar)
         self.caacupe = _button_factory("caacupe-off", _('Caacupé'),
