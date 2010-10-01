@@ -757,22 +757,24 @@ class AbacusGeneric():
 
     def value(self, count_beads=False):
         """ Return a string representing the value of each rod. """
-        string = ''
-        v = []
-        for r in range(self.num_rods+1): # +1 for overflow
-            v.append(0)
-
-        # Tally the values on each rod.
-        for i, bead in enumerate(self.beads):
-            r = i/(self.top_beads+self.bot_beads)
-            j = i % (self.top_beads+self.bot_beads)
-            if bead.get_state() == 1:
-                if j < self.top_beads:
-                    v[r+1] += self.top_factor
-                else:
-                    v[r+1] += 1
 
         if count_beads:
+            # Save the value associated with each rod as a 2-byte integer.
+            string = ''
+            v = []
+            for r in range(self.num_rods+1): # +1 for overflow
+                v.append(0)
+
+            # Tally the values on each rod.
+            for i, bead in enumerate(self.beads):
+                r = i/(self.top_beads+self.bot_beads)
+                j = i % (self.top_beads+self.bot_beads)
+                if bead.get_state() == 1:
+                    if j < self.top_beads:
+                        v[r+1] += self.top_factor
+                    else:
+                        v[r+1] += 1
+
             # Save the value associated with each rod as a 2-byte integer.
             for j in v[1:]:
                 string += "%2d" % (j)
@@ -781,7 +783,7 @@ class AbacusGeneric():
             for bead in self.beads:
                 sum += bead.get_value()
             string = str(sum)
-
+            print self.name, string
         return(string)
 
     def label(self, string):

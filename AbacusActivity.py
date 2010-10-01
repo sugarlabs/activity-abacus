@@ -318,6 +318,7 @@ class AbacusActivity(activity.Activity):
 
     def _custom_cb(self, button):
         """ Display the custom abacus; hide the others """
+        value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
         self.abacus.custom = Custom(self.abacus,
@@ -327,20 +328,28 @@ class AbacusActivity(activity.Activity):
                              self._value_spin.get_value_as_int(),
                              self._base_spin.get_value_as_int())
         self._select_abacus(None, None, self.abacus.custom)
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
 
     def _chinese_cb(self, button):
         """ Display the suanpan; hide the others """
+        value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.chinese is None:
             self.abacus.chinese = Suanpan(self.abacus)
         self._select_abacus(self.chinese, self.abacus.chinese.name+"-on",
                             self.abacus.chinese)
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
 
     def _japanese_cb(self, button):
+        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the soroban; hide the others """
         if self.abacus.japanese is None:
             self.abacus.japanese = Soroban(self.abacus)
         self._select_abacus(self.japanese, self.abacus.japanese.name+"-on",
                             self.abacus.japanese)
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
 
     def _russian_cb(self, button):
         """ Display the schety; hide the others """
@@ -350,32 +359,44 @@ class AbacusActivity(activity.Activity):
                             self.abacus.russian)
 
     def _mayan_cb(self, button):
+        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the nepohualtzintzin; hide the others """
         if self.abacus.mayan is None:
             self.abacus.mayan = Nepohualtzintzin(self.abacus)
         self._select_abacus(self.mayan, self.abacus.mayan.name+"-on",
                             self.abacus.mayan)
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
 
     def _binary_cb(self, button):
+        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the binary; hide the others """
         if self.abacus.binary is None:
             self.abacus.binary = Binary(self.abacus)
         self._select_abacus(self.binary, self.abacus.binary.name+"-on",
                             self.abacus.binary)
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
 
     def _hex_cb(self, button):
+        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the hex; hide the others """
         if self.abacus.hex is None:
             self.abacus.hex = Hex(self.abacus)
         self._select_abacus(self.hex, self.abacus.hex.name+"-on",
                             self.abacus.hex)
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
 
     def _decimal_cb(self, button):
+        value = float(self.abacus.mode.value(count_beads=False))
         """ Display the decimal; hide the others """
         if self.abacus.decimal is None:
             self.abacus.decimal = Decimal(self.abacus)
         self._select_abacus(self.decimal, self.abacus.decimal.name+"-on",
                             self.abacus.decimal)
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
 
     def _fraction_cb(self, button):
         """ Display the fraction; hide the others """
