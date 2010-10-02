@@ -42,11 +42,15 @@ from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
                           Nepohualtzintzin, Binary, Hex, Decimal, Fractions,\
                           Caacupe, Cuisenaire
 
-def _button_factory(icon_name, tooltip, callback, toolbar):
+
+def _button_factory(icon_name, tooltip, callback, toolbar,
+                    accelerator=None):
     """Factory for making toolbar buttons"""
     my_button = ToolButton( icon_name )
     my_button.set_tooltip(tooltip)
     my_button.props.sensitive = True
+    if accelerator is not None:
+        my_button.props.accelerator = accelerator
     my_button.connect('clicked', callback)
     if hasattr(toolbar, 'insert'): # the main toolbar
         toolbar.insert(my_button, -1)
@@ -54,6 +58,7 @@ def _button_factory(icon_name, tooltip, callback, toolbar):
         toolbar.props.page.insert(my_button, -1)
     my_button.show()
     return my_button
+
 
 def _label_factory(label, toolbar):
     """ Factory for adding a label to a toolbar """
@@ -65,6 +70,7 @@ def _label_factory(label, toolbar):
     toolbar.insert(_toolitem, -1)
     _toolitem.show()
     return my_label
+
 
 def _spin_factory(default, min, max, callback, toolbar):
     _spin_adj = gtk.Adjustment(default, min, max, 1, 32, 0)
@@ -78,6 +84,7 @@ def _spin_factory(default, min, max, callback, toolbar):
     _toolitem.show()
     return my_spin
 
+
 def _separator_factory(toolbar, expand=False, visible=True):
     """ add a separator to a toolbar """
     _separator = gtk.SeparatorToolItem()
@@ -86,9 +93,7 @@ def _separator_factory(toolbar, expand=False, visible=True):
     toolbar.insert(_separator, -1)
     _separator.show()
 
-#
-# Sugar activity
-#
+
 class AbacusActivity(activity.Activity):
 
     def __init__(self, handle):
@@ -98,8 +103,9 @@ class AbacusActivity(activity.Activity):
         # no sharing
         self.max_participants = 1
 
-        _abacus_toolbar = gtk.Toolbar()
-        _custom_toolbar = gtk.Toolbar()
+        abacus_toolbar = gtk.Toolbar()
+        custom_toolbar = gtk.Toolbar()
+        edit_toolbar = gtk.Toolbar()
 
         if _new_sugar_system:
             # Use 0.86 toolbar design
@@ -113,19 +119,26 @@ class AbacusActivity(activity.Activity):
 
             _separator_factory(toolbox.toolbar)
 
-            _abacus_toolbar_button = ToolbarButton(
-                    page=_abacus_toolbar,
+            abacus_toolbar_button = ToolbarButton(
+                    page=abacus_toolbar,
                     icon_name='list-add')
-            _abacus_toolbar.show()
-            toolbox.toolbar.insert(_abacus_toolbar_button, -1)
-            _abacus_toolbar_button.show()
+            abacus_toolbar.show()
+            toolbox.toolbar.insert(abacus_toolbar_button, -1)
+            abacus_toolbar_button.show()
 
-            _custom_toolbar_button = ToolbarButton(
-                    page=_custom_toolbar,
+            custom_toolbar_button = ToolbarButton(
+                    page=custom_toolbar,
                     icon_name='view-source')
-            _custom_toolbar.show()
-            toolbox.toolbar.insert(_custom_toolbar_button, -1)
-            _custom_toolbar_button.show()
+            custom_toolbar.show()
+            toolbox.toolbar.insert(custom_toolbar_button, -1)
+            custom_toolbar_button.show()
+
+            edit_toolbar_button = ToolbarButton(label=_('Edit'),
+                                                page=edit_toolbar,
+                                                icon_name='toolbar-edit')
+            edit_toolbar_button.show()
+            toolbox.toolbar.insert(edit_toolbar_button, -1)
+            edit_toolbar_button.show()
 
             _separator_factory(toolbox.toolbar, True, False)
 
@@ -135,7 +148,6 @@ class AbacusActivity(activity.Activity):
             stop_button.show()
 
             self.set_toolbox(toolbox)
-            _abacus_toolbar_button.set_expanded(True)
             toolbox.show()
 
         else:
@@ -143,10 +155,11 @@ class AbacusActivity(activity.Activity):
             toolbox = activity.ActivityToolbox(self)
             self.set_toolbox(toolbox)
 
-            toolbox.add_toolbar( _('Project'), _abacus_toolbar )
-            toolbox.add_toolbar( _('Custom'), _custom_toolbar )
+            toolbox.add_toolbar( _('Project'), abacus_toolbar )
+            toolbox.add_toolbar( _('Custom'), custom_toolbar )
+            toolbox.add_toolbar(_('Edit'), edit_toolbar)
 
-            self._basic_abacus(_abacus_toolbar)
+            self._basic_abacus(abacus_toolbar)
 
             toolbox.set_current_toolbar(1)
 
@@ -158,44 +171,55 @@ class AbacusActivity(activity.Activity):
 
         # Add the buttons and spinners to the toolbars
         self.japanese = _button_factory("soroban-off", _('Soroban'),
-                                        self._japanese_cb, _abacus_toolbar)
+                                        self._japanese_cb, abacus_toolbar)
         self.mayan = _button_factory("nepohualtzintzin-off",
                                      _('Nepohualtzintzin'),
-                                     self._mayan_cb, _abacus_toolbar)
+                                     self._mayan_cb, abacus_toolbar)
         self.hex = _button_factory("hexadecimal-off", _('Hexadecimal'),
-                                   self._hex_cb, _abacus_toolbar)
+                                   self._hex_cb, abacus_toolbar)
         self.binary = _button_factory("binary-off", _('Binary'),
-                                      self._binary_cb, _abacus_toolbar)
+                                      self._binary_cb, abacus_toolbar)
         self.russian = _button_factory("schety-off", _('Schety'),
-                                       self._russian_cb, _abacus_toolbar)
+                                       self._russian_cb, abacus_toolbar)
         self.fraction = _button_factory("fraction-off", _('Fraction'),
-                                        self._fraction_cb, _abacus_toolbar)
+                                        self._fraction_cb, abacus_toolbar)
         self.caacupe = _button_factory("caacupe-off", _('Caacupé'),
-                                        self._caacupe_cb, _abacus_toolbar)
+                                        self._caacupe_cb, abacus_toolbar)
         self.cuisenaire = _button_factory("cuisenaire-off", _('Rods'),
-                                        self._cuisenaire_cb, _abacus_toolbar)
+                                        self._cuisenaire_cb, abacus_toolbar)
 
-        self._rods_label = _label_factory(_("Rods:")+" ", _custom_toolbar)
+        self._rods_label = _label_factory(_("Rods:")+" ", custom_toolbar)
         self._rods_spin = _spin_factory(15, 1, 20, self._rods_spin_cb,
-                                        _custom_toolbar)
-        self._top_label = _label_factory(_("Top:")+" ", _custom_toolbar)
+                                        custom_toolbar)
+        self._top_label = _label_factory(_("Top:")+" ", custom_toolbar)
         self._top_spin = _spin_factory(2, 0, 4, self._top_spin_cb,
-                                       _custom_toolbar)
+                                       custom_toolbar)
         self._bottom_label = _label_factory(_("Bottom:")+" ",
-                                            _custom_toolbar)
+                                            custom_toolbar)
         self._bottom_spin = _spin_factory(5, 1, 20, self._bottom_spin_cb,
-                                          _custom_toolbar)
-        self._value_label = _label_factory(_("Factor:")+" ", _custom_toolbar)
+                                          custom_toolbar)
+        self._value_label = _label_factory(_("Factor:")+" ", custom_toolbar)
         self._value_spin = _spin_factory(5, 1, 20, self._value_spin_cb,
-                                         _custom_toolbar)
-        self._base_label = _label_factory(_("Base:")+" ", _custom_toolbar)
+                                         custom_toolbar)
+        self._base_label = _label_factory(_("Base:")+" ", custom_toolbar)
         self._base_spin = _spin_factory(10, 1, 24, self._base_spin_cb,
-                                        _custom_toolbar)
+                                        custom_toolbar)
 
         self.custom = _button_factory("new-game", _('Custom'),
-                                      self._custom_cb, _custom_toolbar)
+                                      self._custom_cb, custom_toolbar)
+
+        copy = _button_factory('edit-copy', _('Copy'), self._copy_cb,
+                           edit_toolbar_button, accelerator='<Ctrl>c')
+        paste = _button_factory('edit-paste', _('Paste'), self._paste_cb,
+                            edit_toolbar_button, accelerator='<Ctrl>v')
 
         self.toolbox.show()
+
+        if _new_sugar_system:
+            # workaround to #2050
+            edit_toolbar_button.set_expanded(True)
+            # start with abacus toolbar expanded
+            abacus_toolbar_button.set_expanded(True)
 
         # Create a canvas
         canvas = gtk.DrawingArea()
@@ -418,6 +442,28 @@ class AbacusActivity(activity.Activity):
             self.abacus.cuisenaire = Cuisenaire(self.abacus)
         self._select_abacus(self.cuisenaire, self.abacus.cuisenaire.name+"-on",
                             self.abacus.cuisenaire)
+
+    def _copy_cb(self, arg=None):
+        """ Copy a number to the clipboard from the active abacus. """
+        clipBoard = gtk.Clipboard()
+        text = self.abacus.generate_label(sum_only=True)
+        print 'copying', text
+        if text is not None:
+            clipBoard.set_text(text)
+        return
+
+    def _paste_cb(self, arg=None):
+        """ Paste a number from the clipboard to the active abacus. """
+        clipBoard = gtk.Clipboard()
+        text = clipBoard.wait_for_text()
+        if text is not None:
+            try:
+                self.abacus.mode.set_value_from_number(float(text))
+                self.abacus.mode.label(self.abacus.generate_label())
+            except ValueError, e:
+                _logger.debug(str(e))
+                return
+        return
 
     def write_file(self, file_path):
         """ Write the bead positions to the Journal """
