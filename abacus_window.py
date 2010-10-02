@@ -688,7 +688,6 @@ class AbacusGeneric():
 
     def set_value_from_number(self, number):
         """ Set abacus to value in string """
-        print "setting %s to %f" % (self.name, number)
         self.reset_abacus()
         if number <= self.max_value():
             for r in range(self.num_rods):
@@ -783,7 +782,6 @@ class AbacusGeneric():
             for bead in self.beads:
                 sum += bead.get_value()
             string = str(sum)
-            print self.name, string
         return(string)
 
     def label(self, string):
@@ -814,7 +812,7 @@ class AbacusGeneric():
                 i = self.beads.index(bead)
                 break
         if i == -1:
-            print "bead not found"
+            _logger.debug("bead not found")
             return
 
         b = i % (self.top_beads+self.bot_beads)
@@ -1143,7 +1141,7 @@ class Schety(AbacusGeneric):
                 i = self.beads.index(bead)
                 break
         if i == -1:
-            print "bead not found"
+            _logger.debug("bead not found")
             return
 
         # Find out which rod i corresponds to
@@ -1374,7 +1372,7 @@ class Caacupe(Fractions):
                 i = self.beads.index(bead)
                 break
         if i == -1:
-            print "bead not found"
+            _logger.debug("bead not found")
             return
 
         # Find out which rod i corresponds to
