@@ -447,7 +447,6 @@ class AbacusActivity(activity.Activity):
         """ Copy a number to the clipboard from the active abacus. """
         clipBoard = gtk.Clipboard()
         text = self.abacus.generate_label(sum_only=True)
-        print 'copying', text
         if text is not None:
             clipBoard.set_text(text)
         return
@@ -459,10 +458,10 @@ class AbacusActivity(activity.Activity):
         if text is not None:
             try:
                 self.abacus.mode.set_value_from_number(float(text))
-                self.abacus.mode.label(self.abacus.generate_label())
             except ValueError, e:
                 _logger.debug(str(e))
                 return
+            self.abacus.mode.label(self.abacus.generate_label())
         return
 
     def write_file(self, file_path):
