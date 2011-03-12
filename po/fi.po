@@ -2,6 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #, fuzzy
 msgid ""
 msgstr ""
@@ -25,8 +29,10 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#~ msgid "Edit"
-#~ msgstr ""
+#: /home/walter/Desktop/abacus/AbacusActivity.py:136
+#: /home/walter/Desktop/abacus/AbacusActivity.py:160
+msgid "Edit"
+msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:146
 msgid "<Ctrl>Q"
@@ -101,11 +107,13 @@ msgstr ""
 msgid "Base:"
 msgstr ""
 
-#~ msgid "Copy"
-#~ msgstr ""
+#: /home/walter/Desktop/abacus/AbacusActivity.py:211
+msgid "Copy"
+msgstr ""
 
-#~ msgid "Paste"
-#~ msgstr ""
+#: /home/walter/Desktop/abacus/AbacusActivity.py:213
+msgid "Paste"
+msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:279
 #: /home/walter/Desktop/abacus/abacus.py:53
@@ -119,12 +127,4 @@ msgstr ""
 
 #: /home/walter/Desktop/abacus/abacus.py:73
 msgid "Quit"
-msgstr ""
-
-#: /home/walter/Desktop/abacus/abacus.py:60
-msgid "Cuisenaire"
-msgstr ""
-
-#: /home/walter/Desktop/abacus/abacus.py:59
-msgid "Caacupe"
 msgstr ""
