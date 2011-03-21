@@ -31,8 +31,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-02 10:20-0400\n"
-"PO-Revision-Date: 2011-02-24 13:51+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2011-03-19 20:32+0200\n"
+"Last-Translator: Christian <kryskaka@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sw\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr ""
 #: /home/walter/Desktop/abacus/abacus_window.py:548
 #: /home/walter/Desktop/abacus/abacus.py:70
 msgid "Reset"
-msgstr ""
+msgstr "Pangua"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:136
 #: /home/walter/Desktop/abacus/AbacusActivity.py:160
@@ -57,16 +57,16 @@ msgstr "Hariri"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:146
 msgid "<Ctrl>Q"
-msgstr ""
+msgstr "Tumia"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:158
 msgid "Project"
-msgstr ""
+msgstr "Miradi"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:159
 #: /home/walter/Desktop/abacus/AbacusActivity.py:208
 msgid "Custom"
-msgstr ""
+msgstr "Uamiaji"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:173
 #: /home/walter/Desktop/abacus/abacus.py:54
@@ -86,7 +86,7 @@ msgstr ""
 #: /home/walter/Desktop/abacus/AbacusActivity.py:180
 #: /home/walter/Desktop/abacus/abacus.py:57
 msgid "Binary"
-msgstr ""
+msgstr "Shikana"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:182
 #: /home/walter/Desktop/abacus/abacus.py:55
@@ -114,11 +114,11 @@ msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:194
 msgid "Top:"
-msgstr ""
+msgstr "Juu"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:197
 msgid "Bottom:"
-msgstr ""
+msgstr "Chini"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:201
 msgid "Factor:"
@@ -126,11 +126,11 @@ msgstr ""
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:204
 msgid "Base:"
-msgstr ""
+msgstr "Sakafu"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:211
 msgid "Copy"
-msgstr "Nakili"
+msgstr "Rudia"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:213
 msgid "Paste"
@@ -148,4 +148,4 @@ msgstr ""
 
 #: /home/walter/Desktop/abacus/abacus.py:73
 msgid "Quit"
-msgstr ""
+msgstr "kutoka"
