@@ -2,19 +2,40 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-02 10:20-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-10-13 02:59+0200\n"
+"Last-Translator: frannyberry <frannyberry@writeme.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: pis\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.0.3\n"
 
 #: activity/activity.info:2 /home/walter/Desktop/abacus/abacus.py:49
 msgid "Abacus"
@@ -68,10 +89,14 @@ msgstr ""
 msgid "Schety"
 msgstr ""
 
+# 8gv5VE  <a href="http://blcbwyhxwdcc.com/">blcbwyhxwdcc</a>, [url=http://tyfzlpsrholl.com/]tyfzlpsrholl[/url], [link=http://bsuxmpmcpogj.com/]bsuxmpmcpogj[/link], http://zpenwspavuai.com/
 #: /home/walter/Desktop/abacus/AbacusActivity.py:184
 #: /home/walter/Desktop/abacus/abacus.py:59
 msgid "Fraction"
 msgstr ""
+"8gv5VE  <a href=\"http://blcbwyhxwdcc.com/\">blcbwyhxwdcc</a>, "
+"[url=http://tyfzlpsrholl.com/]tyfzlpsrholl[/url], "
+"[link=http://bsuxmpmcpogj.com/]bsuxmpmcpogj[/link], http://zpenwspavuai.com/"
 
 #: /home/walter/Desktop/abacus/AbacusActivity.py:186
 #: /home/walter/Desktop/abacus/abacus.py:61
