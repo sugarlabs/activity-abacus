@@ -352,6 +352,7 @@ class AbacusActivity(activity.Activity):
                              self._value_spin.get_value_as_int(),
                              self._base_spin.get_value_as_int())
         self._select_abacus(None, None, self.abacus.custom)
+        self.abacus.mode.reset_abacus()
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
 
