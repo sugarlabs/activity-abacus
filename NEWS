@@ -1,3 +1,13 @@
+20
+
+ENHANCEMENTS
+* icon cleanup
+* white background
+
+BUG FIXES
+* fixed problem with beads falling off abacus (#2933)
+* fixed problem with launching from GNOME shell
+
 19
 
 * type in values, copy/paste from clipboard
