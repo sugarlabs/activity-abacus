@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 #Copyright (c) 2010, Walter Bender
 
@@ -13,8 +13,6 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-import pygtk
-pygtk.require('2.0')
 import gtk
 
 from gettext import gettext as _
@@ -25,6 +23,7 @@ from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
 
 
 class AbacusMain:
+
     def __init__(self):
         self.r = 0
         self.tw = None
@@ -34,10 +33,10 @@ class AbacusMain:
             data_file = open('.abacusrc', 'r')
         except IOError:
             data_file = open('.abacusrc', 'a+')
-            data_file.write(str(50)+'\n')
-            data_file.write(str(50)+'\n')
-            data_file.write(str(800)+'\n')
-            data_file.write(str(550)+'\n')
+            data_file.write(str(50) + '\n')
+            data_file.write(str(50) + '\n')
+            data_file.write(str(800) + '\n')
+            data_file.write(str(550) + '\n')
             data_file.seek(0)
         self.x = int(data_file.readline())
         self.y = int(data_file.readline())
@@ -46,39 +45,38 @@ class AbacusMain:
         self.win.set_default_size(self.width, self.height)
         self.win.move(self.x, self.y)
         self.win.maximize()
-        self.win.set_title(_("Abacus"))
-        self.win.connect("delete_event", lambda w,e: gtk.main_quit())
+        self.win.set_title(_('Abacus'))
+        self.win.connect('delete_event', lambda w, e: gtk.main_quit())
 
 	ABACI = {
-		"c": _("Suanpan"),
-		"j": _("Soroban"),
-		"r": _("Schety"),
-		"m": _("Nepohualtzintzin"),
-		"b": _("Binary"),
-		"h": _("Hexadecimal"),
-		"f": _("Fraction"),
-		"d": _("Decimal"),
-		"C": _("Caacupé"),
-		"R": _("Rods")
+		'c': _('Suanpan'),
+		'j': _('Soroban'),
+		'r': _('Schety'),
+		'm': _('Nepohualtzintzin'),
+		'b': _('Binary'),
+		'h': _('Hexadecimal'),
+		'f': _('Fraction'),
+		'd': _('Decimal'),
+		'C': _('Caacupé'),
+		'R': _('Rods')
 	}
 
         menu = gtk.Menu()
 	for k, v in ABACI.iteritems():
 		menu_items = gtk.MenuItem(v)
 		menu.append(menu_items)
-		menu_items.connect("activate", self._switch_abacus_cb, k)
-        menu_items = gtk.MenuItem(_("Reset"))
+		menu_items.connect('activate', self._switch_abacus_cb, k)
+        menu_items = gtk.MenuItem(_('Reset'))
         menu.append(menu_items)
-        menu_items.connect("activate", self._reset)
-        menu_items = gtk.MenuItem(_("Quit"))
+        menu_items.connect('activate', self._reset)
+        menu_items = gtk.MenuItem(_('Quit'))
         menu.append(menu_items)
-        menu_items.connect("activate", self.destroy)
+        menu_items.connect('activate', self.destroy)
         menu_items.show()
-        root_menu = gtk.MenuItem("Tools")
+        root_menu = gtk.MenuItem('Tools')
         root_menu.show()
         root_menu.set_submenu(menu)
 
-        # A vbox to put a menu and the canvas in:
         vbox = gtk.VBox(False, 0)
         self.win.add(vbox)
         vbox.show()
@@ -132,16 +130,16 @@ class AbacusMain:
 
     def _switch_abacus_cb(self, widget, user):
 	ABACI = {
-		"b": self.abacus.binary,
-		"c": self.abacus.chinese,
-		"f": self.abacus.fraction,
-		"h": self.abacus.hex,
-		"j": self.abacus.japanese,
-		"m": self.abacus.mayan,
-		"r": self.abacus.russian,
-		"d": self.abacus.decimal,
-		"C": self.abacus.caacupe,
-		"R": self.abacus.cuisenaire
+		'b': self.abacus.binary,
+		'c': self.abacus.chinese,
+		'f': self.abacus.fraction,
+		'h': self.abacus.hex,
+		'j': self.abacus.japanese,
+		'm': self.abacus.mayan,
+		'r': self.abacus.russian,
+		'd': self.abacus.decimal,
+		'C': self.abacus.caacupe,
+		'R': self.abacus.cuisenaire
 	}
 	self.abacus.mode.hide()
 	self.abacus.mode = ABACI[user]
@@ -149,18 +147,18 @@ class AbacusMain:
         return True
 
     def _reset(self, event, data=None):
-        """ Reset beads to initial position """
+        ''' Reset beads to initial position '''
         self.abacus.mode.reset_abacus()
         return
 
     def destroy(self, event, data=None):
-        """ Callback for destroy event. """
+        ''' Callback for destroy event. '''
         gtk.main_quit()
 
 def main():
     gtk.main()
     return 0
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     AbacusMain()
     main()
