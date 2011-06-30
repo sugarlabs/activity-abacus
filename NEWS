@@ -1,3 +1,9 @@
+21
+
+BUG FIX
+
+* Fixed regression with old-style toolbars that preventing activity launch (#2942)
+
 20
 
 ENHANCEMENTS
