@@ -209,9 +209,9 @@ class AbacusActivity(activity.Activity):
                                       self._custom_cb, custom_toolbar)
 
         copy = _button_factory('edit-copy', _('Copy'), self._copy_cb,
-                           edit_toolbar_button, accelerator='<Ctrl>c')
+                           edit_toolbar, accelerator='<Ctrl>c')
         paste = _button_factory('edit-paste', _('Paste'), self._paste_cb,
-                            edit_toolbar_button, accelerator='<Ctrl>v')
+                            edit_toolbar, accelerator='<Ctrl>v')
 
         self.toolbox.show()
 
