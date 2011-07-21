@@ -170,37 +170,50 @@ class AbacusActivity(activity.Activity):
                toolbox.props.visible = False
 
         # Add the buttons and spinners to the toolbars
+        # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
         self.japanese = _button_factory("soroban-off", _('Soroban'),
                                         self._japanese_cb, abacus_toolbar)
         self.mayan = _button_factory("nepohualtzintzin-off",
+        # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
                                      _('Nepohualtzintzin'),
                                      self._mayan_cb, abacus_toolbar)
+        # TRANS: hexidecimal abacus
         self.hex = _button_factory("hexadecimal-off", _('Hexadecimal'),
                                    self._hex_cb, abacus_toolbar)
+        # TRANS: binary abacus
         self.binary = _button_factory("binary-off", _('Binary'),
                                       self._binary_cb, abacus_toolbar)
+        # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
         self.russian = _button_factory("schety-off", _('Schety'),
                                        self._russian_cb, abacus_toolbar)
+        # TRANS: abacus for adding fractions
         self.fraction = _button_factory("fraction-off", _('Fraction'),
                                         self._fraction_cb, abacus_toolbar)
+        # TRANS: Abacus invented by teachers in Caacupé, Paraguay
         self.caacupe = _button_factory("caacupe-off", _('Caacupé'),
                                         self._caacupe_cb, abacus_toolbar)
+        # TRANS: Cuisenaire Rods
         self.cuisenaire = _button_factory("cuisenaire-off", _('Rods'),
                                         self._cuisenaire_cb, abacus_toolbar)
 
+        # TRANS: Number of rods on the abacus
         self._rods_label = _label_factory(_("Rods:")+" ", custom_toolbar)
         self._rods_spin = _spin_factory(15, 1, 20, self._rods_spin_cb,
                                         custom_toolbar)
+        # TRANS: Number of beads in the top section of the abacus
         self._top_label = _label_factory(_("Top:")+" ", custom_toolbar)
         self._top_spin = _spin_factory(2, 0, 4, self._top_spin_cb,
                                        custom_toolbar)
+        # TRANS: Number of beads in the bottom section of the abacus
         self._bottom_label = _label_factory(_("Bottom:")+" ",
                                             custom_toolbar)
         self._bottom_spin = _spin_factory(5, 1, 20, self._bottom_spin_cb,
                                           custom_toolbar)
+        # TRANS: Scale factor between bottom and top beads
         self._value_label = _label_factory(_("Factor:")+" ", custom_toolbar)
         self._value_spin = _spin_factory(5, 1, 20, self._value_spin_cb,
                                          custom_toolbar)
+        # TRANS: Scale factor between rods
         self._base_label = _label_factory(_("Base:")+" ", custom_toolbar)
         self._base_spin = _spin_factory(10, 1, 24, self._base_spin_cb,
                                         custom_toolbar)
@@ -209,9 +222,9 @@ class AbacusActivity(activity.Activity):
                                       self._custom_cb, custom_toolbar)
 
         copy = _button_factory('edit-copy', _('Copy'), self._copy_cb,
-                           edit_toolbar_button, accelerator='<Ctrl>c')
+                           edit_toolbar, accelerator='<Ctrl>c')
         paste = _button_factory('edit-paste', _('Paste'), self._paste_cb,
-                            edit_toolbar_button, accelerator='<Ctrl>v')
+                            edit_toolbar, accelerator='<Ctrl>v')
 
         self.toolbox.show()
 
@@ -276,8 +289,10 @@ class AbacusActivity(activity.Activity):
 
     def _basic_abacus(self, toolbar):
         """ Add Chinese and decimal abacuses to toolbar """
+        # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
         self.chinese = _button_factory("suanpan-on", _('Suanpan'),
                                        self._chinese_cb, toolbar)
+        # TRANS: simple decimal abacus
         self.decimal = _button_factory("decimal-off", _('Decimal'),
                                        self._decimal_cb, toolbar)
 
@@ -352,6 +367,7 @@ class AbacusActivity(activity.Activity):
                              self._value_spin.get_value_as_int(),
                              self._base_spin.get_value_as_int())
         self._select_abacus(None, None, self.abacus.custom)
+        self.abacus.mode.reset_abacus()
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
 

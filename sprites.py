@@ -163,6 +163,7 @@ class Sprite:
         self.images = []
         self._dx = []  # image offsets
         self._dy = []
+        self.type = None
         self.set_image(image)
         self._sprites.append_to_list(self)
 
