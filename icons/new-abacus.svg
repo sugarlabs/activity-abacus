@@ -26,6 +26,7 @@
   <defs
      id="defs7" />
   <g
+     transform="matrix(1.3351454,0,0,0.97880072,-0.96078401,-0.03127486)"
      id="g4356">
     <rect
        width="29.083258"
@@ -152,6 +153,7 @@
        style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:0.71241933;stroke-opacity:1" />
   </g>
   <g
+     transform="translate(0.60496486,2.2436551)"
      id="g4389">
     <path
        d="m 41.93723,47.171834 0.62897,-8.248618 -0.442166,-8.231741 -0.690235,8.327701 0.503431,8.075653 0.550051,-8.237626"
