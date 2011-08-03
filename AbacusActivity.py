@@ -167,9 +167,6 @@ class AbacusActivity(activity.Activity):
         # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
         self.chinese = _button_factory("suanpan-on", _('Suanpan'),
                                        self._chinese_cb, abacus_toolbar)
-        # TRANS: simple decimal abacus
-        self.decimal = _button_factory("decimal-off", _('Decimal'),
-                                       self._decimal_cb, abacus_toolbar)
 
         # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
         self.japanese = _button_factory("soroban-off", _('Soroban'),
@@ -178,21 +175,35 @@ class AbacusActivity(activity.Activity):
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
                                      _('Nepohualtzintzin'),
                                      self._mayan_cb, abacus_toolbar)
+
+        _separator_factory(abacus_toolbar)
+
+        # TRANS: simple decimal abacus
+        self.decimal = _button_factory("decimal-off", _('Decimal'),
+                                       self._decimal_cb, abacus_toolbar)
+
         # TRANS: hexidecimal abacus
         self.hex = _button_factory("hexadecimal-off", _('Hexadecimal'),
                                    self._hex_cb, abacus_toolbar)
         # TRANS: binary abacus
         self.binary = _button_factory("binary-off", _('Binary'),
                                       self._binary_cb, abacus_toolbar)
+
+        _separator_factory(abacus_toolbar)
+
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
         self.russian = _button_factory("schety-off", _('Schety'),
                                        self._russian_cb, abacus_toolbar)
+
         # TRANS: abacus for adding fractions
         self.fraction = _button_factory("fraction-off", _('Fraction'),
                                         self._fraction_cb, abacus_toolbar)
         # TRANS: Abacus invented by teachers in Caacupé, Paraguay
         self.caacupe = _button_factory("caacupe-off", _('Caacupé'),
                                         self._caacupe_cb, abacus_toolbar)
+
+        _separator_factory(abacus_toolbar)
+
         # TRANS: Cuisenaire Rods
         self.cuisenaire = _button_factory("cuisenaire-off", _('Rods'),
                                         self._cuisenaire_cb, abacus_toolbar)
