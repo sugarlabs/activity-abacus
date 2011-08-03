@@ -595,6 +595,7 @@ class AbacusGeneric():
                               _svg_str_to_pixbuf(bar))
 
         self.bar.type = 'frame'
+        self.bar.set_label_attributes(12, rescale=False)
         self.bar.set_label_color('white')
 
         # and finally, the mark.
