@@ -99,7 +99,7 @@ class AbacusActivity(activity.Activity):
 
     def __init__(self, handle):
         """ Initiate activity. """
-        super(AbacusActivity,self).__init__(handle)
+        super(AbacusActivity, self).__init__(handle)
 
         # no sharing
         self.max_participants = 1
