@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#Copyright (c) 2010, Walter Bender
+#Copyright (c) 2010-11, Walter Bender
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,14 +19,15 @@ import gobject
 import sugar
 from sugar.activity import activity
 try: # 0.86+ toolbar widgets
+    from sugar.graphics.toolbarbox import ToolbarBox
+    HAS_TOOLBARBOX = True
+except ImportError:
+    HAS_TOOLBARBOX = False
+if HAS_TOOLBARBOX:
     from sugar.bundle.activitybundle import ActivityBundle
     from sugar.activity.widgets import ActivityToolbarButton
     from sugar.activity.widgets import StopButton
-    from sugar.graphics.toolbarbox import ToolbarBox
     from sugar.graphics.toolbarbox import ToolbarButton
-    _new_sugar_system = True
-except ImportError:
-    _new_sugar_system = False
 from sugar.graphics.toolbutton import ToolButton
 from sugar.graphics.menuitem import MenuItem
 from sugar.graphics.icon import Icon
@@ -98,7 +99,7 @@ class AbacusActivity(activity.Activity):
 
     def __init__(self, handle):
         """ Initiate activity. """
-        super(AbacusActivity,self).__init__(handle)
+        super(AbacusActivity, self).__init__(handle)
 
         # no sharing
         self.max_participants = 1
@@ -107,7 +108,7 @@ class AbacusActivity(activity.Activity):
         custom_toolbar = gtk.Toolbar()
         edit_toolbar = gtk.Toolbar()
 
-        if _new_sugar_system:
+        if HAS_TOOLBARBOX:
             # Use 0.86 toolbar design
             toolbox = ToolbarBox()
 
@@ -115,13 +116,16 @@ class AbacusActivity(activity.Activity):
             toolbox.toolbar.insert(activity_button, 0)
             activity_button.show()
 
-            self._basic_abacus(toolbox.toolbar)
-
-            _separator_factory(toolbox.toolbar)
+            edit_toolbar_button = ToolbarButton(label=_('Edit'),
+                                                page=edit_toolbar,
+                                                icon_name='toolbar-edit')
+            edit_toolbar_button.show()
+            toolbox.toolbar.insert(edit_toolbar_button, -1)
+            edit_toolbar_button.show()
 
             abacus_toolbar_button = ToolbarButton(
                     page=abacus_toolbar,
-                    icon_name='list-add')
+                    icon_name='abacus-list')
             abacus_toolbar.show()
             toolbox.toolbar.insert(abacus_toolbar_button, -1)
             abacus_toolbar_button.show()
@@ -132,13 +136,6 @@ class AbacusActivity(activity.Activity):
             custom_toolbar.show()
             toolbox.toolbar.insert(custom_toolbar_button, -1)
             custom_toolbar_button.show()
-
-            edit_toolbar_button = ToolbarButton(label=_('Edit'),
-                                                page=edit_toolbar,
-                                                icon_name='toolbar-edit')
-            edit_toolbar_button.show()
-            toolbox.toolbar.insert(edit_toolbar_button, -1)
-            edit_toolbar_button.show()
 
             _separator_factory(toolbox.toolbar, True, False)
 
@@ -159,8 +156,6 @@ class AbacusActivity(activity.Activity):
             toolbox.add_toolbar( _('Custom'), custom_toolbar )
             toolbox.add_toolbar(_('Edit'), edit_toolbar)
 
-            self._basic_abacus(abacus_toolbar)
-
             toolbox.set_current_toolbar(1)
 
             # no sharing
@@ -169,29 +164,49 @@ class AbacusActivity(activity.Activity):
             elif hasattr(toolbox, 'props'):
                toolbox.props.visible = False
 
-        # Add the buttons and spinners to the toolbars
+        # TRANS: simple decimal abacus
+        self.decimal = _button_factory("decimal-off", _('Decimal'),
+                                       self._decimal_cb, abacus_toolbar)
+
         # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
         self.japanese = _button_factory("soroban-off", _('Soroban'),
                                         self._japanese_cb, abacus_toolbar)
+
+        # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
+        self.chinese = _button_factory("suanpan-on", _('Suanpan'),
+                                       self._chinese_cb, abacus_toolbar)
+
+        _separator_factory(abacus_toolbar)
+
         self.mayan = _button_factory("nepohualtzintzin-off",
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
                                      _('Nepohualtzintzin'),
                                      self._mayan_cb, abacus_toolbar)
+
         # TRANS: hexidecimal abacus
         self.hex = _button_factory("hexadecimal-off", _('Hexadecimal'),
                                    self._hex_cb, abacus_toolbar)
+
         # TRANS: binary abacus
         self.binary = _button_factory("binary-off", _('Binary'),
                                       self._binary_cb, abacus_toolbar)
+
+        _separator_factory(abacus_toolbar)
+
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
         self.russian = _button_factory("schety-off", _('Schety'),
                                        self._russian_cb, abacus_toolbar)
+
         # TRANS: abacus for adding fractions
         self.fraction = _button_factory("fraction-off", _('Fraction'),
                                         self._fraction_cb, abacus_toolbar)
+
         # TRANS: Abacus invented by teachers in Caacupé, Paraguay
         self.caacupe = _button_factory("caacupe-off", _('Caacupé'),
                                         self._caacupe_cb, abacus_toolbar)
+
+        _separator_factory(abacus_toolbar)
+
         # TRANS: Cuisenaire Rods
         self.cuisenaire = _button_factory("cuisenaire-off", _('Rods'),
                                         self._cuisenaire_cb, abacus_toolbar)
@@ -218,7 +233,9 @@ class AbacusActivity(activity.Activity):
         self._base_spin = _spin_factory(10, 1, 24, self._base_spin_cb,
                                         custom_toolbar)
 
-        self.custom = _button_factory("new-game", _('Custom'),
+        _separator_factory(custom_toolbar, False, False)
+
+        self.custom = _button_factory("new-abacus", _('Custom'),
                                       self._custom_cb, custom_toolbar)
 
         copy = _button_factory('edit-copy', _('Copy'), self._copy_cb,
@@ -228,9 +245,7 @@ class AbacusActivity(activity.Activity):
 
         self.toolbox.show()
 
-        if _new_sugar_system:
-            # workaround to #2050
-            edit_toolbar_button.set_expanded(True)
+        if HAS_TOOLBARBOX:
             # start with abacus toolbar expanded
             abacus_toolbar_button.set_expanded(True)
 
@@ -286,15 +301,6 @@ class AbacusActivity(activity.Activity):
             self.abacus.mode.label(self.abacus.generate_label())
         except:
             pass
-
-    def _basic_abacus(self, toolbar):
-        """ Add Chinese and decimal abacuses to toolbar """
-        # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
-        self.chinese = _button_factory("suanpan-on", _('Suanpan'),
-                                       self._chinese_cb, toolbar)
-        # TRANS: simple decimal abacus
-        self.decimal = _button_factory("decimal-off", _('Decimal'),
-                                       self._decimal_cb, toolbar)
 
     def _all_off(self):
         """ Set all icons to 'off' and hide all of the abacuses """

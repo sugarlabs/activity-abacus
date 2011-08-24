@@ -300,7 +300,7 @@ class Abacus():
         self.width = gtk.gdk.screen_width()
         self.height = gtk.gdk.screen_height() - GRID_CELL_SIZE
         self.sprites = Sprites(self.canvas)
-        self.scale = gtk.gdk.screen_height() / 900.0
+        self.scale = 1.33 * gtk.gdk.screen_height() / 900.0
         self.dragpos = 0
         self.press = None
         self.last = None
@@ -595,6 +595,7 @@ class AbacusGeneric():
                               _svg_str_to_pixbuf(bar))
 
         self.bar.type = 'frame'
+        self.bar.set_label_attributes(12, rescale=False)
         self.bar.set_label_color('white')
 
         # and finally, the mark.
