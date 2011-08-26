@@ -150,7 +150,7 @@ msgstr "Factor:"
 #. TRANS: Scale factor between rods
 #: AbacusActivity.py:217 dist/Abacus-19/AbacusActivity.py:191
 msgid "Base:"
-msgstr "Base"
+msgstr "Base:"
 
 #: AbacusActivity.py:224
 msgid "Copy"
