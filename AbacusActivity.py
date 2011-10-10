@@ -137,6 +137,11 @@ class AbacusActivity(activity.Activity):
             toolbox.toolbar.insert(custom_toolbar_button, -1)
             custom_toolbar_button.show()
 
+            _separator_factory(toolbox.toolbar, False, True)
+
+            _button_factory("edit-delete", _('Reset'),
+                            self._reset_cb, toolbox.toolbar)
+
             _separator_factory(toolbox.toolbar, True, False)
 
             stop_button = StopButton(self)
@@ -336,6 +341,10 @@ class AbacusActivity(activity.Activity):
             self.abacus.cuisenaire.hide()
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
+
+    def _reset_cb(self, button):
+        self.abacus.mode.reset_abacus()
+        self.abacus.mode.label(self.abacus.generate_label())
 
     def _select_abacus(self, button, icon, abacus):
         """ Display the selected abacus; hide the others """
