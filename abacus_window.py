@@ -20,7 +20,8 @@ FRAME_LAYER = 100
 ROD_LAYER = 101
 BEAD_LAYER = 102
 BAR_LAYER = 103
-MARK_LAYER = 104
+DOT_LAYER = 104
+MARK_LAYER = 105
 MAX_FADE_LEVEL = 3
 CURSOR = '█'
 
@@ -784,7 +785,6 @@ class AbacusGeneric():
         self.abacus = abacus
         self.set_parameters()
         self.create()
-        return
 
     def set_parameters(self):
         ''' Define the physical paramters. '''
@@ -795,7 +795,7 @@ class AbacusGeneric():
         self.base = 10
         self.top_factor = 5
 
-    def create(self):
+    def create(self, dots=False):
         ''' Create and position the sprites that compose the abacus '''
 
         # Width is a function of the number of rods
@@ -810,7 +810,7 @@ class AbacusGeneric():
 
         # Draw the frame...
         x = (self.abacus.width - (self.frame_width * self.abacus.scale)) / 2
-        y = (self.abacus.height - (self.frame_height * self.abacus.scale)) / 2
+        y = (self.abacus.height - (self.frame_height * self.abacus.scale)) / 4
         frame = _svg_header(self.frame_width, self.frame_height,
                             self.abacus.scale) + \
                             _svg_rect(self.frame_width, self.frame_height,
@@ -818,12 +818,49 @@ class AbacusGeneric():
                                       '#000000', '#000000') + \
                             _svg_rect(self.frame_width - (FSTROKE * 2),
                                       self.frame_height - (FSTROKE * 2), 0, 0,
-                                      FSTROKE, FSTROKE, '#808080', '#000000') \
+                                      FSTROKE, FSTROKE, '#C0C0C0', '#000000') \
                                       + \
                             _svg_footer()
         self.frame = Sprite(self.abacus.sprites, x, y,
                             _svg_str_to_pixbuf(frame))
         self.frame.type = 'frame'
+
+        # Some abaci use a dot to show the units position
+        if dots:
+            dx = (BWIDTH + BOFFSET) * self.abacus.scale
+            dotx = int(self.abacus.width / 2) - 5
+            doty = [y + 5, y + self.frame_height - FSTROKE - 15]
+            self.dots = []
+            white_dot = _svg_header(10, 10, self.abacus.scale) + \
+                        _svg_rect(10, 10, 3, 3, 0, 0, '#FFFFFF', '#000000') + \
+                        _svg_footer()
+            self.dots.append(Sprite(self.abacus.sprites,
+                                    dotx, doty[0],
+                                    _svg_str_to_pixbuf(white_dot)))
+            self.dots.append(Sprite(self.abacus.sprites,
+                                    dotx, doty[1],
+                                    _svg_str_to_pixbuf(white_dot)))
+
+            black_dot = _svg_header(10, 10, self.abacus.scale) + \
+                        _svg_rect(10, 10, 3, 3, 0, 0, '#282828', '#FFFFFF') + \
+                        _svg_footer()
+            for i in range(int(self.num_rods / 4 - 1)):
+                self.dots.append(Sprite(self.abacus.sprites,
+                                        dotx - 3 * (i + 1) * dx, doty[0],
+                                        _svg_str_to_pixbuf(black_dot)))
+                self.dots.append(Sprite(self.abacus.sprites,
+                                        dotx + 3 * (i + 1) * dx, doty[0],
+                                        _svg_str_to_pixbuf(black_dot)))
+                self.dots.append(Sprite(self.abacus.sprites,
+                                        dotx - 3 * (i + 1) * dx, doty[1],
+                                        _svg_str_to_pixbuf(black_dot)))
+                self.dots.append(Sprite(self.abacus.sprites,
+                                        dotx + 3 * (i + 1) * dx, doty[1],
+                                        _svg_str_to_pixbuf(black_dot)))
+            
+            for dot in self.dots:
+                dot.set_layer(DOT_LAYER)
+                dot.type = 'frame'
 
         # and then the rods and beads.
         x += FSTROKE * self.abacus.scale
@@ -895,6 +932,9 @@ class AbacusGeneric():
         self.bar.hide()
         self.frame.hide()
         self.mark.hide()
+        if hasattr(self, 'dots'):
+            for dot in self.dots:
+                dot.hide()
 
     def show(self):
         ''' Show the rod, beads, mark, and frame. '''
@@ -902,6 +942,9 @@ class AbacusGeneric():
         for rod in self.rods:
             rod.show()
         self.bar.set_layer(BAR_LAYER)
+        if hasattr(self, 'dots'):
+            for dot in self.dots:
+                dot.set_layer(DOT_LAYER)
         self.mark.set_layer(MARK_LAYER)
 
     def set_value(self, string):
@@ -1044,6 +1087,12 @@ class Suanpan(AbacusGeneric):
 
 class Soroban(AbacusGeneric):
     ''' A Japanese abacus '''
+
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create(dots=True)
 
     def set_parameters(self):
         ''' create a Japanese abacus: 15 by (4,1) '''
