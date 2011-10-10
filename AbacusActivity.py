@@ -161,6 +161,11 @@ class AbacusActivity(activity.Activity):
             toolbox.add_toolbar( _('Custom'), custom_toolbar )
             toolbox.add_toolbar(_('Edit'), edit_toolbar)
 
+            _button_factory("edit-delete", _('Reset'),
+                            self._reset_cb, edit_toolbar)
+
+            _separator_factory(edit_toolbar, False, True)
+
             toolbox.set_current_toolbar(1)
 
             # no sharing
