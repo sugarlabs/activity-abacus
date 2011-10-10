@@ -266,46 +266,46 @@ class AbacusActivity(activity.Activity):
         self.abacus = Abacus(canvas, self)
 
         # Read the current mode from the Journal
-        try:
+        if 'rods' in self.metadata:
             self._rods_spin.set_value(int(self.metadata['rods']))
+        if 'top' in self.metadata:
             self._top_spin.set_value(int(self.metadata['top']))
+        if 'bottom' in self.metadata:
             self._bottom_spin.set_value(int(self.metadata['bottom']))
-            self._value_spin.set_value(int(self._metadata['factor']))
+        if 'factor' in self.metadata:
+            self._value_spin.set_value(int(self.metadata['factor']))
+        if 'base' in self.metadata:
             self._base_spin.set_value(int(self.metadata['base']))
-        except:
-            pass
-        try:
-            if self.metadata['abacus'] == 'suanpan':
-                self._chinese_cb(None)
+        if 'abacus' in self.metadata:
+            _logger.debug('restoring %s', self.metadata['abacus'])
+            if  self.metadata['abacus'] == 'suanpan':
+                self._chinese_cb()
             elif self.metadata['abacus'] == 'soroban':
-                self._japanese_cb(None)
+                self._japanese_cb()
             elif self.metadata['abacus'] == 'schety':
-                self._russian_cb(None)
+                self._russian_cb()
             elif self.metadata['abacus'] == 'nepohualtzintzin':
-                self._mayan_cb(None)
+                self._mayan_cb()
             elif self.metadata['abacus'] == 'binary':
-                self._binary_cb(None)
+                self._binary_cb()
             elif self.metadata['abacus'] == 'hexadecimal':
-                self._hex_cb(None)
+                self._hex_cb()
             elif self.metadata['abacus'] == 'fraction':
-                self._fraction_cb(None)
+                self._fraction_cb()
             elif self.metadata['abacus'] == 'caacupe':
-                self._caacupe_cb(None)
+                self._caacupe_cb()
             elif self.metadata['abacus'] == 'cuisenaire':
-                self._cuisenaire_cb(None)
+                self._cuisenaire_cb()
             elif self.metadata['abacus'] == 'decimal':
-                self._decimal_cb(None)
+                self._decimal_cb()
             elif self.metadata['abacus'] == 'custom':
-                self._custom_cb(None)
+                self._custom_cb()
             else:
-                self._chinese_cb(None)
-        except:
-            pass
-        try:
-            self.abacus.mode.set_value(self.metadata['value'])
-            self.abacus.mode.label(self.abacus.generate_label())
-        except:
-            pass
+                self._chinese_cb()
+            if 'value' in self.metadata:
+                _logger.debug('restoring value %s', self.metadata['value'])
+                self.abacus.mode.set_value(self.metadata['value'])
+                self.abacus.mode.label(self.abacus.generate_label())
 
     def _all_off(self):
         """ Set all icons to 'off' and hide all of the abacuses """
@@ -342,7 +342,7 @@ class AbacusActivity(activity.Activity):
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
 
-    def _reset_cb(self, button):
+    def _reset_cb(self, button=None):
         self.abacus.mode.reset_abacus()
         self.abacus.mode.label(self.abacus.generate_label())
 
@@ -355,22 +355,22 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.show()
         _logger.debug("Setting mode to %s" % (self.abacus.mode.name))
 
-    def _rods_spin_cb(self, button):
+    def _rods_spin_cb(self, button=None):
         return
 
-    def _top_spin_cb(self, button):
+    def _top_spin_cb(self, button=None):
         return
 
-    def _bottom_spin_cb(self, button):
+    def _bottom_spin_cb(self, button=None):
         return
 
-    def _value_spin_cb(self, button):
+    def _value_spin_cb(self, button=None):
         return
 
-    def _base_spin_cb(self, button):
+    def _base_spin_cb(self, button=None):
         return
 
-    def _custom_cb(self, button):
+    def _custom_cb(self, button=None):
         """ Display the custom abacus; hide the others """
         value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.custom is not None:
@@ -386,7 +386,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
 
-    def _chinese_cb(self, button):
+    def _chinese_cb(self, button=None):
         """ Display the suanpan; hide the others """
         value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.chinese is None:
@@ -396,7 +396,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
 
-    def _japanese_cb(self, button):
+    def _japanese_cb(self, button=None):
         """ Display the soroban; hide the others """
         value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.japanese is None:
@@ -406,14 +406,14 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
 
-    def _russian_cb(self, button):
+    def _russian_cb(self, button=None):
         """ Display the schety; hide the others """
         if self.abacus.russian is None:
             self.abacus.russian = Schety(self.abacus)
         self._select_abacus(self.russian, self.abacus.russian.name+"-on",
                             self.abacus.russian)
 
-    def _mayan_cb(self, button):
+    def _mayan_cb(self, button=None):
         """ Display the nepohualtzintzin; hide the others """
         value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.mayan is None:
@@ -423,7 +423,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
 
-    def _binary_cb(self, button):
+    def _binary_cb(self, button=None):
         """ Display the binary; hide the others """
         value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.binary is None:
@@ -433,7 +433,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
 
-    def _hex_cb(self, button):
+    def _hex_cb(self, button=None):
         """ Display the hex; hide the others """
         value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.hex is None:
@@ -443,7 +443,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
 
-    def _decimal_cb(self, button):
+    def _decimal_cb(self, button=None):
         """ Display the decimal; hide the others """
         value = float(self.abacus.mode.value(count_beads=False))
         if self.abacus.decimal is None:
@@ -453,21 +453,21 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
 
-    def _fraction_cb(self, button):
+    def _fraction_cb(self, button=None):
         """ Display the fraction; hide the others """
         if self.abacus.fraction is None:
             self.abacus.fraction = Fractions(self.abacus)
         self._select_abacus(self.fraction, self.abacus.fraction.name+"-on",
                             self.abacus.fraction)
 
-    def _caacupe_cb(self, button):
+    def _caacupe_cb(self, button=None):
         """ Display the Caacupe; hide the others """
         if self.abacus.caacupe is None:
             self.abacus.caacupe = Caacupe(self.abacus)
         self._select_abacus(self.caacupe, self.abacus.caacupe.name+"-on",
                             self.abacus.caacupe)
 
-    def _cuisenaire_cb(self, button):
+    def _cuisenaire_cb(self, button=None):
         """ Display Cuisenaire-like rods; hide the others """
         if self.abacus.cuisenaire is None:
             self.abacus.cuisenaire = Cuisenaire(self.abacus)
@@ -497,16 +497,13 @@ class AbacusActivity(activity.Activity):
 
     def write_file(self, file_path):
         """ Write the bead positions to the Journal """
-        _logger.debug("Saving current abacus to Journal: %s " % (
-                       self.abacus.mode.name))
-        try:
-            self.metadata['abacus'] = self.abacus.mode.name
-            self.metadata['value'] = self.abacus.mode.value(True)
-            self.metadata['rods'] = str(self._rods_spin.get_value_as_int())
-            self.metadata['top'] = str(self._top_spin.get_value_as_int())
-            self.metadata['bottom'] = str(self._bottom_spin.get_value_as_int())
-            self.metadata['factor'] = str(self._value_spin.get_value_as_int())
-            self.metadata['base'] = str(self._base_spin.get_value_as_int())
-        except:
-            pass
+        _logger.debug("Saving current abacus to Journal: %s %s" % (
+                       self.abacus.mode.name, self.abacus.mode.value(True)))
+        self.metadata['abacus'] = self.abacus.mode.name
+        self.metadata['value'] = self.abacus.mode.value(True)
+        self.metadata['rods'] = str(self._rods_spin.get_value_as_int())
+        self.metadata['top'] = str(self._top_spin.get_value_as_int())
+        self.metadata['bottom'] = str(self._bottom_spin.get_value_as_int())
+        self.metadata['factor'] = str(self._value_spin.get_value_as_int())
+        self.metadata['base'] = str(self._base_spin.get_value_as_int())
 

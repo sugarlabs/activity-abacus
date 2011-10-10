@@ -280,6 +280,7 @@ class Rod():
         self.sprites = sprites
         self.spr = Sprite(sprites, x, y, _svg_str_to_pixbuf(rod))
         self.spr.type = 'frame'
+        self.show_labels = False
         self.beads = []
         self.lozenge = False
         self.white_beads = []
@@ -309,6 +310,17 @@ class Rod():
                 _svg_bead(COLORS[i], '#000000', stretch=bead_scale) + \
                 _svg_footer()))
 
+        bo = (BWIDTH - BOFFSET) * self.scale / 2
+        ro = (BWIDTH + 5) * self.scale / 2
+        self.label = Sprite(self.sprites, x - bo, y + self.spr.rect[3],
+                            _svg_str_to_pixbuf(
+                _svg_header(BWIDTH, BHEIGHT, self.scale, stretch=1.0) + \
+                _svg_rect(BWIDTH, BHEIGHT, 0, 0, 0, 0, 'none', 'none') + \
+                _svg_footer()))
+        self.label.type = 'frame'
+        self.label.set_label_color('#FFFFFF')
+        self.label.set_layer(MARK_LAYER)
+
     def allocate_beads(self, top_beads, bot_beads, top_factor,
                        bead_value, bot_size, color=False, middle_black=False,
                        all_black=False, tristate=False):
@@ -318,6 +330,9 @@ class Rod():
         self.bot_size = bot_size  # number of beads that could fix below
         self.top_factor = top_factor
         self.fade = False
+
+        if self.top_beads > 0:
+            self.show_labels = True
 
         x = self.spr.rect[0]
         y = self.spr.rect[1]
@@ -388,15 +403,19 @@ class Rod():
             for bead in self.beads:
                 bead.set_label_color(LABELS[self.index])
 
+
     def hide(self):
         for bead in self.beads:
             bead.hide()
         self.spr.hide()
+        self.label.hide()
 
     def show(self):
         for bead in self.beads:
             bead.show()
         self.spr.set_layer(ROD_LAYER)
+        if self.show_labels:
+            self.label.set_layer(MARK_LAYER)
 
     def get_max_value(self):
         ''' Returns maximum numeric value for this rod '''
@@ -451,6 +470,11 @@ class Rod():
         for i in range(bot):
             self.beads[self.top_beads + i].move_up()
 
+        if value > 0:
+            self.label.set_label(self.get_bead_count())
+        else:
+            self.label.set_label('')
+
     def reset(self):
         # Clear the top.
         for i in range(self.top_beads):
@@ -460,6 +484,8 @@ class Rod():
         for i in range(self.bot_beads):
             if self.beads[self.top_beads + i].get_state() == 1:
                 self.beads[self.top_beads + i].move_down()
+
+        self.label.set_label('')
 
     def fade_colors(self):
         ''' Reduce the saturation level of every bead. '''
@@ -545,6 +571,8 @@ class Rod():
                         if self.fade and bead.max_fade_level > 0:
                             self.beads[i + ii].set_color(self.white_beads[3])
                         self.beads[i + ii].move_down()
+
+        self.label.set_label(self.get_bead_count())
         return True
 
 
@@ -797,10 +825,8 @@ class AbacusGeneric():
 
     def create(self, dots=False):
         ''' Create and position the sprites that compose the abacus '''
-
         # Width is a function of the number of rods
         self.frame_width = self.num_rods * (BWIDTH + BOFFSET) + FSTROKE * 2
-
         # Height is a function of the number of beads
         if self.top_beads > 0:
             self.frame_height = (self.bot_beads + self.top_beads + 5) * \
@@ -825,7 +851,7 @@ class AbacusGeneric():
                             _svg_str_to_pixbuf(frame))
         self.frame.type = 'frame'
 
-        # Some abaci use a dot to show the units position
+        # Some abaci (Soroban) use a dot to show the units position
         if dots:
             dx = (BWIDTH + BOFFSET) * self.abacus.scale
             dotx = int(self.abacus.width / 2) - 5
@@ -844,7 +870,7 @@ class AbacusGeneric():
             black_dot = _svg_header(10, 10, self.abacus.scale) + \
                         _svg_rect(10, 10, 3, 3, 0, 0, '#282828', '#FFFFFF') + \
                         _svg_footer()
-            for i in range(int(self.num_rods / 4 - 1)):
+            for i in range(int(self.num_rods / 4 - 1)):  # mark 1000s
                 self.dots.append(Sprite(self.abacus.sprites,
                                         dotx - 3 * (i + 1) * dx, doty[0],
                                         _svg_str_to_pixbuf(black_dot)))
@@ -950,24 +976,19 @@ class AbacusGeneric():
     def set_value(self, string):
         ''' Set abacus to value in string '''
         _logger.debug('restoring %s: [%s]' % (self.name, string))
-        # String has two bytes per column.
-        value = []
-        for r in range(self.num_rods):
-            value.append(0)
 
-        # Convert string to column values
-        if len(string) == 2 * self.num_rods:
-            for i in range(self.num_rods):
-                value[self.num_rods - i - 1] = int(
-                    string[2 * self.num_rods - i * 2 - 2:
-                               2 * self.num_rods - i * 2])
-        else:
-            _logger.debug('bad saved string %s (%d != 2 * %d)' % (
-                string, len(string), self.num_rods))
-
+        value = string.split()
         # Move the beads to correspond to column values.
-        for i, rod in enumerate(self.num_rods):
-            rod.set_value(value[r])
+        try:
+            for i, rod in enumerate(self.rods):
+                _logger.debug('setting rod %d to value %d', i, value[i])
+                rod.set_value(int(value[i]))
+        except IndexError:
+            _logger.debug('bad saved string length %s (%d != 2 * %d)',
+                          string, len(string), self.num_rods)
+        except TypeError:
+            _logger.debug('bad saved string type %s (%s)',
+                          string, str(value[i]))
 
     def max_value(self):
         ''' Maximum value possible on abacus '''
@@ -996,17 +1017,17 @@ class AbacusGeneric():
         if count_beads:
             # Save the value associated with each rod as a 2-byte integer.
             string = ''
-            v = []
+            value = []
             for r in range(self.num_rods + 1):  # +1 for overflow
-                v.append(0)
+                value.append(0)
 
             # Tally the values on each rod.
-            for rod in self.rods:
-                v[r + 1] = self.rods.get_bead_count()
+            for r, rod in enumerate(self.rods):
+                value[r + 1] = rod.get_bead_count()
 
             # Save the value associated with each rod as a 2-byte integer.
-            for j in v[1:]:
-                string += '%2d' % (j)
+            for j in value[1:]:
+                string += '%2d ' % (j)
         else:
             rod_sum = 0
             for rod in self.rods:
