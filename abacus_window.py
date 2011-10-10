@@ -621,7 +621,6 @@ class Abacus():
                             _svg_str_to_pixbuf(background_svg))
         background.set_layer(1)
 
-        self.chinese = Suanpan(self)
         self.japanese = None
         self.russian = None
         self.mayan = None
@@ -633,8 +632,60 @@ class Abacus():
         self.cuisenaire = None
         self.custom = None
 
-        self.chinese.show()
+        self.chinese = Suanpan(self)
         self.mode = self.chinese
+        self.mode.show()
+
+    def select_abacus(self, abacus):
+        self.mode.hide()
+        value = int(float(self.mode.value()))
+        if abacus == 'chinese':
+            if self.chinese is None:
+                self.chinese = Suanpan(self)
+            self.mode = self.chinese
+        elif abacus == 'japanese':
+            if self.japanese is None:
+                self.japanese = Soroban(self)
+            self.mode = self.japanese
+        elif abacus == 'decimal':
+            if self.decimal is None:
+                self.decimal = Decimal(self)
+            self.mode = self.decimal
+        elif abacus == 'mayan':
+            if self.mayan is None:
+                self.mayan = Nepohualtzintzin(self)
+            self.mode = self.mayan
+        elif abacus == 'hex':
+            if self.hex is None:
+                self.hex = Hex(self)
+            self.mode = self.hex
+        elif abacus == 'binary':
+            if self.binary is None:
+                self.binary = Binary(self)
+            self.mode = self.binary
+        elif abacus == 'custom':
+            if self.custom is None:
+                self.custom = Custom(self)
+            self.mode = self.custom
+        elif abacus == 'russian':
+            if self.russian is None:
+                self.russian = Schety(self)
+            self.mode = self.russian
+        elif abacus == 'fraction':
+            if self.fraction is None:
+                self.fraction = Fractions(self)
+            self.mode = self.fraction
+        elif abacus == 'caacupe':
+            if self.caacupe is None:
+                self.caacupe = Caacupe(self)
+            self.mode = self.caacupe
+        elif abacus == 'cuisenaire':
+            if self.cuisenaire is None:
+                self.cuisenaire = Cuisenaire(self)
+            self.mode = self.cuisenaire
+        self.mode.set_value_from_number(value)
+        self.mode.show()
+        _logger.debug('Setting mode to %s' % (self.mode.name))
 
     def _button_press_cb(self, win, event):
         ''' Callback to handle the button presses '''
@@ -975,18 +1026,15 @@ class AbacusGeneric():
 
     def set_value(self, string):
         ''' Set abacus to value in string '''
-        _logger.debug('restoring %s: [%s]' % (self.name, string))
-
         value = string.split()
         # Move the beads to correspond to column values.
         try:
             for i, rod in enumerate(self.rods):
-                _logger.debug('setting rod %d to value %d', i, value[i])
                 rod.set_value(int(value[i]))
         except IndexError:
             _logger.debug('bad saved string length %s (%d != 2 * %d)',
                           string, len(string), self.num_rods)
-        except TypeError:
+        except ValueError:
             _logger.debug('bad saved string type %s (%s)',
                           string, str(value[i]))
 
@@ -1038,7 +1086,6 @@ class AbacusGeneric():
     def label(self, string):
         ''' Label the crossbar with the string. (Used with self.value) '''
         self.bar.set_label(string)
-        return
 
     def move_mark(self, dx):
         ''' Move indicator horizontally across the top of the frame. '''
@@ -1083,6 +1130,12 @@ class Custom(AbacusGeneric):
 class Nepohualtzintzin(AbacusGeneric):
     ''' A Mayan abacus '''
 
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create()
+
     def set_parameters(self):
         ''' Specify parameters that define the abacus '''
         self.name = 'nepohualtzintzin'
@@ -1095,6 +1148,12 @@ class Nepohualtzintzin(AbacusGeneric):
 
 class Suanpan(AbacusGeneric):
     ''' A Chinese abacus '''
+
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create()
 
     def set_parameters(self):
         ''' Create a Chinese abacus: 15 by (5,2). '''
@@ -1152,6 +1211,12 @@ class Soroban(AbacusGeneric):
 class Hex(AbacusGeneric):
     ''' A hexadecimal abacus '''
 
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create()
+
     def set_parameters(self):
         ''' create a hexadecimal abacus: 15 by (7,1) '''
         self.name = 'hexadecimal'
@@ -1164,6 +1229,12 @@ class Hex(AbacusGeneric):
 
 class Decimal(AbacusGeneric):
     ''' A decimal abacus '''
+
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create()
 
     def set_parameters(self):
         ''' create a decimal abacus: 10 by (10,0) '''
@@ -1202,6 +1273,12 @@ class Decimal(AbacusGeneric):
 class Binary(AbacusGeneric):
     ''' A binary abacus '''
 
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create()
+
     def set_parameters(self):
         ''' create a Binary abacus: 15 by (1,0) '''
         self.name = 'binary'
@@ -1214,6 +1291,12 @@ class Binary(AbacusGeneric):
 
 class Schety(AbacusGeneric):
     ''' A Russian abacus '''
+
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create()
 
     def set_parameters(self):
         ''' Create a Russian abacus: 15 by 10 (with one rod of 4 beads). '''
@@ -1254,6 +1337,12 @@ class Schety(AbacusGeneric):
 
 class Fractions(Schety):
     ''' Inherit from Russian abacus. '''
+
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create()
 
     def set_parameters(self):
         ''' Create an abacus with fractions: 15 by 10 (with 1/2, 1/3. 1/4,
@@ -1300,6 +1389,12 @@ class Fractions(Schety):
 class Caacupe(Fractions):
     ''' Inherit from Fraction abacus. '''
 
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create()
+
     def set_parameters(self):
         ''' Create an abacus with fractions: 15 by 10 (with 1/2, 1/3. 1/4,
             1/5, 1/6, 1/8, 1/9, 1/10, 1/12). '''
@@ -1344,6 +1439,12 @@ class Caacupe(Fractions):
 
 class Cuisenaire(Caacupe):
     ''' Inherit from Caacupe abacus. '''
+
+    def __init__(self, abacus):
+        ''' Specify parameters that define the abacus '''
+        self.abacus = abacus
+        self.set_parameters()
+        self.create()
 
     def set_parameters(self):
         ''' Create an abacus with fractions: 10 by 10 (with 1/1, 1/2, 1/3. 1/4,
