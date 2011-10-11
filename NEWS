@@ -1,3 +1,12 @@
+26
+
+ENHANCEMENTS
+* added button for selecting custom abacus
+* added colors to custom abacus
+
+BUG FIX
+* fixed problem generating custom abacus under new refactoring
+
 25
 
 EHNANCEMENTS
