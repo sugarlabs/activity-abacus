@@ -891,6 +891,8 @@ class Abacus():
                         value = dec2frac(fraction)
                     else:
                         value = str(fraction)
+                elif fraction == 0:
+                    value = '%d' % (whole)
                 else:
                     if fraction > 0.005:
                         value = '%d %s' % (whole, dec2frac(fraction))
@@ -904,6 +906,8 @@ class Abacus():
                         value = '–%s' % (dec2frac(-fraction))
                     else:
                         value = '–%s' % (str(-fraction))
+                elif fraction == 0:
+                    value = '–%d' % (-whole)
                 else:
                     if fraction < 0.005:
                         value = '–%d %s' % (-whole, dec2frac(-fraction))
@@ -1063,7 +1067,10 @@ class AbacusGeneric():
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
-            bead_color = self.bead_colors[i % 2]
+            if self.bead_colors is not None:
+                bead_color = self.bead_colors[i % 2]
+            else:
+                bead_color = None
             bead_value = pow(self.base, self.num_rods - i - 1)
             self.rods.append(Rod(self.abacus.sprites,
                                  ROD_COLORS[i % len(ROD_COLORS)],
@@ -1267,7 +1274,10 @@ class Soroban(AbacusGeneric):
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
-            bead_color = self.bead_colors[i % 2]
+            if self.bead_colors is not None:
+                bead_color = self.bead_colors[i % 2]
+            else:
+                bead_color = None
             bead_value = pow(self.base, int(self.num_rods / 2) - i)
             self.rods.append(Rod(self.abacus.sprites,
                                  ROD_COLORS[i % len(ROD_COLORS)],
@@ -1323,7 +1333,10 @@ class Decimal(AbacusGeneric):
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
-            bead_color = self.bead_colors[i % 2]
+            if self.bead_colors is not None:
+                bead_color = self.bead_colors[i % 2]
+            else:
+                bead_color = None
             bead_value = pow(self.base, self.num_rods - i - 1)
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
@@ -1383,7 +1396,10 @@ class Schety(AbacusGeneric):
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
-            bead_color = self.bead_colors[i % 2]
+            if self.bead_colors is not None:
+                bead_color = self.bead_colors[i % 2]
+            else:
+                bead_color = None
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
                                  i, x + i * dx + ro, y, self.abacus.scale,
@@ -1421,7 +1437,10 @@ class Fractions(Schety):
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
-            bead_color = self.bead_colors[i % 2]
+            if self.bead_colors is not None:
+                bead_color = self.bead_colors[i % 2]
+            else:
+                bead_color = None
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
                                  i, x + i * dx + ro, y, self.abacus.scale,
@@ -1465,7 +1484,10 @@ class Caacupe(Fractions):
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
-            bead_color = self.bead_colors[i % 2]
+            if self.bead_colors is not None:
+                bead_color = self.bead_colors[i % 2]
+            else:
+                bead_color = None
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
                                  i, x + i * dx + ro, y, self.abacus.scale,
@@ -1509,7 +1531,10 @@ class Cuisenaire(Caacupe):
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
-            bead_color = self.bead_colors[i % 2]
+            if self.bead_colors is not None:
+                bead_color = self.bead_colors[i % 2]
+            else:
+                bead_color = None
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
                                  i, x + i * dx + ro, y, self.abacus.scale,
