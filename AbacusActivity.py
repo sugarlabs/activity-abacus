@@ -57,7 +57,7 @@ def _button_factory(icon_name, toolbar, callback, cb_arg=None, tooltip=None,
         button.connect('clicked', callback)
     else:
         button.connect('clicked', cb_arg)
-    if hasattr(toolbar, 'insert'): # the main toolbar
+    if hasattr(toolbar, 'insert'):  # the main toolbar
         toolbar.insert(button, -1)
     else:  # or a secondary toolbar
         toolbar.props.page.insert(button, -1)
@@ -182,8 +182,8 @@ class AbacusActivity(activity.Activity):
             toolbox = activity.ActivityToolbox(self)
             self.set_toolbox(toolbox)
 
-            toolbox.add_toolbar( _('Project'), abacus_toolbar )
-            toolbox.add_toolbar( _('Custom'), custom_toolbar )
+            toolbox.add_toolbar(_('Project'), abacus_toolbar)
+            toolbox.add_toolbar(_('Custom'), custom_toolbar)
             toolbox.add_toolbar(_('Edit'), edit_toolbar)
 
             _button_factory('edit-delete', edit_toolbar,
@@ -197,7 +197,7 @@ class AbacusActivity(activity.Activity):
             if hasattr(toolbox, 'share'):
                 toolbox.share.hide()
             elif hasattr(toolbox, 'props'):
-               toolbox.props.visible = False
+                toolbox.props.visible = False
 
         # TRANS: simple decimal abacus
         self.decimal = _radio_factory('decimal', abacus_toolbar,
