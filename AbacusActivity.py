@@ -415,7 +415,7 @@ class AbacusActivity(activity.Activity):
                                     self._value_spin.get_value_as_int(),
                                     self._base_spin.get_value_as_int(),
                                     self.bead_colors)
-
+        self.custom.set_active(True)
         self.abacus.select_abacus('custom')
 
     def _copy_cb(self, arg=None):
