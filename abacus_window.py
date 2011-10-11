@@ -548,14 +548,13 @@ class Rod():
             # _logger.debug('bead not found')
             return False
 
-        b = i % (self.top_beads + self.bot_beads)
-        if b < self.top_beads:
+        if i < self.top_beads:
             if dy > 0 and bead.get_state() == 0:
                 if self.fade and bead.max_fade_level > 0:
                     bead.set_color(self.white_beads[3])
                 bead.move_down()
                 # Make sure beads below this bead are also moved.
-                for ii in range(self.top_beads - b):
+                for ii in range(self.top_beads - i):
                     if self.beads[i + ii].state == 0:
                         if self.fade and bead.max_fade_level > 0:
                             self.beads[i + ii].set_color(self.white_beads[3])
@@ -565,7 +564,7 @@ class Rod():
                     bead.set_color(self.white_beads[3])
                 bead.move_up()
                 # Make sure beads above this bead are also moved.
-                for ii in range(b + 1):
+                for ii in range(i + 1):
                     if self.beads[i - ii].state == 1:
                         if self.fade and bead.max_fade_level > 0:
                             self.beads[i - ii].set_color(self.white_beads[3])
@@ -576,7 +575,7 @@ class Rod():
                     bead.set_color(self.white_beads[3])
                 bead.move_up()
                 # Make sure beads above this bead are also moved.
-                for ii in range(b - self.top_beads + 1):
+                for ii in range(i - self.top_beads + 1):
                     if self.beads[i - ii].state == 0:
                         if self.fade and bead.max_fade_level > 0:
                             self.beads[i - ii].set_color(self.white_beads[3])
@@ -585,7 +584,7 @@ class Rod():
                 if self.fade and bead.max_fade_level > 0:
                     bead.set_color(self.white_beads[3])
                 bead.move_up()
-                for ii in range(b - self.top_beads + 1):
+                for ii in range(i - self.top_beads + 1):
                     if self.beads[i - ii].state == -1:
                         if self.fade and bead.max_fade_level > 0:
                             self.beads[i - ii].set_color(self.white_beads[3])
@@ -595,7 +594,7 @@ class Rod():
                     bead.set_color(self.white_beads[3])
                 bead.move_down()
                 # Make sure beads below this bead are also moved.
-                for ii in range(self.top_beads + self.bot_beads - b):
+                for ii in range(self.top_beads + self.bot_beads - i):
                     if self.beads[i + ii].state == 1:
                         if self.fade and bead.max_fade_level > 0:
                             self.beads[i + ii].set_color(self.white_beads[3])
@@ -605,7 +604,7 @@ class Rod():
                     bead.set_color(self.white_beads[3])
                 bead.move_down()
                 # Make sure beads below this bead are also moved.
-                for ii in range(self.top_beads + self.bot_beads - b):
+                for ii in range(self.top_beads + self.bot_beads - i):
                     if self.beads[i + ii].state == 0:
                         if self.fade and bead.max_fade_level > 0:
                             self.beads[i + ii].set_color(self.white_beads[3])
@@ -859,14 +858,20 @@ class Abacus():
         multiple_rods = False
         for x in self.mode.get_rod_values():
             if x > 0:
-                rod_value = dec2frac(x)
+                if x > 0.005:
+                    rod_value = dec2frac(x)
+                else:
+                    rod_value = str(x)
                 if rod_sums == '':
                     rod_sums = rod_value
                 else:
                     multiple_rods = True
                     rod_sums += ' + %s' % (rod_value)
             elif x < 0:
-                rod_value = dec2frac(-x)
+                if x < 0.005:
+                    rod_value = dec2frac(-x)
+                else:
+                    rod_value = str(-x)
                 if rod_sums == '':
                     rod_sums = '–%s' % (rod_value)
                 else:
@@ -882,16 +887,28 @@ class Abacus():
                 whole = int(floor(abacus_value))
                 fraction = abacus_value - whole
                 if whole == 0:
-                    value = dec2frac(fraction)
+                    if fraction > 0.005:
+                        value = dec2frac(fraction)
+                    else:
+                        value = str(fraction)
                 else:
-                    value = '%d %s' % (whole, dec2frac(fraction))
+                    if fraction > 0.005:
+                        value = '%d %s' % (whole, dec2frac(fraction))
+                    else:
+                        value = '%d %s' % (whole, str(fraction))
             else:
                 whole = int(ceil(abacus_value))
                 fraction = abacus_value - whole
                 if whole == 0:
-                    value = '–%s' % (dec2frac(-fraction))
+                    if fraction < 0.005:
+                        value = '–%s' % (dec2frac(-fraction))
+                    else:
+                        value = '–%s' % (str(-fraction))
                 else:
-                    value = '–%d %s' % (-whole, dec2frac(-fraction))
+                    if fraction < 0.005:
+                        value = '–%d %s' % (-whole, dec2frac(-fraction))
+                    else:
+                        value = '–%d %s' % (-whole, str(-fraction))
             if value == '' or value == '–':
                 value = '0'
             if multiple_rods and not sum_only:
