@@ -14,10 +14,9 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gobject
 
-import sugar
 from sugar.activity import activity
+from sugar import profile
 try:  # 0.86+ toolbar widgets
     from sugar.graphics.toolbarbox import ToolbarBox
     HAS_TOOLBARBOX = True
@@ -124,6 +123,8 @@ class AbacusActivity(activity.Activity):
     def __init__(self, handle):
         ''' Initiate activity. '''
         super(AbacusActivity, self).__init__(handle)
+
+        self.bead_colors = profile.get_color().to_string().split(',')
 
         # no sharing
         self.max_participants = 1

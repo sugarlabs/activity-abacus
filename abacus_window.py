@@ -176,6 +176,17 @@ def _svg_style(extras=''):
     return '%s%s%s' % ('style="', extras, '"/>\n')
 
 
+def _calc_fade(bead_color, fade_color, i, n):
+    ''' Fade from bead color to fade color '''
+    r = i * float.fromhex('0x' + fade_color[1:3]) / n + \
+        (n - i) * float.fromhex('0x' + bead_color[1:3]) / n
+    g = i * float.fromhex('0x' + fade_color[3:5]) / n + \
+        (n - i) * float.fromhex('0x' + bead_color[3:5]) / n
+    b = i * float.fromhex('0x' + fade_color[5:]) / n + \
+        (n - i) * float.fromhex('0x' + bead_color[5:]) / n
+    return '#%02x%02x%02x' % (int(r), int(g), int(b))
+
+
 class Bead():
     ''' The Bead class is used to define the individual beads. '''
 
@@ -278,7 +289,7 @@ class Rod():
     ''' The Rod class is used to define a rod to hold beads. '''
 
     def __init__(self, sprites, color, frame_height, i, x, y, scale,
-                 cuisenaire=False):
+                 cuisenaire=False, bead_color=None):
         ''' We store a sprite for each rod and allocate its beads. '''
         rod = _svg_header(10, frame_height - (FSTROKE * 2), scale) + \
               _svg_rect(10, frame_height - (FSTROKE * 2), 0, 0, 0, 0,
@@ -303,13 +314,16 @@ class Rod():
             bead_scale = 1.0
 
         for i in range(MAX_FADE_LEVEL + 1):
-            fade = '#ffff%02x' % (int(255 - (i * 255 / MAX_FADE_LEVEL)))
+            if bead_color is None:
+                fade = _calc_fade('#FFFFFF', '#FFFF00', i, MAX_FADE_LEVEL)
+            else:
+                fade = _calc_fade(bead_color, '#FFFFFF', i, MAX_FADE_LEVEL)
             self.white_beads.append(_svg_str_to_pixbuf(
                 _svg_header(BWIDTH, BHEIGHT, self.scale, stretch=bead_scale) + \
                 _svg_bead(fade, '#000000', stretch=bead_scale) + \
                 _svg_footer()))
 
-        self.black_bead = _svg_str_to_pixbuf(
+        self.black_bead = _svg_str_to_pixbuf(            
                 _svg_header(BWIDTH, BHEIGHT, self.scale, stretch=bead_scale) + \
                 _svg_bead('#000000', '#000000', stretch=bead_scale) + \
                 _svg_footer())
@@ -604,11 +618,15 @@ class Abacus():
         if parent is None:        # Starting from command line
             self.sugar = False
             self.canvas = canvas
+            self.bead_colors = ['#FFFFFF', '#FFFFFF']
         else:                     # Starting from Sugar
             self.sugar = True
             self.canvas = canvas
+            self.bead_colors = parent.bead_colors
             parent.show_all()
 
+        _logger.debug('bead colors %s %s', self.bead_colors[0],
+                      self.bead_colors[1])
         self.canvas.set_flags(gtk.CAN_FOCUS)
         self.canvas.add_events(gtk.gdk.BUTTON_PRESS_MASK)
         self.canvas.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
@@ -650,7 +668,7 @@ class Abacus():
         self.cuisenaire = None
         self.custom = None
 
-        self.chinese = Suanpan(self)
+        self.chinese = Suanpan(self, self.bead_colors)
         self.mode = self.chinese
         self.mode.show()
 
@@ -659,43 +677,43 @@ class Abacus():
         value = int(float(self.mode.value()))
         if abacus == 'chinese':
             if self.chinese is None:
-                self.chinese = Suanpan(self)
+                self.chinese = Suanpan(self, self.bead_colors)
             self.mode = self.chinese
         elif abacus == 'japanese':
             if self.japanese is None:
-                self.japanese = Soroban(self)
+                self.japanese = Soroban(self, self.bead_colors)
             self.mode = self.japanese
         elif abacus == 'decimal':
             if self.decimal is None:
-                self.decimal = Decimal(self)
+                self.decimal = Decimal(self, self.bead_colors)
             self.mode = self.decimal
         elif abacus == 'mayan':
             if self.mayan is None:
-                self.mayan = Nepohualtzintzin(self)
+                self.mayan = Nepohualtzintzin(self, self.bead_colors)
             self.mode = self.mayan
         elif abacus == 'hex':
             if self.hex is None:
-                self.hex = Hex(self)
+                self.hex = Hex(self, self.bead_colors)
             self.mode = self.hex
         elif abacus == 'binary':
             if self.binary is None:
-                self.binary = Binary(self)
+                self.binary = Binary(self, self.bead_colors)
             self.mode = self.binary
         elif abacus == 'custom':
             if self.custom is None:
-                self.custom = Custom(self)
+                self.custom = Custom(self, self.bead_colors)
             self.mode = self.custom
         elif abacus == 'russian':
             if self.russian is None:
-                self.russian = Schety(self)
+                self.russian = Schety(self, self.bead_colors)
             self.mode = self.russian
         elif abacus == 'fraction':
             if self.fraction is None:
-                self.fraction = Fractions(self)
+                self.fraction = Fractions(self, self.bead_colors)
             self.mode = self.fraction
         elif abacus == 'caacupe':
             if self.caacupe is None:
-                self.caacupe = Caacupe(self)
+                self.caacupe = Caacupe(self, self.bead_colors)
             self.mode = self.caacupe
         elif abacus == 'cuisenaire':
             if self.cuisenaire is None:
@@ -878,9 +896,10 @@ class Abacus():
 class AbacusGeneric():
     ''' A generic abacus: a frame, rods, and beads. '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors = bead_colors
         self.set_parameters()
         self.create()
 
@@ -1011,24 +1030,17 @@ class AbacusGeneric():
 
     def draw_rods_and_beads(self, x, y):
         ''' Draw the rods and beads '''
-        self.colors = []
-        for i in range(MAX_FADE_LEVEL + 1):
-            fade = '#ffff%02x' % (int(255 - (i * 255 / MAX_FADE_LEVEL)))
-            self.colors.append(_svg_str_to_pixbuf(
-                _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) + \
-                _svg_bead(fade, '#000000') + \
-                _svg_footer()))
-
         dx = (BWIDTH + BOFFSET) * self.abacus.scale
         bo = (BWIDTH - BOFFSET) * self.abacus.scale / 4
         ro = (BWIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
+            bead_color = self.bead_colors[i%2]
             bead_value = pow(self.base, self.num_rods - i - 1)
             self.rods.append(Rod(self.abacus.sprites,
                                  ROD_COLORS[i % len(ROD_COLORS)],
                                  self.frame_height,
-                                 i, x + i * dx + ro, y, self.abacus.scale))
-
+                                 i, x + i * dx + ro, y, self.abacus.scale,
+                                 bead_color=bead_color))
             self.rods[-1].allocate_beads(self.top_beads, self.bot_beads,
                                          self.top_factor,
                                          bead_value, self.bot_beads)
@@ -1148,9 +1160,11 @@ class AbacusGeneric():
 class Custom(AbacusGeneric):
     ''' A custom-made abacus '''
 
-    def __init__(self, abacus, rods, top, bottom, factor, base):
+    def __init__(self, abacus, rods, top, bottom, factor, base,
+                 bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.name = 'custom'
         self.num_rods = rods
         self.bot_beads = bottom
@@ -1163,9 +1177,10 @@ class Custom(AbacusGeneric):
 class Nepohualtzintzin(AbacusGeneric):
     ''' A Mayan abacus '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create()
 
@@ -1182,9 +1197,10 @@ class Nepohualtzintzin(AbacusGeneric):
 class Suanpan(AbacusGeneric):
     ''' A Chinese abacus '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create()
 
@@ -1201,9 +1217,10 @@ class Suanpan(AbacusGeneric):
 class Soroban(AbacusGeneric):
     ''' A Japanese abacus '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create(dots=True)
 
@@ -1218,24 +1235,17 @@ class Soroban(AbacusGeneric):
 
     def draw_rods_and_beads(self, x, y):
         ''' Draw the rods and beads: units offset to center'''
-        self.colors = []
-        for i in range(MAX_FADE_LEVEL + 1):
-            fade = '#ffff%02x' % (int(255 - (i * 255 / MAX_FADE_LEVEL)))
-            self.colors.append(_svg_str_to_pixbuf(
-                _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) + \
-                _svg_bead(fade, '#000000') + \
-                _svg_footer()))
-
         dx = (BWIDTH + BOFFSET) * self.abacus.scale
         bo = (BWIDTH - BOFFSET) * self.abacus.scale / 4
         ro = (BWIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
+            bead_color = self.bead_colors[i%2]
             bead_value = pow(self.base, int(self.num_rods / 2) - i)
             self.rods.append(Rod(self.abacus.sprites,
                                  ROD_COLORS[i % len(ROD_COLORS)],
                                  self.frame_height,
-                                 i, x + i * dx + ro, y, self.abacus.scale))
-
+                                 i, x + i * dx + ro, y, self.abacus.scale,
+                                 bead_color=bead_color))
             self.rods[-1].allocate_beads(self.top_beads, self.bot_beads,
                                          self.top_factor,
                                          bead_value, self.bot_beads)
@@ -1244,9 +1254,10 @@ class Soroban(AbacusGeneric):
 class Hex(AbacusGeneric):
     ''' A hexadecimal abacus '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create()
 
@@ -1263,9 +1274,10 @@ class Hex(AbacusGeneric):
 class Decimal(AbacusGeneric):
     ''' A decimal abacus '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create()
 
@@ -1280,23 +1292,16 @@ class Decimal(AbacusGeneric):
 
     def draw_rods_and_beads(self, x, y):
         ''' Draw the rods and beads: override bead color'''
-        self.colors = []
-        for i in range(MAX_FADE_LEVEL + 1):
-            fade = '#ffff%02x' % (int(255 - (i * 255 / MAX_FADE_LEVEL)))
-            self.colors.append(_svg_str_to_pixbuf(
-                _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) + \
-                _svg_bead(fade, '#000000') + \
-                _svg_footer()))
-
         dx = (BWIDTH + BOFFSET) * self.abacus.scale
         bo = (BWIDTH - BOFFSET) * self.abacus.scale / 4
         ro = (BWIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
+            bead_color = self.bead_colors[i%2]
             bead_value = pow(self.base, self.num_rods - i - 1)
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
-                                 i, x + i * dx + ro, y, self.abacus.scale))
-
+                                 i, x + i * dx + ro, y, self.abacus.scale,
+                                 bead_color=bead_color))
             self.rods[-1].allocate_beads(self.top_beads, self.bot_beads,
                                          self.top_factor,
                                          bead_value, self.bot_beads,
@@ -1306,9 +1311,10 @@ class Decimal(AbacusGeneric):
 class Binary(AbacusGeneric):
     ''' A binary abacus '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create()
 
@@ -1325,9 +1331,10 @@ class Binary(AbacusGeneric):
 class Schety(AbacusGeneric):
     ''' A Russian abacus '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create()
 
@@ -1346,22 +1353,15 @@ class Schety(AbacusGeneric):
 
     def draw_rods_and_beads(self, x, y):
         ''' Draw the rods and beads: short column for 1/4 '''
-        self.colors = []
-        for i in range(MAX_FADE_LEVEL + 1):
-            fade = '#ffff%02x' % (int(255 - (i * 255 / MAX_FADE_LEVEL)))
-            self.colors.append(_svg_str_to_pixbuf(
-                _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) + \
-                _svg_bead(fade, '#000000') + \
-                _svg_footer()))
-
         dx = (BWIDTH + BOFFSET) * self.abacus.scale
         bo = (BWIDTH - BOFFSET) * self.abacus.scale / 4
         ro = (BWIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
+            bead_color = self.bead_colors[i%2]
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
-                                 i, x + i * dx + ro, y, self.abacus.scale))
-
+                                 i, x + i * dx + ro, y, self.abacus.scale,
+                                 bead_color=bead_color))
             self.rods[-1].allocate_beads(self.top_beads, self.bead_count[i],
                                          self.top_factor,
                                          self.bead_value[i], self.bead_count[0],
@@ -1371,9 +1371,10 @@ class Schety(AbacusGeneric):
 class Fractions(Schety):
     ''' Inherit from Russian abacus. '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create()
 
@@ -1392,22 +1393,15 @@ class Fractions(Schety):
 
     def draw_rods_and_beads(self, x, y):
         ''' Draw the rods and beads: short column for 1/4 '''
-        self.colors = []
-        for i in range(MAX_FADE_LEVEL + 1):
-            fade = '#ffff%02x' % (int(255 - (i * 255 / MAX_FADE_LEVEL)))
-            self.colors.append(_svg_str_to_pixbuf(
-                _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) + \
-                _svg_bead(fade, '#000000') + \
-                _svg_footer()))
-
         dx = (BWIDTH + BOFFSET) * self.abacus.scale
         bo = (BWIDTH - BOFFSET) * self.abacus.scale / 4
         ro = (BWIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
+            bead_color = self.bead_colors[i%2]
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
-                                 i, x + i * dx + ro, y, self.abacus.scale))
-
+                                 i, x + i * dx + ro, y, self.abacus.scale,
+                                 bead_color=bead_color))
             if i < 6:
                 all_black = False
             else:
@@ -1422,9 +1416,10 @@ class Fractions(Schety):
 class Caacupe(Fractions):
     ''' Inherit from Fraction abacus. '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create()
 
@@ -1443,22 +1438,15 @@ class Caacupe(Fractions):
 
     def draw_rods_and_beads(self, x, y):
         ''' Draw the rods and beads: short column for 1/4 '''
-        self.colors = []
-        for i in range(MAX_FADE_LEVEL + 1):
-            fade = '#ffff%02x' % (int(255 - (i * 255 / MAX_FADE_LEVEL)))
-            self.colors.append(_svg_str_to_pixbuf(
-                _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) + \
-                _svg_bead(fade, '#000000') + \
-                _svg_footer()))
-
         dx = (BWIDTH + BOFFSET) * self.abacus.scale
         bo = (BWIDTH - BOFFSET) * self.abacus.scale / 4
         ro = (BWIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
+            bead_color = self.bead_colors[i%2]
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
-                                 i, x + i * dx + ro, y, self.abacus.scale))
-
+                                 i, x + i * dx + ro, y, self.abacus.scale,
+                                 bead_color=bead_color))
             if i < 6:
                 all_black = False
             else:
@@ -1473,9 +1461,10 @@ class Caacupe(Fractions):
 class Cuisenaire(Caacupe):
     ''' Inherit from Caacupe abacus. '''
 
-    def __init__(self, abacus):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.bead_colors=bead_colors
         self.set_parameters()
         self.create()
 
@@ -1494,23 +1483,15 @@ class Cuisenaire(Caacupe):
 
     def draw_rods_and_beads(self, x, y):
         ''' Draw the rods and beads: short column for 1/4 '''
-        self.colors = []
-        for i in range(MAX_FADE_LEVEL + 1):
-            fade = '#ffff%02x' % (int(255 - (i * 255 / MAX_FADE_LEVEL)))
-            self.colors.append(_svg_str_to_pixbuf(
-                _svg_header(BWIDTH, BHEIGHT, self.abacus.scale) + \
-                _svg_bead(fade, '#000000') + \
-                _svg_footer()))
-
         dx = (BWIDTH + BOFFSET) * self.abacus.scale
         bo = (BWIDTH - BOFFSET) * self.abacus.scale / 4
         ro = (BWIDTH + 5) * self.abacus.scale / 2
         for i in range(self.num_rods):
+            bead_color = self.bead_colors[i%2]
             self.rods.append(Rod(self.abacus.sprites, '#404040',
                                  self.frame_height,
                                  i, x + i * dx + ro, y, self.abacus.scale,
-                                 cuisenaire=True))
-
+                                 cuisenaire=True, bead_color=bead_color))
             self.rods[-1].allocate_beads(self.top_beads, self.bead_count[i],
                                          self.top_factor,
                                          self.bead_value[i],
