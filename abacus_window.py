@@ -364,11 +364,16 @@ class Rod():
             bead_color = self.white_beads[0]
             self.fade = True
 
+        if self.fade:
+            max_fade_level = MAX_FADE_LEVEL
+        else:
+            max_fade_level = 0
+
         for b in range(top_beads):
             self.beads.append(Bead(Sprite(
                 self.sprites, x - ro + bo, y + b * BHEIGHT * self.scale,
                 bead_color), bead_displacement,
-                top_factor * bead_value))
+                top_factor * bead_value, max_fade=max_fade_level))
         for b in range(bot_beads):
             displacement = bead_displacement
             if top_beads > 0:
@@ -401,7 +406,8 @@ class Rod():
                 displacement -= offset
             self.beads.append(Bead(Sprite(self.sprites, x - ro + bo,
                                           yy, bead_color),
-                                   displacement, bead_value, tristate=tristate))
+                                   displacement, bead_value, tristate=tristate,
+                                   max_fade=max_fade_level))
             if bead_color == self.black_bead:
                 self.beads[-1].set_label_color('#ffffff')
             # Lozenged-shaped beads need to be spaced out more
@@ -711,7 +717,7 @@ class Abacus():
                 self.dragpos = y
             elif self.press.type == 'mark':
                 self.dragpos = x
-            elif self.press == self.mode.bar:  # prepare for typing in a value
+            elif self.press == self.mode.label_bar:
                 self.mode.label(self.generate_label(sum_only=True) + CURSOR)
                 number = self.press.labels[0].replace(CURSOR, '')
                 if '/' in number:  # need to convert to decimal form
@@ -761,7 +767,7 @@ class Abacus():
         k = gtk.gdk.keyval_name(event.keyval)
         if k in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'period',
                  'minus', 'Return', 'BackSpace', 'comma']:
-            if self.last == self.mode.bar:
+            if self.last == self.mode.label_bar:
                 self._process_numeric_input(self.last, k)
         elif k == 'r':
             self.mode.reset_abacus()
@@ -900,7 +906,7 @@ class AbacusGeneric():
 
         # Draw the frame...
         x = (self.abacus.width - (self.frame_width * self.abacus.scale)) / 2
-        y = (self.abacus.height - (self.frame_height * self.abacus.scale)) / 4
+        y = BHEIGHT
         frame = _svg_header(self.frame_width, self.frame_height,
                             self.abacus.scale) + \
                             _svg_rect(self.frame_width, self.frame_height,
@@ -956,6 +962,17 @@ class AbacusGeneric():
                 dot.set_layer(DOT_LAYER)
                 dot.type = 'frame'
 
+        # Draw the label bar
+        label = _svg_header(self.frame_width, BHEIGHT, self.abacus.scale) + \
+                _svg_rect(self.frame_width, BHEIGHT, 0, 0, 0, 0,
+                          'none', 'none') + \
+                _svg_footer()
+        self.label_bar = Sprite(self.abacus.sprites, x, 0,
+                                _svg_str_to_pixbuf(label))
+        self.label_bar.type = 'frame'
+        self.label_bar.set_label_attributes(12, rescale=False)
+        self.label_bar.set_label_color('black')
+
         # and then the rods and beads.
         x += FSTROKE * self.abacus.scale
         y += FSTROKE * self.abacus.scale
@@ -980,10 +997,7 @@ class AbacusGeneric():
             self.bar = Sprite(self.abacus.sprites, x,
                               y - FSTROKE * self.abacus.scale,
                               _svg_str_to_pixbuf(bar))
-
         self.bar.type = 'frame'
-        self.bar.set_label_attributes(12, rescale=False)
-        self.bar.set_label_color('white')
 
         # and finally, the mark.
         mark = _svg_header(20, 15, self.abacus.scale) + \
@@ -1024,6 +1038,7 @@ class AbacusGeneric():
         for rod in self.rods:
             rod.hide()
         self.bar.hide()
+        self.label_bar.hide()
         self.frame.hide()
         self.mark.hide()
         if hasattr(self, 'dots'):
@@ -1036,6 +1051,7 @@ class AbacusGeneric():
         for rod in self.rods:
             rod.show()
         self.bar.set_layer(BAR_LAYER)
+        self.label_bar.set_layer(BAR_LAYER)
         if hasattr(self, 'dots'):
             for dot in self.dots:
                 dot.set_layer(DOT_LAYER)
@@ -1101,8 +1117,8 @@ class AbacusGeneric():
         return(string)
 
     def label(self, string):
-        ''' Label the crossbar with the string. (Used with self.value) '''
-        self.bar.set_label(string)
+        ''' Label with the string. (Used with self.value) '''
+        self.label_bar.set_label(string)
 
     def move_mark(self, dx):
         ''' Move indicator horizontally across the top of the frame. '''
