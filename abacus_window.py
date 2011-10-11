@@ -934,7 +934,7 @@ class AbacusGeneric():
 
         # Draw the frame...
         x = (self.abacus.width - (self.frame_width * self.abacus.scale)) / 2
-        y = BEAD_HEIGHT
+        y = int(BEAD_HEIGHT * 1.5)
         frame = _svg_header(self.frame_width, self.frame_height,
                             self.abacus.scale) + \
                             _svg_rect(self.frame_width, self.frame_height,
@@ -957,7 +957,7 @@ class AbacusGeneric():
         if dots:
             dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
             dotx = int(self.abacus.width / 2) - 5
-            doty = [y + 5, y + self.frame_height - FRAME_STROKE_WIDTH - 15]
+            doty = [y + 5, y + self.frame.rect[3] - 15]
             self.dots = []
             white_dot = _svg_header(10, 10, self.abacus.scale) + \
                         _svg_circle(5, 5, 5, '#FFFFFF', '#000000') + \
