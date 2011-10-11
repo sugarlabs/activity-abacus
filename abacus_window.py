@@ -685,6 +685,7 @@ class Abacus():
             self.mode = self.cuisenaire
         self.mode.set_value_from_number(value)
         self.mode.show()
+        self.mode.label(self.generate_label())
         _logger.debug('Setting mode to %s' % (self.mode.name))
 
     def _button_press_cb(self, win, event):

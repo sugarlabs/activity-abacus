@@ -332,22 +332,31 @@ class AbacusActivity(activity.Activity):
             _logger.debug('restoring %s', self.metadata['abacus'])
             if self.metadata['abacus'] == 'soroban':
                 self._select_abacus('japanese')
+                self.japanese.set_active(True)
             elif self.metadata['abacus'] == 'schety':
                 self._select_abacus('russian')
+                self.russian.set_active(True)
             elif self.metadata['abacus'] == 'nepohualtzintzin':
                 self._select_abacus('mayan')
+                self.mayan.set_active(True)
             elif self.metadata['abacus'] == 'binary':
                 self._select_abacus('binary')
+                self.binary.set_active(True)
             elif self.metadata['abacus'] == 'hexadecimal':
                 self._select_abacus('hex')
+                self.hex.set_active(True)
             elif self.metadata['abacus'] == 'fraction':
                 self._select_abacus('fraction')
+                self.fraction.set_active(True)
             elif self.metadata['abacus'] == 'caacupe':
                 self._select_abacus('caacupe')
+                self.caacupe.set_active(True)
             elif self.metadata['abacus'] == 'cuisenaire':
                 self._select_abacus('cuisenaire')
+                self.cuisenaire.set_active(True)
             elif self.metadata['abacus'] == 'decimal':
                 self._select_abacus('decimal')
+                self.decimal.set_active(True)
             elif self.metadata['abacus'] == 'custom':
                 self._custom_cb()
             if 'value' in self.metadata:
