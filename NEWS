@@ -1,8 +1,11 @@
 25
 
+EHNANCEMENTS
+* using profile colors for bead colors
 * moved units of Soroban to center of abacus
 * added dots to Soroban
 * added reset button to toolbar and removed it from the abacus itself
+* move calculation to above the abacus rather than on the crossbar
 
 24
 
