@@ -265,6 +265,13 @@ class AbacusActivity(activity.Activity):
                                          cb_arg='cuisenaire',
                                          tooltip=_('Rods'), group=self.decimal)
 
+        _separator_factory(abacus_toolbar)
+
+        self.custom = _radio_factory('custom', abacus_toolbar,
+                                     self._radio_cb,
+                                     cb_arg='custom',
+                                     tooltip=_('Custom'), group=self.decimal)
+
         # TRANS: Number of rods on the abacus
         self._rods_label = _label_factory(_('Rods:') + ' ', custom_toolbar)
         self._rods_spin = _spin_factory(15, 1, 20, self._rods_spin_cb,
@@ -289,9 +296,9 @@ class AbacusActivity(activity.Activity):
 
         _separator_factory(custom_toolbar, False, False)
 
-        self.custom = _button_factory('new-abacus', custom_toolbar,
-                                      self._custom_cb,
-                                      tooltip=_('Custom'))
+        self.custom_maker = _button_factory('new-abacus', custom_toolbar,
+                                            self._custom_cb,
+                                            tooltip=_('Custom'))
 
         copy = _button_factory('edit-copy', edit_toolbar, self._copy_cb,
                                tooltip=_('Copy'), accelerator='<Ctrl>c')
@@ -359,7 +366,8 @@ class AbacusActivity(activity.Activity):
                 self._select_abacus('decimal')
                 self.decimal.set_active(True)
             elif self.metadata['abacus'] == 'custom':
-                self._custom_cb()
+                self._select_abacus('custom')
+                self.custom.set_active(True)
             if 'value' in self.metadata:
                 _logger.debug('restoring value %s', self.metadata['value'])
                 self.abacus.mode.set_value(self.metadata['value'])
@@ -376,6 +384,8 @@ class AbacusActivity(activity.Activity):
         ''' Display the selected abacus; hide the others '''
         if not hasattr(self, 'abacus'):
             return
+        if abacus == 'custom' and self.abacus.custom is None:
+            self._custom_cb()
         self.abacus.select_abacus(abacus)
 
     def _rods_spin_cb(self, button=None):
@@ -399,15 +409,14 @@ class AbacusActivity(activity.Activity):
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
         self.abacus.custom = Custom(self.abacus,
-                             self._rods_spin.get_value_as_int(),
-                             self._top_spin.get_value_as_int(),
-                             self._bottom_spin.get_value_as_int(),
-                             self._value_spin.get_value_as_int(),
-                             self._base_spin.get_value_as_int())
-        self._select_abacus(self.abacus.custom)
-        self.abacus.mode.reset_abacus()
-        self.abacus.mode.set_value_from_number(value)
-        self.abacus.mode.label(self.abacus.generate_label())
+                                    self._rods_spin.get_value_as_int(),
+                                    self._top_spin.get_value_as_int(),
+                                    self._bottom_spin.get_value_as_int(),
+                                    self._value_spin.get_value_as_int(),
+                                    self._base_spin.get_value_as_int(),
+                                    self.bead_colors)
+
+        self.abacus.select_abacus('custom')
 
     def _copy_cb(self, arg=None):
         ''' Copy a number to the clipboard from the active abacus. '''
