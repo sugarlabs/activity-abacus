@@ -25,9 +25,9 @@ MARK_LAYER = 105
 MAX_FADE_LEVEL = 3
 CURSOR = '█'
 
-ROD_COLORS = ['#006ffe', '#007ee7', '#0082c4', '#0089ab', '#008c8b',
-              '#008e68', '#008e4c', '#008900', '#5e7700', '#787000',
-              '#876a00', '#986200', '#ab5600', '#d60000', '#e30038']
+ROD_COLORS = ['#282828', '#A0A0A0', '#282828', '#A0A0A0', '#282828',
+              '#A0A0A0', '#282828', '#A0A0A0', '#282828', '#A0A0A0',
+              '#282828', '#A0A0A0', '#282828', '#A0A0A0', '#282828']
 COLORS = ('#FFFFFF', '#FF0000', '#88FF00', '#FF00FF', '#FFFF00',
           '#00CC00', '#000000', '#AA6600', '#00CCFF', '#FF8800')
 LABELS = ('#000000', '#FFFFFF', '#000000', '#FFFFFF', '#000000',
@@ -103,6 +103,16 @@ def _svg_str_to_pixbuf(svg_string):
     pl.close()
     pixbuf = pl.get_pixbuf()
     return pixbuf
+
+
+def _svg_circle(r, cx, cy, fill, stroke):
+    ''' Returns an SVG circle '''
+    svg_string = '       <circle\n'
+    svg_string += '          r="%f"\n' % (r)
+    svg_string += '          cx="%f"\n' % (cx)
+    svg_string += '          cy="%f"\n' % (cy)
+    svg_string += _svg_style('fill:%s;stroke:%s;' % (fill, stroke))
+    return svg_string
 
 
 def _svg_rect(w, h, rx, ry, x, y, fill, stroke):
@@ -403,7 +413,6 @@ class Rod():
             for bead in self.beads:
                 bead.set_label_color(LABELS[self.index])
 
-
     def hide(self):
         for bead in self.beads:
             bead.hide()
@@ -484,7 +493,11 @@ class Rod():
         for i in range(self.bot_beads):
             if self.beads[self.top_beads + i].get_state() == 1:
                 self.beads[self.top_beads + i].move_down()
-
+        # Fade beads
+        for bead in self.beads:
+            if bead.fade_level > 0:
+                bead.fade_level = 0
+                bead.set_color(self.white_beads[0])
         self.label.set_label('')
 
     def fade_colors(self):
@@ -531,7 +544,6 @@ class Rod():
                             self.beads[i - ii].set_color(self.white_beads[3])
                         self.beads[i - ii].move_up()
         else:
-            
             if dy < 0 and bead.state == 0:
                 if self.fade and bead.max_fade_level > 0:
                     bead.set_color(self.white_beads[3])
@@ -561,7 +573,7 @@ class Rod():
                         if self.fade and bead.max_fade_level > 0:
                             self.beads[i + ii].set_color(self.white_beads[3])
                         self.beads[i + ii].move_down()
-            elif dy > 0 and bead.state == 0:
+            elif dy > 0 and bead.state == 0 and bead.tristate:
                 if self.fade and bead.max_fade_level > 0:
                     bead.set_color(self.white_beads[3])
                 bead.move_down()
@@ -910,7 +922,7 @@ class AbacusGeneric():
             doty = [y + 5, y + self.frame_height - FSTROKE - 15]
             self.dots = []
             white_dot = _svg_header(10, 10, self.abacus.scale) + \
-                        _svg_rect(10, 10, 3, 3, 0, 0, '#FFFFFF', '#000000') + \
+                        _svg_circle(5, 5, 5, '#FFFFFF', '#000000') + \
                         _svg_footer()
             self.dots.append(Sprite(self.abacus.sprites,
                                     dotx, doty[0],
@@ -920,21 +932,25 @@ class AbacusGeneric():
                                     _svg_str_to_pixbuf(white_dot)))
 
             black_dot = _svg_header(10, 10, self.abacus.scale) + \
-                        _svg_rect(10, 10, 3, 3, 0, 0, '#282828', '#FFFFFF') + \
+                        _svg_circle(5, 5, 5, '#282828', '#FFFFFF') + \
                         _svg_footer()
             for i in range(int(self.num_rods / 4 - 1)):  # mark 1000s
+                if i%2 == 0:
+                    dot = black_dot
+                else:
+                    dot = white_dot
                 self.dots.append(Sprite(self.abacus.sprites,
                                         dotx - 3 * (i + 1) * dx, doty[0],
-                                        _svg_str_to_pixbuf(black_dot)))
+                                        _svg_str_to_pixbuf(dot)))
                 self.dots.append(Sprite(self.abacus.sprites,
                                         dotx + 3 * (i + 1) * dx, doty[0],
-                                        _svg_str_to_pixbuf(black_dot)))
+                                        _svg_str_to_pixbuf(dot)))
                 self.dots.append(Sprite(self.abacus.sprites,
                                         dotx - 3 * (i + 1) * dx, doty[1],
-                                        _svg_str_to_pixbuf(black_dot)))
+                                        _svg_str_to_pixbuf(dot)))
                 self.dots.append(Sprite(self.abacus.sprites,
                                         dotx + 3 * (i + 1) * dx, doty[1],
-                                        _svg_str_to_pixbuf(black_dot)))
+                                        _svg_str_to_pixbuf(dot)))
             
             for dot in self.dots:
                 dot.set_layer(DOT_LAYER)
