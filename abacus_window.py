@@ -301,13 +301,12 @@ class Rod():
         self.sprites = sprites
         self.spr = Sprite(sprites, x, y, _svg_str_to_pixbuf(rod))
         self.spr.type = 'frame'
-        self.show_labels = False
         self.beads = []
         self.lozenge = False
         self.white_beads = []
         self.color_beads = []
 
-        if cuisenaire:
+        if cuisenaire:  # Bead size scaled to bead value
             bead_scale = 10.0 / (self.index + 1)
             self.lozenge = True
         else:
@@ -356,12 +355,12 @@ class Rod():
         ''' Beads get allocated per rod '''
         self.top_beads = top_beads  # number of beads above the bar
         self.bot_beads = bot_beads  # number of beads below the bar
-        self.bot_size = bot_size  # number of beads that could fix below
+        # number of beads that could fit might not match number of beads
+        # (e.g., Schety)
+        self.bot_size = bot_size
+        # top bead value == bead value * top factor
         self.top_factor = top_factor
         self.fade = False
-
-        if self.top_beads > 0:
-            self.show_labels = True
 
         x = self.spr.rect[0]
         y = self.spr.rect[1]
@@ -450,8 +449,7 @@ class Rod():
         for bead in self.beads:
             bead.show()
         self.spr.set_layer(ROD_LAYER)
-        if self.show_labels:
-            self.label.set_layer(MARK_LAYER)
+        self.label.set_layer(MARK_LAYER)
 
     def get_max_value(self):
         ''' Returns maximum numeric value for this rod '''
@@ -475,6 +473,8 @@ class Rod():
                     count += self.top_factor
                 else:
                     count += 1
+            if bead.get_state() == -1:
+                count -= 1
         return count
 
     def set_number(self, number):
@@ -507,7 +507,7 @@ class Rod():
             self.beads[self.top_beads + i].move_up()
 
         if value > 0:
-            self.label.set_label(self.get_bead_count())
+            self.set_label(self.get_bead_count())
         else:
             self.label.set_label('')
 
@@ -610,7 +610,19 @@ class Rod():
                             self.beads[i + ii].set_color(self.white_beads[3])
                         self.beads[i + ii].move_down()
 
-        self.label.set_label(self.get_bead_count())
+        self.set_label(self.get_bead_count())
+
+    def set_label(self, n):
+        ''' Different abaci use different labeling schemes. '''
+        # Use hex notation on hex abacus
+        if self.top_beads == 1 and self.bot_beads == 7 and \
+                self.top_factor == 8:
+            self.label.set_label('%x' % n)
+        # Only show 0 on binary abacus
+        elif n == 0 and not (self.top_beads == 0 and self.bot_beads == 1):
+            self.label.set_label('')
+        else:
+            self.label.set_label(n)
         return True
 
 
