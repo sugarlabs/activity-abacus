@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #Copyright (c) 2007-8, Playful Invention Company.
-#Copyright (c) 2008-10 Walter Bender
+#Copyright (c) 2008-11 Walter Bender
 
 #Permission is hereby granted, free of charge, to any person obtaining a copy
 #of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,23 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
 
-"""
+'''
 
 sprites.py is a simple sprites library for managing graphics objects,
-'sprites', on a canvas. It manages multiple sprites with methods such
-as move, hide, set_layer, etc.
+'sprites', on a gtk.DrawingArea. It manages multiple sprites with
+methods such as move, hide, set_layer, etc.
 
 There are two classes:
 
-class Sprites maintains a collection of sprites.
+class Sprites maintains a collection of sprites
 class Sprite manages individual sprites within the collection.
 
 Example usage:
         # Import the classes into your program.
         from sprites import Sprites Sprite
 
-        # Create a new sprite collection for a gtk Drawing Area.
-        my_drawing_area = gtk.DrawingArea()
-        self.sprite_list = Sprites(my_drawing_area)
+        # Create a new sprite collection associated with your widget
+        self.sprite_list = Sprites(widget)
 
         # Create a "pixbuf" (in this example, from SVG).
         my_pixbuf = svg_str_to_pixbuf("<svg>...some svg code...</svg>")
@@ -63,6 +62,10 @@ Example usage:
         # Now put my_sprite on top of your_sprite.
         my_sprite.set_layer(300)
 
+        cr = self.window.cairo_create()
+        # In your activity's do_expose_event, put in a call to redraw_sprites
+        self.sprites.redraw_sprites(event.area, cairo_context)
+
 # method for converting SVG to a gtk pixbuf
 def svg_str_to_pixbuf(svg_string):
     pl = gtk.gdk.PixbufLoader('svg')
@@ -70,7 +73,8 @@ def svg_str_to_pixbuf(svg_string):
     pl.close()
     pixbuf = pl.get_pixbuf()
     return pixbuf
-"""
+
+'''
 
 import pygtk
 pygtk.require('2.0')
@@ -79,37 +83,34 @@ import pango
 
 
 class Sprites:
-    """ A class for the list of sprites and everything they share in common """
+    ''' A class for the list of sprites and everything they share in common '''
 
-    def __init__(self, canvas, area=None, gc=None):
-        """ Initialize an empty array of sprites """
-        self.canvas = canvas
-        if area == None:
-            self.area = self.canvas.window
-            self.gc = self.area.new_gc()
-        else:
-            self.area = area
-            self.gc = gc
-        self.cm = self.gc.get_colormap()
+    def __init__(self, widget):
+        ''' Initialize an empty array of sprites '''
+        self.widget = widget
         self.list = []
 
+    def set_cairo_context(self, cr):
+        ''' Cairo context may be set or reset after __init__ '''
+        self.cr = cr
+
     def get_sprite(self, i):
-        """ Return a sprint from the array """
+        ''' Return a sprint from the array '''
         if i < 0 or i > len(self.list)-1:
             return(None)
         else:
             return(self.list[i])
 
     def length_of_list(self):
-        """ How many sprites are there? """
+        ''' How many sprites are there? '''
         return(len(self.list))
 
     def append_to_list(self, spr):
-        """ Append a new sprite to the end of the list. """
+        ''' Append a new sprite to the end of the list. '''
         self.list.append(spr)
 
     def insert_in_list(self, spr, i):
-        """ Insert a sprite at position i. """
+        ''' Insert a sprite at position i. '''
         if i < 0:
             self.list.insert(0, spr)
         elif i > len(self.list) - 1:
@@ -118,12 +119,12 @@ class Sprites:
             self.list.insert(i, spr)
 
     def remove_from_list(self, spr):
-        """ Remove a sprite from the list. """
+        ''' Remove a sprite from the list. '''
         if spr in self.list:
             self.list.remove(spr)
 
     def find_sprite(self, pos):
-        """ Search based on (x, y) position. Return the 'top/first' one. """
+        ''' Search based on (x, y) position. Return the 'top/first' one. '''
         list = self.list[:]
         list.reverse()
         for spr in list:
@@ -131,22 +132,30 @@ class Sprites:
                 return spr
         return None
 
-    def redraw_sprites(self, area=None):
-        """ Redraw the sprites that intersect area. """
+    def redraw_sprites(self, area=None, cr=None):
+        ''' Redraw the sprites that intersect area. '''
+        # I think I need to do this to save Cairo some work
+        if cr is None:
+            cr = self.cr
+        else:
+            self.cr = cr
+        if cr is None:
+            print 'sprites.redraw_sprites: no Cairo context'
+            return
         for spr in self.list:
             if area == None:
-                spr.draw()
+                spr.draw(cr=cr)
             else:
                 intersection = spr.rect.intersect(area)
                 if intersection.width > 0 or intersection.height > 0:
-                    spr.draw()
+                    spr.draw(cr=cr)
 
 
 class Sprite:
-    """ A class for the individual sprites """
+    ''' A class for the individual sprites '''
 
     def __init__(self, sprites, x, y, image):
-        """ Initialize an individual sprite """
+        ''' Initialize an individual sprite '''
         self._sprites = sprites
         self.rect = gtk.gdk.Rectangle(int(x), int(y), 0, 0)
         self._scale = [12]
@@ -168,7 +177,7 @@ class Sprite:
         self._sprites.append_to_list(self)
 
     def set_image(self, image, i=0, dx=0, dy=0):
-        """ Add an image to the sprite. """
+        ''' Add an image to the sprite. '''
         while len(self.images) < i + 1:
             self.images.append(None)
             self._dx.append(0)
@@ -191,38 +200,38 @@ class Sprite:
                 self.rect.height = h + dy
 
     def move(self, pos):
-        """ Move to new (x, y) position """
+        ''' Move to new (x, y) position '''
         self.inval()
         self.rect.x, self.rect.y = int(pos[0]), int(pos[1])
         self.inval()
 
     def move_relative(self, pos):
-        """ Move to new (x+dx, y+dy) position """
+        ''' Move to new (x+dx, y+dy) position '''
         self.inval()
         self.rect.x += int(pos[0])
         self.rect.y += int(pos[1])
         self.inval()
 
     def get_xy(self):
-        """ Return current (x, y) position """
+        ''' Return current (x, y) position '''
         return (self.rect.x, self.rect.y)
 
     def get_dimensions(self):
-        """ Return current size """
+        ''' Return current size '''
         return (self.rect.width, self.rect.height)
 
     def get_layer(self):
-        """ Return current layer """
+        ''' Return current layer '''
         return self.layer
 
     def set_shape(self, image, i=0):
-        """ Set the current image associated with the sprite """
+        ''' Set the current image associated with the sprite '''
         self.inval()
         self.set_image(image, i)
         self.inval()
 
     def set_layer(self, layer):
-        """ Set the layer for a sprite """
+        ''' Set the layer for a sprite '''
         self._sprites.remove_from_list(self)
         self.layer = layer
         for i in range(self._sprites.length_of_list()):
@@ -234,7 +243,7 @@ class Sprite:
         self.inval()
 
     def set_label(self, new_label, i=0):
-        """ Set the label drawn on the sprite """
+        ''' Set the label drawn on the sprite '''
         self._extend_labels_array(i)
         if type(new_label) is str or type(new_label) is unicode:
             # pango doesn't like nulls
@@ -244,15 +253,15 @@ class Sprite:
         self.inval()
 
     def set_margins(self, l=0, t=0, r=0, b=0):
-        """ Set the margins for drawing the label """
+        ''' Set the margins for drawing the label '''
         self._margins = [l, t, r, b]
 
     def _extend_labels_array(self, i):
-        """ Append to the labels attribute list """
+        ''' Append to the labels attribute list '''
         if self._fd is None:
             self.set_font('Sans')
-        if self._color is None:
-            self._color = self._sprites.cm.alloc_color('black')
+        # if self._color is None:
+        #     self._color = self._sprites.cm.alloc_color('black')
         while len(self.labels) < i + 1:
             self.labels.append(" ")
             self._scale.append(self._scale[0])
@@ -261,16 +270,17 @@ class Sprite:
             self._vert_align.append(self._vert_align[0])
 
     def set_font(self, font):
-        """ Set the font for a label """
+        ''' Set the font for a label '''
         self._fd = pango.FontDescription(font)
 
     def set_label_color(self, rgb):
-        """ Set the font color for a label """
-        self._color = self._sprites.cm.alloc_color(rgb)
+        ''' Set the font color for a label '''
+        # self._color = self._sprites.cm.alloc_color(rgb)
+        return
 
     def set_label_attributes(self, scale, rescale=True, horiz_align="center",
                              vert_align="middle", i=0):
-        """ Set the various label attributes """
+        ''' Set the various label attributes '''
         self._extend_labels_array(i)
         self._scale[i] = scale
         self._rescale[i] = rescale
@@ -278,31 +288,42 @@ class Sprite:
         self._vert_align[i] = vert_align
 
     def hide(self):
-        """ Hide a sprite """
+        ''' Hide a sprite '''
         self.inval()
         self._sprites.remove_from_list(self)
 
     def inval(self):
-        """ Force a region redraw by gtk """
-        self._sprites.area.invalidate_rect(self.rect, False)
+        ''' Invalidate a region for gtk '''
+        # self._sprites.window.invalidate_rect(self.rect, False)
+        self._sprites.widget.queue_draw_area(self.rect.x,
+                                             self.rect.y,
+                                             self.rect.width,
+                                             self.rect.height)
 
-    def draw(self):
-        """ Draw the sprite (and label) """
+    def draw(self, cr=None):
+        ''' Draw the sprite (and label) '''
+        if cr is None:
+            cr = self._sprites.cr
+        if cr is None:
+            print 'sprite.draw: no Cairo context.'
+            return
         for i, img in enumerate(self.images):
             if isinstance(img, gtk.gdk.Pixbuf):
-                self._sprites.area.draw_pixbuf(self._sprites.gc, img, 0, 0,
-                                               self.rect.x + self._dx[i],
-                                               self.rect.y + self._dy[i])
-            elif img is not None:
-                self._sprites.area.draw_drawable(self._sprites.gc, img, 0, 0,
-                                                 self.rect.x + self._dx[i],
-                                                 self.rect.y + self._dy[i],
-                                                 -1, -1)
-        if len(self.labels) > 0:
-            self.draw_label()
+                cr.set_source_pixbuf(img,
+                                     self.rect.x + self._dx[i],
+                                     self.rect.y + self._dy[i])
+                cr.rectangle(self.rect.x + self._dx[i],
+                             self.rect.y + self._dy[i],
+                             self.rect.width,
+                             self.rect.height)
+                cr.fill()
+            else:
+                print 'sprite.draw: source not a pixbuf (%s)' % (type(img))
+        # if len(self.labels) > 0:
+        #     self.draw_label()
 
     def hit(self, pos):
-        """ Is (x, y) on top of the sprite? """
+        ''' Is (x, y) on top of the sprite? '''
         x, y = pos
         if x < self.rect.x:
             return False
@@ -315,7 +336,7 @@ class Sprite:
         return True
 
     def draw_label(self):
-        """ Draw the label based on its attributes """
+        ''' Draw the label based on its attributes '''
         my_width = self.rect.width - self._margins[0] - self._margins[2]
         if my_width < 0:
             my_width = 0
@@ -353,11 +374,13 @@ class Sprite:
                 y = int(self.rect.y + self._margins[1])
             else: # bottom
                 y = int(self.rect.y + self.rect.height - h - self._margins[3])
-            self._sprites.gc.set_foreground(self._color)
-            self._sprites.area.draw_layout(self._sprites.gc, x, y, pl)
+
+            # Need to figure out the cairo-pango way of doing this
+            # self._sprites.gc.set_foreground(self._color)
+            # self._sprites.area.draw_layout(self._sprites.gc, x, y, pl)
 
     def label_width(self):
-        """ Calculate the width of a label """
+        ''' Calculate the width of a label '''
         max = 0
         for i in range(len(self.labels)):
             pl = self._sprites.canvas.create_pango_layout(self.labels[i])
@@ -369,19 +392,19 @@ class Sprite:
         return max
 
     def label_safe_width(self):
-        """ Return maximum width for a label """
+        ''' Return maximum width for a label '''
         return self.rect.width - self._margins[0] - self._margins[2]
 
     def label_safe_height(self):
-        """ Return maximum height for a label """
+        ''' Return maximum height for a label '''
         return self.rect.height - self._margins[1] - self._margins[3]
 
     def label_left_top(self):
-        """ Return the upper-left corner of the label safe zone """
+        ''' Return the upper-left corner of the label safe zone '''
         return(self._margins[0], self._margins[1])
 
     def get_pixel(self, pos, i=0):
-        """ Return the pixl at (x, y) """
+        ''' Return the pixl at (x, y) '''
         x, y = pos
         x = x - self.rect.x
         y = y - self.rect.y
