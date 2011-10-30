@@ -34,7 +34,6 @@ LABELS = ('#000000', '#FFFFFF', '#000000', '#FFFFFF', '#000000',
           '#000000', '#FFFFFF', '#FFFFFF', '#000000', '#000000')
 
 import gi
-gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk, GdkPixbuf
 from math import floor, ceil
 
@@ -45,7 +44,7 @@ import logging
 _logger = logging.getLogger('abacus-activity')
 
 try:
-    from sugar.graphics import style
+    from sugar3.graphics import style
     GRID_CELL_SIZE = style.GRID_CELL_SIZE
 except ImportError:
     GRID_CELL_SIZE = 0

@@ -11,27 +11,26 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-import pygtk
-pygtk.require('2.0')
-import gtk
+from gi.repository import Gtk
+from gi.repository import Gdk
 
-from sugar.activity import activity
-from sugar import profile
+from sugar3.activity import activity
+from sugar3 import profile
 try:  # 0.86+ toolbar widgets
-    from sugar.graphics.toolbarbox import ToolbarBox
+    from sugar3.graphics.toolbarbox import ToolbarBox
     HAS_TOOLBARBOX = True
 except ImportError:
     HAS_TOOLBARBOX = False
 if HAS_TOOLBARBOX:
-    from sugar.bundle.activitybundle import ActivityBundle
-    from sugar.activity.widgets import ActivityToolbarButton
-    from sugar.activity.widgets import StopButton
-    from sugar.graphics.toolbarbox import ToolbarButton
-from sugar.graphics.toolbutton import ToolButton
-from sugar.graphics.radiotoolbutton import RadioToolButton
-from sugar.graphics.menuitem import MenuItem
-from sugar.graphics.icon import Icon
-from sugar.datastore import datastore
+    from sugar3.bundle.activitybundle import ActivityBundle
+    from sugar3.activity.widgets import ActivityToolbarButton
+    from sugar3.activity.widgets import StopButton
+    from sugar3.graphics.toolbarbox import ToolbarButton
+from sugar3.graphics.toolbutton import ToolButton
+from sugar3.graphics.radiotoolbutton import RadioToolButton
+from sugar3.graphics.menuitem import MenuItem
+from sugar3.graphics.icon import Icon
+from sugar3.datastore import datastore
 
 from gettext import gettext as _
 import locale
@@ -39,9 +38,7 @@ import locale
 import logging
 _logger = logging.getLogger('abacus-activity')
 
-from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
-                          Nepohualtzintzin, Binary, Hex, Decimal, Fractions,\
-                          Caacupe, Cuisenaire
+from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety, Nepohualtzintzin, Binary, Hex, Decimal, Fractions, Caacupe, Cuisenaire
 
 
 def _button_factory(icon_name, toolbar, callback, cb_arg=None, tooltip=None,
@@ -86,10 +83,10 @@ def _radio_factory(icon_name, toolbar, callback, cb_arg=None,
 
 def _label_factory(label_text, toolbar):
     ''' Factory for adding a label to a toolbar '''
-    label = gtk.Label(label_text)
+    label = Gtk.Label(label=label_text)
     label.set_line_wrap(True)
     label.show()
-    toolitem = gtk.ToolItem()
+    toolitem = Gtk.ToolItem()
     toolitem.add(label)
     toolbar.insert(toolitem, -1)
     toolitem.show()
@@ -97,12 +94,13 @@ def _label_factory(label_text, toolbar):
 
 
 def _spin_factory(default, min, max, callback, toolbar):
-    spin_adj = gtk.Adjustment(default, min, max, 1, 32, 0)
-    spin = gtk.SpinButton(spin_adj, 0, 0)
+    spin_adj = Gtk.Adjustment(default, min, max, 1, 32, 0)
+    spin = Gtk.SpinButton()
+    spin.set_adjustment(spin_adj)
     spin_id = spin.connect('value-changed', callback)
     spin.set_numeric(True)
     spin.show()
-    toolitem = gtk.ToolItem()
+    toolitem = Gtk.ToolItem()
     toolitem.add(spin)
     toolbar.insert(toolitem, -1)
     toolitem.show()
@@ -111,7 +109,7 @@ def _spin_factory(default, min, max, callback, toolbar):
 
 def _separator_factory(toolbar, expand=False, visible=True):
     ''' add a separator to a toolbar '''
-    separator = gtk.SeparatorToolItem()
+    separator = Gtk.SeparatorToolItem()
     separator.props.draw = visible
     separator.set_expand(expand)
     toolbar.insert(separator, -1)
@@ -129,9 +127,9 @@ class AbacusActivity(activity.Activity):
         # no sharing
         self.max_participants = 1
 
-        abacus_toolbar = gtk.Toolbar()
-        custom_toolbar = gtk.Toolbar()
-        edit_toolbar = gtk.Toolbar()
+        abacus_toolbar = Gtk.Toolbar()
+        custom_toolbar = Gtk.Toolbar()
+        edit_toolbar = Gtk.Toolbar()
 
         if HAS_TOOLBARBOX:
             # Use 0.86 toolbar design
@@ -314,9 +312,9 @@ class AbacusActivity(activity.Activity):
         self.chinese.set_active(True)
 
         # Create a canvas
-        canvas = gtk.DrawingArea()
-        canvas.set_size_request(gtk.gdk.screen_width(),
-                                gtk.gdk.screen_height())
+        canvas = Gtk.DrawingArea()
+        canvas.set_size_request(Gdk.Screen.width(),
+                                Gdk.Screen.height())
         self.set_canvas(canvas)
         canvas.show()
         self.show_all()
@@ -420,7 +418,7 @@ class AbacusActivity(activity.Activity):
 
     def _copy_cb(self, arg=None):
         ''' Copy a number to the clipboard from the active abacus. '''
-        clipBoard = gtk.Clipboard()
+        clipBoard = Gtk.Clipboard()
         text = self.abacus.generate_label(sum_only=True)
         if text is not None:
             clipBoard.set_text(text)
@@ -428,7 +426,7 @@ class AbacusActivity(activity.Activity):
 
     def _paste_cb(self, arg=None):
         ''' Paste a number from the clipboard to the active abacus. '''
-        clipBoard = gtk.Clipboard()
+        clipBoard = Gtk.Clipboard()
         text = clipBoard.wait_for_text()
         if text is not None:
             try:

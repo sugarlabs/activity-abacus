@@ -63,21 +63,21 @@ class AbacusMain:
 
         menu = Gtk.Menu()
 	for k, v in ABACI.iteritems():
-		menu_items = Gtk.MenuItem(v)
+		menu_items = Gtk.MenuItem.new_with_label(v)
 		menu.append(menu_items)
 		menu_items.connect('activate', self._switch_abacus_cb, k)
-        menu_items = Gtk.MenuItem(_('Reset'))
+        menu_items = Gtk.MenuItem.new_with_label(_('Reset'))
         menu.append(menu_items)
         menu_items.connect('activate', self._reset)
-        menu_items = Gtk.MenuItem(_('Quit'))
+        menu_items = Gtk.MenuItem.new_with_label(_('Quit'))
         menu.append(menu_items)
         menu_items.connect('activate', self.destroy)
         menu_items.show()
-        root_menu = Gtk.MenuItem('Tools')
+        root_menu = Gtk.MenuItem.new_with_label('Tools')
         root_menu.show()
         root_menu.set_submenu(menu)
 
-        vbox = Gtk.VBox(False, 0)
+        vbox = Gtk.VBox()
         self.win.add(vbox)
         vbox.show()
 
