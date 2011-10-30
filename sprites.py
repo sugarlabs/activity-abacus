@@ -80,6 +80,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import pango
+import pangocairo
 
 
 class Sprites:
@@ -260,8 +261,8 @@ class Sprite:
         ''' Append to the labels attribute list '''
         if self._fd is None:
             self.set_font('Sans')
-        # if self._color is None:
-        #     self._color = self._sprites.cm.alloc_color('black')
+        if self._color is None:
+            self._color = (0.5, 0.5, 0.5)
         while len(self.labels) < i + 1:
             self.labels.append(" ")
             self._scale.append(self._scale[0])
@@ -275,7 +276,17 @@ class Sprite:
 
     def set_label_color(self, rgb):
         ''' Set the font color for a label '''
-        # self._color = self._sprites.cm.alloc_color(rgb)
+        COLORTABLE = {'black': '#000000', 'white': '#FFFFFF',
+                      'red': '#FF0000', 'yellow': '#FFFF00',
+                      'green': '#00FF00', 'cyan': '#00FFFF',
+                      'blue': '#0000FF', 'purple': '#FF00FF',
+                      'gray': '#808080'}
+        if rgb.lower() in COLORTABLE:
+            rgb = COLORTABLE[rgb.lower()]
+        # Convert from '#RRGGBB' to floats
+        self._color = (int('0x' + rgb[1:3], 16) / 256.,
+                       int('0x' + rgb[3:5], 16) / 256.,
+                       int('0x' + rgb[5:7], 16) / 256.)
         return
 
     def set_label_attributes(self, scale, rescale=True, horiz_align="center",
@@ -319,8 +330,8 @@ class Sprite:
                 cr.fill()
             else:
                 print 'sprite.draw: source not a pixbuf (%s)' % (type(img))
-        # if len(self.labels) > 0:
-        #     self.draw_label()
+        if len(self.labels) > 0:
+            self.draw_label(cr)
 
     def hit(self, pos):
         ''' Is (x, y) on top of the sprite? '''
@@ -335,14 +346,18 @@ class Sprite:
             return False
         return True
 
-    def draw_label(self):
+    def draw_label(self, cr):
         ''' Draw the label based on its attributes '''
+        # Create a pangocairo context
+        cr = pangocairo.CairoContext(cr)
         my_width = self.rect.width - self._margins[0] - self._margins[2]
         if my_width < 0:
             my_width = 0
         my_height = self.rect.height - self._margins[1] - self._margins[3]
         for i in range(len(self.labels)):
-            pl = self._sprites.canvas.create_pango_layout(str(self.labels[i]))
+            pl = cr.create_layout()
+            pl.set_text(str(self.labels[i]))
+            # pl = self._sprites.canvas.create_pango_layout(str(self.labels[i]))
             self._fd.set_size(int(self._scale[i] * pango.SCALE))
             pl.set_font_description(self._fd)
             w = pl.get_size()[0] / pango.SCALE
@@ -355,8 +370,8 @@ class Sprite:
                 else:
                     j = len(self.labels[i]) - 1
                     while(w > my_width and j > 0):
-                        pl = self._sprites.canvas.create_pango_layout(
-                              "…" + self.labels[i][len(self.labels[i]) - j:])
+                        pl.set_text(
+                            "…" + self.labels[i][len(self.labels[i]) - j:])
                         self._fd.set_size(int(self._scale[i] * pango.SCALE))
                         pl.set_font_description(self._fd)
                         w = pl.get_size()[0] / pango.SCALE
@@ -374,10 +389,12 @@ class Sprite:
                 y = int(self.rect.y + self._margins[1])
             else: # bottom
                 y = int(self.rect.y + self.rect.height - h - self._margins[3])
-
-            # Need to figure out the cairo-pango way of doing this
-            # self._sprites.gc.set_foreground(self._color)
-            # self._sprites.area.draw_layout(self._sprites.gc, x, y, pl)
+            cr.save()
+            cr.translate(x, y)
+            cr.set_source_rgb(self._color[0], self._color[1], self._color[2])
+            cr.update_layout(pl)
+            cr.show_layout(pl)
+            cr.restore()
 
     def label_width(self):
         ''' Calculate the width of a label '''
