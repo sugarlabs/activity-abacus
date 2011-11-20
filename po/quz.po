@@ -1,0 +1,163 @@
+# Amos Batto <amosbatt@yahoo.com>, 2011.
+# Irma Alvarez <sankaypillo@gmail.com>, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-08-02 09:50-0400\n"
+"PO-Revision-Date: 2011-11-21 16:37-0400\n"
+"Last-Translator: Irma Alvarez <sankaypillo@gmail.com>\n"
+"Language-Team: Voluntarios quechuas Sugar Camp Lima\n"
+"Language: quz\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
+"X-Generator: Virtaal 0.6.1\n"
+
+#  "Ábaco"
+#: activity/activity.info:2 abacus.py:48 dist/Abacus-19/abacus.py:49
+msgid "Abacus"
+msgstr "Abaco"
+
+#  "Suanpan"
+#. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
+#: abacus.py:52 AbacusActivity.py:293 dist/Abacus-19/abacus.py:53
+#: dist/Abacus-19/AbacusActivity.py:255
+msgid "Suanpan"
+msgstr "Suanpan (Chino)"
+
+#  "Soroban"
+#. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
+#: abacus.py:53 AbacusActivity.py:174 dist/Abacus-19/abacus.py:54
+#: dist/Abacus-19/AbacusActivity.py:160
+msgid "Soroban"
+msgstr "Soroban (Japonés)"
+
+#  "Schety"
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
+#: abacus.py:54 AbacusActivity.py:187 dist/Abacus-19/abacus.py:55
+#: dist/Abacus-19/AbacusActivity.py:169
+msgid "Schety"
+msgstr "Schety (Ruso)"
+
+#  "Nepohualtzitzin"
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
+#: abacus.py:55 AbacusActivity.py:178 dist/Abacus-19/abacus.py:56
+#: dist/Abacus-19/AbacusActivity.py:163
+msgid "Nepohualtzintzin"
+msgstr "Nepohualtzintzin"
+
+#  "Binario"
+#. TRANS: binary abacus
+#: abacus.py:56 AbacusActivity.py:184 dist/Abacus-19/abacus.py:57
+#: dist/Abacus-19/AbacusActivity.py:167
+msgid "Binary"
+msgstr "Binario"
+
+#  "Hexadecimal"
+#. TRANS: hexidecimal abacus
+#: abacus.py:57 AbacusActivity.py:181 dist/Abacus-19/abacus.py:58
+#: dist/Abacus-19/AbacusActivity.py:165
+msgid "Hexadecimal"
+msgstr "Hexadecimal"
+
+#  "Fracción"
+#. TRANS: abacus for adding fractions
+#: abacus.py:58 AbacusActivity.py:190 dist/Abacus-19/abacus.py:59
+#: dist/Abacus-19/AbacusActivity.py:171
+msgid "Fraction"
+msgstr "Rak'ina"
+
+#  "Decimal"
+#. TRANS: simple decimal abacus
+#: abacus.py:59 AbacusActivity.py:296 dist/Abacus-19/abacus.py:60
+#: dist/Abacus-19/AbacusActivity.py:257
+msgid "Decimal"
+msgstr "Decimal nisqa"
+
+#  "Caacupé"
+#. TRANS: Abacus invented by teachers in Caacupé, Paraguay
+#: abacus.py:60 AbacusActivity.py:193 dist/Abacus-19/abacus.py:61
+#: dist/Abacus-19/AbacusActivity.py:173
+msgid "Caacupé"
+msgstr "Caacupé (Paraguayo)"
+
+#  "Barras"
+#. TRANS: Cuisenaire Rods
+#: abacus.py:61 AbacusActivity.py:196 dist/Abacus-19/abacus.py:62
+#: dist/Abacus-19/AbacusActivity.py:175
+msgid "Rods"
+msgstr "Tisikuna"
+
+#  "Limpiar"
+#: abacus.py:69 abacus_window.py:573 dist/Abacus-19/abacus.py:70
+#: dist/Abacus-19/abacus_window.py:548
+msgid "Reset"
+msgstr "Wakmanta qallarichiy"
+
+#  "Salir"
+#: abacus.py:72 dist/Abacus-19/abacus.py:73
+msgid "Quit"
+msgstr "Lluqsiy"
+
+#  "Editar"
+#: AbacusActivity.py:136 AbacusActivity.py:160
+msgid "Edit"
+msgstr "Allinchay"
+
+#  "<Ctrl>Q"
+#: AbacusActivity.py:146 dist/Abacus-19/AbacusActivity.py:133
+msgid "<Ctrl>Q"
+msgstr "<Ctrl>Q"
+
+#  "Proyecto"
+#: AbacusActivity.py:158 dist/Abacus-19/AbacusActivity.py:146
+msgid "Project"
+msgstr "Wakichina"
+
+#  "Crear"
+#: AbacusActivity.py:159 AbacusActivity.py:221
+#: dist/Abacus-19/AbacusActivity.py:147 dist/Abacus-19/AbacusActivity.py:195
+msgid "Custom"
+msgstr "Kamariy"
+
+#  "Barras:"
+#. TRANS: Number of rods on the abacus
+#: AbacusActivity.py:200 dist/Abacus-19/AbacusActivity.py:178
+msgid "Rods:"
+msgstr "Tisikuna:"
+
+#  "Arriba:"
+#. TRANS: Number of beads in the top section of the abacus
+#: AbacusActivity.py:204 dist/Abacus-19/AbacusActivity.py:181
+msgid "Top:"
+msgstr "Wichaypi:"
+
+#  "Abajo:"
+#. TRANS: Number of beads in the bottom section of the abacus
+#: AbacusActivity.py:208 dist/Abacus-19/AbacusActivity.py:184
+msgid "Bottom:"
+msgstr "Uraypi:"
+
+#  "Factor:"
+#. TRANS: Scale factor between bottom and top beads
+#: AbacusActivity.py:213 dist/Abacus-19/AbacusActivity.py:188
+msgid "Factor:"
+msgstr "Factor nisqa:"
+
+#  "Base:"
+#. TRANS: Scale factor between rods
+#: AbacusActivity.py:217 dist/Abacus-19/AbacusActivity.py:191
+msgid "Base:"
+msgstr "Tiqsi:"
+
+#  "Copiar"
+#: AbacusActivity.py:224
+msgid "Copy"
+msgstr "Kikinchay"
+
+#  "Pegar"
+#: AbacusActivity.py:226
+msgid "Paste"
+msgstr "K'askachiy"
