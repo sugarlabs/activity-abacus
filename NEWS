@@ -1,10 +1,18 @@
+31
+
+ENHANCEMENT
+* GTK-3 conversion
+
 30
 
-* GTK 3
+UNDER THE HOOD
+* Using improved Cairo graphics sprite library
+* Using standard toolbar library
 
 29
 
-* Cairo support
+ENHANCEMENT
+* conversion to Cairo graphics
 
 28
 
