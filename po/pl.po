@@ -23,10 +23,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-02 09:50-0400\n"
-"PO-Revision-Date: 2011-09-27 11:18+0200\n"
-"Last-Translator: Jakub <jamarat@o2.pl>\n"
+"PO-Revision-Date: 2012-01-19 23:05+0200\n"
+"Last-Translator: FRKS <frks@frks.pl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -60,7 +60,7 @@ msgstr "Rosyjskie (Schety)"
 #: abacus.py:55 AbacusActivity.py:178 dist/Abacus-19/abacus.py:56
 #: dist/Abacus-19/AbacusActivity.py:163
 msgid "Nepohualtzintzin"
-msgstr "Indiańskie (Nepohualtzintzin)"
+msgstr "Nepohualtzintzin"
 
 #. TRANS: binary abacus
 #: abacus.py:56 AbacusActivity.py:184 dist/Abacus-19/abacus.py:57
@@ -90,13 +90,13 @@ msgstr "Dziesiętne"
 #: abacus.py:60 AbacusActivity.py:193 dist/Abacus-19/abacus.py:61
 #: dist/Abacus-19/AbacusActivity.py:173
 msgid "Caacupé"
-msgstr "Caacupé (Paragwaj)"
+msgstr "Caacupé"
 
 #. TRANS: Cuisenaire Rods
 #: abacus.py:61 AbacusActivity.py:196 dist/Abacus-19/abacus.py:62
 #: dist/Abacus-19/AbacusActivity.py:175
 msgid "Rods"
-msgstr "Pałeczki (Cuisenaire'go)"
+msgstr "Pręty"
 
 #: abacus.py:69 abacus_window.py:573 dist/Abacus-19/abacus.py:70
 #: dist/Abacus-19/abacus_window.py:548
