@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-02 09:50-0400\n"
-"PO-Revision-Date: 2012-02-26 02:40+0200\n"
-"Last-Translator: 53270334 <torones@windowslive.com>\n"
+"PO-Revision-Date: 2012-03-08 10:15+0200\n"
+"Last-Translator: Meechai <malaku38@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: th\n"
 "MIME-Version: 1.0\n"
@@ -89,13 +89,13 @@ msgstr "ลูกคิดแบบเลขฐานสิบ"
 #: abacus.py:60 AbacusActivity.py:193 dist/Abacus-19/abacus.py:61
 #: dist/Abacus-19/AbacusActivity.py:173
 msgid "Caacupé"
-msgstr "ลูกคิดแบบเศษส่วนที่มีค่าบวกและค่าลบ"
+msgstr "ลูกคิดแบบจำนวนเต็มแลเศษส่วน"
 
 #. TRANS: Cuisenaire Rods
 #: abacus.py:61 AbacusActivity.py:196 dist/Abacus-19/abacus.py:62
 #: dist/Abacus-19/AbacusActivity.py:175
 msgid "Rods"
-msgstr "ลูกคิดแบบเศษส่วนระหว่างค่า 1 และ -1"
+msgstr "ลูกคิดแบบเศษส่วน"
 
 #: abacus.py:69 abacus_window.py:573 dist/Abacus-19/abacus.py:70
 #: dist/Abacus-19/abacus_window.py:548
