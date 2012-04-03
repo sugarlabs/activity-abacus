@@ -23,14 +23,9 @@ try:  # 0.86+ toolbar widgets
 except ImportError:
     HAS_TOOLBARBOX = False
 if HAS_TOOLBARBOX:
-    from sugar.bundle.activitybundle import ActivityBundle
+    from sugar.graphics.toolbarbox import ToolbarButton
     from sugar.activity.widgets import ActivityToolbarButton
     from sugar.activity.widgets import StopButton
-    from sugar.graphics.toolbarbox import ToolbarButton
-from sugar.graphics.toolbutton import ToolButton
-from sugar.graphics.radiotoolbutton import RadioToolButton
-from sugar.graphics.menuitem import MenuItem
-from sugar.graphics.icon import Icon
 from sugar.datastore import datastore
 
 from gettext import gettext as _
@@ -42,80 +37,8 @@ _logger = logging.getLogger('abacus-activity')
 from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
                           Nepohualtzintzin, Binary, Hex, Decimal, Fractions,\
                           Caacupe, Cuisenaire
-
-
-def _button_factory(icon_name, toolbar, callback, cb_arg=None, tooltip=None,
-                    accelerator=None):
-    '''Factory for making toolbar buttons'''
-    button = ToolButton(icon_name)
-    if tooltip is not None:
-        button.set_tooltip(tooltip)
-    button.props.sensitive = True
-    if accelerator is not None:
-        button.props.accelerator = accelerator
-    if cb_arg is None:
-        button.connect('clicked', callback)
-    else:
-        button.connect('clicked', cb_arg)
-    if hasattr(toolbar, 'insert'):  # the main toolbar
-        toolbar.insert(button, -1)
-    else:  # or a secondary toolbar
-        toolbar.props.page.insert(button, -1)
-    button.show()
-    return button
-
-
-def _radio_factory(icon_name, toolbar, callback, cb_arg=None,
-                          tooltip=None, group=None):
-    ''' Add a radio button to a toolbar '''
-    button = RadioToolButton(group=group)
-    button.set_named_icon(icon_name)
-    if tooltip is not None:
-        button.set_tooltip(tooltip)
-    if cb_arg is None:
-        button.connect('clicked', callback)
-    else:
-        button.connect('clicked', callback, cb_arg)
-    if hasattr(toolbar, 'insert'):  # the main toolbar
-        toolbar.insert(button, -1)
-    else:  # or a secondary toolbar
-        toolbar.props.page.insert(button, -1)
-    button.show()
-    return button
-
-
-def _label_factory(label_text, toolbar):
-    ''' Factory for adding a label to a toolbar '''
-    label = gtk.Label(label_text)
-    label.set_line_wrap(True)
-    label.show()
-    toolitem = gtk.ToolItem()
-    toolitem.add(label)
-    toolbar.insert(toolitem, -1)
-    toolitem.show()
-    return label
-
-
-def _spin_factory(default, min, max, callback, toolbar):
-    spin_adj = gtk.Adjustment(default, min, max, 1, 32, 0)
-    spin = gtk.SpinButton(spin_adj, 0, 0)
-    spin_id = spin.connect('value-changed', callback)
-    spin.set_numeric(True)
-    spin.show()
-    toolitem = gtk.ToolItem()
-    toolitem.add(spin)
-    toolbar.insert(toolitem, -1)
-    toolitem.show()
-    return spin
-
-
-def _separator_factory(toolbar, expand=False, visible=True):
-    ''' add a separator to a toolbar '''
-    separator = gtk.SeparatorToolItem()
-    separator.props.draw = visible
-    separator.set_expand(expand)
-    toolbar.insert(separator, -1)
-    separator.show()
+from toolbar_utils import separator_factory, radio_factory, label_factory, \
+    button_factory, spin_factory
 
 
 class AbacusActivity(activity.Activity):
@@ -162,12 +85,12 @@ class AbacusActivity(activity.Activity):
             toolbox.toolbar.insert(custom_toolbar_button, -1)
             custom_toolbar_button.show()
 
-            _separator_factory(toolbox.toolbar, False, True)
+            separator_factory(toolbox.toolbar, False, True)
 
-            _button_factory('edit-delete', toolbox.toolbar,
+            button_factory('edit-delete', toolbox.toolbar,
                             self._reset_cb, tooltip=_('Reset'))
 
-            _separator_factory(toolbox.toolbar, True, False)
+            separator_factory(toolbox.toolbar, True, False)
 
             stop_button = StopButton(self)
             stop_button.props.accelerator = _('<Ctrl>Q')
@@ -186,10 +109,10 @@ class AbacusActivity(activity.Activity):
             toolbox.add_toolbar(_('Custom'), custom_toolbar)
             toolbox.add_toolbar(_('Edit'), edit_toolbar)
 
-            _button_factory('edit-delete', edit_toolbar,
+            button_factory('edit-delete', edit_toolbar,
                             self._reset_cb, tooltip=_('Reset'))
 
-            _separator_factory(edit_toolbar, False, True)
+            separator_factory(edit_toolbar, False, True)
 
             toolbox.set_current_toolbar(1)
 
@@ -200,110 +123,109 @@ class AbacusActivity(activity.Activity):
                 toolbox.props.visible = False
 
         # TRANS: simple decimal abacus
-        self.decimal = _radio_factory('decimal', abacus_toolbar,
-                                      self._radio_cb, cb_arg='decimal',
-                                      tooltip=_('Decimal'),
-                                      group=None)
+        self.decimal = radio_factory('decimal', abacus_toolbar,
+                                     self._radio_cb, cb_arg='decimal',
+                                     tooltip=_('Decimal'),
+                                     group=None)
 
         # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
-        self.japanese = _radio_factory('soroban', abacus_toolbar,
-                                       self._radio_cb, cb_arg='japanese',
-                                       tooltip=_('Soroban'),
-                                       group=self.decimal)
+        self.japanese = radio_factory('soroban', abacus_toolbar,
+                                      self._radio_cb, cb_arg='japanese',
+                                      tooltip=_('Soroban'),
+                                      group=self.decimal)
 
         # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
-        self.chinese = _radio_factory('suanpan', abacus_toolbar,
-                                      self._radio_cb, cb_arg='chinese',
-                                      tooltip=_('Suanpan'),
-                                      group=self.decimal)
-
-        _separator_factory(abacus_toolbar)
-
-        # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
-        self.mayan = _radio_factory('nepohualtzintzin', abacus_toolbar,
-                                    self._radio_cb, cb_arg='mayan',
-                                    tooltip=_('Nepohualtzintzin'),
-                                    group=self.decimal)
-
-        # TRANS: hexidecimal abacus
-        self.hex = _radio_factory('hexadecimal', abacus_toolbar,
-                                  self._radio_cb, cb_arg='hex',
-                                  tooltip=_('Hexadecimal'),
-                                  group=self.decimal)
-
-        # TRANS: binary abacus
-        self.binary = _radio_factory('binary', abacus_toolbar,
-                                     self._radio_cb, cb_arg='binary',
-                                     tooltip=_('Binary'),
+        self.chinese = radio_factory('suanpan', abacus_toolbar,
+                                     self._radio_cb, cb_arg='chinese',
+                                     tooltip=_('Suanpan'),
                                      group=self.decimal)
 
-        _separator_factory(abacus_toolbar)
+        separator_factory(abacus_toolbar)
+
+        # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
+        self.mayan = radio_factory('nepohualtzintzin', abacus_toolbar,
+                                   self._radio_cb, cb_arg='mayan',
+                                   tooltip=_('Nepohualtzintzin'),
+                                   group=self.decimal)
+
+        # TRANS: hexidecimal abacus
+        self.hex = radio_factory('hexadecimal', abacus_toolbar,
+                                 self._radio_cb, cb_arg='hex',
+                                 tooltip=_('Hexadecimal'),
+                                 group=self.decimal)
+
+        # TRANS: binary abacus
+        self.binary = radio_factory('binary', abacus_toolbar,
+                                    self._radio_cb, cb_arg='binary',
+                                    tooltip=_('Binary'),
+                                    group=self.decimal)
+
+        separator_factory(abacus_toolbar)
 
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
-        self.russian = _radio_factory('schety', abacus_toolbar,
-                                      self._radio_cb, cb_arg='russian',
-                                      tooltip=_('Schety'),
-                                      group=self.decimal)
+        self.russian = radio_factory('schety', abacus_toolbar,
+                                     self._radio_cb, cb_arg='russian',
+                                     tooltip=_('Schety'),
+                                     group=self.decimal)
 
         # TRANS: abacus for adding fractions
-        self.fraction = _radio_factory('fraction', abacus_toolbar,
-                                       self._radio_cb, cb_arg='fraction',
-                                       tooltip=_('Fraction'),
-                                       group=self.decimal)
-
-        # TRANS: Abacus invented by teachers in Caacupé, Paraguay
-        self.caacupe = _radio_factory('caacupe', abacus_toolbar,
-                                      self._radio_cb, cb_arg='caacupe',
-                                      tooltip=_('Caacupé'),
+        self.fraction = radio_factory('fraction', abacus_toolbar,
+                                      self._radio_cb, cb_arg='fraction',
+                                      tooltip=_('Fraction'),
                                       group=self.decimal)
 
-        _separator_factory(abacus_toolbar)
+        # TRANS: Abacus invented by teachers in Caacupé, Paraguay
+        self.caacupe = radio_factory('caacupe', abacus_toolbar,
+                                     self._radio_cb, cb_arg='caacupe',
+                                     tooltip=_('Caacupé'),
+                                     group=self.decimal)
+
+        separator_factory(abacus_toolbar)
 
         # TRANS: Cuisenaire Rods
-        self.cuisenaire = _radio_factory('cuisenaire', abacus_toolbar,
-                                         self._radio_cb,
-                                         cb_arg='cuisenaire',
-                                         tooltip=_('Rods'), group=self.decimal)
+        self.cuisenaire = radio_factory('cuisenaire', abacus_toolbar,
+                                        self._radio_cb,
+                                        cb_arg='cuisenaire',
+                                        tooltip=_('Rods'), group=self.decimal)
 
-        _separator_factory(abacus_toolbar)
+        separator_factory(abacus_toolbar)
 
-        self.custom = _radio_factory('custom', abacus_toolbar,
-                                     self._radio_cb,
-                                     cb_arg='custom',
-                                     tooltip=_('Custom'), group=self.decimal)
+        self.custom = radio_factory('custom', abacus_toolbar,
+                                    self._radio_cb,
+                                    cb_arg='custom',
+                                    tooltip=_('Custom'), group=self.decimal)
 
         # TRANS: Number of rods on the abacus
-        self._rods_label = _label_factory(_('Rods:') + ' ', custom_toolbar)
-        self._rods_spin = _spin_factory(15, 1, 20, self._rods_spin_cb,
-                                        custom_toolbar)
-        # TRANS: Number of beads in the top section of the abacus
-        self._top_label = _label_factory(_('Top:') + ' ', custom_toolbar)
-        self._top_spin = _spin_factory(2, 0, 4, self._top_spin_cb,
+        self._rods_label = label_factory(custom_toolbar, _('Rods:') + ' ')
+        self._rods_spin = spin_factory(15, 1, 20, self._rods_spin_cb,
                                        custom_toolbar)
+        # TRANS: Number of beads in the top section of the abacus
+        self._top_label = label_factory(custom_toolbar, _('Top:') + ' ')
+        self._top_spin = spin_factory(2, 0, 4, self._top_spin_cb,
+                                      custom_toolbar)
         # TRANS: Number of beads in the bottom section of the abacus
-        self._bottom_label = _label_factory(_('Bottom:') + ' ',
-                                            custom_toolbar)
-        self._bottom_spin = _spin_factory(5, 1, 20, self._bottom_spin_cb,
-                                          custom_toolbar)
-        # TRANS: Scale factor between bottom and top beads
-        self._value_label = _label_factory(_('Factor:') + ' ', custom_toolbar)
-        self._value_spin = _spin_factory(5, 1, 20, self._value_spin_cb,
+        self._bottom_label = label_factory(custom_toolbar, _('Bottom:') + ' ')
+        self._bottom_spin = spin_factory(5, 1, 20, self._bottom_spin_cb,
                                          custom_toolbar)
-        # TRANS: Scale factor between rods
-        self._base_label = _label_factory(_('Base:') + ' ', custom_toolbar)
-        self._base_spin = _spin_factory(10, 1, 24, self._base_spin_cb,
+        # TRANS: Scale factor between bottom and top beads
+        self._value_label = label_factory(custom_toolbar, _('Factor:') + ' ')
+        self._value_spin = spin_factory(5, 1, 20, self._value_spin_cb,
                                         custom_toolbar)
+        # TRANS: Scale factor between rods
+        self._base_label = label_factory(custom_toolbar, _('Base:') + ' ')
+        self._base_spin = spin_factory(10, 1, 24, self._base_spin_cb,
+                                       custom_toolbar)
 
-        _separator_factory(custom_toolbar, False, False)
+        # separator_factory(custom_toolbar, False, False)
 
-        self.custom_maker = _button_factory('new-abacus', custom_toolbar,
-                                            self._custom_cb,
-                                            tooltip=_('Custom'))
+        self.custom_maker = button_factory('new-abacus', custom_toolbar,
+                                           self._custom_cb,
+                                           tooltip=_('Custom'))
 
-        copy = _button_factory('edit-copy', edit_toolbar, self._copy_cb,
-                               tooltip=_('Copy'), accelerator='<Ctrl>c')
-        paste = _button_factory('edit-paste', edit_toolbar, self._paste_cb,
-                                tooltip=_('Paste'), accelerator='<Ctrl>v')
+        copy = button_factory('edit-copy', edit_toolbar, self._copy_cb,
+                              tooltip=_('Copy'), accelerator='<Ctrl>c')
+        paste = button_factory('edit-paste', edit_toolbar, self._paste_cb,
+                               tooltip=_('Paste'), accelerator='<Ctrl>v')
 
         self.toolbox.show()
 

@@ -857,8 +857,22 @@ class Abacus():
 
     def _expose_cb(self, win, event):
         ''' Callback to handle window expose events '''
-        self.sprites.redraw_sprites(event.area)
+        self.do_expose_event(event)
         return True
+
+    # Handle the expose-event by drawing
+    def do_expose_event(self, event):
+
+        # Create the cairo context
+        cr = self.canvas.window.cairo_create()
+
+        # Restrict Cairo to the exposed area; avoid extra work
+        cr.rectangle(event.area.x, event.area.y,
+                event.area.width, event.area.height)
+        cr.clip()
+
+        # Refresh sprite list
+        self.sprites.redraw_sprites(cr=cr)
 
     def _destroy_cb(self, win, event):
         ''' Callback to handle quit '''
