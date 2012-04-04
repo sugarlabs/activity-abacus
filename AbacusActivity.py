@@ -92,7 +92,7 @@ class AbacusActivity(activity.Activity):
             toolbox.toolbar.insert(stop_button, -1)
             stop_button.show()
 
-            self.set_toolbox(toolbox)
+            self.set_toolbar_box(toolbox)
             toolbox.show()
 
         else:
@@ -223,11 +223,11 @@ class AbacusActivity(activity.Activity):
         button_factory('edit-paste', edit_toolbar, self._paste_cb,
                        tooltip=_('Paste'), accelerator='<Ctrl>v')
 
-        self.toolbox.show()
-
         if HAS_TOOLBARBOX:
             # start with abacus toolbar expanded
             abacus_toolbar_button.set_expanded(True)
+        else:
+            self.toolbox.show()
 
         self.chinese.set_active(True)
 
