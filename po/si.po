@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-02 09:50-0400\n"
-"PO-Revision-Date: 2011-01-19 05:27+0200\n"
+"PO-Revision-Date: 2012-02-24 16:40+0200\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.3\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2 abacus.py:48 dist/Abacus-19/abacus.py:49
 msgid "Abacus"
@@ -65,25 +65,25 @@ msgstr ""
 #: abacus.py:56 AbacusActivity.py:184 dist/Abacus-19/abacus.py:57
 #: dist/Abacus-19/AbacusActivity.py:167
 msgid "Binary"
-msgstr ""
+msgstr "ද්වීමය"
 
 #. TRANS: hexidecimal abacus
 #: abacus.py:57 AbacusActivity.py:181 dist/Abacus-19/abacus.py:58
 #: dist/Abacus-19/AbacusActivity.py:165
 msgid "Hexadecimal"
-msgstr ""
+msgstr "දහසයේ පාදය"
 
 #. TRANS: abacus for adding fractions
 #: abacus.py:58 AbacusActivity.py:190 dist/Abacus-19/abacus.py:59
 #: dist/Abacus-19/AbacusActivity.py:171
 msgid "Fraction"
-msgstr ""
+msgstr "භාග ගණන"
 
 #. TRANS: simple decimal abacus
 #: abacus.py:59 AbacusActivity.py:296 dist/Abacus-19/abacus.py:60
 #: dist/Abacus-19/AbacusActivity.py:257
 msgid "Decimal"
-msgstr ""
+msgstr "දශම"
 
 #. TRANS: Abacus invented by teachers in Caacupé, Paraguay
 #: abacus.py:60 AbacusActivity.py:193 dist/Abacus-19/abacus.py:61
@@ -104,11 +104,11 @@ msgstr "පෙරසෙ"
 
 #: abacus.py:72 dist/Abacus-19/abacus.py:73
 msgid "Quit"
-msgstr ""
+msgstr "පිටවන්න"
 
 #: AbacusActivity.py:136 AbacusActivity.py:160
 msgid "Edit"
-msgstr ""
+msgstr "සැකසුම්"
 
 #: AbacusActivity.py:146 dist/Abacus-19/AbacusActivity.py:133
 msgid "<Ctrl>Q"
@@ -131,12 +131,12 @@ msgstr ""
 #. TRANS: Number of beads in the top section of the abacus
 #: AbacusActivity.py:204 dist/Abacus-19/AbacusActivity.py:181
 msgid "Top:"
-msgstr ""
+msgstr "ඉහළ:"
 
 #. TRANS: Number of beads in the bottom section of the abacus
 #: AbacusActivity.py:208 dist/Abacus-19/AbacusActivity.py:184
 msgid "Bottom:"
-msgstr ""
+msgstr "පහළ:"
 
 #. TRANS: Scale factor between bottom and top beads
 #: AbacusActivity.py:213 dist/Abacus-19/AbacusActivity.py:188
@@ -150,8 +150,8 @@ msgstr ""
 
 #: AbacusActivity.py:224
 msgid "Copy"
-msgstr ""
+msgstr "පිටපත් කරන්න"
 
 #: AbacusActivity.py:226
 msgid "Paste"
-msgstr ""
+msgstr "අලවන්න"

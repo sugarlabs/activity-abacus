@@ -1,3 +1,7 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -6,89 +10,77 @@ msgstr ""
 "PO-Revision-Date: 2011-11-26 04:13+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: aym\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.5\n"
 
-#  "Ábaco"
 #: activity/activity.info:2 abacus.py:48 dist/Abacus-19/abacus.py:49
 msgid "Abacus"
 msgstr ""
 
-#  "Suanpan"
 #. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
 #: abacus.py:52 AbacusActivity.py:293 dist/Abacus-19/abacus.py:53
 #: dist/Abacus-19/AbacusActivity.py:255
 msgid "Suanpan"
 msgstr ""
 
-#  "Soroban"
 #. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
 #: abacus.py:53 AbacusActivity.py:174 dist/Abacus-19/abacus.py:54
 #: dist/Abacus-19/AbacusActivity.py:160
 msgid "Soroban"
 msgstr ""
 
-#  "Schety"
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
 #: abacus.py:54 AbacusActivity.py:187 dist/Abacus-19/abacus.py:55
 #: dist/Abacus-19/AbacusActivity.py:169
 msgid "Schety"
 msgstr ""
 
-#  "Nepohualtzitzin"
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
 #: abacus.py:55 AbacusActivity.py:178 dist/Abacus-19/abacus.py:56
 #: dist/Abacus-19/AbacusActivity.py:163
 msgid "Nepohualtzintzin"
 msgstr ""
 
-#  "Binario"
 #. TRANS: binary abacus
 #: abacus.py:56 AbacusActivity.py:184 dist/Abacus-19/abacus.py:57
 #: dist/Abacus-19/AbacusActivity.py:167
 msgid "Binary"
 msgstr ""
 
-#  "Hexadecimal"
 #. TRANS: hexidecimal abacus
 #: abacus.py:57 AbacusActivity.py:181 dist/Abacus-19/abacus.py:58
 #: dist/Abacus-19/AbacusActivity.py:165
 msgid "Hexadecimal"
 msgstr ""
 
-#  "Fracción"
 #. TRANS: abacus for adding fractions
 #: abacus.py:58 AbacusActivity.py:190 dist/Abacus-19/abacus.py:59
 #: dist/Abacus-19/AbacusActivity.py:171
 msgid "Fraction"
 msgstr ""
 
-#  "Decimal"
 #. TRANS: simple decimal abacus
 #: abacus.py:59 AbacusActivity.py:296 dist/Abacus-19/abacus.py:60
 #: dist/Abacus-19/AbacusActivity.py:257
 msgid "Decimal"
 msgstr ""
 
-#  "Caacupé"
 #. TRANS: Abacus invented by teachers in Caacupé, Paraguay
 #: abacus.py:60 AbacusActivity.py:193 dist/Abacus-19/abacus.py:61
 #: dist/Abacus-19/AbacusActivity.py:173
 msgid "Caacupé"
 msgstr ""
 
-#  "Barras"
 #. TRANS: Cuisenaire Rods
 #: abacus.py:61 AbacusActivity.py:196 dist/Abacus-19/abacus.py:62
 #: dist/Abacus-19/AbacusActivity.py:175
 msgid "Rods"
 msgstr ""
 
-#  "Limpiar"
 #: abacus.py:69 abacus_window.py:573 dist/Abacus-19/abacus.py:70
 #: dist/Abacus-19/abacus_window.py:548
 msgid "Reset"
@@ -114,13 +106,11 @@ msgstr "<Ctrl>Q"
 msgid "Project"
 msgstr "Lurawinaka"
 
-#  "Crear"
 #: AbacusActivity.py:159 AbacusActivity.py:221
 #: dist/Abacus-19/AbacusActivity.py:147 dist/Abacus-19/AbacusActivity.py:195
 msgid "Custom"
 msgstr ""
 
-#  "Barras:"
 #. TRANS: Number of rods on the abacus
 #: AbacusActivity.py:200 dist/Abacus-19/AbacusActivity.py:178
 msgid "Rods:"
@@ -132,19 +122,16 @@ msgstr ""
 msgid "Top:"
 msgstr "P'atja:"
 
-#  "Abajo:"
 #. TRANS: Number of beads in the bottom section of the abacus
 #: AbacusActivity.py:208 dist/Abacus-19/AbacusActivity.py:184
 msgid "Bottom:"
 msgstr ""
 
-#  "Factor:"
 #. TRANS: Scale factor between bottom and top beads
 #: AbacusActivity.py:213 dist/Abacus-19/AbacusActivity.py:188
 msgid "Factor:"
 msgstr ""
 
-#  "Base:"
 #. TRANS: Scale factor between rods
 #: AbacusActivity.py:217 dist/Abacus-19/AbacusActivity.py:191
 msgid "Base:"
