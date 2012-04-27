@@ -14,6 +14,7 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
+import gobject
 
 from sugar.activity import activity
 from sugar import profile
@@ -326,8 +327,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.label(self.abacus.generate_label())
 
     def _notify_new_abacus(self, prompt):
-        ''' Called from New Game button since loading a new game can
-        be slooow!! '''
+        ''' Loading a new abacus can be slooow, so alert the user. '''
         alert = NotifyAlert(3)
         alert.props.title = prompt
         alert.props.msg = _('A new abacus is loading.')
@@ -349,7 +349,10 @@ class AbacusActivity(activity.Activity):
             return
 
         self._notify_new_abacus(NAMES[abacus])
+        # Give the alert time to load
+        gobject.timeout_add(100, self._switch_modes, abacus)
 
+    def _switch_modes(self, abacus):
         # Save current value
         value = int(float(self.abacus.mode.value()))
         if abacus == 'custom':
