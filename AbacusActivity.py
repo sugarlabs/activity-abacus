@@ -27,6 +27,7 @@ if HAS_TOOLBARBOX:
     from sugar.activity.widgets import ActivityToolbarButton
     from sugar.activity.widgets import StopButton
 from sugar.datastore import datastore
+from sugar.graphics.alert import NotifyAlert
 
 from gettext import gettext as _
 import locale
@@ -36,10 +37,23 @@ _logger = logging.getLogger('abacus-activity')
 
 from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
                           Nepohualtzintzin, Binary, Hex, Decimal, Fractions,\
-                          Caacupe, Cuisenaire
+                          Caacupe, Cuisenaire, MAX_RODS, MAX_TOP, MAX_BOT
 from toolbar_utils import separator_factory, radio_factory, label_factory, \
     button_factory, spin_factory
 
+
+NAMES = {'suanpan': _('Suanpan'),
+         'soroban': _('Soroban'),
+         'decimal': _('Decimal'),
+         'nepohualtzintzin': _('Nepohualtzintzin'),
+         'hexadecimal': _('Hexadecimal'),
+         'binary': _('Binary'),
+         'schety': _('Schety'),
+         'fraction': _('Fraction'),
+         'caacupe': _('Caacupé'),
+         'cuisenaire': _('Rods'),
+         'custom': _('Custom')
+         }
 
 class AbacusActivity(activity.Activity):
 
@@ -47,6 +61,7 @@ class AbacusActivity(activity.Activity):
         ''' Initiate activity. '''
         super(AbacusActivity, self).__init__(handle)
 
+        self._setting_up = True
         self.bead_colors = profile.get_color().to_string().split(',')
 
         # no sharing
@@ -90,6 +105,10 @@ class AbacusActivity(activity.Activity):
             button_factory('edit-delete', toolbox.toolbar,
                             self._reset_cb, tooltip=_('Reset'))
 
+            separator_factory(toolbox.toolbar, False, True)
+
+            self._label = label_factory(toolbox.toolbar, NAMES['suanpan'])
+
             separator_factory(toolbox.toolbar, True, False)
 
             stop_button = StopButton(self)
@@ -112,6 +131,8 @@ class AbacusActivity(activity.Activity):
             button_factory('edit-delete', edit_toolbar,
                             self._reset_cb, tooltip=_('Reset'))
 
+            self._label = label_factory(edit_toolbar, NAMES['suanpan'])
+
             separator_factory(edit_toolbar, False, True)
 
             toolbox.set_current_toolbar(1)
@@ -125,59 +146,59 @@ class AbacusActivity(activity.Activity):
         # TRANS: simple decimal abacus
         self.decimal = radio_factory('decimal', abacus_toolbar,
                                      self._radio_cb, cb_arg='decimal',
-                                     tooltip=_('Decimal'),
+                                     tooltip=NAMES['decimal'],
                                      group=None)
 
         # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
         self.japanese = radio_factory('soroban', abacus_toolbar,
-                                      self._radio_cb, cb_arg='japanese',
+                                      self._radio_cb, cb_arg='soroban',
                                       tooltip=_('Soroban'),
                                       group=self.decimal)
 
         # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
         self.chinese = radio_factory('suanpan', abacus_toolbar,
-                                     self._radio_cb, cb_arg='chinese',
-                                     tooltip=_('Suanpan'),
+                                     self._radio_cb, cb_arg='suanpan',
+                                     tooltip=NAMES['suanpan'],
                                      group=self.decimal)
 
         separator_factory(abacus_toolbar)
 
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
         self.mayan = radio_factory('nepohualtzintzin', abacus_toolbar,
-                                   self._radio_cb, cb_arg='mayan',
-                                   tooltip=_('Nepohualtzintzin'),
+                                   self._radio_cb, cb_arg='nepohualtzintzin',
+                                   tooltip=NAMES['nepohualtzintzin'],
                                    group=self.decimal)
 
         # TRANS: hexidecimal abacus
         self.hex = radio_factory('hexadecimal', abacus_toolbar,
-                                 self._radio_cb, cb_arg='hex',
-                                 tooltip=_('Hexadecimal'),
+                                 self._radio_cb, cb_arg='hexadecimal',
+                                 tooltip=NAMES['hexadecimal'],
                                  group=self.decimal)
 
         # TRANS: binary abacus
         self.binary = radio_factory('binary', abacus_toolbar,
                                     self._radio_cb, cb_arg='binary',
-                                    tooltip=_('Binary'),
+                                    tooltip=NAMES['binary'],
                                     group=self.decimal)
 
         separator_factory(abacus_toolbar)
 
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
         self.russian = radio_factory('schety', abacus_toolbar,
-                                     self._radio_cb, cb_arg='russian',
-                                     tooltip=_('Schety'),
+                                     self._radio_cb, cb_arg='schety',
+                                     tooltip=NAMES['schety'],
                                      group=self.decimal)
 
         # TRANS: abacus for adding fractions
         self.fraction = radio_factory('fraction', abacus_toolbar,
                                       self._radio_cb, cb_arg='fraction',
-                                      tooltip=_('Fraction'),
+                                      tooltip=NAMES['fraction'],
                                       group=self.decimal)
 
         # TRANS: Abacus invented by teachers in Caacupé, Paraguay
         self.caacupe = radio_factory('caacupe', abacus_toolbar,
                                      self._radio_cb, cb_arg='caacupe',
-                                     tooltip=_('Caacupé'),
+                                     tooltip=NAMES['caacupe'],
                                      group=self.decimal)
 
         separator_factory(abacus_toolbar)
@@ -186,7 +207,8 @@ class AbacusActivity(activity.Activity):
         self.cuisenaire = radio_factory('cuisenaire', abacus_toolbar,
                                         self._radio_cb,
                                         cb_arg='cuisenaire',
-                                        tooltip=_('Rods'), group=self.decimal)
+                                        tooltip=NAMES['cuisenaire'],
+                                        group=self.decimal)
 
         separator_factory(abacus_toolbar)
 
@@ -197,24 +219,24 @@ class AbacusActivity(activity.Activity):
 
         # TRANS: Number of rods on the abacus
         self._rods_label = label_factory(custom_toolbar, _('Rods:') + ' ')
-        self._rods_spin = spin_factory(15, 1, 20, self._rods_spin_cb,
+        self._rods_spin = spin_factory(15, 1, MAX_RODS, self._rods_spin_cb,
                                        custom_toolbar)
         # TRANS: Number of beads in the top section of the abacus
         self._top_label = label_factory(custom_toolbar, _('Top:') + ' ')
-        self._top_spin = spin_factory(2, 0, 4, self._top_spin_cb,
+        self._top_spin = spin_factory(2, 0, MAX_TOP, self._top_spin_cb,
                                       custom_toolbar)
         # TRANS: Number of beads in the bottom section of the abacus
         self._bottom_label = label_factory(custom_toolbar, _('Bottom:') + ' ')
-        self._bottom_spin = spin_factory(5, 1, 20, self._bottom_spin_cb,
-                                         custom_toolbar)
+        self._bottom_spin = spin_factory(5, 1, MAX_BOT,
+                                         self._bottom_spin_cb, custom_toolbar)
         # TRANS: Scale factor between bottom and top beads
         self._value_label = label_factory(custom_toolbar, _('Factor:') + ' ')
-        self._value_spin = spin_factory(5, 1, 20, self._value_spin_cb,
+        self._value_spin = spin_factory(5, 1, MAX_BOT, self._value_spin_cb,
                                         custom_toolbar)
         # TRANS: Scale factor between rods
         self._base_label = label_factory(custom_toolbar, _('Base:') + ' ')
-        self._base_spin = spin_factory(10, 1, 24, self._base_spin_cb,
-                                       custom_toolbar)
+        self._base_spin = spin_factory(10, 1, (MAX_TOP + 1) * MAX_BOT,
+                                       self._base_spin_cb, custom_toolbar)
 
         # separator_factory(custom_toolbar, False, False)
 
@@ -245,6 +267,7 @@ class AbacusActivity(activity.Activity):
 
         # Initialize the canvas
         self.abacus = Abacus(canvas, self)
+        self._setting_up = False
 
         # Read the current mode from the Journal
         if 'rods' in self.metadata:
@@ -261,19 +284,19 @@ class AbacusActivity(activity.Activity):
             # Default is Chinese
             _logger.debug('restoring %s', self.metadata['abacus'])
             if self.metadata['abacus'] == 'soroban':
-                self._select_abacus('japanese')
+                self._select_abacus('soroban')
                 self.japanese.set_active(True)
             elif self.metadata['abacus'] == 'schety':
-                self._select_abacus('russian')
+                self._select_abacus('schety')
                 self.russian.set_active(True)
             elif self.metadata['abacus'] == 'nepohualtzintzin':
-                self._select_abacus('mayan')
+                self._select_abacus('nepohualtzintzin')
                 self.mayan.set_active(True)
             elif self.metadata['abacus'] == 'binary':
                 self._select_abacus('binary')
                 self.binary.set_active(True)
             elif self.metadata['abacus'] == 'hexadecimal':
-                self._select_abacus('hex')
+                self._select_abacus('hexadecimal')
                 self.hex.set_active(True)
             elif self.metadata['abacus'] == 'fraction':
                 self._select_abacus('fraction')
@@ -302,13 +325,42 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.reset_abacus()
         self.abacus.mode.label(self.abacus.generate_label())
 
+    def _notify_new_abacus(self, prompt):
+        ''' Called from New Game button since loading a new game can
+        be slooow!! '''
+        alert = NotifyAlert(3)
+        alert.props.title = prompt
+        alert.props.msg = _('A new abacus is loading.')
+
+        def _notification_alert_response_cb(alert, response_id, self):
+            self.remove_alert(alert)
+
+        alert.connect('response', _notification_alert_response_cb, self)
+        self.add_alert(alert)
+        alert.show()
+
     def _select_abacus(self, abacus):
         ''' Display the selected abacus; hide the others '''
         if not hasattr(self, 'abacus'):
             return
-        if abacus == 'custom' and self.abacus.custom is None:
+        if self._setting_up:
+            return
+        if self.abacus.mode.name == abacus:
+            return
+
+        self._notify_new_abacus(NAMES[abacus])
+
+        # Save current value
+        value = int(float(self.abacus.mode.value()))
+        if abacus == 'custom':
             self._custom_cb()
-        self.abacus.select_abacus(abacus)
+            self.abacus.mode = self.abacus.custom
+        else:
+            self.abacus.select_abacus(abacus)
+        # Load saved value
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
+        self._label.set_text(NAMES[abacus])
 
     def _rods_spin_cb(self, button=None):
         return
@@ -331,14 +383,15 @@ class AbacusActivity(activity.Activity):
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
         self.abacus.custom = Custom(self.abacus,
-                                    self._rods_spin.get_value_as_int(),
-                                    self._top_spin.get_value_as_int(),
-                                    self._bottom_spin.get_value_as_int(),
-                                    self._value_spin.get_value_as_int(),
-                                    self._base_spin.get_value_as_int(),
-                                    self.bead_colors)
+                                    rods=self._rods_spin.get_value_as_int(),
+                                    top=self._top_spin.get_value_as_int(),
+                                    bot=self._bottom_spin.get_value_as_int(),
+                                    factor=self._value_spin.get_value_as_int(),
+                                    base=self._base_spin.get_value_as_int(),
+                                    bead_colors=self.bead_colors)
         self.custom.set_active(True)
         self.abacus.select_abacus('custom')
+        self._label.set_text(NAMES['custom'])
 
     def _copy_cb(self, arg=None):
         ''' Copy a number to the clipboard from the active abacus. '''
