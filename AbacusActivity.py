@@ -13,27 +13,39 @@
 
 from gi.repository import Gtk
 from gi.repository import Gdk
+from gi.repository import GObject
+from gi.repository import Pango
 
 from sugar3.activity import activity
 from sugar3 import profile
-try:  # 0.86+ toolbar widgets
-    from sugar3.graphics.toolbarbox import ToolbarBox
-    HAS_TOOLBARBOX = True
-except ImportError:
-    HAS_TOOLBARBOX = False
-if HAS_TOOLBARBOX:
-    from sugar3.activity.widgets import ActivityToolbarButton
-    from sugar3.activity.widgets import StopButton
-    from sugar3.graphics.toolbarbox import ToolbarButton
+from sugar3.graphics.toolbarbox import ToolbarBox
+from sugar3.activity.widgets import ActivityToolbarButton
+from sugar3.activity.widgets import StopButton
+from sugar3.graphics.toolbarbox import ToolbarButton
+from sugar3.graphics.alert import NotifyAlert
 
 from gettext import gettext as _
 
 import logging
 _logger = logging.getLogger('abacus-activity')
 
-from abacus_window import Abacus
+from abacus_window import Abacus, Custom
 from toolbar_utils import separator_factory, radio_factory, label_factory, \
     button_factory, spin_factory
+
+
+NAMES = {'suanpan': _('Suanpan'),
+         'soroban': _('Soroban'),
+         'decimal': _('Decimal'),
+         'nepohualtzintzin': _('Nepohualtzintzin'),
+         'hexadecimal': _('Hexadecimal'),
+         'binary': _('Binary'),
+         'schety': _('Schety'),
+         'fraction': _('Fraction'),
+         'caacupe': _('Caacupé'),
+         'cuisenaire': _('Rods'),
+         'custom': _('Custom')
+         }
 
 
 class AbacusActivity(activity.Activity):
@@ -42,6 +54,7 @@ class AbacusActivity(activity.Activity):
         ''' Initiate activity. '''
         super(AbacusActivity, self).__init__(handle)
 
+        self._setting_up = True
         self.bead_colors = profile.get_color().to_string().split(',')
 
         # no sharing
@@ -51,128 +64,116 @@ class AbacusActivity(activity.Activity):
         custom_toolbar = Gtk.Toolbar()
         edit_toolbar = Gtk.Toolbar()
 
-        if HAS_TOOLBARBOX:
-            # Use 0.86 toolbar design
-            toolbox = ToolbarBox()
+        toolbox = ToolbarBox()
 
-            activity_button = ActivityToolbarButton(self)
-            toolbox.toolbar.insert(activity_button, 0)
-            activity_button.show()
+        activity_button = ActivityToolbarButton(self)
+        toolbox.toolbar.insert(activity_button, 0)
+        activity_button.show()
 
-            edit_toolbar_button = ToolbarButton(label=_('Edit'),
-                                                page=edit_toolbar,
-                                                icon_name='toolbar-edit')
-            edit_toolbar_button.show()
-            toolbox.toolbar.insert(edit_toolbar_button, -1)
-            edit_toolbar_button.show()
+        edit_toolbar_button = ToolbarButton(label=_('Edit'),
+                                            page=edit_toolbar,
+                                            icon_name='toolbar-edit')
+        edit_toolbar_button.show()
+        toolbox.toolbar.insert(edit_toolbar_button, -1)
+        edit_toolbar_button.show()
 
-            abacus_toolbar_button = ToolbarButton(
-                    page=abacus_toolbar,
-                    icon_name='abacus-list')
-            abacus_toolbar.show()
-            toolbox.toolbar.insert(abacus_toolbar_button, -1)
-            abacus_toolbar_button.show()
+        abacus_toolbar_button = ToolbarButton(
+            page=abacus_toolbar,
+            icon_name='abacus-list')
+        abacus_toolbar.show()
+        toolbox.toolbar.insert(abacus_toolbar_button, -1)
+        abacus_toolbar_button.show()
 
-            custom_toolbar_button = ToolbarButton(
-                    page=custom_toolbar,
-                    icon_name='view-source')
-            custom_toolbar.show()
-            toolbox.toolbar.insert(custom_toolbar_button, -1)
-            custom_toolbar_button.show()
+        custom_toolbar_button = ToolbarButton(
+            page=custom_toolbar,
+            icon_name='view-source')
+        custom_toolbar.show()
+        toolbox.toolbar.insert(custom_toolbar_button, -1)
+        custom_toolbar_button.show()
 
-            separator_factory(toolbox.toolbar, False, True)
+        separator_factory(toolbox.toolbar, False, True)
 
-            button_factory('edit-delete', toolbox.toolbar,
-                           self._reset_cb, tooltip=_('Reset'))
+        button_factory('edit-delete', toolbox.toolbar,
+                       self._reset_cb, tooltip=_('Reset'))
 
-            separator_factory(toolbox.toolbar, True, False)
+        separator_factory(toolbox.toolbar, False, True)
 
-            stop_button = StopButton(self)
-            stop_button.props.accelerator = _('<Ctrl>Q')
-            toolbox.toolbar.insert(stop_button, -1)
-            stop_button.show()
+        self._label = label_factory(NAMES['suanpan'], toolbox.toolbar)
+        '''
+        # FIXME: Temporary fix to style problem
+        attr = Pango.AttrList()
+        # fg_color = Pango.AttrForeground(65535, 65535, 65535, 0, -1)
+        fg_color = Pango.pango_attr_foreground_new(65535, 65535, 65535)
+        attr.insert(fg_color)
+        self._label.set_attributes(attr)
+        '''
 
-            self.set_toolbar_box(toolbox)
-            toolbox.show()
+        separator_factory(toolbox.toolbar, True, False)
 
-        else:
-            # Use pre-0.86 toolbar design
-            toolbox = activity.ActivityToolbox(self)
-            self.set_toolbox(toolbox)
+        stop_button = StopButton(self)
+        stop_button.props.accelerator = _('<Ctrl>Q')
+        toolbox.toolbar.insert(stop_button, -1)
+        stop_button.show()
 
-            toolbox.add_toolbar(_('Project'), abacus_toolbar)
-            toolbox.add_toolbar(_('Custom'), custom_toolbar)
-            toolbox.add_toolbar(_('Edit'), edit_toolbar)
-
-            button_factory('edit-delete', edit_toolbar,
-                           self._reset_cb, tooltip=_('Reset'))
-
-            separator_factory(edit_toolbar, False, True)
-
-            toolbox.set_current_toolbar(1)
-
-            # no sharing
-            if hasattr(toolbox, 'share'):
-                toolbox.share.hide()
-            elif hasattr(toolbox, 'props'):
-                toolbox.props.visible = False
+        self.set_toolbar_box(toolbox)
+        toolbox.show()
 
         # TRANS: simple decimal abacus
         self.decimal = radio_factory('decimal', abacus_toolbar,
                                      self._radio_cb, cb_arg='decimal',
-                                     tooltip=_('Decimal'),
+                                     tooltip=NAMES['decimal'],
                                      group=None)
 
         # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
         self.japanese = radio_factory('soroban', abacus_toolbar,
-                                      self._radio_cb, cb_arg='japanese',
+                                      self._radio_cb, cb_arg='soroban',
                                       tooltip=_('Soroban'),
                                       group=self.decimal)
 
         # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
         self.chinese = radio_factory('suanpan', abacus_toolbar,
-                                     self._radio_cb, cb_arg='chinese',
-                                     tooltip=_('Suanpan'),
+                                     self._radio_cb, cb_arg='suanpan',
+                                     tooltip=NAMES['suanpan'],
                                      group=self.decimal)
 
         separator_factory(abacus_toolbar)
 
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
         self.mayan = radio_factory('nepohualtzintzin', abacus_toolbar,
-                                   self._radio_cb, cb_arg='mayan',
-                                   tooltip=_('Nepohualtzintzin'),
+                                   self._radio_cb, cb_arg='nepohualtzintzin',
+                                   tooltip=NAMES['nepohualtzintzin'],
                                    group=self.decimal)
 
         # TRANS: hexidecimal abacus
         self.hex = radio_factory('hexadecimal', abacus_toolbar,
-                                 self._radio_cb, cb_arg='hex',
-                                 tooltip=_('Hexadecimal'),
+                                 self._radio_cb, cb_arg='hexadecimal',
+                                 tooltip=NAMES['hexadecimal'],
                                  group=self.decimal)
 
         # TRANS: binary abacus
         self.binary = radio_factory('binary', abacus_toolbar,
                                     self._radio_cb, cb_arg='binary',
-                                    tooltip=_('Binary'),
+                                    tooltip=NAMES['binary'],
                                     group=self.decimal)
 
         separator_factory(abacus_toolbar)
 
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
         self.russian = radio_factory('schety', abacus_toolbar,
-                                     self._radio_cb, cb_arg='russian',
-                                     tooltip=_('Schety'),
+                                     self._radio_cb, cb_arg='schety',
+                                     tooltip=NAMES['schety'],
                                      group=self.decimal)
 
         # TRANS: abacus for adding fractions
         self.fraction = radio_factory('fraction', abacus_toolbar,
                                       self._radio_cb, cb_arg='fraction',
-                                      tooltip=_('Fraction'),
+                                      tooltip=NAMES['fraction'],
                                       group=self.decimal)
 
         # TRANS: Abacus invented by teachers in Caacupé, Paraguay
         self.caacupe = radio_factory('caacupe', abacus_toolbar,
                                      self._radio_cb, cb_arg='caacupe',
-                                     tooltip=_('Caacupé'),
+                                     tooltip=NAMES['caacupe'],
                                      group=self.decimal)
 
         separator_factory(abacus_toolbar)
@@ -181,14 +182,15 @@ class AbacusActivity(activity.Activity):
         self.cuisenaire = radio_factory('cuisenaire', abacus_toolbar,
                                         self._radio_cb,
                                         cb_arg='cuisenaire',
-                                        tooltip=_('Rods'), group=self.decimal)
+                                        tooltip=NAMES['cuisenaire'],
+                                        group=self.decimal)
 
         separator_factory(abacus_toolbar)
 
         self.custom = radio_factory('custom', abacus_toolbar,
                                     self._radio_cb,
                                     cb_arg='custom',
-                                    tooltip=_('Custom'), group=self.decimal)
+                                    tooltip=NAMES['custom'], group=self.decimal)
 
         # TRANS: Number of rods on the abacus
         self._rods_label = label_factory(_('Rods:') + ' ', custom_toolbar)
@@ -223,11 +225,8 @@ class AbacusActivity(activity.Activity):
         button_factory('edit-paste', edit_toolbar, self._paste_cb,
                        tooltip=_('Paste'), accelerator='<Ctrl>v')
 
-        if HAS_TOOLBARBOX:
-            # start with abacus toolbar expanded
-            abacus_toolbar_button.set_expanded(True)
-        else:
-            self.toolbox.show()
+        # start with abacus toolbar expanded
+        abacus_toolbar_button.set_expanded(True)
 
         self.chinese.set_active(True)
 
@@ -241,6 +240,8 @@ class AbacusActivity(activity.Activity):
 
         # Initialize the canvas
         self.abacus = Abacus(canvas, self)
+
+        self._setting_up = False
 
         # Read the current mode from the Journal
         if 'rods' in self.metadata:
@@ -257,19 +258,19 @@ class AbacusActivity(activity.Activity):
             # Default is Chinese
             _logger.debug('restoring %s', self.metadata['abacus'])
             if self.metadata['abacus'] == 'soroban':
-                self._select_abacus('japanese')
+                self._select_abacus('soroban')
                 self.japanese.set_active(True)
             elif self.metadata['abacus'] == 'schety':
-                self._select_abacus('russian')
+                self._select_abacus('schety')
                 self.russian.set_active(True)
             elif self.metadata['abacus'] == 'nepohualtzintzin':
-                self._select_abacus('mayan')
+                self._select_abacus('nepohualtzintzin')
                 self.mayan.set_active(True)
             elif self.metadata['abacus'] == 'binary':
                 self._select_abacus('binary')
                 self.binary.set_active(True)
             elif self.metadata['abacus'] == 'hexadecimal':
-                self._select_abacus('hex')
+                self._select_abacus('hexadecimal')
                 self.hex.set_active(True)
             elif self.metadata['abacus'] == 'fraction':
                 self._select_abacus('fraction')
@@ -298,13 +299,45 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.reset_abacus()
         self.abacus.mode.label(self.abacus.generate_label())
 
+    def _notify_new_abacus(self, prompt):
+        ''' Loading a new abacus can be slooow, so alert the user. '''
+        alert = NotifyAlert(3)
+        alert.props.title = prompt
+        alert.props.msg = _('A new abacus is loading.')
+
+        # FIXME: set color of text for alert due to style bug
+        def _notification_alert_response_cb(alert, response_id, self):
+            self.remove_alert(alert)
+
+        alert.connect('response', _notification_alert_response_cb, self)
+        self.add_alert(alert)
+        alert.show()
+
     def _select_abacus(self, abacus):
         ''' Display the selected abacus; hide the others '''
         if not hasattr(self, 'abacus'):
             return
-        if abacus == 'custom' and self.abacus.custom is None:
+        if self._setting_up:
+            return
+        if self.abacus.mode.name == abacus:
+            return
+
+        self._notify_new_abacus(NAMES[abacus])
+        # Give the alert time to load
+        GObject.timeout_add(1000, self._switch_modes, abacus)
+
+    def _switch_modes(self, abacus):
+        # Save current value
+        value = int(float(self.abacus.mode.value()))
+        if abacus == 'custom':
             self._custom_cb()
-        self.abacus.select_abacus(abacus)
+            self.abacus.mode = self.abacus.custom
+        else:
+            self.abacus.select_abacus(abacus)
+        # Load saved value
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
+        self._label.set_text(NAMES[abacus])
 
     def _rods_spin_cb(self, button=None):
         return
@@ -321,20 +354,26 @@ class AbacusActivity(activity.Activity):
     def _base_spin_cb(self, button=None):
         return
 
+
     def _custom_cb(self, button=None):
         ''' Display the custom abacus; hide the others '''
         value = float(self.abacus.mode.value(count_beads=False))
+        self.abacus.mode.hide()
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
-        self.abacus.custom = Custom(self.abacus,
-                                    self._rods_spin.get_value_as_int(),
-                                    self._top_spin.get_value_as_int(),
-                                    self._bottom_spin.get_value_as_int(),
-                                    self._value_spin.get_value_as_int(),
-                                    self._base_spin.get_value_as_int(),
-                                    self.bead_colors)
+        self.abacus.custom = Custom(self.abacus, self.abacus.bead_colors)
+        self.abacus.custom.set_custom_parameters(
+            rods=self._rods_spin.get_value_as_int(),
+            top=self._top_spin.get_value_as_int(),
+            bot=self._bottom_spin.get_value_as_int(),
+            factor=self._value_spin.get_value_as_int(),
+            base=self._base_spin.get_value_as_int())
+        self.abacus.custom.create()
+        self.abacus.custom.draw_rods_and_beads()
+        self.abacus.custom.show()
+        self.abacus.mode = self.abacus.custom
         self.custom.set_active(True)
-        self.abacus.select_abacus('custom')
+        self._label.set_text(NAMES['custom'])
 
     def _copy_cb(self, arg=None):
         ''' Copy a number to the clipboard from the active abacus. '''
