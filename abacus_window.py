@@ -196,9 +196,6 @@ class Bead():
 
     def __init__(self):
         self.spr = None
-        self.hard_reset()
-
-    def hard_reset(self):
         self.state = 0
         self.fade_level = 0
         self.value = 0
@@ -236,11 +233,12 @@ class Bead():
         if self.spr is not None:
             self.spr.set_layer(BEAD_LAYER)
 
-    def move(self, offset):
+    def move(self, offset, move_the_bead=True):
         ''' Generic move method: sets state and level. '''
         if self.spr is None:
             return
-        self.spr.move_relative((0, offset))
+        if move_the_bead:
+            self.spr.move_relative((0, offset))
         if not self.tristate:
             self.state = 1 - self.state
         elif self.state == 1:  # moving bead back to center
@@ -626,12 +624,10 @@ class Rod():
         if i == -1:
             return False
 
+        if self.fade and self.beads[self._bead_count + i].max_fade_level > 0:
+            self.beads[self._bead_count + i].set_color(self.white_beads[3])
         if i < self.top_beads:
             if dy > 0 and self.beads[self._bead_count + i].get_state() == 0:
-                if self.fade and \
-                   self.beads[self._bead_count + i].max_fade_level > 0:
-                    self.beads[self._bead_count + i].set_color(
-                        self.white_beads[3])
                 self.beads[self._bead_count + i].move_down()
                 # Make sure beads below this bead are also moved.
                 for ii in range(self.top_beads - i):
@@ -642,10 +638,6 @@ class Rod():
                                 self.white_beads[3])
                         self.beads[self._bead_count + i + ii].move_down()
             elif dy < 0 and self.beads[self._bead_count + i].state == 1:
-                if self.fade and \
-                   self.beads[self._bead_count + i].max_fade_level > 0:
-                    self.beads[self._bead_count + i].set_color(
-                        self.white_beads[3])
                 self.beads[self._bead_count + i].move_up()
                 # Make sure beads above this bead are also moved.
                 for ii in range(i + 1):
@@ -657,10 +649,6 @@ class Rod():
                         self.beads[self._bead_count + i - ii].move_up()
         else:
             if dy < 0 and self.beads[self._bead_count + i].state == 0:
-                if self.fade and \
-                   self.beads[self._bead_count + i].max_fade_level > 0:
-                    self.beads[self._bead_count + i].set_color(
-                        self.white_beads[3])
                 self.beads[self._bead_count + i].move_up()
                 # Make sure beads above this bead are also moved.
                 for ii in range(i - self.top_beads + 1):
@@ -671,10 +659,6 @@ class Rod():
                                 self.white_beads[3])
                         self.beads[self._bead_count + i - ii].move_up()
             elif dy < 0 and self.beads[self._bead_count + i].state == -1:
-                if self.fade and \
-                   self.beads[self._bead_count + i].max_fade_level > 0:
-                    self.beads[self._bead_count + i].set_color(
-                        self.white_beads[3])
                 self.beads[self._bead_count + i].move_up()
                 for ii in range(i - self.top_beads + 1):
                     if self.beads[self._bead_count + i - ii].state == -1:
@@ -684,10 +668,6 @@ class Rod():
                                 self.white_beads[3])
                         self.beads[self._bead_count + i - ii].move_up()
             elif dy > 0 and self.beads[self._bead_count + i].state == 1:
-                if self.fade and \
-                   self.beads[self._bead_count + i].max_fade_level > 0:
-                    self.beads[self._bead_count + i].set_color(
-                        self.white_beads[3])
                 self.beads[self._bead_count + i].move_down()
                 # Make sure beads below this bead are also moved.
                 for ii in range(self.top_beads + self.bot_beads - i):
@@ -699,10 +679,6 @@ class Rod():
                         self.beads[self._bead_count + i + ii].move_down()
             elif dy > 0 and self.beads[self._bead_count + i].state == 0 and \
                     self.beads[self._bead_count + i].tristate:
-                if self.fade and \
-                   self.beads[self._bead_count + i].max_fade_level > 0:
-                    self.beads[self._bead_count + i].set_color(
-                        self.white_beads[3])
                 self.beads[self._bead_count + i].move_down()
                 # Make sure beads below this bead are also moved.
                 for ii in range(self.top_beads + self.bot_beads - i):
@@ -714,6 +690,7 @@ class Rod():
                         self.beads[self._bead_count + i + ii].move_down()
 
         self.set_label(self.get_bead_count())
+
 
     def set_label(self, n):
         ''' Different abaci use different labeling schemes. '''
@@ -778,16 +755,30 @@ class Abacus():
                             _svg_str_to_pixbuf(background_svg))
         background.set_layer(1)
 
-        self.japanese = None
-        self.russian = None
-        self.mayan = None
-        self.binary = None
-        self.hex = None
         self.decimal = None
+        self.japanese = None
+        self.chinese = None
+        self.mayan = None
+        self.hex = None
+        self.binary = None
+        self.russian = None
         self.fraction = None
         self.caacupe = None
         self.cuisenaire = None
         self.custom = None
+
+        self.mode_dict = {'decimal': [self.decimal, Decimal],
+                          'soroban': [self.japanese, Soroban],
+                          'suanpan': [self.chinese, Suanpan],
+                          'nepohualtzintzin': [self.mayan, Nepohualtzintzin],
+                          'hexadecimal': [self.hex, Hex],
+                          'binary': [self.binary, Binary],
+                          'schety': [self.russian, Schety],
+                          'fraction': [self.fraction, Fractions],
+                          'caacupe': [self.caacupe, Caacupe],
+                          'cuisenaire': [self.cuisenaire, Cuisenaire],
+                          'custom': [self.custom, Custom]
+                          }
 
         self.bead_cache = []
         for i in range(MAX_BEADS):
@@ -804,30 +795,12 @@ class Abacus():
     def select_abacus(self, abacus):
         self.mode.hide()
 
-        '''
-        for bead in self.bead_cache:
-            bead.hide()
-        for rod in self.rod_cache:
-            rod.hide()
-        '''
-
-        MODE_DICT = {'decimal': [self.decimal, Decimal],
-                     'soroban': [self.japanese, Soroban],
-                     'suanpan': [self.chinese, Suanpan],
-                     'nepohualtzintzin': [self.mayan, Nepohualtzintzin],
-                     'hexadecimal': [self.hex, Hex],
-                     'binary': [self.binary, Binary],
-                     'schety': [self.russian, Schety],
-                     'fraction': [self.fraction, Fractions],
-                     'caacupe': [self.caacupe, Caacupe],
-                     'cuisenaire': [self.cuisenaire, Cuisenaire],
-                     'custom': [self.custom, Custom]
-                     }
-        if MODE_DICT[abacus][0] is None:
-            MODE_DICT[abacus][0] = MODE_DICT[abacus][1](self, self.bead_colors)
+        if self.mode_dict[abacus][0] is None:
+            self.mode_dict[abacus][0] = self.mode_dict[abacus][1](
+                self, self.bead_colors)
         else:
-            MODE_DICT[abacus][0].draw_rods_and_beads()
-        self.mode = MODE_DICT[abacus][0]
+            self.mode_dict[abacus][0].draw_rods_and_beads()
+        self.mode = self.mode_dict[abacus][0]
         self.mode.show()
         self.mode.label(self.generate_label())
 
@@ -1046,14 +1019,14 @@ class AbacusGeneric():
         self.set_parameters()
         self.create()
 
-    def set_parameters(self):
+    def set_parameters(self, rods=15, top=2, bot=5, factor=5, base=10):
         ''' Define the physical paramters. '''
         self.name = 'suanpan'
-        self.num_rods = 15
-        self.bot_beads = 5
-        self.top_beads = 2
-        self.base = 10
-        self.top_factor = 5
+        self.num_rods = rods
+        self.bot_beads = top
+        self.top_beads = bot
+        self.top_factor = factor
+        self.base = base
 
     def create(self, dots=False):
         ''' Create and position the sprites that compose the abacus '''
@@ -1318,28 +1291,25 @@ class AbacusGeneric():
 class Custom(AbacusGeneric):
     ''' A custom-made abacus '''
 
-    def __init__(self, abacus, rods=15, top=2, bot=5, factor=5, base=10,
-                 bead_colors=None):
+    def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
+        self.name = 'custom'
+        self.num_rods = 15
+        self.bot_beads = 5
+        self.top_beads = 2
+        self.top_factor = 5
+        self.base = 10
         self.bead_colors = bead_colors
+
+    def set_custom_parameters(self, rods=15, top=2, bot=5, factor=5, base=10):
+        ''' Specify parameters that define the abacus '''
         self.name = 'custom'
         self.num_rods = rods
         self.bot_beads = bot
         self.top_beads = top
-        self.base = base
         self.top_factor = factor
-        self.set_parameters()
-        self.create()
-
-    def set_parameters(self):
-        ''' Specify parameters that define the abacus '''
-        self.name = 'custom'
-        _logger.debug('custom %d %d %d %d %d' % (self.num_rods,
-                                          self.bot_beads,
-                                          self.top_beads,
-                                          self.base,
-                                          self.top_factor))
+        self.base = base
 
 
 class Nepohualtzintzin(AbacusGeneric):
@@ -1401,8 +1371,15 @@ class Soroban(AbacusGeneric):
         self.base = 10
         self.top_factor = 5
 
-    def draw_rods_and_beads(self, x, y):
+    def draw_rods_and_beads(self, x=None, y=None):
         ''' Draw the rods and beads: units offset to center'''
+        if x is None:
+            x = self.rod_x
+            y = self.rod_y
+        else:
+            self.rod_x = x
+            self.rod_y = y
+
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         bead_count = 0
@@ -1462,8 +1439,14 @@ class Decimal(AbacusGeneric):
         self.base = 10
         self.top_factor = 1
 
-    def draw_rods_and_beads(self, x, y):
+    def draw_rods_and_beads(self, x=None, y=None):
         ''' Draw the rods and beads: override bead color'''
+        if x is None:
+            x = self.rod_x
+            y = self.rod_y
+        else:
+            self.rod_x = x
+            self.rod_y = y
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         bead_count = 0
@@ -1527,8 +1510,14 @@ class Schety(AbacusGeneric):
         self.base = 10
         self.top_factor = 1
 
-    def draw_rods_and_beads(self, x, y):
+    def draw_rods_and_beads(self, x=None, y=None):
         ''' Draw the rods and beads: short column for 1/4 '''
+        if x is None:
+            x = self.rod_x
+            y = self.rod_y
+        else:
+            self.rod_x = x
+            self.rod_y = y
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         bead_count = 0
@@ -1570,8 +1559,14 @@ class Fractions(Schety):
         self.base = 10
         self.top_factor = 1
 
-    def draw_rods_and_beads(self, x, y):
-        ''' Draw the rods and beads: short column for 1/4 '''
+    def draw_rods_and_beads(self, x=None, y=None):
+        ''' Draw the rods and beads: short columns for fractions '''
+        if x is None:
+            x = self.rod_x
+            y = self.rod_y
+        else:
+            self.rod_x = x
+            self.rod_y = y
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         bead_count = 0
@@ -1619,8 +1614,14 @@ class Caacupe(Fractions):
         self.base = 10
         self.top_factor = 1
 
-    def draw_rods_and_beads(self, x, y):
-        ''' Draw the rods and beads: short column for 1/4 '''
+    def draw_rods_and_beads(self, x=None, y=None):
+        ''' Draw the rods and beads: short columns for fractions '''
+        if x is None:
+            x = self.rod_x
+            y = self.rod_y
+        else:
+            self.rod_x = x
+            self.rod_y = y
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         bead_count = 0
@@ -1668,8 +1669,14 @@ class Cuisenaire(Caacupe):
         self.base = 10
         self.top_factor = 1
 
-    def draw_rods_and_beads(self, x, y):
-        ''' Draw the rods and beads: short column for 1/4 '''
+    def draw_rods_and_beads(self, x=None, y=None):
+        ''' Draw the rods and beads: short columns for fractions '''
+        if x is None:
+            x = self.rod_x
+            y = self.rod_y
+        else:
+            self.rod_x = x
+            self.rod_y = y
         dx = (BEAD_WIDTH + BEAD_OFFSET) * self.abacus.scale
         ro = (BEAD_WIDTH + 5) * self.abacus.scale / 2
         bead_count = 0

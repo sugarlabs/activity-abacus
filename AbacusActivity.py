@@ -380,17 +380,21 @@ class AbacusActivity(activity.Activity):
     def _custom_cb(self, button=None):
         ''' Display the custom abacus; hide the others '''
         value = float(self.abacus.mode.value(count_beads=False))
+        self.abacus.mode.hide()
         if self.abacus.custom is not None:
             self.abacus.custom.hide()
-        self.abacus.custom = Custom(self.abacus,
-                                    rods=self._rods_spin.get_value_as_int(),
-                                    top=self._top_spin.get_value_as_int(),
-                                    bot=self._bottom_spin.get_value_as_int(),
-                                    factor=self._value_spin.get_value_as_int(),
-                                    base=self._base_spin.get_value_as_int(),
-                                    bead_colors=self.bead_colors)
+        self.abacus.custom = Custom(self.abacus, self.abacus.bead_colors)
+        self.abacus.custom.set_custom_parameters(
+            rods=self._rods_spin.get_value_as_int(),
+            top=self._top_spin.get_value_as_int(),
+            bot=self._bottom_spin.get_value_as_int(),
+            factor=self._value_spin.get_value_as_int(),
+            base=self._base_spin.get_value_as_int())
+        self.abacus.custom.create()
+        self.abacus.custom.draw_rods_and_beads()
+        self.abacus.custom.show()
+        self.abacus.mode = self.abacus.custom
         self.custom.set_active(True)
-        self.abacus.select_abacus('custom')
         self._label.set_text(NAMES['custom'])
 
     def _copy_cb(self, arg=None):

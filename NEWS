@@ -1,12 +1,23 @@
+30.3
+
+ENHANCEMENTS
+* New translations
+* Notify user of delay in loading new abacus
+* Display abacus name on toolbar
+
+BUG_FIXES:
+* Refactoring to fix problem with excessive memory usage
+* Don't allow custom abacus larger than screen
+
 30.2
 
 ENHANCEMENT
-* new translations
+* New translations
 
 30.1
 
 ENHANCEMENT
-* new translations
+* New translations
 
 30
 
@@ -17,57 +28,57 @@ UNDER THE HOOD
 29
 
 ENHANCEMENT
-* conversion to Cairo graphics
+* Conversion to Cairo graphics
 
 28
 
 ENHANCEMENTS
-* new translations
-* improved? labeling scheme
+* New translations
+* Improved? labeling scheme
 
 27
 
 ENHANCEMENTS
-* use gear emblem instead of star emblem on custom abacus icon
+* Use gear emblem instead of star emblem on custom abacus icon
 
 BUG FIX
-* custom tool now updates radio button to indicate custom abacus is selected
+* Custom tool now updates radio button to indicate custom abacus is selected
 
 26
 
 ENHANCEMENTS
-* added button for selecting custom abacus
-* added colors to custom abacus
+* Added button for selecting custom abacus
+* Added colors to custom abacus
 
 BUG FIX
-* fixed problem generating custom abacus under new refactoring
+* Fixed problem generating custom abacus under new refactoring
 
 25
 
 EHNANCEMENTS
-* using profile colors for bead colors
-* moved units of Soroban to center of abacus
-* added dots to Soroban
-* added reset button to toolbar and removed it from the abacus itself
-* move calculation to above the abacus rather than on the crossbar
+* Using profile colors for bead colors
+* Moved units of Soroban to center of abacus
+* Added dots to Soroban
+* Added reset button to toolbar and removed it from the abacus itself
+* Move calculation to above the abacus rather than on the crossbar
 
 24
 
 ENHANCEMENTS
-* new translations
+* New translations
 
 23
 
 ENHANCEMENTS
-* new translations
-* updated icons
+* New translations
+* Updated icons
 
 22
 
 ENHANCEMENTS
-* new translations for de, hy, ku, nah, nl, and tzm
-* updated toolbars and icons
-* label text uses ellipsis instead of shrinking
+* New translations for de, hy, ku, nah, nl, and tzm
+* Updated toolbars and icons
+* Label text uses ellipsis instead of shrinking
 
 21
 
@@ -78,88 +89,88 @@ BUG FIX
 20
 
 ENHANCEMENTS
-* icon cleanup
-* white background
+* Icon cleanup
+* White background
 
 BUG FIXES
-* fixed problem with beads falling off abacus (#2933)
-* fixed problem with launching from GNOME shell
+* Fixed problem with beads falling off abacus (#2933)
+* Fixed problem with launching from GNOME shell
 
 19
 
-* type in values, copy/paste from clipboard
-* abacus value propogates as you move between abaci
+* Type in values, copy/paste from clipboard
+* Abacus value propogates as you move between abaci
 
 18
 
-* optimization of redraw code
+* Optimization of redraw code
 * Spanish translations
 
 17
 
-* fixed problem with moving multiple beads on decimal abacus
-* fixed hide problem with desktop version
+* Fixed problem with moving multiple beads on decimal abacus
+* Fixed hide problem with desktop version
 
 16
 
-* added color to Decimal abacus
+* Added color to Decimal abacus
 
 15
 
-* added "Caacupe" abacus
-* added Cuisenaire-like abacus 
+* Added "Caacupe" abacus
+* Added Cuisenaire-like abacus 
 
 14
 
-* simplifed toolbars
+* Simplifed toolbars
 
 13
 
-* added save/restore for custom abacus
+* Added save/restore for custom abacus
 
 12
 
-* decimal abacus
-* reset button
+* Decimal abacus
+* Reset button
 
 11
 
-* performance improvement in label code
+* Performance improvement in label code
 
 10
 
-* added labels to the beads (with inspiration and help from tuukkah)
+* Added labels to the beads (with inspiration and help from tuukkah)
 
 9
 
-* customization toolbar -- design your own abacus
+* Customization toolbar -- design your own abacus
 
 8
 
-* added hexadecimal
-* code cleanup to make it easier to modify/extend
+* Added hexadecimal
+* Code cleanup to make it easier to modify/extend
 
 7
 
-* fixed restore bug with fraction abacus
-* added missing type to rods
+* Fixed restore bug with fraction abacus
+* Added missing type to rods
 
 6
 
-* added binary abacus
-* added fraction abacus
-* autogenerate SVG
-* general code clean-up/consolidation
+* Added binary abacus
+* Added fraction abacus
+* Autogenerate SVG
+* General code clean-up/consolidation
 
 5
 
-* highlight recently moved beads
-* fixed scaling problem with rods, dividing bar
+* Highlight recently moved beads
+* Fixed scaling problem with rods, dividing bar
 
 4
 
-* save/restore abacus value
-* movable indicator
+* Save/restore abacus value
+* Movable indicator
 
 3
 
