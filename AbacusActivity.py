@@ -43,18 +43,24 @@ from toolbar_utils import separator_factory, radio_factory, label_factory, \
     button_factory, spin_factory
 
 
-NAMES = {'suanpan': _('Suanpan'),
-         'soroban': _('Soroban'),
-         'decimal': _('Decimal'),
-         'nepohualtzintzin': _('Nepohualtzintzin'),
-         'hexadecimal': _('Hexadecimal'),
-         'binary': _('Binary'),
-         'schety': _('Schety'),
-         'fraction': _('Fraction'),
-         'caacupe': _('Caacupé'),
-         'cuisenaire': _('Rods'),
-         'custom': _('Custom')
-         }
+NAMES = {
+    # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
+    'suanpan': _('Suanpan'),
+    # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
+    'soroban': _('Soroban'),
+    'decimal': _('Decimal'),
+    # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci)
+    'nepohualtzintzin': _('Nepohualtzintzin'),
+    'hexadecimal': _('Hexadecimal'),
+    'binary': _('Binary'),
+    # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
+    'schety': _('Schety'),
+    'fraction': _('Fraction'),
+    # TRANS: Caacupé is an abacus invented by teachers in Caacupé, Paraguay
+    'caacupe': _('Caacupé'),
+    'cuisenaire': _('Rods'),
+    'custom': _('Custom')
+    }
 
 class AbacusActivity(activity.Activity):
 
@@ -144,19 +150,16 @@ class AbacusActivity(activity.Activity):
             elif hasattr(toolbox, 'props'):
                 toolbox.props.visible = False
 
-        # TRANS: simple decimal abacus
         self.decimal = radio_factory('decimal', abacus_toolbar,
                                      self._radio_cb, cb_arg='decimal',
                                      tooltip=NAMES['decimal'],
                                      group=None)
 
-        # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
         self.japanese = radio_factory('soroban', abacus_toolbar,
                                       self._radio_cb, cb_arg='soroban',
                                       tooltip=_('Soroban'),
                                       group=self.decimal)
 
-        # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
         self.chinese = radio_factory('suanpan', abacus_toolbar,
                                      self._radio_cb, cb_arg='suanpan',
                                      tooltip=NAMES['suanpan'],
@@ -164,19 +167,16 @@ class AbacusActivity(activity.Activity):
 
         separator_factory(abacus_toolbar)
 
-        # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
         self.mayan = radio_factory('nepohualtzintzin', abacus_toolbar,
                                    self._radio_cb, cb_arg='nepohualtzintzin',
                                    tooltip=NAMES['nepohualtzintzin'],
                                    group=self.decimal)
 
-        # TRANS: hexidecimal abacus
         self.hex = radio_factory('hexadecimal', abacus_toolbar,
                                  self._radio_cb, cb_arg='hexadecimal',
                                  tooltip=NAMES['hexadecimal'],
                                  group=self.decimal)
 
-        # TRANS: binary abacus
         self.binary = radio_factory('binary', abacus_toolbar,
                                     self._radio_cb, cb_arg='binary',
                                     tooltip=NAMES['binary'],
@@ -184,19 +184,16 @@ class AbacusActivity(activity.Activity):
 
         separator_factory(abacus_toolbar)
 
-        # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
         self.russian = radio_factory('schety', abacus_toolbar,
                                      self._radio_cb, cb_arg='schety',
                                      tooltip=NAMES['schety'],
                                      group=self.decimal)
 
-        # TRANS: abacus for adding fractions
         self.fraction = radio_factory('fraction', abacus_toolbar,
                                       self._radio_cb, cb_arg='fraction',
                                       tooltip=NAMES['fraction'],
                                       group=self.decimal)
 
-        # TRANS: Abacus invented by teachers in Caacupé, Paraguay
         self.caacupe = radio_factory('caacupe', abacus_toolbar,
                                      self._radio_cb, cb_arg='caacupe',
                                      tooltip=NAMES['caacupe'],
@@ -204,7 +201,6 @@ class AbacusActivity(activity.Activity):
 
         separator_factory(abacus_toolbar)
 
-        # TRANS: Cuisenaire Rods
         self.cuisenaire = radio_factory('cuisenaire', abacus_toolbar,
                                         self._radio_cb,
                                         cb_arg='cuisenaire',
@@ -238,8 +234,6 @@ class AbacusActivity(activity.Activity):
         self._base_label = label_factory(custom_toolbar, _('Base:') + ' ')
         self._base_spin = spin_factory(10, 1, (MAX_TOP + 1) * MAX_BOT,
                                        self._base_spin_cb, custom_toolbar)
-
-        # separator_factory(custom_toolbar, False, False)
 
         self.custom_maker = button_factory('new-abacus', custom_toolbar,
                                            self._custom_cb,
