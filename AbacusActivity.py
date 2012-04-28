@@ -99,12 +99,7 @@ class AbacusActivity(activity.Activity):
 
         separator_factory(toolbox.toolbar, False, True)
 
-        self._label = label_factory(NAMES['suanpan'], toolbox.toolbar)
-        self._label.set_markup('<span foreground="white">foo<span>')
-        self._label.set_use_markup(True)
-        text = '<span foreground="%s">' % style.COLOR_WHITE.get_html() + \
-                    NAMES['suanpan'] + '</span>'
-        self._label.set_markup(text)
+        self._label = markup_label_factory(NAMES['suanpan'], toolbox.toolbar)
 
         separator_factory(toolbox.toolbar, True, False)
 
@@ -191,24 +186,28 @@ class AbacusActivity(activity.Activity):
                                     tooltip=NAMES['custom'], group=self.decimal)
 
         # TRANS: Number of rods on the abacus
-        self._rods_label = label_factory(_('Rods:') + ' ', custom_toolbar)
+        self._rods_label = markup_label_factory(_('Rods:') + ' ',
+                                                custom_toolbar)
         self._rods_spin = spin_factory(15, 1, 20, self._rods_spin_cb,
                                        custom_toolbar)
         # TRANS: Number of beads in the top section of the abacus
-        self._top_label = label_factory(_('Top:') + ' ', custom_toolbar)
+        self._top_label = markup_label_factory(_('Top:') + ' ',
+                                               custom_toolbar)
         self._top_spin = spin_factory(2, 0, 4, self._top_spin_cb,
                                       custom_toolbar)
         # TRANS: Number of beads in the bottom section of the abacus
-        self._bottom_label = label_factory(_('Bottom:') + ' ',
+        self._bottom_label = markup_label_factory(_('Bottom:') + ' ',
                                            custom_toolbar)
         self._bottom_spin = spin_factory(5, 1, 20, self._bottom_spin_cb,
                                          custom_toolbar)
         # TRANS: Scale factor between bottom and top beads
-        self._value_label = label_factory(_('Factor:') + ' ', custom_toolbar)
+        self._value_label = markup_label_factory(_('Factor:') + ' ',
+                                                 custom_toolbar)
         self._value_spin = spin_factory(5, 1, 20, self._value_spin_cb,
                                         custom_toolbar)
         # TRANS: Scale factor between rods
-        self._base_label = label_factory(_('Base:') + ' ', custom_toolbar)
+        self._base_label = markup_label_factory(_('Base:') + ' ',
+                                                custom_toolbar)
         self._base_spin = spin_factory(10, 1, 24, self._base_spin_cb,
                                        custom_toolbar)
 
@@ -336,9 +335,8 @@ class AbacusActivity(activity.Activity):
         # Load saved value
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
-        text = '<span foreground="%s">' % style.COLOR_WHITE.get_html() + \
-                    NAMES[abacus] + '</span>'
-        self._label.set_markup(text)
+        self._label.set_markup('<span foreground="%s">%s</span>' % (
+                style.COLOR_WHITE.get_html(), NAMES[abacus]))
 
     def _rods_spin_cb(self, button=None):
         return
@@ -373,7 +371,8 @@ class AbacusActivity(activity.Activity):
         self.abacus.custom.show()
         self.abacus.mode = self.abacus.custom
         self.custom.set_active(True)
-        self._label.set_text(NAMES['custom'])
+        self._label.set_markup('<span foreground="%s">%s</span>' % (
+                style.COLOR_WHITE.get_html(), NAMES['custom']))
 
     def _copy_cb(self, arg=None):
         ''' Copy a number to the clipboard from the active abacus. '''
@@ -407,3 +406,10 @@ class AbacusActivity(activity.Activity):
         self.metadata['bottom'] = str(self._bottom_spin.get_value_as_int())
         self.metadata['factor'] = str(self._value_spin.get_value_as_int())
         self.metadata['base'] = str(self._base_spin.get_value_as_int())
+
+def markup_label_factory(text, toolbar):
+    label = label_factory('', toolbar)
+    label.set_use_markup(True)
+    label.set_markup('<span foreground="%s">%s</span>' % (
+            style.COLOR_WHITE.get_html(), text))
+    return label
