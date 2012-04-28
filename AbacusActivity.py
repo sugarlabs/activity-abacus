@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#Copyright (c) 2010-11, Walter Bender
+#Copyright (c) 2010-12, Walter Bender
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ from sugar3.activity.widgets import ActivityToolbarButton
 from sugar3.activity.widgets import StopButton
 from sugar3.graphics.toolbarbox import ToolbarButton
 from sugar3.graphics.alert import NotifyAlert
+from sugar3.graphics import style
 
 from gettext import gettext as _
 
@@ -99,14 +100,11 @@ class AbacusActivity(activity.Activity):
         separator_factory(toolbox.toolbar, False, True)
 
         self._label = label_factory(NAMES['suanpan'], toolbox.toolbar)
-        '''
-        # FIXME: Temporary fix to style problem
-        attr = Pango.AttrList()
-        # fg_color = Pango.AttrForeground(65535, 65535, 65535, 0, -1)
-        fg_color = Pango.pango_attr_foreground_new(65535, 65535, 65535)
-        attr.insert(fg_color)
-        self._label.set_attributes(attr)
-        '''
+        self._label.set_markup('<span foreground="white">foo<span>')
+        self._label.set_use_markup(True)
+        text = '<span foreground="%s">' % style.COLOR_WHITE.get_html() + \
+                    NAMES['suanpan'] + '</span>'
+        self._label.set_markup(text)
 
         separator_factory(toolbox.toolbar, True, False)
 
@@ -314,7 +312,7 @@ class AbacusActivity(activity.Activity):
         alert.show()
 
     def _select_abacus(self, abacus):
-        ''' Display the selected abacus; hide the others '''
+        ''' Notify the user of an expected delay and then... '''
         if not hasattr(self, 'abacus'):
             return
         if self._setting_up:
@@ -327,6 +325,7 @@ class AbacusActivity(activity.Activity):
         GObject.timeout_add(1000, self._switch_modes, abacus)
 
     def _switch_modes(self, abacus):
+        ''' Display the selected abacus '''
         # Save current value
         value = int(float(self.abacus.mode.value()))
         if abacus == 'custom':
@@ -337,7 +336,9 @@ class AbacusActivity(activity.Activity):
         # Load saved value
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
-        self._label.set_text(NAMES[abacus])
+        text = '<span foreground="%s">' % style.COLOR_WHITE.get_html() + \
+                    NAMES[abacus] + '</span>'
+        self._label.set_markup(text)
 
     def _rods_spin_cb(self, button=None):
         return
@@ -353,7 +354,6 @@ class AbacusActivity(activity.Activity):
 
     def _base_spin_cb(self, button=None):
         return
-
 
     def _custom_cb(self, button=None):
         ''' Display the custom abacus; hide the others '''
