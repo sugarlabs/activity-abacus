@@ -307,6 +307,15 @@ class AbacusActivity(activity.Activity):
             self.remove_alert(alert)
 
         alert.connect('response', _notification_alert_response_cb, self)
+
+        alert._title_label.set_use_markup(True)
+        alert._title_label.set_markup('<span foreground="%s">%s</span>' % (
+            style.COLOR_WHITE.get_html(), alert.props.title))
+
+        alert._msg_label.set_use_markup(True)
+        alert._msg_label.set_markup('<span foreground="%s">%s</span>' % (
+            style.COLOR_WHITE.get_html(), alert.props.msg))
+
         self.add_alert(alert)
         alert.show()
 
