@@ -102,27 +102,7 @@ class AbacusMain:
 
         self.abacus = Abacus(canvas)
         self.abacus.win = self.win
-
         self.abacus.activity = self
-
-        self.abacus.japanese = Soroban(self.abacus)
-        self.abacus.japanese.hide()
-	self.abacus.russian = Schety(self.abacus)
-        self.abacus.russian.hide()
-	self.abacus.mayan = Nepohualtzintzin(self.abacus)
-        self.abacus.mayan.hide()
-	self.abacus.binary = Binary(self.abacus)
-        self.abacus.binary.hide()
-	self.abacus.hex = Hex(self.abacus)
-        self.abacus.hex.hide()
-	self.abacus.fraction = Fractions(self.abacus)
-        self.abacus.fraction.hide()
-	self.abacus.decimal = Decimal(self.abacus)
-        self.abacus.decimal.hide()
-        self.abacus.caacupe = Caacupe(self.abacus)
-        self.abacus.caacupe.hide()
-        self.abacus.cuisenaire = Cuisenaire(self.abacus)
-        self.abacus.cuisenaire.hide()
 
     def set_title(self, title):
         self.win.set_title(title)
@@ -130,25 +110,27 @@ class AbacusMain:
 
     def _switch_abacus_cb(self, widget, user):
 	ABACI = {
-		'b': self.abacus.binary,
-		'c': self.abacus.chinese,
-		'f': self.abacus.fraction,
-		'h': self.abacus.hex,
-		'j': self.abacus.japanese,
-		'm': self.abacus.mayan,
-		'r': self.abacus.russian,
-		'd': self.abacus.decimal,
-		'C': self.abacus.caacupe,
-		'R': self.abacus.cuisenaire
+		'b': 'binary',
+		'c': 'saupan',
+		'f': 'fraction',
+		'h': 'hexadecimal',
+		'j': 'soroban',
+		'm': 'nepohualtzintzin',
+		'r': 'schety',
+		'd': 'decimal',
+		'C': 'caacupe',
+		'R': 'cuisenaire'
 	}
-	self.abacus.mode.hide()
-	self.abacus.mode = ABACI[user]
-	self.abacus.mode.show()
+        value = int(float(self.abacus.mode.value()))
+        self.abacus.select_abacus(ABACI[user])
+        self.abacus.mode.set_value_from_number(value)
+        self.abacus.mode.label(self.abacus.generate_label())
         return True
 
     def _reset(self, event, data=None):
         ''' Reset beads to initial position '''
         self.abacus.mode.reset_abacus()
+        self.abacus.mode.label(self.abacus.generate_label())
         return
 
     def destroy(self, event, data=None):
