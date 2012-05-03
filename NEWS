@@ -6,8 +6,10 @@ ENHANCEMENTS
 * Display abacus name on toolbar
 
 BUG_FIXES:
+* Work-around label color-style problem (#3479)
 * Refactoring to fix problem with excessive memory usage
 * Don't allow custom abacus larger than screen
+* Update GNOME version to use refactoring
 
 33
 
