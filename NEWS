@@ -1,3 +1,12 @@
+35
+
+ENHANCEMENT
+* Using palette for spinners (#3563 and #3480)
+
+BUG_FIX
+* Remove work-around label color-style problem (#3479) in light of
+  patch to fix #3558 and #3479
+
 34
 
 ENHANCEMENTS
@@ -5,7 +14,7 @@ ENHANCEMENTS
 * Notify user of delay in loading new abacus
 * Display abacus name on toolbar
 
-BUG_FIXES:
+BUG_FIXES
 * Work-around label color-style problem (#3479)
 * Refactoring to fix problem with excessive memory usage
 * Don't allow custom abacus larger than screen
