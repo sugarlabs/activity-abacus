@@ -79,9 +79,13 @@ def spin_factory(default, min_value, max_value, callback, toolbar):
     spin.show()
     toolitem = Gtk.ToolItem()
     toolitem.add(spin)
-    toolbar.insert(toolitem, -1)
-    toolitem.show()
-    return spin
+    if toolbar is not None:
+        toolbar.insert(toolitem, -1)
+        toolitem.show()
+        return spin
+    else:
+        toolitem.show()
+        return spin, toolitem
 
 
 def separator_factory(toolbar, expand=False, visible=True):
