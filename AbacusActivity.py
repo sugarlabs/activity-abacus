@@ -214,26 +214,30 @@ class AbacusActivity(activity.Activity):
                                     cb_arg='custom',
                                     tooltip=_('Custom'), group=self.decimal)
 
+        preferences_button = button_factory(
+            'preferences-system', custom_toolbar, self._preferences_palette_cb,
+            tooltip=_('Custom'))
+                
+        self._palette = preferences_button.get_palette()
+        button_box = gtk.VBox()
         # TRANS: Number of rods on the abacus
-        self._rods_label = label_factory(custom_toolbar, _('Rods:') + ' ')
-        self._rods_spin = spin_factory(15, 1, MAX_RODS, self._rods_spin_cb,
-                                       custom_toolbar)
+        self._rods_spin = self._add_spinner_and_label(
+            15, 1, MAX_RODS, _('Rods:'), self._rods_spin_cb, button_box)
         # TRANS: Number of beads in the top section of the abacus
-        self._top_label = label_factory(custom_toolbar, _('Top:') + ' ')
-        self._top_spin = spin_factory(2, 0, MAX_TOP, self._top_spin_cb,
-                                      custom_toolbar)
+        self._top_spin = self._add_spinner_and_label(
+            2, 0, MAX_TOP, _('Top:'), self._top_spin_cb, button_box)
         # TRANS: Number of beads in the bottom section of the abacus
-        self._bottom_label = label_factory(custom_toolbar, _('Bottom:') + ' ')
-        self._bottom_spin = spin_factory(5, 1, MAX_BOT,
-                                         self._bottom_spin_cb, custom_toolbar)
+        self._bottom_spin = self._add_spinner_and_label(
+            2, 0, MAX_BOT, _('Bottom:'), self._bottom_spin_cb, button_box)
         # TRANS: Scale factor between bottom and top beads
-        self._value_label = label_factory(custom_toolbar, _('Factor:') + ' ')
-        self._value_spin = spin_factory(5, 1, MAX_BOT, self._value_spin_cb,
-                                        custom_toolbar)
+        self._value_spin = self._add_spinner_and_label(
+            5, 1, MAX_BOT + 1, _('Factor:'), self._value_spin_cb, button_box)
         # TRANS: Scale factor between rods
-        self._base_label = label_factory(custom_toolbar, _('Base:') + ' ')
-        self._base_spin = spin_factory(10, 1, (MAX_TOP + 1) * MAX_BOT,
-                                       self._base_spin_cb, custom_toolbar)
+        self._base_spin = self._add_spinner_and_label(
+            10, 1, (MAX_TOP + 1) * MAX_BOT, _('Base:'), self._base_spin_cb,
+            button_box)
+        button_box.show_all()
+        self._palette.set_content(button_box)
 
         self.custom_maker = button_factory('new-abacus', custom_toolbar,
                                            self._custom_cb,
@@ -312,6 +316,15 @@ class AbacusActivity(activity.Activity):
                 _logger.debug('restoring value %s', self.metadata['value'])
                 self.abacus.mode.set_value(self.metadata['value'])
                 self.abacus.mode.label(self.abacus.generate_label())
+
+    def _preferences_palette_cb(self, button):
+        if self._palette:
+            if not self._palette.is_up():
+                self._palette.popup(immediate=True,
+                                    state=self._palette.SECONDARY)
+            else:
+                self._palette.popdown(immediate=True)
+            return
 
     def _radio_cb(self, button, abacus):
         self._select_abacus(abacus)
@@ -426,3 +439,22 @@ class AbacusActivity(activity.Activity):
         self.metadata['bottom'] = str(self._bottom_spin.get_value_as_int())
         self.metadata['factor'] = str(self._value_spin.get_value_as_int())
         self.metadata['base'] = str(self._base_spin.get_value_as_int())
+
+    def _add_spinner_and_label(self, default_value, min_value, max_value,
+                               tooltip, cb, box):
+        ''' Add a spinner and a label to a box '''
+        spinner_and_label = gtk.HBox()
+        spinner, item = spin_factory(default_value, min_value, max_value,
+                                     cb, None)
+        label = gtk.Label(tooltip)
+        label.set_justify(gtk.JUSTIFY_LEFT)
+        label.set_line_wrap(True)
+        label.show()
+        spinner_and_label.pack_start(label)
+        label = gtk.Label(' ')
+        label.show()
+        spinner_and_label.pack_start(label)
+        spinner_and_label.pack_start(item)
+        box.pack_start(spinner_and_label, False, False, padding=5)
+        spinner_and_label.show()
+        return spinner
