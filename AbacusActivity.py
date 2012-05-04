@@ -99,7 +99,7 @@ class AbacusActivity(activity.Activity):
 
         separator_factory(toolbox.toolbar, False, True)
 
-        self._label = markup_label_factory(NAMES['suanpan'], toolbox.toolbar)
+        self._label = label_factory(NAMES['suanpan'], toolbox.toolbar)
 
         separator_factory(toolbox.toolbar, True, False)
 
@@ -185,31 +185,30 @@ class AbacusActivity(activity.Activity):
                                     cb_arg='custom',
                                     tooltip=NAMES['custom'], group=self.decimal)
 
+        preferences_button = button_factory(
+            'preferences-system', custom_toolbar, self._preferences_palette_cb,
+            tooltip=_('Custom'))
+                
+        self._palette = preferences_button.get_palette()
+        button_box = Gtk.VBox()
         # TRANS: Number of rods on the abacus
-        self._rods_label = markup_label_factory(_('Rods:') + ' ',
-                                                custom_toolbar)
-        self._rods_spin = spin_factory(15, 1, 20, self._rods_spin_cb,
-                                       custom_toolbar)
+        self._rods_spin = self._add_spinner_and_label(
+            15, 1, MAX_RODS, _('Rods:'), self._rods_spin_cb, button_box)
         # TRANS: Number of beads in the top section of the abacus
-        self._top_label = markup_label_factory(_('Top:') + ' ',
-                                               custom_toolbar)
-        self._top_spin = spin_factory(2, 0, 4, self._top_spin_cb,
-                                      custom_toolbar)
+        self._top_spin = self._add_spinner_and_label(
+            2, 0, MAX_TOP, _('Top:'), self._top_spin_cb, button_box)
         # TRANS: Number of beads in the bottom section of the abacus
-        self._bottom_label = markup_label_factory(_('Bottom:') + ' ',
-                                           custom_toolbar)
-        self._bottom_spin = spin_factory(5, 1, 20, self._bottom_spin_cb,
-                                         custom_toolbar)
+        self._bottom_spin = self._add_spinner_and_label(
+            2, 0, MAX_BOT, _('Bottom:'), self._bottom_spin_cb, button_box)
         # TRANS: Scale factor between bottom and top beads
-        self._value_label = markup_label_factory(_('Factor:') + ' ',
-                                                 custom_toolbar)
-        self._value_spin = spin_factory(5, 1, 20, self._value_spin_cb,
-                                        custom_toolbar)
+        self._value_spin = self._add_spinner_and_label(
+            5, 1, MAX_BOT + 1, _('Factor:'), self._value_spin_cb, button_box)
         # TRANS: Scale factor between rods
-        self._base_label = markup_label_factory(_('Base:') + ' ',
-                                                custom_toolbar)
-        self._base_spin = spin_factory(10, 1, 24, self._base_spin_cb,
-                                       custom_toolbar)
+        self._base_spin = self._add_spinner_and_label(
+            10, 1, (MAX_TOP + 1) * MAX_BOT, _('Base:'), self._base_spin_cb,
+            button_box)
+        button_box.show_all()
+        self._palette.set_content(button_box)
 
         separator_factory(custom_toolbar, False, False)
 
@@ -289,6 +288,15 @@ class AbacusActivity(activity.Activity):
                 self.abacus.mode.set_value(self.metadata['value'])
                 self.abacus.mode.label(self.abacus.generate_label())
 
+    def _preferences_palette_cb(self, button):
+        if self._palette:
+            if not self._palette.is_up():
+                self._palette.popup(immediate=True,
+                                    state=self._palette.SECONDARY)
+            else:
+                self._palette.popdown(immediate=True)
+            return
+
     def _radio_cb(self, button, abacus):
         self._select_abacus(abacus)
 
@@ -302,20 +310,10 @@ class AbacusActivity(activity.Activity):
         alert.props.title = prompt
         alert.props.msg = _('A new abacus is loading.')
 
-        # FIXME: set color of text for alert due to style bug
         def _notification_alert_response_cb(alert, response_id, self):
             self.remove_alert(alert)
 
         alert.connect('response', _notification_alert_response_cb, self)
-
-        alert._title_label.set_use_markup(True)
-        alert._title_label.set_markup('<span foreground="%s">%s</span>' % (
-            style.COLOR_WHITE.get_html(), alert.props.title))
-
-        alert._msg_label.set_use_markup(True)
-        alert._msg_label.set_markup('<span foreground="%s">%s</span>' % (
-            style.COLOR_WHITE.get_html(), alert.props.msg))
-
         self.add_alert(alert)
         alert.show()
 
@@ -344,8 +342,7 @@ class AbacusActivity(activity.Activity):
         # Load saved value
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
-        self._label.set_markup('<span foreground="%s">%s</span>' % (
-                style.COLOR_WHITE.get_html(), NAMES[abacus]))
+        self._label.set_text(NAMES[abacus])
 
     def _rods_spin_cb(self, button=None):
         return
@@ -380,8 +377,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.custom.show()
         self.abacus.mode = self.abacus.custom
         self.custom.set_active(True)
-        self._label.set_markup('<span foreground="%s">%s</span>' % (
-                style.COLOR_WHITE.get_html(), NAMES['custom']))
+        self._label.set_text(NAMES['custom'])
 
     def _copy_cb(self, arg=None):
         ''' Copy a number to the clipboard from the active abacus. '''
@@ -416,9 +412,21 @@ class AbacusActivity(activity.Activity):
         self.metadata['factor'] = str(self._value_spin.get_value_as_int())
         self.metadata['base'] = str(self._base_spin.get_value_as_int())
 
-def markup_label_factory(text, toolbar):
-    label = label_factory('', toolbar)
-    label.set_use_markup(True)
-    label.set_markup('<span foreground="%s">%s</span>' % (
-            style.COLOR_WHITE.get_html(), text))
-    return label
+
+def add_spinner_and_label(default_value, min_value, max_value,
+                          tooltip, cb, box):
+    ''' Add a spinner and a label to a box '''
+    spinner_and_label = Gtk.HBox()
+    spinner, item = spin_factory(default_value, min_value, max_value, cb, None)
+    label = Gtk.Label(label=tooltip)
+    label.set_justify(gtk.JUSTIFY_LEFT)
+    label.set_line_wrap(True)
+    label.show()
+    spinner_and_label.pack_start(label)
+    label = Gtk.Label(label=' ')
+    label.show()
+    spinner_and_label.pack_start(label)
+    spinner_and_label.pack_start(item)
+    box.pack_start(spinner_and_label, expand=False, fill=False, padding=5)
+    spinner_and_label.show()
+    return spinner
