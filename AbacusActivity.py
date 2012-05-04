@@ -419,7 +419,7 @@ def add_spinner_and_label(default_value, min_value, max_value,
     spinner_and_label = Gtk.HBox()
     spinner, item = spin_factory(default_value, min_value, max_value, cb, None)
     label = Gtk.Label(label=tooltip)
-    label.set_justify(Gtk.Jiustification.LEFT)
+    label.set_justify(Gtk.Justification.LEFT)
     label.set_line_wrap(True)
     label.show()
     spinner_and_label.pack_start(label, expand=False, fill=False, padding=0)
