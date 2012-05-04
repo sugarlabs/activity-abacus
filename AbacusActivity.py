@@ -30,7 +30,7 @@ from gettext import gettext as _
 import logging
 _logger = logging.getLogger('abacus-activity')
 
-from abacus_window import Abacus, Custom
+from abacus_window import Abacus, Custom, MAX_RODS, MAX_TOP, MAX_BOT
 from toolbar_utils import separator_factory, radio_factory, label_factory, \
     button_factory, spin_factory
 
@@ -192,19 +192,19 @@ class AbacusActivity(activity.Activity):
         self._palette = preferences_button.get_palette()
         button_box = Gtk.VBox()
         # TRANS: Number of rods on the abacus
-        self._rods_spin = self._add_spinner_and_label(
+        self._rods_spin = add_spinner_and_label(
             15, 1, MAX_RODS, _('Rods:'), self._rods_spin_cb, button_box)
         # TRANS: Number of beads in the top section of the abacus
-        self._top_spin = self._add_spinner_and_label(
+        self._top_spin = add_spinner_and_label(
             2, 0, MAX_TOP, _('Top:'), self._top_spin_cb, button_box)
         # TRANS: Number of beads in the bottom section of the abacus
-        self._bottom_spin = self._add_spinner_and_label(
+        self._bottom_spin = add_spinner_and_label(
             2, 0, MAX_BOT, _('Bottom:'), self._bottom_spin_cb, button_box)
         # TRANS: Scale factor between bottom and top beads
-        self._value_spin = self._add_spinner_and_label(
+        self._value_spin = add_spinner_and_label(
             5, 1, MAX_BOT + 1, _('Factor:'), self._value_spin_cb, button_box)
         # TRANS: Scale factor between rods
-        self._base_spin = self._add_spinner_and_label(
+        self._base_spin = add_spinner_and_label(
             10, 1, (MAX_TOP + 1) * MAX_BOT, _('Base:'), self._base_spin_cb,
             button_box)
         button_box.show_all()
@@ -419,14 +419,14 @@ def add_spinner_and_label(default_value, min_value, max_value,
     spinner_and_label = Gtk.HBox()
     spinner, item = spin_factory(default_value, min_value, max_value, cb, None)
     label = Gtk.Label(label=tooltip)
-    label.set_justify(gtk.JUSTIFY_LEFT)
+    label.set_justify(Gtk.Jiustification.LEFT)
     label.set_line_wrap(True)
     label.show()
-    spinner_and_label.pack_start(label)
+    spinner_and_label.pack_start(label, expand=False, fill=False, padding=0)
     label = Gtk.Label(label=' ')
     label.show()
-    spinner_and_label.pack_start(label)
-    spinner_and_label.pack_start(item)
+    spinner_and_label.pack_start(label, expand=True, fill=False, padding=0)
+    spinner_and_label.pack_start(item, expand=False, fill=False, padding=0)
     box.pack_start(spinner_and_label, expand=False, fill=False, padding=5)
     spinner_and_label.show()
     return spinner
