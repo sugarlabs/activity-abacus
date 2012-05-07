@@ -109,7 +109,7 @@ class AbacusActivity(activity.Activity):
 
             separator_factory(toolbox.toolbar, False, True)
 
-            button_factory('edit-delete', toolbox.toolbar,
+            button_factory('edit-clear', toolbox.toolbar,
                             self._reset_cb, tooltip=_('Reset'))
 
             separator_factory(toolbox.toolbar, False, True)
@@ -250,9 +250,11 @@ class AbacusActivity(activity.Activity):
 
         self.toolbox.show()
 
+        '''
         if HAS_TOOLBARBOX:
             # start with abacus toolbar expanded
             abacus_toolbar_button.set_expanded(True)
+        '''
 
         self.chinese.set_active(True)
 
