@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-08-02 09:50-0400\n"
+"POT-Creation-Date: 2012-04-28 00:31-0400\n"
 "PO-Revision-Date: 2011-09-23 11:42+0200\n"
 "Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,125 +34,113 @@ msgstr ""
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 "X-Generator: Pootle 2.0.5\n"
 
-#: activity/activity.info:2 abacus.py:48 dist/Abacus-19/abacus.py:49
+#: activity/activity.info:2 abacus.py:48
 msgid "Abacus"
 msgstr "العداد"
 
-#. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
-#: abacus.py:52 AbacusActivity.py:293 dist/Abacus-19/abacus.py:53
-#: dist/Abacus-19/AbacusActivity.py:255
+#. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
+#: AbacusActivity.py:48 abacus.py:52
 msgid "Suanpan"
 msgstr "عداد صيني"
 
-#. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
-#: abacus.py:53 AbacusActivity.py:174 dist/Abacus-19/abacus.py:54
-#: dist/Abacus-19/AbacusActivity.py:160
+#. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
+#: AbacusActivity.py:50 AbacusActivity.py:160 abacus.py:53
 msgid "Soroban"
 msgstr "عداد ياباني"
 
-#. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
-#: abacus.py:54 AbacusActivity.py:187 dist/Abacus-19/abacus.py:55
-#: dist/Abacus-19/AbacusActivity.py:169
-msgid "Schety"
-msgstr "عداد روسي"
-
-#. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
-#: abacus.py:55 AbacusActivity.py:178 dist/Abacus-19/abacus.py:56
-#: dist/Abacus-19/AbacusActivity.py:163
-msgid "Nepohualtzintzin"
-msgstr "عداد شعب المايا"
-
-#. TRANS: binary abacus
-#: abacus.py:56 AbacusActivity.py:184 dist/Abacus-19/abacus.py:57
-#: dist/Abacus-19/AbacusActivity.py:167
-msgid "Binary"
-msgstr "ثنائي"
-
-#. TRANS: hexidecimal abacus
-#: abacus.py:57 AbacusActivity.py:181 dist/Abacus-19/abacus.py:58
-#: dist/Abacus-19/AbacusActivity.py:165
-msgid "Hexadecimal"
-msgstr "ست عشري"
-
-#. TRANS: abacus for adding fractions
-#: abacus.py:58 AbacusActivity.py:190 dist/Abacus-19/abacus.py:59
-#: dist/Abacus-19/AbacusActivity.py:171
-msgid "Fraction"
-msgstr "كسر"
-
-#. TRANS: simple decimal abacus
-#: abacus.py:59 AbacusActivity.py:296 dist/Abacus-19/abacus.py:60
-#: dist/Abacus-19/AbacusActivity.py:257
+#: AbacusActivity.py:51 abacus.py:59
 msgid "Decimal"
 msgstr "عشري"
 
-#. TRANS: Abacus invented by teachers in Caacupé, Paraguay
-#: abacus.py:60 AbacusActivity.py:193 dist/Abacus-19/abacus.py:61
-#: dist/Abacus-19/AbacusActivity.py:173
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci)
+#: AbacusActivity.py:53 abacus.py:55
+msgid "Nepohualtzintzin"
+msgstr "عداد شعب المايا"
+
+#: AbacusActivity.py:54 abacus.py:57
+msgid "Hexadecimal"
+msgstr "ست عشري"
+
+#: AbacusActivity.py:55 abacus.py:56
+msgid "Binary"
+msgstr "ثنائي"
+
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
+#: AbacusActivity.py:57 abacus.py:54
+msgid "Schety"
+msgstr "عداد روسي"
+
+#: AbacusActivity.py:58 abacus.py:58
+msgid "Fraction"
+msgstr "كسر"
+
+#. TRANS: Caacupé is an abacus invented by teachers in Caacupé, Paraguay
+#: AbacusActivity.py:60 abacus.py:60
 msgid "Caacupé"
 msgstr "كاكوبي"
 
-#. TRANS: Cuisenaire Rods
-#: abacus.py:61 AbacusActivity.py:196 dist/Abacus-19/abacus.py:62
-#: dist/Abacus-19/AbacusActivity.py:175
+#: AbacusActivity.py:61 abacus.py:61
 msgid "Rods"
 msgstr "قضبان"
 
-#: abacus.py:69 abacus_window.py:573 dist/Abacus-19/abacus.py:70
-#: dist/Abacus-19/abacus_window.py:548
-msgid "Reset"
-msgstr "صفِّر"
-
-#: abacus.py:72 dist/Abacus-19/abacus.py:73
-msgid "Quit"
-msgstr "أغلق"
-
-#: AbacusActivity.py:136 AbacusActivity.py:160
-msgid "Edit"
-msgstr "حرّر"
-
-#: AbacusActivity.py:146 dist/Abacus-19/AbacusActivity.py:133
-msgid "<Ctrl>Q"
-msgstr "<Ctrl>Q"
-
-#: AbacusActivity.py:158 dist/Abacus-19/AbacusActivity.py:146
-msgid "Project"
-msgstr "مشروع"
-
-#: AbacusActivity.py:159 AbacusActivity.py:221
-#: dist/Abacus-19/AbacusActivity.py:147 dist/Abacus-19/AbacusActivity.py:195
+#: AbacusActivity.py:62 AbacusActivity.py:135 AbacusActivity.py:215
+#: AbacusActivity.py:240
 msgid "Custom"
 msgstr "مخصص"
 
+#: AbacusActivity.py:89 AbacusActivity.py:136
+msgid "Edit"
+msgstr "حرّر"
+
+#: AbacusActivity.py:113 AbacusActivity.py:139 abacus.py:69
+msgid "Reset"
+msgstr "صفِّر"
+
+#: AbacusActivity.py:122
+msgid "<Ctrl>Q"
+msgstr "<Ctrl>Q"
+
+#: AbacusActivity.py:134
+msgid "Project"
+msgstr "مشروع"
+
 #. TRANS: Number of rods on the abacus
-#: AbacusActivity.py:200 dist/Abacus-19/AbacusActivity.py:178
+#: AbacusActivity.py:218
 msgid "Rods:"
 msgstr "قضبان:"
 
 #. TRANS: Number of beads in the top section of the abacus
-#: AbacusActivity.py:204 dist/Abacus-19/AbacusActivity.py:181
+#: AbacusActivity.py:222
 msgid "Top:"
 msgstr "أعلى:"
 
 #. TRANS: Number of beads in the bottom section of the abacus
-#: AbacusActivity.py:208 dist/Abacus-19/AbacusActivity.py:184
+#: AbacusActivity.py:226
 msgid "Bottom:"
 msgstr "أسفل:"
 
 #. TRANS: Scale factor between bottom and top beads
-#: AbacusActivity.py:213 dist/Abacus-19/AbacusActivity.py:188
+#: AbacusActivity.py:230
 msgid "Factor:"
 msgstr "المعامل:"
 
 #. TRANS: Scale factor between rods
-#: AbacusActivity.py:217 dist/Abacus-19/AbacusActivity.py:191
+#: AbacusActivity.py:234
 msgid "Base:"
 msgstr "الأساس:"
 
-#: AbacusActivity.py:224
+#: AbacusActivity.py:243
 msgid "Copy"
 msgstr "انسخ"
 
-#: AbacusActivity.py:226
+#: AbacusActivity.py:245
 msgid "Paste"
 msgstr "الصق"
+
+#: AbacusActivity.py:327
+msgid "A new abacus is loading."
+msgstr ""
+
+#: abacus.py:72
+msgid "Quit"
+msgstr "أغلق"
