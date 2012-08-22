@@ -23,69 +23,69 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-28 00:31-0400\n"
-"PO-Revision-Date: 2011-03-18 05:26+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2012-07-04 10:01+0200\n"
+"Last-Translator: jui <appukonrad@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.0.1\n"
+"X-Generator: Pootle 2.0.5\n"
 
 #: activity/activity.info:2 abacus.py:48
 msgid "Abacus"
-msgstr ""
+msgstr "Počítadlo"
 
 #. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
 #: AbacusActivity.py:48 abacus.py:52
 msgid "Suanpan"
-msgstr ""
+msgstr "Čínské"
 
 #. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
 #: AbacusActivity.py:50 AbacusActivity.py:160 abacus.py:53
 msgid "Soroban"
-msgstr ""
+msgstr "Japonské"
 
 #: AbacusActivity.py:51 abacus.py:59
 msgid "Decimal"
-msgstr ""
+msgstr "Desítkové"
 
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci)
 #: AbacusActivity.py:53 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "Aztécké"
 
 #: AbacusActivity.py:54 abacus.py:57
 msgid "Hexadecimal"
-msgstr ""
+msgstr "Hexadecimální"
 
 #: AbacusActivity.py:55 abacus.py:56
 msgid "Binary"
-msgstr ""
+msgstr "Binární"
 
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
 #: AbacusActivity.py:57 abacus.py:54
 msgid "Schety"
-msgstr ""
+msgstr "Ruské"
 
 #: AbacusActivity.py:58 abacus.py:58
 msgid "Fraction"
-msgstr ""
+msgstr "Zlomek"
 
 #. TRANS: Caacupé is an abacus invented by teachers in Caacupé, Paraguay
 #: AbacusActivity.py:60 abacus.py:60
 msgid "Caacupé"
-msgstr ""
+msgstr "Paraguayské"
 
 #: AbacusActivity.py:61 abacus.py:61
 msgid "Rods"
-msgstr ""
+msgstr "Tyče"
 
 #: AbacusActivity.py:62 AbacusActivity.py:135 AbacusActivity.py:215
 #: AbacusActivity.py:240
 msgid "Custom"
-msgstr ""
+msgstr "Vlastní"
 
 #: AbacusActivity.py:89 AbacusActivity.py:136
 msgid "Edit"
@@ -101,12 +101,12 @@ msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:134
 msgid "Project"
-msgstr ""
+msgstr "Projekt"
 
 #. TRANS: Number of rods on the abacus
 #: AbacusActivity.py:218
 msgid "Rods:"
-msgstr ""
+msgstr "Tyče:"
 
 #. TRANS: Number of beads in the top section of the abacus
 #: AbacusActivity.py:222
@@ -121,12 +121,12 @@ msgstr "Dole:"
 #. TRANS: Scale factor between bottom and top beads
 #: AbacusActivity.py:230
 msgid "Factor:"
-msgstr ""
+msgstr "Faktor:"
 
 #. TRANS: Scale factor between rods
 #: AbacusActivity.py:234
 msgid "Base:"
-msgstr ""
+msgstr "Základna:"
 
 #: AbacusActivity.py:243
 msgid "Copy"
@@ -138,8 +138,8 @@ msgstr "Vložit"
 
 #: AbacusActivity.py:327
 msgid "A new abacus is loading."
-msgstr ""
+msgstr "Nové počítadlo se nahrává."
 
 #: abacus.py:72
 msgid "Quit"
-msgstr ""
+msgstr "Opustit"
