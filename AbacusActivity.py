@@ -405,7 +405,10 @@ class AbacusActivity(activity.Activity):
         self.abacus.custom.create()
         self.abacus.custom.draw_rods_and_beads()
         self.abacus.custom.show()
-        self.abacus.mode = self.abacus.custom
+
+        self._select_abacus('custom')
+
+        # self.abacus.mode = self.abacus.custom
         self.custom.set_active(True)
         self._label.set_text(NAMES['custom'])
 
