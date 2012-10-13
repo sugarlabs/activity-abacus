@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-28 00:31-0400\n"
-"PO-Revision-Date: 2012-04-28 06:19+0200\n"
+"PO-Revision-Date: 2012-09-28 05:51+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nah\n"
@@ -119,8 +119,9 @@ msgid "Copy"
 msgstr "Ixkopina"
 
 #: AbacusActivity.py:245
+#, fuzzy
 msgid "Paste"
-msgstr ""
+msgstr "Tlatskiltis"
 
 #: AbacusActivity.py:327
 msgid "A new abacus is loading."
