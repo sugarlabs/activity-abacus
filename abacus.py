@@ -13,7 +13,7 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-import gtk
+from gi.repository import Gtk, Gdk
 
 from gettext import gettext as _
 
@@ -28,7 +28,7 @@ class AbacusMain:
         self.r = 0
         self.tw = None
 
-        self.win = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        self.win = Gtk.Window(type=Gtk.WindowType.TOPLEVEL)
         try:
             data_file = open('.abacusrc', 'r')
         except IOError:
@@ -46,7 +46,7 @@ class AbacusMain:
         self.win.move(self.x, self.y)
         self.win.maximize()
         self.win.set_title(_('Abacus'))
-        self.win.connect('delete_event', lambda w, e: gtk.main_quit())
+        self.win.connect('delete_event', lambda w, e: Gtk.main_quit())
 
 	ABACI = {
 		'c': _('Suanpan'),
@@ -61,42 +61,42 @@ class AbacusMain:
 		'R': _('Rods')
 	}
 
-        menu = gtk.Menu()
+        menu = Gtk.Menu()
 	for k, v in ABACI.iteritems():
-		menu_items = gtk.MenuItem(v)
+		menu_items = Gtk.MenuItem.new_with_label(v)
 		menu.append(menu_items)
 		menu_items.connect('activate', self._switch_abacus_cb, k)
-        menu_items = gtk.MenuItem(_('Reset'))
+        menu_items = Gtk.MenuItem.new_with_label(_('Reset'))
         menu.append(menu_items)
         menu_items.connect('activate', self._reset)
-        menu_items = gtk.MenuItem(_('Quit'))
+        menu_items = Gtk.MenuItem.new_with_label(_('Quit'))
         menu.append(menu_items)
         menu_items.connect('activate', self.destroy)
         menu_items.show()
-        root_menu = gtk.MenuItem('Tools')
+        root_menu = Gtk.MenuItem.new_with_label('Tools')
         root_menu.show()
         root_menu.set_submenu(menu)
 
-        vbox = gtk.VBox(False, 0)
+        vbox = Gtk.VBox()
         self.win.add(vbox)
         vbox.show()
 
-        menu_bar = gtk.MenuBar()
+        menu_bar = Gtk.MenuBar()
         vbox.pack_start(menu_bar, False, False, 2)
         menu_bar.show()
 
         menu_bar.append(root_menu)
 
-        sw = gtk.ScrolledWindow()
-        sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        sw = Gtk.ScrolledWindow()
+        sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         sw.show()
-        canvas = gtk.DrawingArea()
-        width = gtk.gdk.screen_width()
-        height = gtk.gdk.screen_height()
+        canvas = Gtk.DrawingArea()
+        width = Gdk.Screen.width()
+        height = Gdk.Screen.height()
         canvas.set_size_request(width, height) 
         sw.add_with_viewport(canvas)
         canvas.show()
-        vbox.pack_end(sw, True, True)
+        vbox.pack_end(sw, True, True, 0)
 
         self.win.show_all()
 
@@ -135,10 +135,10 @@ class AbacusMain:
 
     def destroy(self, event, data=None):
         ''' Callback for destroy event. '''
-        gtk.main_quit()
+        Gtk.main_quit()
 
 def main():
-    gtk.main()
+    Gtk.main()
     return 0
 
 if __name__ == '__main__':

@@ -1,58 +1,50 @@
-38
+39
+
+BUG_FIX
+* Use set_icon_name as per #3976
+
+37
 
 ENHANCEMENT
 * New translations
+* Added summary to activity.info
 
-36
-
-ENHANCEMENT
-* New translations
-* summary string in activity.info
-
-30.7
+35
 
 ENHANCEMENT
-* Fixed custom update bug??
+* Using palette for spinners (#3563 and #3480)
 
-30.6
+BUG_FIX
+* Remove work-around label color-style problem (#3479) in light of
+  patch to fix #3558 and #3479
 
-ENHANCEMENT
-* New translations
-* Updated icons
-
-30.5
-
-ENHANCEMENT
-* Move spinners to a palette so they fit on smaller screens
-
-30.4
-
-ENHANCEMENT
-* New translations
-
-BUG_FIX:
-* Fix GNOME version to run with refactoring in 30.3
-
-30.3
+34
 
 ENHANCEMENTS
 * New translations
 * Notify user of delay in loading new abacus
 * Display abacus name on toolbar
 
-BUG_FIXES:
+BUG_FIXES
+* Work-around label color-style problem (#3479)
 * Refactoring to fix problem with excessive memory usage
 * Don't allow custom abacus larger than screen
+* Update GNOME version to use refactoring
 
-30.2
-
-ENHANCEMENT
-* New translations
-
-30.1
+33
 
 ENHANCEMENT
 * New translations
+
+32
+
+BUG FIX
+* Update to latest sugar3-toolkit requirements (Gonzalo Oriard)
+
+31
+
+ENHANCEMENT
+* GTK-3 conversion
 
 30
 
@@ -119,7 +111,8 @@ ENHANCEMENTS
 
 BUG FIX
 
-* Fixed regression with old-style toolbars that preventing activity launch (#2942)
+* Fixed regression with old-style toolbars that preventing activity
+  launch (#2942)
 
 20
 
@@ -221,5 +214,3 @@ BUG FIXES
 
 * Abacus activity
 * Chinese (suanpan), Japanese (soroban), and Russian (schety) models
-
-

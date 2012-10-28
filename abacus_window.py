@@ -12,9 +12,8 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-import pygtk
-pygtk.require('2.0')
-import gtk
+import gi
+from gi.repository import Gtk, Gdk, GdkPixbuf
 from math import floor, ceil
 
 import locale
@@ -24,7 +23,7 @@ import logging
 _logger = logging.getLogger('abacus-activity')
 
 try:
-    from sugar.graphics import style
+    from sugar3.graphics import style
     GRID_CELL_SIZE = style.GRID_CELL_SIZE
 except ImportError:
     GRID_CELL_SIZE = 0
@@ -102,7 +101,7 @@ readable-fractions/681534#681534
 
 def _svg_str_to_pixbuf(svg_string):
     ''' Load pixbuf from SVG string '''
-    pl = gtk.gdk.PixbufLoader('svg')
+    pl = GdkPixbuf.PixbufLoader.new_with_type('svg')
     pl.write(svg_string)
     pl.close()
     pixbuf = pl.get_pixbuf()
@@ -725,19 +724,19 @@ class Abacus():
             self.bead_colors = parent.bead_colors
             parent.show_all()
 
-        self.canvas.set_flags(gtk.CAN_FOCUS)
-        self.canvas.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-        self.canvas.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
-        self.canvas.add_events(gtk.gdk.POINTER_MOTION_MASK)
-        self.canvas.connect('expose-event', self._expose_cb)
+        self.canvas.set_can_focus(True)
+        self.canvas.add_events(Gdk.EventMask.BUTTON_PRESS_MASK)
+        self.canvas.add_events(Gdk.EventMask.BUTTON_RELEASE_MASK)
+        self.canvas.add_events(Gdk.EventMask.POINTER_MOTION_MASK)
+        self.canvas.connect('draw', self.__draw_cb)
         self.canvas.connect('button-press-event', self._button_press_cb)
         self.canvas.connect('button-release-event', self._button_release_cb)
         self.canvas.connect('motion-notify-event', self._mouse_move_cb)
         self.canvas.connect('key_press_event', self._keypress_cb)
-        self.width = gtk.gdk.screen_width()
-        self.height = gtk.gdk.screen_height() - GRID_CELL_SIZE
+        self.width = Gdk.Screen.width()
+        self.height = Gdk.Screen.height() - GRID_CELL_SIZE
         self.sprites = Sprites(self.canvas)
-        self.scale = 1.33 * gtk.gdk.screen_height() / 900.0
+        self.scale = 1.33 * Gdk.Screen.height() / 900.0
         self.dragpos = 0
         self.press = None
         self.last = None
@@ -862,7 +861,7 @@ class Abacus():
 
     def _keypress_cb(self, area, event):
         ''' Keypress: moving the slides with the arrow keys '''
-        k = gtk.gdk.keyval_name(event.keyval)
+        k = Gdk.keyval_name(event.keyval)
         if k in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'period',
                  'minus', 'Return', 'BackSpace', 'comma']:
             if self.last == self.mode.label_bar:
@@ -917,23 +916,8 @@ class Abacus():
                 newnum = oldnum
         sprite.set_label(newnum + CURSOR)
 
-    def _expose_cb(self, win, event):
-        ''' Callback to handle window expose events '''
-        self.do_expose_event(event)
-        return True
-
     # Handle the expose-event by drawing
-    def do_expose_event(self, event):
-
-        # Create the cairo context
-        cr = self.canvas.window.cairo_create()
-
-        # Restrict Cairo to the exposed area; avoid extra work
-        cr.rectangle(event.area.x, event.area.y,
-                event.area.width, event.area.height)
-        cr.clip()
-
-        # Refresh sprite list
+    def __draw_cb(self, canvas, cr):
         self.sprites.redraw_sprites(cr=cr)
 
     def _destroy_cb(self, win, event):
