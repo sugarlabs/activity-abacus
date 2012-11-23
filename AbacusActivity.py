@@ -22,6 +22,7 @@ from sugar3.graphics.toolbarbox import ToolbarBox
 from sugar3.activity.widgets import ActivityToolbarButton
 from sugar3.activity.widgets import StopButton
 from sugar3.graphics.toolbarbox import ToolbarButton
+from sugar3.graphics.toolbutton import ToolButton
 from sugar3.graphics.alert import NotifyAlert
 from sugar3.graphics import style
 
@@ -185,10 +186,14 @@ class AbacusActivity(activity.Activity):
                                     cb_arg='custom',
                                     tooltip=NAMES['custom'], group=self.decimal)
 
-        preferences_button = button_factory(
-            'preferences-system', custom_toolbar, self._preferences_palette_cb,
-            tooltip=_('Custom'))
-                
+        preferences_button = ToolButton('preferences-system')
+        preferences_button.set_tooltip(_('Custom'))
+        custom_toolbar.insert(preferences_button, -1)
+        preferences_button.palette_invoker.props.toggle_palette = True
+        preferences_button.palette_invoker.props.lock_palette = True
+        preferences_button.props.hide_tooltip_on_click = False
+        preferences_button.show()
+
         self._palette = preferences_button.get_palette()
         button_box = Gtk.VBox()
         # TRANS: Number of rods on the abacus
@@ -207,8 +212,10 @@ class AbacusActivity(activity.Activity):
         self._base_spin = add_spinner_and_label(
             10, 1, (MAX_TOP + 1) * MAX_BOT, _('Base:'), self._base_spin_cb,
             button_box)
-        button_box.show_all()
-        self._palette.set_content(button_box)
+        hbox = Gtk.HBox()
+        hbox.pack_start(button_box, True, True, style.DEFAULT_SPACING)
+        hbox.show_all()
+        self._palette.set_content(hbox)
 
         separator_factory(custom_toolbar, False, False)
 
@@ -287,15 +294,6 @@ class AbacusActivity(activity.Activity):
                 _logger.debug('restoring value %s', self.metadata['value'])
                 self.abacus.mode.set_value(self.metadata['value'])
                 self.abacus.mode.label(self.abacus.generate_label())
-
-    def _preferences_palette_cb(self, button):
-        if self._palette:
-            if not self._palette.is_up():
-                self._palette.popup(immediate=True,
-                                    state=self._palette.SECONDARY)
-            else:
-                self._palette.popdown(immediate=True)
-            return
 
     def _radio_cb(self, button, abacus):
         self._select_abacus(abacus)
