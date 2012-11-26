@@ -30,7 +30,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-28 00:31-0400\n"
+"POT-Creation-Date: 2012-10-29 00:31-0400\n"
 "PO-Revision-Date: 2011-04-07 04:47+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,114 +41,108 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.0.1\n"
 
-#: activity/activity.info:2 abacus.py:48
+#. TRANS: "name" option from activity.info file
+#: abacus.py:48
 #, fuzzy
 msgid "Abacus"
 msgstr "Numërator"
 
-#. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
-#: AbacusActivity.py:48 abacus.py:52
+#. TRANS: "summary" option from activity.info file
+#. TRANS: "description" option from activity.info file
+msgid "a tool for simple arithmetic calculations"
+msgstr ""
+
+#: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
 msgstr ""
 
-#. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
-#: AbacusActivity.py:50 AbacusActivity.py:160 abacus.py:53
+#: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
 msgstr ""
 
-#: AbacusActivity.py:51 abacus.py:59
+#: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
 msgstr ""
 
-#. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci)
-#: AbacusActivity.py:53 abacus.py:55
+#: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
 msgstr ""
 
-#: AbacusActivity.py:54 abacus.py:57
+#: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
 msgstr ""
 
-#: AbacusActivity.py:55 abacus.py:56
+#: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
 msgstr ""
 
-#. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
-#: AbacusActivity.py:57 abacus.py:54
+#: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
 msgstr ""
 
-#: AbacusActivity.py:58 abacus.py:58
+#: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
 msgstr ""
 
-#. TRANS: Caacupé is an abacus invented by teachers in Caacupé, Paraguay
-#: AbacusActivity.py:60 abacus.py:60
+#: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
 msgstr ""
 
-#: AbacusActivity.py:61 abacus.py:61
+#: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
 msgstr ""
 
-#: AbacusActivity.py:62 AbacusActivity.py:135 AbacusActivity.py:215
-#: AbacusActivity.py:240
+#: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
 msgstr ""
 
-#: AbacusActivity.py:89 AbacusActivity.py:136
+#: AbacusActivity.py:74
 msgid "Edit"
 msgstr "Ndrysho"
 
-#: AbacusActivity.py:113 AbacusActivity.py:139 abacus.py:69
+#: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
 msgstr ""
 
-#: AbacusActivity.py:122
+#: AbacusActivity.py:107
 msgid "<Ctrl>Q"
 msgstr "<Ctrl>Q"
 
-#: AbacusActivity.py:134
-msgid "Project"
-msgstr "Projekti"
-
-#. TRANS: Number of rods on the abacus
-#: AbacusActivity.py:218
+#: AbacusActivity.py:196
 msgid "Rods:"
 msgstr ""
 
-#. TRANS: Number of beads in the top section of the abacus
-#: AbacusActivity.py:222
+#: AbacusActivity.py:199
 msgid "Top:"
 msgstr ""
 
-#. TRANS: Number of beads in the bottom section of the abacus
-#: AbacusActivity.py:226
+#: AbacusActivity.py:202
 msgid "Bottom:"
 msgstr ""
 
-#. TRANS: Scale factor between bottom and top beads
-#: AbacusActivity.py:230
+#: AbacusActivity.py:205
 msgid "Factor:"
 msgstr ""
 
-#. TRANS: Scale factor between rods
-#: AbacusActivity.py:234
+#: AbacusActivity.py:208
 msgid "Base:"
 msgstr ""
 
-#: AbacusActivity.py:243
+#: AbacusActivity.py:220
 msgid "Copy"
 msgstr "Kopjo"
 
-#: AbacusActivity.py:245
+#: AbacusActivity.py:222
 msgid "Paste"
 msgstr "Vëj"
 
-#: AbacusActivity.py:327
+#: AbacusActivity.py:311
 msgid "A new abacus is loading."
 msgstr ""
 
 #: abacus.py:72
 msgid "Quit"
 msgstr ""
+
+#~ msgid "Project"
+#~ msgstr "Projekti"
