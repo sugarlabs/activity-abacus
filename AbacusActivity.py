@@ -43,7 +43,7 @@ NAMES = {'suanpan': _('Suanpan'),
          'hexadecimal': _('Hexadecimal'),
          'binary': _('Binary'),
          'schety': _('Schety'),
-         'fraction': _('Fraction'),
+         # 'fraction': _('Fraction'),
          'caacupe': _('Caacupé'),
          'cuisenaire': _('Rods'),
          'custom': _('Custom')
@@ -158,11 +158,15 @@ class AbacusActivity(activity.Activity):
                                      tooltip=NAMES['schety'],
                                      group=self.decimal)
 
+        # NOTE: GTK3 buttons seem to take up more space, so one button
+        # had to go in order to prevent toolbar overflow...
+        '''
         # TRANS: abacus for adding fractions
         self.fraction = radio_factory('fraction', abacus_toolbar,
                                       self._radio_cb, cb_arg='fraction',
                                       tooltip=NAMES['fraction'],
                                       group=self.decimal)
+        '''
 
         # TRANS: Abacus invented by teachers in Caacupé, Paraguay
         self.caacupe = radio_factory('caacupe', abacus_toolbar,
