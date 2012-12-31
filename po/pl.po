@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2012-05-28 15:23+0200\n"
-"Last-Translator: Marcin <ulinski.marcin@gmail.com>\n"
+"PO-Revision-Date: 2012-12-25 04:10+0200\n"
+"Last-Translator: Kamila <kamilafilipowska@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgstr "Liczydło"
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "narzędzie do wykonywania podstawowych działań arytmetycznych"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
