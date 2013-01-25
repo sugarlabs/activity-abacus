@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2011-11-26 04:13+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2012-12-11 18:06+0200\n"
+"Last-Translator: EdgarQuispeChambi <quispedgar@yahoo.es>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ayc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,56 +20,56 @@ msgstr ""
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
-msgstr ""
+msgstr "Ábaco wakichata"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "phisna jakhthapiñanaka chaninchiri wakichata"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr ""
+msgstr "Suanpan wakichata"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr ""
+msgstr "Soroban wakichata"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
-msgstr ""
+msgstr "Tunkachiri chimpu"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "Nepohualtzitzin wakichata"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
-msgstr ""
+msgstr "Hexadecimal chimpu"
 
 #: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
-msgstr ""
+msgstr "Pani ira arka"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr ""
+msgstr "Schety wakichata"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr ""
+msgstr "Jalja"
 
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr ""
+msgstr "Caacupé wakichata"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr ""
+msgstr "Siqinaka"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr ""
+msgstr "Wakichaña"
 
 #  "Editar"
 #: AbacusActivity.py:74
@@ -78,7 +78,7 @@ msgstr "Chiqachaña"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr ""
+msgstr "Pichsuña"
 
 #  "<Ctrl>Q"
 #: AbacusActivity.py:107
@@ -87,7 +87,7 @@ msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr ""
+msgstr "Siqinaka:"
 
 #  "Arriba:"
 #: AbacusActivity.py:199
@@ -96,15 +96,15 @@ msgstr "P'atja:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr ""
+msgstr "Aynacha:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr ""
+msgstr "Apsuña chani:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr ""
+msgstr "Kayuñcha:"
 
 #  "Copiar"
 #: AbacusActivity.py:220
@@ -118,7 +118,7 @@ msgstr "Lip'katayaña"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr ""
+msgstr "Machaqa Ábaco wakichatawa wakichasiski."
 
 #  "Salir"
 #: abacus.py:72
