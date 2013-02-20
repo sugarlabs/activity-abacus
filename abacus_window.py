@@ -733,6 +733,7 @@ class Abacus():
         self.canvas.connect('button-release-event', self._button_release_cb)
         self.canvas.connect('motion-notify-event', self._mouse_move_cb)
         self.canvas.connect('key_press_event', self._keypress_cb)
+        Gdk.Screen.get_default().connect('size-changed', self._configure_cb)
         self.width = Gdk.Screen.width()
         self.height = Gdk.Screen.height() - GRID_CELL_SIZE
         self.sprites = Sprites(self.canvas)
@@ -746,9 +747,9 @@ class Abacus():
         if self.decimal_point == '' or self.decimal_point is None:
             self.decimal_point = '.'
 
-        background_svg = _svg_header(self.width, self.height, 1.0) + \
-            _svg_rect(self.width, self.height, 0, 0, 0, 0, '#FFFFFF',
-                      '#FFFFFF') + \
+        size = max(self.width, self.height)
+        background_svg = _svg_header(size, size, 1.0) + \
+            _svg_rect(size, size, 0, 0, 0, 0, '#FFFFFF', '#FFFFFF') + \
             _svg_footer()
         background = Sprite(self.sprites, 0, 0,
                             _svg_str_to_pixbuf(background_svg))
@@ -790,6 +791,17 @@ class Abacus():
         self.chinese = Suanpan(self, self.bead_colors)
         self.mode = self.chinese
         self.mode.show()
+
+    def _configure_cb(self, event):
+        self.width = Gdk.Screen.width()
+        self.height = Gdk.Screen.height() - GRID_CELL_SIZE
+        if self.width > self.height:
+            self.scale = 1.33 * Gdk.Screen.height() / 900.0
+        else:
+            self.scale = 1.33 * Gdk.Screen.width() / 1200.0
+        self.canvas.set_size_request(Gdk.Screen.width(), Gdk.Screen.height())
+        self.mode.hide()
+        self.mode.show(reset=True)
 
     def select_abacus(self, abacus):
         self.mode.hide()
@@ -1173,8 +1185,10 @@ class AbacusGeneric():
             for dot in self.dots:
                 dot.hide()
 
-    def show(self):
+    def show(self, reset=False):
         ''' Show the rod, beads, mark, and frame. '''
+        if reset:
+            self.create()
         self.frame.set_layer(FRAME_LAYER)
         for i in range(self.num_rods):
             self.rods[i].show()
