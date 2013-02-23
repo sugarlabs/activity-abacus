@@ -797,8 +797,12 @@ class Abacus():
         self.height = Gdk.Screen.height() - GRID_CELL_SIZE
         if self.width > self.height:
             self.scale = 1.33 * Gdk.Screen.height() / 900.0
+            self.activity.hex.show()
+            self.activity.binary.show()
         else:
             self.scale = 1.33 * Gdk.Screen.width() / 1200.0
+            self.activity.hex.hide()
+            self.activity.binary.hide()
         self.canvas.set_size_request(Gdk.Screen.width(), Gdk.Screen.height())
         self.mode.hide()
         self.mode.show(reset=True)
