@@ -791,20 +791,23 @@ class Abacus():
         self.chinese = Suanpan(self, self.bead_colors)
         self.mode = self.chinese
         self.mode.show()
+        self._configure_cb(None)
 
     def _configure_cb(self, event):
         self.width = Gdk.Screen.width()
         self.height = Gdk.Screen.height() - GRID_CELL_SIZE
         if self.width > self.height:
             self.scale = 1.33 * Gdk.Screen.height() / 900.0
-            if Gdk.Screen.width() / 14 >= style.GRID_CELL_SIZE:
-                self.activity.hex.show()
-                self.activity.binary.show()
         else:
-            self.scale = 1.33 * Gdk.Screen.width() / 1200.0
-            if Gdk.Screen.width() / 14 < style.GRID_CELL_SIZE:
-                self.activity.hex.hide()
-                self.activity.binary.hide()
+            self.scale = 1.33 * Gdk.Screen.width() / 1200.0 
+        if Gdk.Screen.width() / 14 < style.GRID_CELL_SIZE:
+            for sep in self.activity.sep:
+                sep.hide()
+                sep.props.draw = False
+        else:
+            for sep in self.activity.sep:
+                sep.show()
+                sep.props.draw = True
         self.canvas.set_size_request(Gdk.Screen.width(), Gdk.Screen.height())
         self.mode.hide()
         self.mode.show(reset=True)

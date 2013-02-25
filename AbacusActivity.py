@@ -62,6 +62,7 @@ class AbacusActivity(activity.Activity):
         # no sharing
         self.max_participants = 1
 
+        self.sep = []
         abacus_toolbar = Gtk.Toolbar()
         custom_toolbar = Gtk.Toolbar()
         edit_toolbar = Gtk.Toolbar()
@@ -130,7 +131,7 @@ class AbacusActivity(activity.Activity):
                                      tooltip=NAMES['suanpan'],
                                      group=self.decimal)
 
-        separator_factory(abacus_toolbar)
+        self.sep.append(separator_factory(abacus_toolbar))
 
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
         self.mayan = radio_factory('nepohualtzintzin', abacus_toolbar,
@@ -150,7 +151,7 @@ class AbacusActivity(activity.Activity):
                                     tooltip=NAMES['binary'],
                                     group=self.decimal)
 
-        separator_factory(abacus_toolbar)
+        self.sep.append(separator_factory(abacus_toolbar))
 
         # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
         self.russian = radio_factory('schety', abacus_toolbar,
@@ -174,7 +175,7 @@ class AbacusActivity(activity.Activity):
                                      tooltip=NAMES['caacupe'],
                                      group=self.decimal)
 
-        separator_factory(abacus_toolbar)
+        self.sep.append(separator_factory(abacus_toolbar))
 
         # TRANS: Cuisenaire Rods
         self.cuisenaire = radio_factory('cuisenaire', abacus_toolbar,
@@ -183,7 +184,7 @@ class AbacusActivity(activity.Activity):
                                         tooltip=NAMES['cuisenaire'],
                                         group=self.decimal)
 
-        separator_factory(abacus_toolbar)
+        self.sep.append(separator_factory(abacus_toolbar))
 
         self.custom = radio_factory('custom', abacus_toolbar,
                                     self._radio_cb,

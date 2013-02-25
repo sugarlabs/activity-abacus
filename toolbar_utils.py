@@ -95,3 +95,4 @@ def separator_factory(toolbar, expand=False, visible=True):
     separator.set_expand(expand)
     toolbar.insert(separator, -1)
     separator.show()
+    return separator
