@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#Copyright (c) 2010-12, Walter Bender
+#Copyright (c) 2010-13, Walter Bender
 #Copyright (c) 2010, Tuukka Hastrup
 #
 # This program is free software; you can redistribute it and/or modify
@@ -1116,7 +1116,7 @@ class AbacusGeneric():
         self.label_bar = Sprite(self.abacus.sprites, x, 0,
                                 _svg_str_to_pixbuf(label))
         self.label_bar.type = 'frame'
-        self.label_bar.set_label_attributes(12, rescale=False)
+        self.label_bar.set_label_attributes(24, rescale=False)
         self.label_bar.set_label_color('black')
 
         # and then the rods and beads.
