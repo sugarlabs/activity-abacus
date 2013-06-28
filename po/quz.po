@@ -21,7 +21,6 @@ msgstr ""
 msgid "Abacus"
 msgstr "Abaco"
 
-# una herramienta para cálculos aritméticos simples
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
@@ -132,8 +131,6 @@ msgstr "Kikinchay"
 msgid "Paste"
 msgstr "K'askachiy"
 
-# Un nuevo ábaco está cargándose.
-# 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
 msgstr ""
