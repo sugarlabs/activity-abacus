@@ -1,3 +1,12 @@
+53
+
+ENHANCEMENT:
+* Use busy cursor instead of alert when switching between abaci
+* New translations
+
+BUG FIX:
+* Fixed bug preventing GNOME version from launching
+
 51
 
 ENHANCEMENT:
