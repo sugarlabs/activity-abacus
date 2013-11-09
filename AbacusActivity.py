@@ -29,7 +29,7 @@ from sugar3.activity.widgets import ActivityToolbarButton
 from sugar3.activity.widgets import StopButton
 from sugar3.graphics.toolbarbox import ToolbarButton
 from sugar3.graphics.toolbutton import ToolButton
-from sugar3.graphics.alert import NotifyAlert
+# from sugar3.graphics.alert import NotifyAlert
 from sugar3.graphics import style
 
 from gettext import gettext as _
@@ -315,6 +315,9 @@ class AbacusActivity(activity.Activity):
 
     def _notify_new_abacus(self, prompt):
         ''' Loading a new abacus can be slooow, so alert the user. '''
+        # a busy cursor is adequate
+        self.get_window().set_cursor(Gdk.Cursor.new(Gdk.CursorType.WATCH))
+        '''
         alert = NotifyAlert(3)
         alert.props.title = prompt
         alert.props.msg = _('A new abacus is loading.')
@@ -325,6 +328,7 @@ class AbacusActivity(activity.Activity):
         alert.connect('response', _notification_alert_response_cb, self)
         self.add_alert(alert)
         alert.show()
+        '''
 
     def _select_abacus(self, abacus):
         ''' Notify the user of an expected delay and then... '''
@@ -336,11 +340,12 @@ class AbacusActivity(activity.Activity):
             return
 
         self._notify_new_abacus(NAMES[abacus])
-        # Give the alert time to load
+        # Give the cursor/alert time to load
         GObject.timeout_add(1000, self._switch_modes, abacus)
 
     def _switch_modes(self, abacus):
         ''' Display the selected abacus '''
+        _logger.debug('switching modes to %s', abacus)
         # Save current value
         value = int(float(self.abacus.mode.value()))
         if abacus == 'custom':
@@ -352,6 +357,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
         self._label.set_text(NAMES[abacus])
+        self.get_window().set_cursor(None)
 
     def _rods_spin_cb(self, button=None):
         return
