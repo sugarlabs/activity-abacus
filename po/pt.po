@@ -22,11 +22,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2012-03-15 23:04+0200\n"
+"POT-Creation-Date: 2013-11-10 00:31-0500\n"
+"PO-Revision-Date: 2013-11-26 21:02+0200\n"
 "Last-Translator: Eduardo H. <hoboprimate@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,104 +34,100 @@ msgstr ""
 "X-Generator: Pootle 2.0.5\n"
 
 #. TRANS: "name" option from activity.info file
-#: abacus.py:48
+#: abacus.py:54
 msgid "Abacus"
 msgstr "Ábaco"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "uma ferramenta para cálculos aritméticos simples"
 
-#: AbacusActivity.py:38 abacus.py:52
+#: AbacusActivity.py:45 abacus.py:58
 msgid "Suanpan"
 msgstr "Suanpan"
 
-#: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
+#: AbacusActivity.py:46 AbacusActivity.py:131 abacus.py:59
 msgid "Soroban"
 msgstr "Soroban"
 
-#: AbacusActivity.py:40 abacus.py:59
+#: AbacusActivity.py:47 abacus.py:65
 msgid "Decimal"
 msgstr "Decimal"
 
-#: AbacusActivity.py:41 abacus.py:55
+#: AbacusActivity.py:48 abacus.py:61
 msgid "Nepohualtzintzin"
 msgstr "Nepohualtzintzin"
 
-#: AbacusActivity.py:42 abacus.py:57
+#: AbacusActivity.py:49 abacus.py:63
 msgid "Hexadecimal"
 msgstr "Hexadecimal"
 
-#: AbacusActivity.py:43 abacus.py:56
+#: AbacusActivity.py:50 abacus.py:62
 msgid "Binary"
 msgstr "Binário"
 
-#: AbacusActivity.py:44 abacus.py:54
+#: AbacusActivity.py:51 abacus.py:60
 msgid "Schety"
 msgstr "Schety"
 
-#: AbacusActivity.py:45 abacus.py:58
-msgid "Fraction"
-msgstr "Fração"
-
-#: AbacusActivity.py:46 abacus.py:60
+#: AbacusActivity.py:53 abacus.py:66
 msgid "Caacupé"
 msgstr "Caacupé"
 
-#: AbacusActivity.py:47 abacus.py:61
+#: AbacusActivity.py:54 abacus.py:67
 msgid "Rods"
 msgstr "Varas"
 
-#: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
+#: AbacusActivity.py:55 AbacusActivity.py:201 AbacusActivity.py:235
 msgid "Custom"
 msgstr "Personalizado"
 
-#: AbacusActivity.py:74
+#: AbacusActivity.py:82
 msgid "Edit"
 msgstr "Editar"
 
-#: AbacusActivity.py:98 abacus.py:69
+#: AbacusActivity.py:106 abacus.py:75
 msgid "Reset"
 msgstr "Reiniciar"
 
-#: AbacusActivity.py:107
+#: AbacusActivity.py:115
 msgid "<Ctrl>Q"
 msgstr "<Ctrl>Q"
 
-#: AbacusActivity.py:196
+#: AbacusActivity.py:212
 msgid "Rods:"
 msgstr "Varas:"
 
-#: AbacusActivity.py:199
+#: AbacusActivity.py:215
 msgid "Top:"
 msgstr "Topo:"
 
-#: AbacusActivity.py:202
+#: AbacusActivity.py:218
 msgid "Bottom:"
 msgstr "Fundo:"
 
-#: AbacusActivity.py:205
+#: AbacusActivity.py:221
 msgid "Factor:"
 msgstr "Fator:"
 
-#: AbacusActivity.py:208
+#: AbacusActivity.py:224
 msgid "Base:"
 msgstr "Base:"
 
-#: AbacusActivity.py:220
+#: AbacusActivity.py:238
 msgid "Copy"
 msgstr "Copiar"
 
-#: AbacusActivity.py:222
+#: AbacusActivity.py:240
 msgid "Paste"
 msgstr "Colar"
 
-#: AbacusActivity.py:311
-msgid "A new abacus is loading."
-msgstr ""
+#: abacus.py:64
+msgid "Fraction"
+msgstr "Fração"
 
-#: abacus.py:72
+#: abacus.py:78
 msgid "Quit"
 msgstr "Sair"
 
