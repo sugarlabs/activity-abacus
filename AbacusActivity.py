@@ -29,7 +29,6 @@ from sugar3.activity.widgets import ActivityToolbarButton
 from sugar3.activity.widgets import StopButton
 from sugar3.graphics.toolbarbox import ToolbarButton
 from sugar3.graphics.toolbutton import ToolButton
-# from sugar3.graphics.alert import NotifyAlert
 from sugar3.graphics import style
 
 from gettext import gettext as _
@@ -42,18 +41,30 @@ from toolbar_utils import separator_factory, radio_factory, label_factory, \
     button_factory, spin_factory
 
 
-NAMES = {'suanpan': _('Suanpan'),
-         'soroban': _('Soroban'),
-         'decimal': _('Decimal'),
-         'nepohualtzintzin': _('Nepohualtzintzin'),
-         'hexadecimal': _('Hexadecimal'),
-         'binary': _('Binary'),
-         'schety': _('Schety'),
-         # 'fraction': _('Fraction'),
-         'caacupe': _('Caacupé'),
-         'cuisenaire': _('Rods'),
-         'custom': _('Custom')
-         }
+NAMES = {
+    # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
+    'suanpan': _('Suanpan'),
+    # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
+    'soroban': _('Soroban'),
+    # TRANS: simple decimal abacus
+    'decimal': _('Decimal'),
+    # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
+    'nepohualtzintzin': _('Nepohualtzintzin'),
+    # TRANS: hexidecimal abacus
+    'hexadecimal': _('Hexadecimal'),
+    # TRANS: binary abacus
+    'binary': _('Binary'),
+    # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
+    'schety': _('Schety'),
+    # TRANS: abacus for adding fractions
+    # 'fraction': _('Fraction'),
+    # TRANS: Abacus invented by teachers in Caacupé, Paraguay
+    'caacupe': _('Caacupé'),
+    # TRANS: Cuisenaire Rods
+    'cuisenaire': _('Rods'),
+    # TRANS: Custom abacus
+    'custom': _('Custom')
+    }
 
 
 class AbacusActivity(activity.Activity):
@@ -69,7 +80,7 @@ class AbacusActivity(activity.Activity):
         self.max_participants = 1
 
         self.sep = []
-        abacus_toolbar = Gtk.Toolbar()
+        self.abacus_toolbar = Gtk.Toolbar()
         custom_toolbar = Gtk.Toolbar()
         edit_toolbar = Gtk.Toolbar()
 
@@ -86,19 +97,19 @@ class AbacusActivity(activity.Activity):
         toolbox.toolbar.insert(edit_toolbar_button, -1)
         edit_toolbar_button.show()
 
-        abacus_toolbar_button = ToolbarButton(
-            page=abacus_toolbar,
+        self.abacus_toolbar_button = ToolbarButton(
+            page=self.abacus_toolbar,
             icon_name='abacus-list')
-        abacus_toolbar.show()
-        toolbox.toolbar.insert(abacus_toolbar_button, -1)
-        abacus_toolbar_button.show()
+        self.abacus_toolbar.show()
+        toolbox.toolbar.insert(self.abacus_toolbar_button, -1)
+        self.abacus_toolbar_button.show()
 
-        custom_toolbar_button = ToolbarButton(
+        self.custom_toolbar_button = ToolbarButton(
             page=custom_toolbar,
             icon_name='view-source')
         custom_toolbar.show()
-        toolbox.toolbar.insert(custom_toolbar_button, -1)
-        custom_toolbar_button.show()
+        toolbox.toolbar.insert(self.custom_toolbar_button, -1)
+        self.custom_toolbar_button.show()
 
         separator_factory(toolbox.toolbar, False, True)
 
@@ -119,83 +130,37 @@ class AbacusActivity(activity.Activity):
         self.set_toolbar_box(toolbox)
         toolbox.show()
 
-        # TRANS: simple decimal abacus
-        self.decimal = radio_factory('decimal', abacus_toolbar,
-                                     self._radio_cb, cb_arg='decimal',
-                                     tooltip=NAMES['decimal'],
-                                     group=None)
+        self.abacus_buttons = {}
 
-        # TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
-        self.japanese = radio_factory('soroban', abacus_toolbar,
-                                      self._radio_cb, cb_arg='soroban',
-                                      tooltip=_('Soroban'),
-                                      group=self.decimal)
+        # Traditional
+        self._add_abacus_button('decimal', None)
+        self._add_abacus_button('soroban', self.abacus_buttons['decimal'])
+        self._add_abacus_button('suanpan', self.abacus_buttons['decimal'])
 
-        # TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
-        self.chinese = radio_factory('suanpan', abacus_toolbar,
-                                     self._radio_cb, cb_arg='suanpan',
-                                     tooltip=NAMES['suanpan'],
-                                     group=self.decimal)
+        self.sep.append(separator_factory(self.abacus_toolbar))
 
-        self.sep.append(separator_factory(abacus_toolbar))
+        # Bases other than 10
+        self._add_abacus_button('nepohualtzintzin',
+                                self.abacus_buttons['decimal'])
+        self._add_abacus_button('hexadecimal', self.abacus_buttons['decimal'])
+        self._add_abacus_button('binary', self.abacus_buttons['decimal'])
 
-        # TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
-        self.mayan = radio_factory('nepohualtzintzin', abacus_toolbar,
-                                   self._radio_cb, cb_arg='nepohualtzintzin',
-                                   tooltip=NAMES['nepohualtzintzin'],
-                                   group=self.decimal)
+        self.sep.append(separator_factory(self.abacus_toolbar))
 
-        # TRANS: hexidecimal abacus
-        self.hex = radio_factory('hexadecimal', abacus_toolbar,
-                                 self._radio_cb, cb_arg='hexadecimal',
-                                 tooltip=NAMES['hexadecimal'],
-                                 group=self.decimal)
+        # Fractions
+        self._add_abacus_button('schety', self.abacus_buttons['decimal'])
+        # self._add_abacus_button('fraction', self.abacus_buttons['decimal'])
+        self._add_abacus_button('caacupe', self.abacus_buttons['decimal'])
 
-        # TRANS: binary abacus
-        self.binary = radio_factory('binary', abacus_toolbar,
-                                    self._radio_cb, cb_arg='binary',
-                                    tooltip=NAMES['binary'],
-                                    group=self.decimal)
+        self.sep.append(separator_factory(self.abacus_toolbar))
 
-        self.sep.append(separator_factory(abacus_toolbar))
+        # Non-traditional
+        self._add_abacus_button('cuisenaire', self.abacus_buttons['decimal'])
 
-        # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
-        self.russian = radio_factory('schety', abacus_toolbar,
-                                     self._radio_cb, cb_arg='schety',
-                                     tooltip=NAMES['schety'],
-                                     group=self.decimal)
+        self.sep.append(separator_factory(self.abacus_toolbar))
 
-        # NOTE: GTK3 buttons seem to take up more space, so one button
-        # had to go in order to prevent toolbar overflow...
-        '''
-        # TRANS: abacus for adding fractions
-        self.fraction = radio_factory('fraction', abacus_toolbar,
-                                      self._radio_cb, cb_arg='fraction',
-                                      tooltip=NAMES['fraction'],
-                                      group=self.decimal)
-        '''
-
-        # TRANS: Abacus invented by teachers in Caacupé, Paraguay
-        self.caacupe = radio_factory('caacupe', abacus_toolbar,
-                                     self._radio_cb, cb_arg='caacupe',
-                                     tooltip=NAMES['caacupe'],
-                                     group=self.decimal)
-
-        self.sep.append(separator_factory(abacus_toolbar))
-
-        # TRANS: Cuisenaire Rods
-        self.cuisenaire = radio_factory('cuisenaire', abacus_toolbar,
-                                        self._radio_cb,
-                                        cb_arg='cuisenaire',
-                                        tooltip=NAMES['cuisenaire'],
-                                        group=self.decimal)
-
-        self.sep.append(separator_factory(abacus_toolbar))
-
-        self.custom = radio_factory('custom', abacus_toolbar,
-                                    self._radio_cb,
-                                    cb_arg='custom',
-                                    tooltip=NAMES['custom'], group=self.decimal)
+        # Custom
+        self._add_abacus_button('custom', self.abacus_buttons['decimal'])
 
         preferences_button = ToolButton('preferences-system')
         preferences_button.set_tooltip(_('Custom'))
@@ -215,7 +180,7 @@ class AbacusActivity(activity.Activity):
             2, 0, MAX_TOP, _('Top:'), self._top_spin_cb, button_box)
         # TRANS: Number of beads in the bottom section of the abacus
         self._bottom_spin = add_spinner_and_label(
-            2, 0, MAX_BOT, _('Bottom:'), self._bottom_spin_cb, button_box)
+            5, 0, MAX_BOT, _('Bottom:'), self._bottom_spin_cb, button_box)
         # TRANS: Scale factor between bottom and top beads
         self._value_spin = add_spinner_and_label(
             5, 1, MAX_BOT + 1, _('Factor:'), self._value_spin_cb, button_box)
@@ -239,10 +204,9 @@ class AbacusActivity(activity.Activity):
         button_factory('edit-paste', edit_toolbar, self._paste_cb,
                        tooltip=_('Paste'), accelerator='<Ctrl>v')
 
-        # start with abacus toolbar expanded
-        abacus_toolbar_button.set_expanded(True)
-
-        self.chinese.set_active(True)
+        # Start with abacus toolbar expanded and suanpan as default
+        self.abacus_toolbar_button.set_expanded(True)
+        self.abacus_buttons['suanpan'].set_active(True)
 
         # Create a canvas
         canvas = Gtk.DrawingArea()
@@ -270,41 +234,22 @@ class AbacusActivity(activity.Activity):
             self._base_spin.set_value(int(self.metadata['base']))
         if 'abacus' in self.metadata:
             # Default is Chinese
-            _logger.debug('restoring %s', self.metadata['abacus'])
-            if self.metadata['abacus'] == 'soroban':
-                self._select_abacus('soroban')
-                self.japanese.set_active(True)
-            elif self.metadata['abacus'] == 'schety':
-                self._select_abacus('schety')
-                self.russian.set_active(True)
-            elif self.metadata['abacus'] == 'nepohualtzintzin':
-                self._select_abacus('nepohualtzintzin')
-                self.mayan.set_active(True)
-            elif self.metadata['abacus'] == 'binary':
-                self._select_abacus('binary')
-                self.binary.set_active(True)
-            elif self.metadata['abacus'] == 'hexadecimal':
-                self._select_abacus('hexadecimal')
-                self.hex.set_active(True)
-            elif self.metadata['abacus'] == 'fraction':
-                self._select_abacus('fraction')
-                self.fraction.set_active(True)
-            elif self.metadata['abacus'] == 'caacupe':
-                self._select_abacus('caacupe')
-                self.caacupe.set_active(True)
-            elif self.metadata['abacus'] == 'cuisenaire':
-                self._select_abacus('cuisenaire')
-                self.cuisenaire.set_active(True)
-            elif self.metadata['abacus'] == 'decimal':
-                self._select_abacus('decimal')
-                self.decimal.set_active(True)
-            elif self.metadata['abacus'] == 'custom':
-                self._select_abacus('custom')
-                self.custom.set_active(True)
+            if self.metadata['abacus'] in self.abacus_buttons:
+                _logger.debug('restoring %s', self.metadata['abacus'])
+                self.abacus_buttons[self.metadata['abacus']].set_active(True)
             if 'value' in self.metadata:
                 _logger.debug('restoring value %s', self.metadata['value'])
                 self.abacus.mode.set_value(self.metadata['value'])
                 self.abacus.mode.label(self.abacus.generate_label())
+
+    def _add_abacus_button(self, name, group):
+        self.abacus_buttons[name] = radio_factory(
+            name,
+            self.abacus_toolbar,
+            self._radio_cb,
+            cb_arg=name,
+            tooltip=NAMES[name],
+            group=group)
 
     def _radio_cb(self, button, abacus):
         self._select_abacus(abacus)
@@ -317,47 +262,38 @@ class AbacusActivity(activity.Activity):
         ''' Loading a new abacus can be slooow, so alert the user. '''
         # a busy cursor is adequate
         self.get_window().set_cursor(Gdk.Cursor.new(Gdk.CursorType.WATCH))
-        '''
-        alert = NotifyAlert(3)
-        alert.props.title = prompt
-        alert.props.msg = _('A new abacus is loading.')
-
-        def _notification_alert_response_cb(alert, response_id, self):
-            self.remove_alert(alert)
-
-        alert.connect('response', _notification_alert_response_cb, self)
-        self.add_alert(alert)
-        alert.show()
-        '''
 
     def _select_abacus(self, abacus):
         ''' Notify the user of an expected delay and then... '''
-        if not hasattr(self, 'abacus'):
+        if not hasattr(self, 'abacus') or self._setting_up:
+            _logger.debug('setting up')
             return
-        if self._setting_up:
-            return
-        if self.abacus.mode.name == abacus:
+        # Not selected?
+        if not self.abacus_buttons[abacus].get_active():
+            _logger.debug('%s not active' % abacus)
             return
 
         self._notify_new_abacus(NAMES[abacus])
         # Give the cursor/alert time to load
-        GObject.timeout_add(1000, self._switch_modes, abacus)
+        GObject.idle_add(self._switch_modes, abacus)
 
     def _switch_modes(self, abacus):
         ''' Display the selected abacus '''
         _logger.debug('switching modes to %s', abacus)
         # Save current value
         value = int(float(self.abacus.mode.value()))
-        if abacus == 'custom':
-            self._custom_cb()
-            self.abacus.mode = self.abacus.custom
+        if abacus == 'custom' and self.abacus.custom is None:
+            self.custom_toolbar_button.set_expanded(True)
+            # self.abacus.mode = self.abacus.custom
+            self.get_window().set_cursor(None)
         else:
+            _logger.debug('switch_mode: setting abacus to %s' % abacus)
             self.abacus.select_abacus(abacus)
-        # Load saved value
-        self.abacus.mode.set_value_from_number(value)
-        self.abacus.mode.label(self.abacus.generate_label())
-        self._label.set_text(NAMES[abacus])
-        self.get_window().set_cursor(None)
+            # Load saved value
+            self.abacus.mode.set_value_from_number(value)
+            self.abacus.mode.label(self.abacus.generate_label())
+            self._label.set_text(NAMES[abacus])
+            self.get_window().set_cursor(None)
 
     def _rods_spin_cb(self, button=None):
         return
@@ -390,9 +326,10 @@ class AbacusActivity(activity.Activity):
         self.abacus.custom.create()
         self.abacus.custom.draw_rods_and_beads()
         self.abacus.custom.show()
-        self.abacus.mode = self.abacus.custom
-        self.custom.set_active(True)
         self._label.set_text(NAMES['custom'])
+        self.abacus.mode = self.abacus.custom
+        self.abacus.mode_dict['custom'][0] = self.abacus.custom
+        self.abacus_toolbar_button.set_expanded(True)
 
     def _copy_cb(self, arg=None):
         ''' Copy a number to the clipboard from the active abacus. '''

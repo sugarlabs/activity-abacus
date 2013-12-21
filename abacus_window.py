@@ -762,10 +762,10 @@ class Abacus():
         background.set_layer(1)
 
         self.decimal = None
-        self.japanese = None
-        self.chinese = None
-        self.mayan = None
-        self.hex = None
+        self.soroban = None
+        self.suanpan = None
+        self.nepohualtzintzin = None
+        self.hexadecimal = None
         self.binary = None
         self.russian = None
         self.fraction = None
@@ -774,13 +774,14 @@ class Abacus():
         self.custom = None
 
         self.mode_dict = {'decimal': [self.decimal, Decimal],
-                          'soroban': [self.japanese, Soroban],
-                          'suanpan': [self.chinese, Suanpan],
-                          'nepohualtzintzin': [self.mayan, Nepohualtzintzin],
-                          'hexadecimal': [self.hex, Hex],
+                          'soroban': [self.soroban, Soroban],
+                          'suanpan': [self.suanpan, Suanpan],
+                          'nepohualtzintzin': [self.nepohualtzintzin,
+                                               Nepohualtzintzin],
+                          'hexadecimal': [self.hexadecimal, Hexadecimal],
                           'binary': [self.binary, Binary],
                           'schety': [self.russian, Schety],
-                          'fraction': [self.fraction, Fractions],
+                          # 'fraction': [self.fraction, Fractions],
                           'caacupe': [self.caacupe, Caacupe],
                           'cuisenaire': [self.cuisenaire, Cuisenaire],
                           'custom': [self.custom, Custom]
@@ -794,8 +795,8 @@ class Abacus():
         for i in range(MAX_BEADS):
             self.rod_cache.append(Rod(self.bead_cache))
 
-        self.chinese = Suanpan(self, self.bead_colors)
-        self.mode = self.chinese
+        self.suanpan = Suanpan(self, self.bead_colors)
+        self.mode = self.suanpan
         self.mode.show()
         self._configure_cb(None)
 
@@ -820,6 +821,7 @@ class Abacus():
         self.mode.show(reset=True)
 
     def select_abacus(self, abacus):
+        _logger.debug('abacus_window: selecting %s' % abacus)
         self.mode.hide()
 
         if self.mode_dict[abacus][0] is None:
@@ -1414,7 +1416,7 @@ class Soroban(AbacusGeneric):
                                          bead_value, self.bot_beads)
 
 
-class Hex(AbacusGeneric):
+class Hexadecimal(AbacusGeneric):
     ''' A hexadecimal abacus '''
 
     def __init__(self, abacus, bead_colors=None):
