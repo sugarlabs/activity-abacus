@@ -204,10 +204,6 @@ class AbacusActivity(activity.Activity):
         button_factory('edit-paste', edit_toolbar, self._paste_cb,
                        tooltip=_('Paste'), accelerator='<Ctrl>v')
 
-        # Start with abacus toolbar expanded and suanpan as default
-        self.abacus_toolbar_button.set_expanded(True)
-        self.abacus_buttons['suanpan'].set_active(True)
-
         # Create a canvas
         canvas = Gtk.DrawingArea()
         canvas.set_size_request(Gdk.Screen.width(),
@@ -237,10 +233,16 @@ class AbacusActivity(activity.Activity):
             if self.metadata['abacus'] in self.abacus_buttons:
                 _logger.debug('restoring %s', self.metadata['abacus'])
                 self.abacus_buttons[self.metadata['abacus']].set_active(True)
+            else:
+                self.abacus_buttons['suanpan'].set_active(True)
+
             if 'value' in self.metadata:
                 _logger.debug('restoring value %s', self.metadata['value'])
                 self.abacus.mode.set_value(self.metadata['value'])
                 self.abacus.mode.label(self.abacus.generate_label())
+
+        # Start with abacus toolbar expanded and suanpan as default
+        self.abacus_toolbar_button.set_expanded(True)
 
     def _add_abacus_button(self, name, group):
         self.abacus_buttons[name] = radio_factory(
