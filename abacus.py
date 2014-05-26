@@ -89,24 +89,20 @@ class AbacusMain:
 
         menu_bar = Gtk.MenuBar()
         vbox.pack_start(menu_bar, False, False, 2)
-        menu_bar.show()
 
         menu_bar.append(root_menu)
+        menu_bar.show_all()
 
-        sw = Gtk.ScrolledWindow()
-        sw.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-        sw.show()
         canvas = Gtk.DrawingArea()
         width = Gdk.Screen.width()
         height = Gdk.Screen.height()
         canvas.set_size_request(width, height) 
-        sw.add_with_viewport(canvas)
-        canvas.show()
-        vbox.pack_end(sw, True, True, 0)
+        vbox.pack_end(canvas, True, True, 0)
 
-        self.win.show_all()
+        self.win.show()
 
         self.abacus = Abacus(canvas)
+        canvas.show()
         self.abacus.win = self.win
         self.abacus.activity = self
         self.abacus.init()
@@ -118,7 +114,7 @@ class AbacusMain:
     def _switch_abacus_cb(self, widget, user):
 	ABACI = {
 		'b': 'binary',
-		'c': 'saupan',
+		'c': 'suanpan',
 		'f': 'fraction',
 		'h': 'hexadecimal',
 		'j': 'soroban',
