@@ -241,6 +241,8 @@ class AbacusActivity(activity.Activity):
                 self.abacus.mode.set_value(self.metadata['value'])
                 self.abacus.mode.label(self.abacus.generate_label())
 
+        self.abacus.init()
+
         # Start with abacus toolbar expanded and suanpan as default
         self.abacus_toolbar_button.set_expanded(True)
 
@@ -282,6 +284,10 @@ class AbacusActivity(activity.Activity):
     def _switch_modes(self, abacus):
         ''' Display the selected abacus '''
         _logger.debug('switching modes to %s', abacus)
+        if abacus == self.abacus.mode.name:
+            _logger.debug('do not switch already in the same mode')
+            self.get_window().set_cursor(None)
+            return
         # Save current value
         value = int(float(self.abacus.mode.value()))
         if abacus == 'custom' and self.abacus.custom is None:
