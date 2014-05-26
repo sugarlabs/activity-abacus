@@ -23,9 +23,9 @@ from gi.repository import Gtk, Gdk
 
 from gettext import gettext as _
 
-from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety,\
-                          Nepohualtzintzin, Binary, Hex, Decimal, Fractions,\
-                          Caacupe, Cuisenaire
+from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety, \
+                          Nepohualtzintzin, Binary, Hexadecimal, Decimal, \
+                          Fractions, Caacupe, Cuisenaire
 
 
 class AbacusMain:
@@ -109,6 +109,7 @@ class AbacusMain:
         self.abacus = Abacus(canvas)
         self.abacus.win = self.win
         self.abacus.activity = self
+        self.abacus.init()
 
     def set_title(self, title):
         self.win.set_title(title)
