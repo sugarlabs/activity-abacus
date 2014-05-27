@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2012-09-28 05:51+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"POT-Creation-Date: 2013-11-10 00:31-0500\n"
+"PO-Revision-Date: 2013-11-04 22:20+0200\n"
+"Last-Translator: usuarionahuatl02 <proyecto.olpc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nah\n"
 "MIME-Version: 1.0\n"
@@ -18,106 +18,102 @@ msgstr ""
 "X-Generator: Pootle 2.0.5\n"
 
 #. TRANS: "name" option from activity.info file
-#: abacus.py:48
+#: abacus.py:54
 msgid "Abacus"
-msgstr ""
+msgstr "Koatlapoualistli"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
-
-#: AbacusActivity.py:38 abacus.py:52
-msgid "Suanpan"
-msgstr ""
-
-#: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
-msgid "Soroban"
-msgstr ""
-
-#: AbacusActivity.py:40 abacus.py:59
-msgid "Decimal"
-msgstr ""
-
-#: AbacusActivity.py:41 abacus.py:55
-msgid "Nepohualtzintzin"
-msgstr ""
-
-#: AbacusActivity.py:42 abacus.py:57
-msgid "Hexadecimal"
-msgstr ""
-
-#: AbacusActivity.py:43 abacus.py:56
-msgid "Binary"
-msgstr ""
-
-#: AbacusActivity.py:44 abacus.py:54
-msgid "Schety"
-msgstr ""
+msgstr "Se tekipanoli tlen katli ti ueli ti matis keski tlaixkopinal."
 
 #: AbacusActivity.py:45 abacus.py:58
-msgid "Fraction"
-msgstr ""
+msgid "Suanpan"
+msgstr "Suanpan"
 
-#: AbacusActivity.py:46 abacus.py:60
+#: AbacusActivity.py:46 AbacusActivity.py:131 abacus.py:59
+msgid "Soroban"
+msgstr "Soroban"
+
+#: AbacusActivity.py:47 abacus.py:65
+msgid "Decimal"
+msgstr "Decimal"
+
+#: AbacusActivity.py:48 abacus.py:61
+msgid "Nepohualtzintzin"
+msgstr "Nepohualtzitzin"
+
+#: AbacusActivity.py:49 abacus.py:63
+msgid "Hexadecimal"
+msgstr "Hexadecimal"
+
+#: AbacusActivity.py:50 abacus.py:62
+msgid "Binary"
+msgstr "Binario"
+
+#: AbacusActivity.py:51 abacus.py:60
+msgid "Schety"
+msgstr "Schety"
+
+#: AbacusActivity.py:53 abacus.py:66
 msgid "Caacupé"
-msgstr ""
+msgstr "Caacupé"
 
-#: AbacusActivity.py:47 abacus.py:61
+#: AbacusActivity.py:54 abacus.py:67
 msgid "Rods"
-msgstr ""
+msgstr "Tlachikolpantli"
 
-#: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
+#: AbacusActivity.py:55 AbacusActivity.py:201 AbacusActivity.py:235
 msgid "Custom"
-msgstr ""
+msgstr "TI chiuas"
 
-#: AbacusActivity.py:74
-#, fuzzy
+#: AbacusActivity.py:82
 msgid "Edit"
-msgstr "Tlajchichiuastli"
+msgstr "Kualchijchiuas"
 
-#: AbacusActivity.py:98 abacus.py:69
+#: AbacusActivity.py:106 abacus.py:75
 msgid "Reset"
-msgstr ""
+msgstr "Pojpouas"
 
-#: AbacusActivity.py:107
+#: AbacusActivity.py:115
 msgid "<Ctrl>Q"
-msgstr ""
+msgstr "<Ctrl>Q"
 
-#: AbacusActivity.py:196
+#: AbacusActivity.py:212
 msgid "Rods:"
-msgstr ""
+msgstr "Tlachikolpantli:"
 
-#: AbacusActivity.py:199
+#: AbacusActivity.py:215
 msgid "Top:"
-msgstr ""
+msgstr "Uejkapa:"
 
-#: AbacusActivity.py:202
+#: AbacusActivity.py:218
 msgid "Bottom:"
-msgstr ""
+msgstr "Tsintla:"
 
-#: AbacusActivity.py:205
+#: AbacusActivity.py:221
 msgid "Factor:"
-msgstr ""
+msgstr "Factor:"
 
-#: AbacusActivity.py:208
+#: AbacusActivity.py:224
 msgid "Base:"
-msgstr ""
+msgstr "Tlen peua:"
 
-#: AbacusActivity.py:220
-#, fuzzy
+#: AbacusActivity.py:238
 msgid "Copy"
 msgstr "Ixkopina"
 
-#: AbacusActivity.py:222
-#, fuzzy
+#: AbacusActivity.py:240
 msgid "Paste"
 msgstr "Tlatskiltis"
 
-#: AbacusActivity.py:311
-msgid "A new abacus is loading."
-msgstr ""
+#: abacus.py:64
+msgid "Fraction"
+msgstr "Fracción"
 
-#: abacus.py:72
+#: abacus.py:78
 msgid "Quit"
-msgstr ""
+msgstr "Kisas"
+
+#~ msgid "A new abacus is loading."
+#~ msgstr "Se yannkuik tlatsintla mo peualtia."
