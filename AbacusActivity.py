@@ -20,7 +20,6 @@
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
-from gi.repository import Pango
 
 from sugar3.activity import activity
 from sugar3 import profile
@@ -339,6 +338,7 @@ class AbacusActivity(activity.Activity):
         self.abacus.mode = self.abacus.custom
         self.abacus.mode_dict['custom'][0] = self.abacus.custom
         self.abacus_toolbar_button.set_expanded(True)
+        self.abacus.mode.set_value_from_number(value)
 
     def _copy_cb(self, arg=None):
         ''' Copy a number to the clipboard from the active abacus. '''
@@ -364,7 +364,7 @@ class AbacusActivity(activity.Activity):
     def write_file(self, file_path):
         ''' Write the bead positions to the Journal '''
         _logger.debug('Saving current abacus to Journal: %s %s' % (
-                       self.abacus.mode.name, self.abacus.mode.value(True)))
+            self.abacus.mode.name, self.abacus.mode.value(True)))
         self.metadata['abacus'] = self.abacus.mode.name
         self.metadata['value'] = self.abacus.mode.value(True)
         self.metadata['rods'] = str(self._rods_spin.get_value_as_int())

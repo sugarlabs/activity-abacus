@@ -4,6 +4,9 @@ ENHANCEMENT:
 * More speed ups (w/Gonzalo Odiard)
 * New translations
 
+BUG FIX:
+* Properly restore custom abacus
+
 55
 
 ENHANCEMENT:

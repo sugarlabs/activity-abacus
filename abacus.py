@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Copyright 2010-13, Walter Bender
+# Copyright 2010-14, Walter Bender
 
 # This file is part of the Abacus Activity.
 
@@ -23,12 +23,22 @@ from gi.repository import Gtk, Gdk
 
 from gettext import gettext as _
 
-from abacus_window import Abacus, Custom, Suanpan, Soroban, Schety, \
-                          Nepohualtzintzin, Binary, Hexadecimal, Decimal, \
-                          Fractions, Caacupe, Cuisenaire
+from abacus_window import Abacus
 
 
 class AbacusMain:
+    ABACI = {
+        'b': 'binary',
+        'c': 'suanpan',
+        'f': 'fraction',
+        'h': 'hexadecimal',
+        'j': 'soroban',
+        'm': 'nepohualtzintzin',
+        'r': 'schety',
+        'd': 'decimal',
+        'C': 'caacupe',
+        'R': 'cuisenaire'
+    }
 
     def __init__(self):
         self.r = 0
@@ -54,24 +64,11 @@ class AbacusMain:
         self.win.set_title(_('Abacus'))
         self.win.connect('delete_event', lambda w, e: Gtk.main_quit())
 
-	ABACI = {
-		'c': _('Suanpan'),
-		'j': _('Soroban'),
-		'r': _('Schety'),
-		'm': _('Nepohualtzintzin'),
-		'b': _('Binary'),
-		'h': _('Hexadecimal'),
-		'f': _('Fraction'),
-		'd': _('Decimal'),
-		'C': _('Caacupé'),
-		'R': _('Rods')
-	}
-
         menu = Gtk.Menu()
-	for k, v in ABACI.iteritems():
-		menu_items = Gtk.MenuItem.new_with_label(v)
-		menu.append(menu_items)
-		menu_items.connect('activate', self._switch_abacus_cb, k)
+        for k, v in self.ABACI.iteritems():
+            menu_items = Gtk.MenuItem.new_with_label(v)
+            menu.append(menu_items)
+            menu_items.connect('activate', self._switch_abacus_cb, k)
         menu_items = Gtk.MenuItem.new_with_label(_('Reset'))
         menu.append(menu_items)
         menu_items.connect('activate', self._reset)
@@ -96,7 +93,7 @@ class AbacusMain:
         canvas = Gtk.DrawingArea()
         width = Gdk.Screen.width()
         height = Gdk.Screen.height()
-        canvas.set_size_request(width, height) 
+        canvas.set_size_request(width, height)
         vbox.pack_end(canvas, True, True, 0)
 
         self.win.show()
@@ -112,20 +109,8 @@ class AbacusMain:
         return
 
     def _switch_abacus_cb(self, widget, user):
-	ABACI = {
-		'b': 'binary',
-		'c': 'suanpan',
-		'f': 'fraction',
-		'h': 'hexadecimal',
-		'j': 'soroban',
-		'm': 'nepohualtzintzin',
-		'r': 'schety',
-		'd': 'decimal',
-		'C': 'caacupe',
-		'R': 'cuisenaire'
-	}
         value = int(float(self.abacus.mode.value()))
-        self.abacus.select_abacus(ABACI[user])
+        self.abacus.select_abacus(self.ABACI[user])
         self.abacus.mode.set_value_from_number(value)
         self.abacus.mode.label(self.abacus.generate_label())
         return True
@@ -139,6 +124,7 @@ class AbacusMain:
     def destroy(self, event, data=None):
         ''' Callback for destroy event. '''
         Gtk.main_quit()
+
 
 def main():
     Gtk.main()
