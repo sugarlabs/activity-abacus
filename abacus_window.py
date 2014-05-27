@@ -36,7 +36,8 @@ except ImportError:
 
 from sprites import Sprites, Sprite
 
-
+INSTANCE = 0
+CLASS = 1
 MAX_RODS = 18
 MAX_TOP = 4
 MAX_BOT = 14
@@ -748,11 +749,11 @@ class Abacus():
         ''' Initialize the canvas and set up the callbacks. '''
         self.activity = parent
 
-        if parent is None:        # Starting from command line
+        if parent is None:  # Starting from command line
             self.sugar = False
             self.canvas = canvas
             self.bead_colors = ['#FFFFFF', '#FFFFFF']
-        else:                     # Starting from Sugar
+        else:  # Starting from Sugar
             self.sugar = True
             self.canvas = canvas
             self.bead_colors = parent.bead_colors
@@ -805,6 +806,7 @@ class Abacus():
         self.cuisenaire = None
         self.custom = None
 
+        # name: [INSTANCE, CLASS]
         self.mode_dict = {'decimal': [self.decimal, Decimal],
                           'soroban': [self.soroban, Soroban],
                           'suanpan': [self.suanpan, Suanpan],
@@ -853,15 +855,18 @@ class Abacus():
         # self.mode.show(reset=True)
 
     def select_abacus(self, abacus):
-        _logger.debug('abacus_window: selecting %s' % abacus)
+        _logger.debug('hiding old instance')
         self.mode.hide()
 
-        if self.mode_dict[abacus][0] is None:
-            self.mode_dict[abacus][0] = self.mode_dict[abacus][1](
-                self, self.bead_colors)
+        _logger.debug('abacus_window: selecting %s' % abacus)
+        if self.mode_dict[abacus][INSTANCE] is None:
+            _logger.debug('creating new instance')
+            self.mode_dict[abacus][INSTANCE] = \
+                self.mode_dict[abacus][CLASS](self, self.bead_colors)
         else:
-            self.mode_dict[abacus][0].draw_rods_and_beads()
-        self.mode = self.mode_dict[abacus][0]
+            _logger.debug('restoring old instance')
+            self.mode_dict[abacus][INSTANCE].draw_rods_and_beads()
+        self.mode = self.mode_dict[abacus][INSTANCE]
         self.mode.show()
         self.mode.label(self.generate_label())
 
@@ -1066,9 +1071,6 @@ class AbacusGeneric():
         ''' Specify parameters that define the abacus '''
         self.abacus = abacus
         self.bead_colors = bead_colors
-        self.set_parameters()
-        make_bead_pixbufs(self.abacus.scale)
-        self.create()
 
     def set_parameters(self, rods=15, top=2, bot=5, factor=5, base=10):
         ''' Define the physical paramters. '''
@@ -1347,15 +1349,9 @@ class Custom(AbacusGeneric):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.name = 'custom'
-        self.num_rods = 15
-        self.bot_beads = 5
-        self.top_beads = 2
-        self.top_factor = 5
-        self.base = 10
-        self.bead_colors = bead_colors
+        AbacusGeneric.__init__(self, abacus, bead_colors)
+        self.set_custom_parameters()
+        # self.create()
 
     def set_custom_parameters(self, rods=15, top=2, bot=5, factor=5, base=10):
         ''' Specify parameters that define the abacus '''
@@ -1372,9 +1368,7 @@ class Nepohualtzintzin(AbacusGeneric):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
+        AbacusGeneric.__init__(self, abacus, bead_colors)
         self.set_parameters()
         self.create()
 
@@ -1393,9 +1387,7 @@ class Suanpan(AbacusGeneric):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
+        AbacusGeneric.__init__(self, abacus, bead_colors)
         self.set_parameters()
         self.create()
 
@@ -1414,9 +1406,7 @@ class Soroban(AbacusGeneric):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
+        AbacusGeneric.__init__(self, abacus, bead_colors)
         self.set_parameters()
         self.create(dots=True)
 
@@ -1464,9 +1454,7 @@ class Hexadecimal(AbacusGeneric):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
+        AbacusGeneric.__init__(self, abacus, bead_colors)
         self.set_parameters()
         self.create()
 
@@ -1485,9 +1473,7 @@ class Decimal(AbacusGeneric):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
+        AbacusGeneric.__init__(self, abacus, bead_colors)
         self.set_parameters()
         self.create()
 
@@ -1534,9 +1520,7 @@ class Binary(AbacusGeneric):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
+        AbacusGeneric.__init__(self, abacus, bead_colors)
         self.set_parameters()
         self.create()
 
@@ -1555,9 +1539,7 @@ class Schety(AbacusGeneric):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
+        AbacusGeneric.__init__(self, abacus, bead_colors)
         self.set_parameters()
         self.create()
 
@@ -1606,11 +1588,7 @@ class Fractions(Schety):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
-        self.set_parameters()
-        self.create()
+        Schety.__init__(self, abacus, bead_colors)
 
     def set_parameters(self):
         ''' Create an abacus with fractions: 15 by 10 (with 1/2, 1/3. 1/4,
@@ -1663,11 +1641,7 @@ class Caacupe(Fractions):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
-        self.set_parameters()
-        self.create()
+        Fractions.__init__(self, abacus, bead_colors)
 
     def set_parameters(self):
         ''' Create an abacus with fractions: 15 by 10 (with 1/2, 1/3. 1/4,
@@ -1720,11 +1694,7 @@ class Cuisenaire(Caacupe):
 
     def __init__(self, abacus, bead_colors=None):
         ''' Specify parameters that define the abacus '''
-        # super(AbacusGeneric, self).__init__(abacus, bead_colors)
-        self.abacus = abacus
-        self.bead_colors = bead_colors
-        self.set_parameters()
-        self.create()
+        Caacupe.__init__(self, abacus, bead_colors)
 
     def set_parameters(self):
         ''' Create an abacus with fractions: 10 by 10 (with 1/1, 1/2, 1/3. 1/4,
