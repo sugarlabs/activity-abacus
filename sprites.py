@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 #Copyright (c) 2007-8, Playful Invention Company.
-#Copyright (c) 2008-11 Walter Bender
+#Copyright (c) 2008-14 Walter Bender
 
 #Permission is hereby granted, free of charge, to any person obtaining a copy
 #of this software and associated documentation files (the "Software"), to deal
@@ -89,7 +89,7 @@ class Sprites:
         ''' Initialize an empty array of sprites '''
         self.cr = None
         self._widget = widget
-        self._delay = True
+        self._delay = False
         self.list = []
 
     def set_cairo_context(self, cr):

@@ -771,6 +771,7 @@ class Abacus():
         self.width = Gdk.Screen.width()
         self.height = Gdk.Screen.height() - GRID_CELL_SIZE
         self.sprites = Sprites(self.canvas)
+        self.sprites.set_delay(True)
         self.scale = 1.33 * Gdk.Screen.height() / 900.0
         self.dragpos = 0
         self.press = None
@@ -1054,6 +1055,7 @@ class Abacus():
                 return value
 
     def init(self):
+        self.sprites.set_delay(False)
         self.sprites.draw_all()
 
 
