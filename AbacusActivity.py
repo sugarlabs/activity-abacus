@@ -229,11 +229,12 @@ class AbacusActivity(activity.Activity):
         if 'base' in self.metadata:
             self._base_spin.set_value(int(self.metadata['base']))
         if 'abacus' in self.metadata:
-            # Default is Chinese
             if self.metadata['abacus'] in self.abacus_buttons:
                 _logger.debug('restoring %s', self.metadata['abacus'])
+                if self.metadata['abacus'] == 'custom':
+                    self._custom_cb()
                 self.abacus_buttons[self.metadata['abacus']].set_active(True)
-            else:
+            else:  # Default is Chinese
                 self.abacus_buttons['suanpan'].set_active(True)
 
             if 'value' in self.metadata:
