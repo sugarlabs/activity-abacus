@@ -7,3 +7,4 @@ exec = sugar-activity AbacusActivity.AbacusActivity
 icon = activity-abacus
 show_launcher = yes
 summary = a tool for simple arithmetic calculations
+category = maths
