@@ -1,3 +1,8 @@
+58
+
+BUG FIX:
+* Fixed clipboard for GTK3 (tch)
+
 57
 ENHANCEMENT:
 * New translations (gn and ibo)
