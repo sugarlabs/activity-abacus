@@ -342,16 +342,16 @@ class AbacusActivity(activity.Activity):
 
     def _copy_cb(self, arg=None):
         ''' Copy a number to the clipboard from the active abacus. '''
-        clipBoard = Gtk.Clipboard()
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         text = self.abacus.generate_label(sum_only=True)
         if text is not None:
-            clipBoard.set_text(text)
+            clipboard.set_text(text, -1)
         return
 
     def _paste_cb(self, arg=None):
         ''' Paste a number from the clipboard to the active abacus. '''
-        clipBoard = Gtk.Clipboard()
-        text = clipBoard.wait_for_text()
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        text = clipboard.wait_for_text()
         if text is not None:
             try:
                 self.abacus.mode.set_value_from_number(float(text))
