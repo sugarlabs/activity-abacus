@@ -33,14 +33,10 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.0.3\n"
 
-# ZDrl19  <a href="http://pqvkunomzsxf.com/">pqvkunomzsxf</a>, [url=http://vhvwzucrejqc.com/]vhvwzucrejqc[/url], [link=http://svroeatpxxte.com/]svroeatpxxte[/link], http://bxcscclycebv.com/
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
 msgstr ""
-"ZDrl19  <a href=\"http://pqvkunomzsxf.com/\">pqvkunomzsxf</a>, "
-"[url=http://vhvwzucrejqc.com/]vhvwzucrejqc[/url], "
-"[link=http://svroeatpxxte.com/]svroeatpxxte[/link], http://bxcscclycebv.com/"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
