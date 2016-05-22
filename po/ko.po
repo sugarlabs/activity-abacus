@@ -18,119 +18,120 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2015-09-20 06:42+0000\n"
+"Last-Translator: 박현수 <gustn5905@naver.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.6.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1442731332.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
-msgstr ""
+msgstr "계산기"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "단순한 계산을 위한 도구"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr ""
+msgstr "주판"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr ""
+msgstr "주판"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
-msgstr ""
+msgstr "10진수"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "주판"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
-msgstr ""
+msgstr "16진수"
 
 #: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
-msgstr ""
+msgstr "2진수"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr ""
+msgstr "주판"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr ""
+msgstr "분수"
 
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr ""
+msgstr "카아쿠페(파라과이 코르디예라(Cordillera) 주의 주도)"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr ""
+msgstr "막대기"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr ""
+msgstr "맞춤형"
 
 #: AbacusActivity.py:74
 msgid "Edit"
-msgstr ""
+msgstr "편집"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr ""
+msgstr "초기화"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
-msgstr ""
+msgstr "<ctrl>Q"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr ""
+msgstr "막대기"
 
 #: AbacusActivity.py:199
 msgid "Top:"
-msgstr ""
+msgstr "맨위:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr ""
+msgstr "맨아래:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr ""
+msgstr "인수:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr ""
+msgstr "밑:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
-msgstr ""
+msgstr "복사"
 
 #: AbacusActivity.py:222
 msgid "Paste"
-msgstr ""
+msgstr "붙여넣기"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr ""
+msgstr "새로운 계산기를 불러오는 중입니다."
 
 #: abacus.py:72
 msgid "Quit"
-msgstr ""
+msgstr "나가기"

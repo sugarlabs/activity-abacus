@@ -18,119 +18,121 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2015-10-28 15:01+0000\n"
+"Last-Translator: lxlalexlxl <pilipchukap@rambler.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.6.0\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1446044470.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
-msgstr ""
+msgstr "Абак"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "пристрій для простих арифметичних розрахунків"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr ""
+msgstr "Суаньпань"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr ""
+msgstr "Соробан"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
-msgstr ""
+msgstr "Десятковий"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "Непоуалцінцін"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
-msgstr ""
+msgstr "Шістнадцятковий"
 
 #: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
-msgstr ""
+msgstr "Двійковий"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr ""
+msgstr "Рахівниця"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr ""
+msgstr "Дробовий"
 
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr ""
+msgstr "Каакупе"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr ""
+msgstr "Стержні"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr ""
+msgstr "Інший"
 
 #: AbacusActivity.py:74
 msgid "Edit"
-msgstr ""
+msgstr "Змінити"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr ""
+msgstr "Скинути"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
-msgstr ""
+msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr ""
+msgstr "Стержнів:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
-msgstr ""
+msgstr "Вгорі:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr ""
+msgstr "Внизу:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr ""
+msgstr "Множник"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr ""
+msgstr "Основа:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
-msgstr ""
+msgstr "Копіювати"
 
 #: AbacusActivity.py:222
 msgid "Paste"
-msgstr ""
+msgstr "Вставити"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr ""
+msgstr "Новий абак завантажується."
 
 #: abacus.py:72
 msgid "Quit"
-msgstr ""
+msgstr "Вийти"

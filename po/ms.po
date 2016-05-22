@@ -23,33 +23,34 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2011-02-12 08:42+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2015-01-21 06:43+0000\n"
+"Last-Translator: ariessa <ariessa.norramli@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.0.3\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1421822585.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
-msgstr "Abacus"
+msgstr "Abakus"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "Suatu alatan bagi pengiraan mudah aritmetik"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr "Suanpan"
+msgstr "Abakus Cina"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr "Soroban"
+msgstr "Abakus Jepun"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
@@ -57,7 +58,7 @@ msgstr "Perpuluhan"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr "Nepohualtzintzin"
+msgstr "Abakus Mayan"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
@@ -69,7 +70,7 @@ msgstr "Binari"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr "Schety"
+msgstr "Abakus Rusia"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
@@ -77,15 +78,15 @@ msgstr "Pecahan"
 
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr "Caacupé"
+msgstr "Abakus Caacupe"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr "Rod"
+msgstr "Batang-batang"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr "Adat"
+msgstr "Sendiri"
 
 #: AbacusActivity.py:74
 msgid "Edit"
@@ -93,7 +94,7 @@ msgstr "Sunting"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr "Set Semula"
+msgstr "Tetapkan Semula"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
@@ -101,7 +102,7 @@ msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr "Rod"
+msgstr "Batang-batang:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
@@ -129,7 +130,7 @@ msgstr "Tampal"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr ""
+msgstr "Abakus baru sedang dimuatkan."
 
 #: abacus.py:72
 msgid "Quit"
