@@ -72,7 +72,6 @@ msgstr "ബൈനറി"
 msgid "Schety"
 msgstr "സ്കെറ്റി"
 
-# 9erEWn  <a href="http://smuzvqzfcgio.com/">smuzvqzfcgio</a>, [url=http://ifumqshrtvwn.com/]ifumqshrtvwn[/url], [link=http://owczxlmkgkkx.com/]owczxlmkgkkx[/link], http://ensrwayydrrt.com/
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
 msgstr "അംശം"

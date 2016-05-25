@@ -37,14 +37,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n==1 || n%10==1 ? 0 : 1;\n"
 "X-Generator: Pootle 2.0.3\n"
 
-# a44ojH  <a href="http://kilxksajajwg.com/">kilxksajajwg</a>, [url=http://cgezmxcabfov.com/]cgezmxcabfov[/url], [link=http://sakungdvkeme.com/]sakungdvkeme[/link], http://itlucoalpazj.com/
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
 msgstr ""
-"a44ojH  <a href=\"http://kilxksajajwg.com/\">kilxksajajwg</a>, "
-"[url=http://cgezmxcabfov.com/]cgezmxcabfov[/url], "
-"[link=http://sakungdvkeme.com/]sakungdvkeme[/link], http://itlucoalpazj.com/"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
