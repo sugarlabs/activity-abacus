@@ -38,7 +38,6 @@ msgstr ""
 "X-Generator: Pootle 2.5.1.1\n"
 "X-POOTLE-MTIME: 1442747816.000000\n"
 
-# HRAaWp  <a href="http://enjjniszmquu.com/">enjjniszmquu</a>, [url=http://enauzupuwebt.com/]enauzupuwebt[/url], [link=http://iikcswxwucbt.com/]iikcswxwucbt[/link], http://kedalyhujyae.com/
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
