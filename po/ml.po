@@ -23,118 +23,116 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2010-10-12 20:23+0200\n"
-"Last-Translator: frannyberry <frannyberry@writeme.com>\n"
+"PO-Revision-Date: 2016-01-09 04:59+0000\n"
+"Last-Translator: lanevo <melvingeorge@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ml\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.3\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1452315593.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
-msgstr ""
+msgstr "അബാകസ്"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "ലളിതമായ കണക്കുക്കൂട്ടലുകൾക്ക് ഉള്ള ഒരു ഉപകരണം"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr ""
+msgstr "സൂഅൻ പാൻ"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr ""
+msgstr "സോറോ ബാൻ"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
-msgstr ""
+msgstr "ദശാംശം"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "നെപോഹുഅൽ റ്റ്സിൻ റ്റ്സിൻ"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
-msgstr ""
+msgstr "ഹെക്സാഡെസിമല്‍"
 
 #: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
-msgstr ""
+msgstr "ബൈനറി"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr ""
+msgstr "സ്കെറ്റി"
 
 # 9erEWn  <a href="http://smuzvqzfcgio.com/">smuzvqzfcgio</a>, [url=http://ifumqshrtvwn.com/]ifumqshrtvwn[/url], [link=http://owczxlmkgkkx.com/]owczxlmkgkkx[/link], http://ensrwayydrrt.com/
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr ""
-"9erEWn  <a href=\"http://smuzvqzfcgio.com/\">smuzvqzfcgio</a>, "
-"[url=http://ifumqshrtvwn.com/]ifumqshrtvwn[/url], "
-"[link=http://owczxlmkgkkx.com/]owczxlmkgkkx[/link], http://ensrwayydrrt.com/"
+msgstr "അംശം"
 
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr ""
+msgstr "കാക്കുപ്പെ"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr ""
+msgstr "വടികൾ"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr ""
+msgstr "യഥേഷ്ടം"
 
 #: AbacusActivity.py:74
 msgid "Edit"
-msgstr ""
+msgstr "തിരുത്തുക"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr ""
+msgstr "പുനഃക്രമീകരിക്കുക"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
-msgstr ""
+msgstr "<Ctrl>Q (ക്യു)"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr ""
+msgstr "വടികൾ:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
-msgstr ""
+msgstr "മുകളില്‍:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr ""
+msgstr "താഴെ:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr ""
+msgstr "ഘടകം:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr ""
+msgstr "അടിസ്ഥാനം:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
-msgstr ""
+msgstr "പകര്‍ത്തുക"
 
 #: AbacusActivity.py:222
 msgid "Paste"
-msgstr ""
+msgstr "വയ്ക്കുക"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr ""
+msgstr "ഒരു പുതിയ അബാകസ് ലഭ്യമാക്കുകയാണ്."
 
 #: abacus.py:72
 msgid "Quit"
-msgstr ""
+msgstr "മതിയാക്കുക"

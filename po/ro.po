@@ -18,119 +18,124 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2016-03-12 20:04+0000\n"
+"Last-Translator: sandraelazar@gmail.com <sandraelazar@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.6.0\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1457813051.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
-msgstr ""
+msgstr "Abac"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "Instrument care permite rezolvarea imediată a unor calcule aritmetice."
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr ""
+msgstr "Abac in japoneza"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr ""
+msgstr "Abac japonez"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
-msgstr ""
+msgstr "Zecimal"
 
+# Mesoamericani Mexicani, au inventat Nepohualtzintzi,care era  utilizat cum un abac pentru a efectua operații aritmetice rapide. Aparatul este realizat cu lemn, fire si boabe de porumb, de asemenea, cunoscut sub numele de "Calculator Aztec".
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "Nepohualtzintzin calculator aztec"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
-msgstr ""
+msgstr "Hexazecimal"
 
 #: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
-msgstr ""
+msgstr "Binar"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr ""
+msgstr "Abac in ruseste"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr ""
+msgstr "Fracție"
 
+# Caacupé e o localitate din Paraguay.
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr ""
+msgstr "Caacupé"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr ""
+msgstr "Tije"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr ""
+msgstr "Crea"
 
 #: AbacusActivity.py:74
 msgid "Edit"
-msgstr ""
+msgstr "Editează"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr ""
+msgstr "Resetează"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
+#  BÁRĂ,bare, s. f. 1. Bucată lungă de lemn sau de metal cu întrebuințări în construcție, în tehnică
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr ""
+msgstr "Bare:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
-msgstr ""
+msgstr "Sus:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr ""
+msgstr "Jos:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr ""
+msgstr "Factor:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr ""
+msgstr "Bază:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
-msgstr ""
+msgstr "Copiere"
 
 #: AbacusActivity.py:222
 msgid "Paste"
-msgstr ""
+msgstr "Lipire"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr ""
+msgstr "Un nou abac se încarcă."
 
 #: abacus.py:72
 msgid "Quit"
-msgstr ""
+msgstr "Ieșire"

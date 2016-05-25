@@ -23,15 +23,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2012-07-04 10:01+0200\n"
-"Last-Translator: jui <appukonrad@gmail.com>\n"
+"PO-Revision-Date: 2015-12-29 13:28+0000\n"
+"Last-Translator: pbo <pavel.borecki@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1451395721.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
@@ -41,7 +42,7 @@ msgstr "Počítadlo"
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "nástroj pro jednoduché aritmetické výpočty"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
