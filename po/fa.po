@@ -2,28 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2016-02-21 06:26+0000\n"
+"PO-Revision-Date: 2017-03-12 02:26+0000\n"
 "Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fa\n"
@@ -32,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1456035964.000000\n"
+"X-POOTLE-MTIME: 1489285591.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
@@ -102,11 +86,11 @@ msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr "میله"
+msgstr "میله:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
-msgstr "بالا"
+msgstr "بالا:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
@@ -114,11 +98,11 @@ msgstr "پایین:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr "عامل"
+msgstr "عامل:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr "پایه"
+msgstr "پایه:"
 
 #: AbacusActivity.py:220
 msgid "Copy"

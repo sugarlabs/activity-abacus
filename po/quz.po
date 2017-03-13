@@ -1,3 +1,6 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # Amos Batto <amosbatt@yahoo.com>, 2011.
 # Irma Alvarez <sankaypillo@gmail.com>, 2011.
 msgid ""

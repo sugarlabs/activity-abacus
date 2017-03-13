@@ -2,98 +2,83 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2012-04-14 08:19+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"PO-Revision-Date: 2016-11-13 08:13+0000\n"
+"Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1479024801.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
-msgstr ""
+msgstr "חשבונייה"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "כלי לחישובים אריתמטיים פשוטים"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr ""
+msgstr "חשבונייה סינית"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr ""
+msgstr "חשבונייה יפנית"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
-msgstr ""
+msgstr "עשרוני"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "חשבונייה של בני המאיה"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
-msgstr ""
+msgstr "הקסדצימלי"
 
 #: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
-msgstr "בינארי"
+msgstr "בינרי"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr ""
+msgstr "חשבונייה רוסית"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr ""
+msgstr "שבר"
 
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr ""
+msgstr "חשבוניית שברים חיוביים ושליליים"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr ""
+msgstr "שורות"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr ""
+msgstr "התאמה אישית"
 
 #: AbacusActivity.py:74
 msgid "Edit"
-msgstr ""
+msgstr "עריכה"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr ""
+msgstr "איפוס"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
@@ -101,36 +86,36 @@ msgstr ""
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr ""
+msgstr "שורות:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
-msgstr ""
+msgstr "עליון:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr ""
+msgstr "תחתון:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr ""
+msgstr "מקדם:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr ""
+msgstr "בסיס:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
-msgstr ""
+msgstr "העתקה"
 
 #: AbacusActivity.py:222
 msgid "Paste"
-msgstr ""
+msgstr "הדבקה"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr ""
+msgstr "חשבונייה חדשה נטענת."
 
 #: abacus.py:72
 msgid "Quit"
-msgstr ""
+msgstr "יציאה"
