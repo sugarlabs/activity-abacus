@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2015-03-12 15:28+0000\n"
-"Last-Translator: cblinks <ebukaabazie@hotmail.com>\n"
+"PO-Revision-Date: 2017-03-12 03:06+0000\n"
+"Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ibo\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1426174121.000000\n"
+"X-POOTLE-MTIME: 1489287988.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
@@ -38,7 +38,7 @@ msgstr "Soroban"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
-msgstr "ntụpọ"
+msgstr "Ntụpọ"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
@@ -50,7 +50,7 @@ msgstr "Hexadecimal"
 
 #: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
-msgstr "ọnụọgụ abụọ"
+msgstr "Ọnụọgụ abụọ"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
@@ -58,7 +58,7 @@ msgstr "Schety"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr "akụkụ"
+msgstr "Akụkụ"
 
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
@@ -66,11 +66,11 @@ msgstr "Caacupé"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr "mkpara"
+msgstr "Mkpara"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr "omenala"
+msgstr "Omenala"
 
 #: AbacusActivity.py:74
 msgid "Edit"
@@ -82,11 +82,11 @@ msgstr "Tọgharia"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
-msgstr "< Ctrl > Ẹdọhọ"
+msgstr "<Ctrl>Ẹdọhọ"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr "mkpara"
+msgstr "Mkpara:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
@@ -94,15 +94,15 @@ msgstr "Top:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr "ahla"
+msgstr "Ahla:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr "lekọtara :"
+msgstr "Lekọtara:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr "isi"
+msgstr "Isi:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
@@ -110,7 +110,7 @@ msgstr "Detuo"
 
 #: AbacusActivity.py:222
 msgid "Paste"
-msgstr "tapawa"
+msgstr "Tapawa"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."

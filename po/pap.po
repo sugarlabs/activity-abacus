@@ -1,25 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
 # USER <ithelbrute@yahoo.com>, 2013.
 # User <juneleonora@yahoo.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-10 00:31-0500\n"
+"POT-Creation-Date: 2012-10-29 00:31-0400\n"
 "PO-Revision-Date: 2013-08-30 01:42+0200\n"
 "Last-Translator: Chris <cjl@laptop.org>\n"
 "Language-Team: JuneLeonora\n"
@@ -31,7 +19,7 @@ msgstr ""
 "X-Generator: Pootle 2.0.5\n"
 
 #. TRANS: "name" option from activity.info file
-#: abacus.py:54
+#: abacus.py:48
 msgid "Abacus"
 msgstr "Tèlram"
 
@@ -40,96 +28,97 @@ msgstr "Tèlram"
 msgid "a tool for simple arithmetic calculations"
 msgstr "un hèrmènt pa kalkulashon aritmétiko simpel"
 
-#: AbacusActivity.py:45 abacus.py:58
+#: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
 msgstr "Suanpan"
 
-#: AbacusActivity.py:46 AbacusActivity.py:131 abacus.py:59
+#: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
 msgstr "Tèlram hapones"
 
-#: AbacusActivity.py:47 abacus.py:65
+#: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
 msgstr "Desimal"
 
-#: AbacusActivity.py:48 abacus.py:61
+#: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
 msgstr "Nepohualtzintzin"
 
-#: AbacusActivity.py:49 abacus.py:63
+#: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
 msgstr "Hèksadesimal"
 
-#: AbacusActivity.py:50 abacus.py:62
+#: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
 msgstr "Binario"
 
-#: AbacusActivity.py:51 abacus.py:60
+#: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
 msgstr "Schety"
 
-#: AbacusActivity.py:53 abacus.py:66
-msgid "Caacupé"
-msgstr "Caacupé"
-
-#: AbacusActivity.py:54 abacus.py:67
-msgid "Rods"
-msgstr "Bara"
-
-#: AbacusActivity.py:55 AbacusActivity.py:201 AbacusActivity.py:235
-msgid "Custom"
-msgstr "Kustumber"
-
-#: AbacusActivity.py:82
-msgid "Edit"
-msgstr "Editá"
-
-#: AbacusActivity.py:106 abacus.py:75
-msgid "Reset"
-msgstr "Reinisiá"
-
-#: AbacusActivity.py:115
-msgid "<Ctrl>Q"
-msgstr "<Ctrl>Q"
-
-#: AbacusActivity.py:212
-msgid "Rods:"
-msgstr "Bara:"
-
-#: AbacusActivity.py:215
-msgid "Top:"
-msgstr "Tòp:"
-
-#: AbacusActivity.py:218
-msgid "Bottom:"
-msgstr "Bòm:"
-
-#: AbacusActivity.py:221
-msgid "Factor:"
-msgstr "Faktor:"
-
-#: AbacusActivity.py:224
-msgid "Base:"
-msgstr "Base:"
-
-#: AbacusActivity.py:238
-msgid "Copy"
-msgstr "Kopia"
-
-#: AbacusActivity.py:240
-msgid "Paste"
-msgstr "Pega"
-
-#: abacus.py:64
+#: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
 msgstr "Frakshon"
 
-#: abacus.py:78
+#: AbacusActivity.py:46 abacus.py:60
+msgid "Caacupé"
+msgstr "Caacupé"
+
+#: AbacusActivity.py:47 abacus.py:61
+msgid "Rods"
+msgstr "Bara"
+
+#: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
+msgid "Custom"
+msgstr "Kustumber"
+
+#: AbacusActivity.py:74
+msgid "Edit"
+msgstr "Editá"
+
+#: AbacusActivity.py:98 abacus.py:69
+msgid "Reset"
+msgstr "Reinisiá"
+
+#: AbacusActivity.py:107
+msgid "<Ctrl>Q"
+msgstr "<Ctrl>Q"
+
+#: AbacusActivity.py:196
+msgid "Rods:"
+msgstr "Bara:"
+
+#: AbacusActivity.py:199
+msgid "Top:"
+msgstr "Tòp:"
+
+#: AbacusActivity.py:202
+msgid "Bottom:"
+msgstr "Bòm:"
+
+#: AbacusActivity.py:205
+msgid "Factor:"
+msgstr "Faktor:"
+
+#: AbacusActivity.py:208
+msgid "Base:"
+msgstr "Base:"
+
+#: AbacusActivity.py:220
+msgid "Copy"
+msgstr "Kopia"
+
+#: AbacusActivity.py:222
+msgid "Paste"
+msgstr "Pega"
+
+#: AbacusActivity.py:311
+msgid "A new abacus is loading."
+msgstr "Un tèlram nobo ta kargando."
+
+#: abacus.py:72
 msgid "Quit"
 msgstr "Stòp, Sali"
-
-#~ msgid "A new abacus is loading."
-#~ msgstr "Un tèlram nobo ta kargando."
 
 #~ msgid "Project"
 #~ msgstr "Proyekto"

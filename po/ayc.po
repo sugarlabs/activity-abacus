@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2015-06-29 15:02+0000\n"
-"Last-Translator: EdgarQuispeChambi <equispe7@gmail.com>\n"
+"PO-Revision-Date: 2017-03-12 02:59+0000\n"
+"Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ayc\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1435590156.000000\n"
+"X-POOTLE-MTIME: 1489287568.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
@@ -119,7 +119,7 @@ msgstr "Lip'katayaña"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr "Machaqa Ábaco wakichatawa wakichasiski."
+msgstr "machaqa Ábaco wakichatawa wakichasiski."
 
 #  "Salir"
 #: abacus.py:72

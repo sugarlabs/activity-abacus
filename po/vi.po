@@ -2,36 +2,21 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2012-09-19 10:25+0200\n"
-"Last-Translator: vucv <chuvanvu@gmail.com>\n"
+"PO-Revision-Date: 2017-03-10 08:30+0000\n"
+"Last-Translator: thuyn <thuy.hispvietnam@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1489134601.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
@@ -41,11 +26,11 @@ msgstr "Bàn tính"
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "công cụ tính số học đơn giản"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr ""
+msgstr "Bàn tính Suanpan"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
@@ -57,7 +42,7 @@ msgstr "Thập phân"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "Bàn tính Nepohualtzintzin"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
@@ -69,7 +54,7 @@ msgstr "Nhị phân"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr ""
+msgstr "Bàn tính Schety"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"

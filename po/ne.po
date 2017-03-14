@@ -2,39 +2,24 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-10 00:31-0500\n"
-"PO-Revision-Date: 2013-12-11 04:15+0200\n"
-"Last-Translator: Chris <cjl@laptop.org>\n"
+"POT-Creation-Date: 2012-10-29 00:31-0400\n"
+"PO-Revision-Date: 2017-03-12 03:20+0000\n"
+"Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ne\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.0.5\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1489288818.000000\n"
 
 #. TRANS: "name" option from activity.info file
-#: abacus.py:54
+#: abacus.py:48
 msgid "Abacus"
 msgstr "एबकस"
 
@@ -43,96 +28,97 @@ msgstr "एबकस"
 msgid "a tool for simple arithmetic calculations"
 msgstr "अङ्कगणितको हिसाब सजिलैसँग गर्ने एउटा उपकरण"
 
-#: AbacusActivity.py:45 abacus.py:58
+#: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
 msgstr "पुरानो चिनिया समयको अबकास"
 
-#: AbacusActivity.py:46 AbacusActivity.py:131 abacus.py:59
+#: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
 msgstr "एक प्रकार को अबाकस"
 
-#: AbacusActivity.py:47 abacus.py:65
+#: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
 msgstr "डेसिमल"
 
-#: AbacusActivity.py:48 abacus.py:61
+#: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
 msgstr "अंग्रेज अबाकस"
 
-#: AbacusActivity.py:49 abacus.py:63
+#: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
 msgstr "आधारांक"
 
-#: AbacusActivity.py:50 abacus.py:62
+#: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
 msgstr "दियांगिक"
 
-#: AbacusActivity.py:51 abacus.py:60
+#: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
 msgstr "रुसी अबाकस"
 
-#: AbacusActivity.py:53 abacus.py:66
-msgid "Caacupé"
-msgstr "जोड र घटाऊ गर्ने अबाकस"
-
-#: AbacusActivity.py:54 abacus.py:67
-msgid "Rods"
-msgstr "रडहरु"
-
-#: AbacusActivity.py:55 AbacusActivity.py:201 AbacusActivity.py:235
-msgid "Custom"
-msgstr "आफ्नै तरिका को"
-
-#: AbacusActivity.py:82
-msgid "Edit"
-msgstr "सम्पादन"
-
-#: AbacusActivity.py:106 abacus.py:75
-msgid "Reset"
-msgstr "पुरानो अवस्था"
-
-#: AbacusActivity.py:115
-msgid "<Ctrl>Q"
-msgstr "<Ctrl>Q"
-
-#: AbacusActivity.py:212
-msgid "Rods:"
-msgstr "रडहरु:"
-
-#: AbacusActivity.py:215
-msgid "Top:"
-msgstr "माथि:"
-
-#: AbacusActivity.py:218
-msgid "Bottom:"
-msgstr "तल:"
-
-#: AbacusActivity.py:221
-msgid "Factor:"
-msgstr "गुणन खण्ड"
-
-#: AbacusActivity.py:224
-msgid "Base:"
-msgstr "स्रोत:"
-
-#: AbacusActivity.py:238
-msgid "Copy"
-msgstr "प्रतिलिपी बनाउ"
-
-#: AbacusActivity.py:240
-msgid "Paste"
-msgstr "प्रतिलिपी सार"
-
-#: abacus.py:64
+#: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
 msgstr "अंश"
 
-#: abacus.py:78
+#: AbacusActivity.py:46 abacus.py:60
+msgid "Caacupé"
+msgstr "जोड र घटाऊ गर्ने अबाकस"
+
+#: AbacusActivity.py:47 abacus.py:61
+msgid "Rods"
+msgstr "रडहरु"
+
+#: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
+msgid "Custom"
+msgstr "आफ्नै तरिका को"
+
+#: AbacusActivity.py:74
+msgid "Edit"
+msgstr "सम्पादन"
+
+#: AbacusActivity.py:98 abacus.py:69
+msgid "Reset"
+msgstr "पुरानो अवस्था"
+
+#: AbacusActivity.py:107
+msgid "<Ctrl>Q"
+msgstr "<Ctrl>Q"
+
+#: AbacusActivity.py:196
+msgid "Rods:"
+msgstr "रडहरु:"
+
+#: AbacusActivity.py:199
+msgid "Top:"
+msgstr "माथि:"
+
+#: AbacusActivity.py:202
+msgid "Bottom:"
+msgstr "तल:"
+
+#: AbacusActivity.py:205
+msgid "Factor:"
+msgstr "गुणन खण्ड:"
+
+#: AbacusActivity.py:208
+msgid "Base:"
+msgstr "स्रोत:"
+
+#: AbacusActivity.py:220
+msgid "Copy"
+msgstr "प्रतिलिपी बनाउ"
+
+#: AbacusActivity.py:222
+msgid "Paste"
+msgstr "प्रतिलिपी सार"
+
+#: AbacusActivity.py:311
+msgid "A new abacus is loading."
+msgstr "एउटा नयँ एबकस लोड हुँदैछ"
+
+#: abacus.py:72
 msgid "Quit"
 msgstr "बन्द"
-
-#~ msgid "A new abacus is loading."
-#~ msgstr "एउटा नयँ एबकस लोड हुँदैछ"
 
 #~ msgid "Project"
 #~ msgstr "योजना"

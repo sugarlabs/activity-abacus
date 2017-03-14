@@ -2,33 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2016-05-11 02:14+0000\n"
-"Last-Translator: Blondel <blondel.md@gmail.com>\n"
+"PO-Revision-Date: 2017-03-12 02:17+0000\n"
+"Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ht\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1462932850.000000\n"
+"X-POOTLE-MTIME: 1489285054.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
@@ -106,7 +86,7 @@ msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr "Reglèt"
+msgstr "Reglèt:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
@@ -118,11 +98,11 @@ msgstr "Anba:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr "Faktè"
+msgstr "Faktè:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr "Baz"
+msgstr "Baz:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
@@ -134,7 +114,7 @@ msgstr "Kole"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr "Yon nouvo abak ap demare"
+msgstr "Yon nouvo abak ap demare."
 
 #: abacus.py:72
 msgid "Quit"
