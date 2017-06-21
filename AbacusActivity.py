@@ -17,6 +17,8 @@
 # along with the Abacus Activity.  If not, see <http://www.gnu.org/licenses/>.
 
 
+imoprt gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
