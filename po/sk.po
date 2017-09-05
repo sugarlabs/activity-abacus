@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2017-03-12 03:43+0000\n"
+"PO-Revision-Date: 2017-09-05 01:29+0000\n"
 "Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1489290230.000000\n"
+"X-POOTLE-MTIME: 1504574976.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
-msgstr ""
+msgstr "Počítadlo"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
@@ -30,11 +30,11 @@ msgstr "nástroj pre jednoduché aritmetické výpočty"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr ""
+msgstr "Čínske"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr ""
+msgstr "Japonské"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
@@ -42,7 +42,7 @@ msgstr "Desatinné číslo"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "Aztécke"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
@@ -54,55 +54,58 @@ msgstr "Binárny"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr ""
+msgstr "Ruské"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr ""
+msgstr "Zlomok"
 
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr ""
+msgstr "Paraguajské"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr ""
+msgstr "Tyče"
 
+# Zvyky
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr ""
+msgstr "Vlastné"
 
 #: AbacusActivity.py:74
 msgid "Edit"
 msgstr "Editovať"
 
+# Resetovať
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr ""
+msgstr "Znova nastaviť"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
-msgstr ""
+msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr ""
+msgstr "Tyče:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
 msgstr "Navrchu:"
 
+# Naspodu
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr ""
+msgstr "Dole:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr ""
+msgstr "Faktor:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr ""
+msgstr "Základňa:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
@@ -110,12 +113,12 @@ msgstr "Kopírovať"
 
 #: AbacusActivity.py:222
 msgid "Paste"
-msgstr "Vložit"
+msgstr "Vložiť"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr ""
+msgstr "Nahráva sa nové počítadlo."
 
 #: abacus.py:72
 msgid "Quit"
-msgstr ""
+msgstr "Opustiť"

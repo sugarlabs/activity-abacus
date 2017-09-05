@@ -7,78 +7,79 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2017-09-05 01:27+0000\n"
+"PO-Revision-Date: 2017-09-05 01:30+0000\n"
 "Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ta\n"
+"Language: ach\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1504574847.000000\n"
+"X-POOTLE-MTIME: 1504575049.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
+#, fuzzy
 msgid "Abacus"
-msgstr "அபாக்கஸ்"
+msgstr "jaipapaha"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr "எளிய கணிதத்திற்கான ஒரு மென்பொருள்"
+msgstr "gitic pi tiyo cura mogo mayot odoco"
 
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr "சுவான்பான்(Suanpan)"
+msgstr "Suanpan"
 
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr "சாரோபான்(Soroban)"
+msgstr "Soroban"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
-msgstr "இலக்கம்"
+msgstr "Decimal"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr "அபாக்கஸ் பொன்று கணிக்க உதவும் கருவி"
+msgstr "Abakas"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
-msgstr "ஹெக்ஸாடெஷிமல்"
+msgstr "Hexadecimal"
 
 #: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
-msgstr "கருமம்"
+msgstr "Tic matidi ii kompiuta"
 
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr "செட்டி(Schety)"
+msgstr "Schety"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr "புள்ளிவீதம்"
+msgstr "Namba marom"
 
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr "காகீயூப்"
+msgstr "Caacupe"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr "கம்பி பட்டைகள்"
+msgstr "Rarang"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr "விரும்பதக்க"
+msgstr "Cik me kabedomo"
 
 #: AbacusActivity.py:74
 msgid "Edit"
-msgstr "திருத்து"
+msgstr "Yub"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr "மீட்டமை"
+msgstr "Ter nitit"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
@@ -86,45 +87,36 @@ msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr "கம்பி பட்டைகள்:"
+msgstr "Rarang:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
-msgstr "மேல்:"
+msgstr "Iwie:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr "அடியில்:"
+msgstr "Tere:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr "காரணி:"
+msgstr "Namba me anya:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr "அடித்தளம்:"
+msgstr "Guti:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
-msgstr "பிரதி செய்"
+msgstr "Lok"
 
 #: AbacusActivity.py:222
 msgid "Paste"
-msgstr "ஒட்டு"
+msgstr "Dan"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr "ஒரு புதிய அபாகஸ் ஏற்றப்படுகிறது."
+msgstr "Abakas manyen tye kapango."
 
 #: abacus.py:72
 msgid "Quit"
-msgstr "விலகு"
-
-#~ msgid "Project"
-#~ msgstr "புராஜக்ட்"
-
-#~ msgid "Caacupe"
-#~ msgstr "காகீயூப்"
-
-#~ msgid "Cuisenaire"
-#~ msgstr "குய்ஸ்னரி(Cuisenaire)"
+msgstr "Lwi woko"

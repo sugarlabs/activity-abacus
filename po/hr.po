@@ -1,84 +1,90 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# This file is distributed under the same license as the Abacus package.
+# Božidar Putanec <bozidarp@yahoo.com>, 2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Abacus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2017-09-05 01:27+0000\n"
-"Last-Translator: Chris <cjl@sugarlabs.org>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ta\n"
+"PO-Revision-Date: 2017-08-28 10:48+0000\n"
+"Last-Translator: Bo <bozidarp@yahoo.com>\n"
+"Language-Team: Croatian <LL@li.org>\n"
+"Language: hr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1504574847.000000\n"
+"X-POOTLE-MTIME: 1503917292.000000\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
 msgid "Abacus"
-msgstr "அபாக்கஸ்"
+msgstr "Abak računaljka"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
 msgid "a tool for simple arithmetic calculations"
-msgstr "எளிய கணிதத்திற்கான ஒரு மென்பொருள்"
+msgstr "pomagalo za jednostavne aritmetičke izračune"
 
+# http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
 #: AbacusActivity.py:38 abacus.py:52
 msgid "Suanpan"
-msgstr "சுவான்பான்(Suanpan)"
+msgstr "Kineska"
 
+# http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
 #: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
 msgid "Soroban"
-msgstr "சாரோபான்(Soroban)"
+msgstr "Japanska"
 
 #: AbacusActivity.py:40 abacus.py:59
 msgid "Decimal"
-msgstr "இலக்கம்"
+msgstr "Decimalna"
 
+# http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr "அபாக்கஸ் பொன்று கணிக்க உதவும் கருவி"
+msgstr "Aztečka"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
-msgstr "ஹெக்ஸாடெஷிமல்"
+msgstr "Heksadecimalna"
 
 #: AbacusActivity.py:43 abacus.py:56
 msgid "Binary"
-msgstr "கருமம்"
+msgstr "Binarna"
 
+# http://en.wikipedia.org/wiki/Abacus#Russian_abacus
 #: AbacusActivity.py:44 abacus.py:54
 msgid "Schety"
-msgstr "செட்டி(Schety)"
+msgstr "Ruska"
 
 #: AbacusActivity.py:45 abacus.py:58
 msgid "Fraction"
-msgstr "புள்ளிவீதம்"
+msgstr "Razlomci"
 
+# Caacupé
 #: AbacusActivity.py:46 abacus.py:60
 msgid "Caacupé"
-msgstr "காகீயூப்"
+msgstr "Paragvajska"
 
 #: AbacusActivity.py:47 abacus.py:61
 msgid "Rods"
-msgstr "கம்பி பட்டைகள்"
+msgstr "Štapići"
 
 #: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
 msgid "Custom"
-msgstr "விரும்பதக்க"
+msgstr "Moja računaljka"
 
 #: AbacusActivity.py:74
 msgid "Edit"
-msgstr "திருத்து"
+msgstr "Uredi"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
-msgstr "மீட்டமை"
+msgstr "Iznova"
 
 #: AbacusActivity.py:107
 msgid "<Ctrl>Q"
@@ -86,45 +92,45 @@ msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:196
 msgid "Rods:"
-msgstr "கம்பி பட்டைகள்:"
+msgstr "Štapića:"
 
 #: AbacusActivity.py:199
 msgid "Top:"
-msgstr "மேல்:"
+msgstr "Gore:"
 
 #: AbacusActivity.py:202
 msgid "Bottom:"
-msgstr "அடியில்:"
+msgstr "Dolje:"
 
 #: AbacusActivity.py:205
 msgid "Factor:"
-msgstr "காரணி:"
+msgstr "Množenik:"
 
 #: AbacusActivity.py:208
 msgid "Base:"
-msgstr "அடித்தளம்:"
+msgstr "Osnova:"
 
 #: AbacusActivity.py:220
 msgid "Copy"
-msgstr "பிரதி செய்"
+msgstr "Kopiraj"
 
 #: AbacusActivity.py:222
 msgid "Paste"
-msgstr "ஒட்டு"
+msgstr "Zalijepi"
 
 #: AbacusActivity.py:311
 msgid "A new abacus is loading."
-msgstr "ஒரு புதிய அபாகஸ் ஏற்றப்படுகிறது."
+msgstr "Učitava se nova računaljka."
 
 #: abacus.py:72
 msgid "Quit"
-msgstr "விலகு"
+msgstr "Završi"
 
 #~ msgid "Project"
-#~ msgstr "புராஜக்ட்"
+#~ msgstr "Projekt"
 
 #~ msgid "Caacupe"
-#~ msgstr "காகீயூப்"
+#~ msgstr "Caacupe"
 
 #~ msgid "Cuisenaire"
-#~ msgstr "குய்ஸ்னரி(Cuisenaire)"
+#~ msgstr "Cuisenaire"
