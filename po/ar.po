@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-29 00:31-0400\n"
+"POT-Creation-Date: 2017-09-05 12:51+1000\n"
 "PO-Revision-Date: 2016-02-29 14:51+0000\n"
 "Last-Translator: Adil  <adil0lhachmi@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,107 +19,115 @@ msgstr ""
 "X-Generator: Pootle 2.5.1.1\n"
 "X-POOTLE-MTIME: 1456757510.000000\n"
 
-#. TRANS: "name" option from activity.info file
-#: abacus.py:48
+#: activity/activity.info:2 abacus.py:64
 msgid "Abacus"
 msgstr "العداد"
 
-#. TRANS: "summary" option from activity.info file
-#. TRANS: "description" option from activity.info file
+#: activity/activity.info:3
 msgid "a tool for simple arithmetic calculations"
 msgstr "أداة للعمليات الحسابية البسيطة"
 
-#: AbacusActivity.py:38 abacus.py:52
+#. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
+#: AbacusActivity.py:47
 msgid "Suanpan"
 msgstr "عداد صيني"
 
-#: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
+#. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
+#: AbacusActivity.py:49
 msgid "Soroban"
 msgstr "عداد ياباني"
 
-#: AbacusActivity.py:40 abacus.py:59
+#. TRANS: simple decimal abacus
+#: AbacusActivity.py:51
 msgid "Decimal"
 msgstr "عشري"
 
-#: AbacusActivity.py:41 abacus.py:55
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
+#: AbacusActivity.py:53
 msgid "Nepohualtzintzin"
 msgstr "عداد شعب المايا"
 
-#: AbacusActivity.py:42 abacus.py:57
+#. TRANS: hexidecimal abacus
+#: AbacusActivity.py:55
 msgid "Hexadecimal"
 msgstr "ست عشري"
 
-#: AbacusActivity.py:43 abacus.py:56
+#. TRANS: binary abacus
+#: AbacusActivity.py:57
 msgid "Binary"
 msgstr "ثنائي"
 
-#: AbacusActivity.py:44 abacus.py:54
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
+#: AbacusActivity.py:59
 msgid "Schety"
 msgstr "عداد روسي"
 
-#: AbacusActivity.py:45 abacus.py:58
-msgid "Fraction"
-msgstr "كسر"
-
-#: AbacusActivity.py:46 abacus.py:60
+#. TRANS: abacus for adding fractions
+#. 'fraction': _('Fraction'),
+#. TRANS: Abacus invented by teachers in Caacupé, Paraguay
+#: AbacusActivity.py:63
 msgid "Caacupé"
 msgstr "كاكوبي"
 
-#: AbacusActivity.py:47 abacus.py:61
+#. TRANS: Cuisenaire Rods
+#: AbacusActivity.py:65
 msgid "Rods"
 msgstr "قضبان"
 
-#: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
+#. TRANS: Custom abacus
+#: AbacusActivity.py:67 AbacusActivity.py:167 AbacusActivity.py:201
 msgid "Custom"
 msgstr "مخصص"
 
-#: AbacusActivity.py:74
+#: AbacusActivity.py:94
 msgid "Edit"
 msgstr "حرّر"
 
-#: AbacusActivity.py:98 abacus.py:69
+#: AbacusActivity.py:118 abacus.py:72
 msgid "Reset"
 msgstr "صفِّر"
 
-#: AbacusActivity.py:107
+#: AbacusActivity.py:127
 msgid "<Ctrl>Q"
 msgstr "<Ctrl>Q"
 
-#: AbacusActivity.py:196
+#: AbacusActivity.py:178
 msgid "Rods:"
 msgstr "قضبان:"
 
-#: AbacusActivity.py:199
+#: AbacusActivity.py:181
 msgid "Top:"
 msgstr "أعلى:"
 
-#: AbacusActivity.py:202
+#: AbacusActivity.py:184
 msgid "Bottom:"
 msgstr "أسفل:"
 
-#: AbacusActivity.py:205
+#: AbacusActivity.py:187
 msgid "Factor:"
 msgstr "المعامل:"
 
-#: AbacusActivity.py:208
+#: AbacusActivity.py:190
 msgid "Base:"
 msgstr "الأساس:"
 
-#: AbacusActivity.py:220
+#: AbacusActivity.py:204
 msgid "Copy"
 msgstr "انسخ"
 
-#: AbacusActivity.py:222
+#: AbacusActivity.py:206
 msgid "Paste"
 msgstr "الصق"
 
-#: AbacusActivity.py:311
-msgid "A new abacus is loading."
-msgstr "يتم تحميل العداد الجديد."
-
-#: abacus.py:72
+#: abacus.py:75
 msgid "Quit"
 msgstr "اخرج"
+
+#~ msgid "Fraction"
+#~ msgstr "كسر"
+
+#~ msgid "A new abacus is loading."
+#~ msgstr "يتم تحميل العداد الجديد."
 
 #~ msgid "Project"
 #~ msgstr "مشروع"

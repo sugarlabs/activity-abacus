@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-29 00:31-0400\n"
-"PO-Revision-Date: 2017-09-05 01:30+0000\n"
-"Last-Translator: Chris <cjl@sugarlabs.org>\n"
+"PO-Revision-Date: 2017-10-03 05:41+0000\n"
+"Last-Translator: Olot <agwanta2004@yahoo.co.uk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ach\n"
 "MIME-Version: 1.0\n"
@@ -16,13 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1504575049.000000\n"
+"X-POOTLE-MTIME: 1507009267.000000\n"
 
 #. TRANS: "name" option from activity.info file
 #: abacus.py:48
-#, fuzzy
 msgid "Abacus"
-msgstr "jaipapaha"
+msgstr "Abakac"
 
 #. TRANS: "summary" option from activity.info file
 #. TRANS: "description" option from activity.info file
@@ -43,7 +42,7 @@ msgstr "Decimal"
 
 #: AbacusActivity.py:41 abacus.py:55
 msgid "Nepohualtzintzin"
-msgstr "Abakas"
+msgstr "Nepohualtzintzin"
 
 #: AbacusActivity.py:42 abacus.py:57
 msgid "Hexadecimal"
@@ -75,7 +74,7 @@ msgstr "Cik me kabedomo"
 
 #: AbacusActivity.py:74
 msgid "Edit"
-msgstr "Yub"
+msgstr "Yubu"
 
 #: AbacusActivity.py:98 abacus.py:69
 msgid "Reset"
