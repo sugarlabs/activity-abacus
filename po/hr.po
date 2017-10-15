@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Abacus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-29 00:31-0400\n"
+"POT-Creation-Date: 2017-09-05 12:51+1000\n"
 "PO-Revision-Date: 2017-08-28 10:48+0000\n"
 "Last-Translator: Bo <bozidarp@yahoo.com>\n"
 "Language-Team: Croatian <LL@li.org>\n"
@@ -16,115 +16,123 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1503917292.000000\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-POOTLE-MTIME: 1503917292.000000\n"
 
-#. TRANS: "name" option from activity.info file
-#: abacus.py:48
+#: activity/activity.info:2 abacus.py:64
 msgid "Abacus"
 msgstr "Abak računaljka"
 
-#. TRANS: "summary" option from activity.info file
-#. TRANS: "description" option from activity.info file
+#: activity/activity.info:3
 msgid "a tool for simple arithmetic calculations"
 msgstr "pomagalo za jednostavne aritmetičke izračune"
 
 # http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
-#: AbacusActivity.py:38 abacus.py:52
+#. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
+#: AbacusActivity.py:47
 msgid "Suanpan"
 msgstr "Kineska"
 
 # http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
-#: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
+#. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
+#: AbacusActivity.py:49
 msgid "Soroban"
 msgstr "Japanska"
 
-#: AbacusActivity.py:40 abacus.py:59
+#. TRANS: simple decimal abacus
+#: AbacusActivity.py:51
 msgid "Decimal"
 msgstr "Decimalna"
 
 # http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
-#: AbacusActivity.py:41 abacus.py:55
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
+#: AbacusActivity.py:53
 msgid "Nepohualtzintzin"
 msgstr "Aztečka"
 
-#: AbacusActivity.py:42 abacus.py:57
+#. TRANS: hexidecimal abacus
+#: AbacusActivity.py:55
 msgid "Hexadecimal"
 msgstr "Heksadecimalna"
 
-#: AbacusActivity.py:43 abacus.py:56
+#. TRANS: binary abacus
+#: AbacusActivity.py:57
 msgid "Binary"
 msgstr "Binarna"
 
 # http://en.wikipedia.org/wiki/Abacus#Russian_abacus
-#: AbacusActivity.py:44 abacus.py:54
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
+#: AbacusActivity.py:59
 msgid "Schety"
 msgstr "Ruska"
 
-#: AbacusActivity.py:45 abacus.py:58
-msgid "Fraction"
-msgstr "Razlomci"
-
 # Caacupé
-#: AbacusActivity.py:46 abacus.py:60
+#. TRANS: abacus for adding fractions
+#. 'fraction': _('Fraction'),
+#. TRANS: Abacus invented by teachers in Caacupé, Paraguay
+#: AbacusActivity.py:63
 msgid "Caacupé"
 msgstr "Paragvajska"
 
-#: AbacusActivity.py:47 abacus.py:61
+#. TRANS: Cuisenaire Rods
+#: AbacusActivity.py:65
 msgid "Rods"
 msgstr "Štapići"
 
-#: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
+#. TRANS: Custom abacus
+#: AbacusActivity.py:67 AbacusActivity.py:167 AbacusActivity.py:201
 msgid "Custom"
 msgstr "Moja računaljka"
 
-#: AbacusActivity.py:74
+#: AbacusActivity.py:94
 msgid "Edit"
 msgstr "Uredi"
 
-#: AbacusActivity.py:98 abacus.py:69
+#: AbacusActivity.py:118 abacus.py:72
 msgid "Reset"
 msgstr "Iznova"
 
-#: AbacusActivity.py:107
+#: AbacusActivity.py:127
 msgid "<Ctrl>Q"
 msgstr "<Ctrl>Q"
 
-#: AbacusActivity.py:196
+#: AbacusActivity.py:178
 msgid "Rods:"
 msgstr "Štapića:"
 
-#: AbacusActivity.py:199
+#: AbacusActivity.py:181
 msgid "Top:"
 msgstr "Gore:"
 
-#: AbacusActivity.py:202
+#: AbacusActivity.py:184
 msgid "Bottom:"
 msgstr "Dolje:"
 
-#: AbacusActivity.py:205
+#: AbacusActivity.py:187
 msgid "Factor:"
 msgstr "Množenik:"
 
-#: AbacusActivity.py:208
+#: AbacusActivity.py:190
 msgid "Base:"
 msgstr "Osnova:"
 
-#: AbacusActivity.py:220
+#: AbacusActivity.py:204
 msgid "Copy"
 msgstr "Kopiraj"
 
-#: AbacusActivity.py:222
+#: AbacusActivity.py:206
 msgid "Paste"
 msgstr "Zalijepi"
 
-#: AbacusActivity.py:311
-msgid "A new abacus is loading."
-msgstr "Učitava se nova računaljka."
-
-#: abacus.py:72
+#: abacus.py:75
 msgid "Quit"
 msgstr "Završi"
+
+#~ msgid "Fraction"
+#~ msgstr "Razlomci"
+
+#~ msgid "A new abacus is loading."
+#~ msgstr "Učitava se nova računaljka."
 
 #~ msgid "Project"
 #~ msgstr "Projekt"

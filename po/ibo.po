@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-29 00:31-0400\n"
+"POT-Creation-Date: 2017-09-05 12:51+1000\n"
 "PO-Revision-Date: 2017-03-12 03:06+0000\n"
 "Last-Translator: Chris <cjl@sugarlabs.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,104 +18,112 @@ msgstr ""
 "X-Generator: Pootle 2.5.1.1\n"
 "X-POOTLE-MTIME: 1489287988.000000\n"
 
-#. TRANS: "name" option from activity.info file
-#: abacus.py:48
+#: activity/activity.info:2 abacus.py:64
 msgid "Abacus"
 msgstr "Abacus"
 
-#. TRANS: "summary" option from activity.info file
-#. TRANS: "description" option from activity.info file
+#: activity/activity.info:3
 msgid "a tool for simple arithmetic calculations"
 msgstr "a na ngwá ọrụ dị mfe som calculations"
 
-#: AbacusActivity.py:38 abacus.py:52
+#. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
+#: AbacusActivity.py:47
 msgid "Suanpan"
 msgstr "Suanpan"
 
-#: AbacusActivity.py:39 AbacusActivity.py:123 abacus.py:53
+#. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
+#: AbacusActivity.py:49
 msgid "Soroban"
 msgstr "Soroban"
 
-#: AbacusActivity.py:40 abacus.py:59
+#. TRANS: simple decimal abacus
+#: AbacusActivity.py:51
 msgid "Decimal"
 msgstr "Ntụpọ"
 
-#: AbacusActivity.py:41 abacus.py:55
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
+#: AbacusActivity.py:53
 msgid "Nepohualtzintzin"
 msgstr "Nepohualtzintzin"
 
-#: AbacusActivity.py:42 abacus.py:57
+#. TRANS: hexidecimal abacus
+#: AbacusActivity.py:55
 msgid "Hexadecimal"
 msgstr "Hexadecimal"
 
-#: AbacusActivity.py:43 abacus.py:56
+#. TRANS: binary abacus
+#: AbacusActivity.py:57
 msgid "Binary"
 msgstr "Ọnụọgụ abụọ"
 
-#: AbacusActivity.py:44 abacus.py:54
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
+#: AbacusActivity.py:59
 msgid "Schety"
 msgstr "Schety"
 
-#: AbacusActivity.py:45 abacus.py:58
-msgid "Fraction"
-msgstr "Akụkụ"
-
-#: AbacusActivity.py:46 abacus.py:60
+#. TRANS: abacus for adding fractions
+#. 'fraction': _('Fraction'),
+#. TRANS: Abacus invented by teachers in Caacupé, Paraguay
+#: AbacusActivity.py:63
 msgid "Caacupé"
 msgstr "Caacupé"
 
-#: AbacusActivity.py:47 abacus.py:61
+#. TRANS: Cuisenaire Rods
+#: AbacusActivity.py:65
 msgid "Rods"
 msgstr "Mkpara"
 
-#: AbacusActivity.py:48 AbacusActivity.py:190 AbacusActivity.py:217
+#. TRANS: Custom abacus
+#: AbacusActivity.py:67 AbacusActivity.py:167 AbacusActivity.py:201
 msgid "Custom"
 msgstr "Omenala"
 
-#: AbacusActivity.py:74
+#: AbacusActivity.py:94
 msgid "Edit"
 msgstr "Dezie"
 
-#: AbacusActivity.py:98 abacus.py:69
+#: AbacusActivity.py:118 abacus.py:72
 msgid "Reset"
 msgstr "Tọgharia"
 
-#: AbacusActivity.py:107
+#: AbacusActivity.py:127
 msgid "<Ctrl>Q"
 msgstr "<Ctrl>Ẹdọhọ"
 
-#: AbacusActivity.py:196
+#: AbacusActivity.py:178
 msgid "Rods:"
 msgstr "Mkpara:"
 
-#: AbacusActivity.py:199
+#: AbacusActivity.py:181
 msgid "Top:"
 msgstr "Top:"
 
-#: AbacusActivity.py:202
+#: AbacusActivity.py:184
 msgid "Bottom:"
 msgstr "Ahla:"
 
-#: AbacusActivity.py:205
+#: AbacusActivity.py:187
 msgid "Factor:"
 msgstr "Lekọtara:"
 
-#: AbacusActivity.py:208
+#: AbacusActivity.py:190
 msgid "Base:"
 msgstr "Isi:"
 
-#: AbacusActivity.py:220
+#: AbacusActivity.py:204
 msgid "Copy"
 msgstr "Detuo"
 
-#: AbacusActivity.py:222
+#: AbacusActivity.py:206
 msgid "Paste"
 msgstr "Tapawa"
 
-#: AbacusActivity.py:311
-msgid "A new abacus is loading."
-msgstr "A ọhụrụ abacus na- loading."
-
-#: abacus.py:72
+#: abacus.py:75
 msgid "Quit"
 msgstr "Kwụsịkwanụ"
+
+#~ msgid "Fraction"
+#~ msgstr "Akụkụ"
+
+#~ msgid "A new abacus is loading."
+#~ msgstr "A ọhụrụ abacus na- loading."
