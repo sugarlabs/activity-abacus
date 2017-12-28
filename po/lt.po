@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-05 12:51+1000\n"
-"PO-Revision-Date: 2016-05-16 03:08+0000\n"
+"PO-Revision-Date: 2017-11-12 18:50+0000\n"
 "Last-Translator: Moo <hazap@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: lt\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "(n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1463368098.000000\n"
+"X-POOTLE-MTIME: 1510512650.000000\n"
 
 #: activity/activity.info:2 abacus.py:64
 msgid "Abacus"
@@ -35,7 +35,7 @@ msgstr "Suanpan"
 #. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
 #: AbacusActivity.py:49
 msgid "Soroban"
-msgstr ""
+msgstr "Soroban"
 
 #. TRANS: simple decimal abacus
 #: AbacusActivity.py:51
@@ -45,12 +45,12 @@ msgstr "Dešimtainė"
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
 #: AbacusActivity.py:53
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "Nepohualtzintzin"
 
 #. TRANS: hexidecimal abacus
 #: AbacusActivity.py:55
 msgid "Hexadecimal"
-msgstr ""
+msgstr "Šešioliktainė"
 
 #. TRANS: binary abacus
 #: AbacusActivity.py:57
@@ -60,32 +60,32 @@ msgstr "Dvejetainė"
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
 #: AbacusActivity.py:59
 msgid "Schety"
-msgstr ""
+msgstr "Ščioty"
 
 #. TRANS: abacus for adding fractions
 #. 'fraction': _('Fraction'),
 #. TRANS: Abacus invented by teachers in Caacupé, Paraguay
 #: AbacusActivity.py:63
 msgid "Caacupé"
-msgstr ""
+msgstr "Kaakupė"
 
 #. TRANS: Cuisenaire Rods
 #: AbacusActivity.py:65
 msgid "Rods"
-msgstr ""
+msgstr "Lazdelės"
 
 #. TRANS: Custom abacus
 #: AbacusActivity.py:67 AbacusActivity.py:167 AbacusActivity.py:201
 msgid "Custom"
-msgstr ""
+msgstr "Tinkinta"
 
 #: AbacusActivity.py:94
 msgid "Edit"
-msgstr ""
+msgstr "Taisyti"
 
 #: AbacusActivity.py:118 abacus.py:72
 msgid "Reset"
-msgstr ""
+msgstr "Atstatyti"
 
 #: AbacusActivity.py:127
 msgid "<Ctrl>Q"
@@ -93,23 +93,23 @@ msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:178
 msgid "Rods:"
-msgstr ""
+msgstr "Lazdelės:"
 
 #: AbacusActivity.py:181
 msgid "Top:"
-msgstr ""
+msgstr "Viršus:"
 
 #: AbacusActivity.py:184
 msgid "Bottom:"
-msgstr ""
+msgstr "Apačia:"
 
 #: AbacusActivity.py:187
 msgid "Factor:"
-msgstr ""
+msgstr "Daugiklis:"
 
 #: AbacusActivity.py:190
 msgid "Base:"
-msgstr ""
+msgstr "Pagrindas:"
 
 #: AbacusActivity.py:204
 msgid "Copy"

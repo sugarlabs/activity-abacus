@@ -7,84 +7,91 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-05 12:51+1000\n"
-"PO-Revision-Date: 2017-12-05 16:57+0000\n"
-"Last-Translator: numanccn <numanccn@gmail.com>\n"
+"PO-Revision-Date: 2017-12-09 00:51+0000\n"
+"Last-Translator: MIkusan <haddadsamir94@yahoo.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: bn\n"
+"Language: kab\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.1.1\n"
-"X-POOTLE-MTIME: 1512493026.000000\n"
+"X-POOTLE-MTIME: 1512780714.000000\n"
 
 #: activity/activity.info:2 abacus.py:64
+#, fuzzy
 msgid "Abacus"
-msgstr "অ্যাবাকাস"
+msgstr "Abakus "
 
 #: activity/activity.info:3
 msgid "a tool for simple arithmetic calculations"
-msgstr "ক্যালকুলেটর"
+msgstr ""
 
 #. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
 #: AbacusActivity.py:47
+#, fuzzy
 msgid "Suanpan"
-msgstr "সুয়ান্পান"
+msgstr "Suanpan"
 
 #. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
 #: AbacusActivity.py:49
+#, fuzzy
 msgid "Soroban"
 msgstr "Soroban"
 
 #. TRANS: simple decimal abacus
 #: AbacusActivity.py:51
 msgid "Decimal"
-msgstr "দশমিক"
+msgstr "Amrawan"
 
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
 #: AbacusActivity.py:53
+#, fuzzy
 msgid "Nepohualtzintzin"
 msgstr "Nepohualtzintzin"
 
 #. TRANS: hexidecimal abacus
 #: AbacusActivity.py:55
 msgid "Hexadecimal"
-msgstr "হেক্সাডেসিমেল"
+msgstr ""
 
 #. TRANS: binary abacus
 #: AbacusActivity.py:57
 msgid "Binary"
-msgstr "বাইনারি"
+msgstr "Imisin "
 
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
 #: AbacusActivity.py:59
+#, fuzzy
 msgid "Schety"
-msgstr "Schety"
+msgstr "Sčuti"
 
 #. TRANS: abacus for adding fractions
 #. 'fraction': _('Fraction'),
 #. TRANS: Abacus invented by teachers in Caacupé, Paraguay
 #: AbacusActivity.py:63
+#, fuzzy
 msgid "Caacupé"
-msgstr "Caacupé"
+msgstr "Caacupé "
 
 #. TRANS: Cuisenaire Rods
 #: AbacusActivity.py:65
 msgid "Rods"
-msgstr "Rods"
+msgstr ""
 
 #. TRANS: Custom abacus
 #: AbacusActivity.py:67 AbacusActivity.py:167 AbacusActivity.py:201
 msgid "Custom"
-msgstr "স্বনির্ধারিত"
+msgstr ""
 
 #: AbacusActivity.py:94
+#, fuzzy
 msgid "Edit"
-msgstr "সম্পাদন"
+msgstr "Siẓṛeg"
 
 #: AbacusActivity.py:118 abacus.py:72
 msgid "Reset"
-msgstr "পুনঃনির্ধারণ"
+msgstr ""
 
 #: AbacusActivity.py:127
 msgid "<Ctrl>Q"
@@ -92,38 +99,34 @@ msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:178
 msgid "Rods:"
-msgstr "Rods:"
+msgstr ""
 
 #: AbacusActivity.py:181
+#, fuzzy
 msgid "Top:"
-msgstr "শীর্ষ:"
+msgstr "Afella : "
 
 #: AbacusActivity.py:184
+#, fuzzy
 msgid "Bottom:"
-msgstr "তলদেশ:"
+msgstr "Adda"
 
 #: AbacusActivity.py:187
 msgid "Factor:"
-msgstr "ফ্যাক্টর:"
+msgstr ""
 
 #: AbacusActivity.py:190
 msgid "Base:"
-msgstr "ভিত্তি:"
+msgstr ""
 
 #: AbacusActivity.py:204
 msgid "Copy"
-msgstr "অনুলিপি"
+msgstr ""
 
 #: AbacusActivity.py:206
 msgid "Paste"
-msgstr "প্রতিলেপন করা"
+msgstr ""
 
 #: abacus.py:75
 msgid "Quit"
-msgstr "বন্ধ"
-
-#~ msgid "Fraction"
-#~ msgstr "ভগ্নাংশ"
-
-#~ msgid "Project"
-#~ msgstr "প্রকল্প"
+msgstr ""

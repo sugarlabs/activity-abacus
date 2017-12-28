@@ -7,115 +7,117 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-05 12:51+1000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2017-12-06 15:29+0000\n"
+"Last-Translator: juanpabl <juanpabl@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: an\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Translate Toolkit 1.11.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.1.1\n"
+"X-POOTLE-MTIME: 1512574161.000000\n"
 
 #: activity/activity.info:2 abacus.py:64
 msgid "Abacus"
-msgstr ""
+msgstr "Abaco"
 
 #: activity/activity.info:3
 msgid "a tool for simple arithmetic calculations"
-msgstr ""
+msgstr "una ferramienta pa fer calculos aritmeticos sencillos"
 
 #. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
 #: AbacusActivity.py:47
 msgid "Suanpan"
-msgstr ""
+msgstr "Suanpan u abaco chino"
 
 #. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
 #: AbacusActivity.py:49
 msgid "Soroban"
-msgstr ""
+msgstr "Soroban u abaco chaponés"
 
 #. TRANS: simple decimal abacus
 #: AbacusActivity.py:51
 msgid "Decimal"
-msgstr ""
+msgstr "Decimal"
 
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
 #: AbacusActivity.py:53
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "Nepohualtzintzin"
 
 #. TRANS: hexidecimal abacus
 #: AbacusActivity.py:55
 msgid "Hexadecimal"
-msgstr ""
+msgstr "Hexadecimal"
 
 #. TRANS: binary abacus
 #: AbacusActivity.py:57
 msgid "Binary"
-msgstr ""
+msgstr "Binario"
 
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
 #: AbacusActivity.py:59
 msgid "Schety"
-msgstr ""
+msgstr "Sxioti u abaco ruso"
 
 #. TRANS: abacus for adding fractions
 #. 'fraction': _('Fraction'),
 #. TRANS: Abacus invented by teachers in Caacupé, Paraguay
 #: AbacusActivity.py:63
 msgid "Caacupé"
-msgstr ""
+msgstr "Caacupé"
 
 #. TRANS: Cuisenaire Rods
 #: AbacusActivity.py:65
 msgid "Rods"
-msgstr ""
+msgstr "Varetas"
 
 #. TRANS: Custom abacus
 #: AbacusActivity.py:67 AbacusActivity.py:167 AbacusActivity.py:201
 msgid "Custom"
-msgstr ""
+msgstr "Personalizar"
 
 #: AbacusActivity.py:94
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: AbacusActivity.py:118 abacus.py:72
 msgid "Reset"
-msgstr ""
+msgstr "Reiniciar"
 
 #: AbacusActivity.py:127
 msgid "<Ctrl>Q"
-msgstr ""
+msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:178
 msgid "Rods:"
-msgstr ""
+msgstr "Varetas:"
 
 #: AbacusActivity.py:181
 msgid "Top:"
-msgstr ""
+msgstr "Superior:"
 
 #: AbacusActivity.py:184
 msgid "Bottom:"
-msgstr ""
+msgstr "Inferior:"
 
 #: AbacusActivity.py:187
 msgid "Factor:"
-msgstr ""
+msgstr "Factor:"
 
 #: AbacusActivity.py:190
 msgid "Base:"
-msgstr ""
+msgstr "Base:"
 
 #: AbacusActivity.py:204
 msgid "Copy"
-msgstr ""
+msgstr "Base:"
 
 #: AbacusActivity.py:206
 msgid "Paste"
-msgstr ""
+msgstr "Apegar"
 
 #: abacus.py:75
 msgid "Quit"
-msgstr ""
+msgstr "Salir"
