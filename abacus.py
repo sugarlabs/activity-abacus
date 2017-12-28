@@ -45,19 +45,10 @@ class AbacusMain:
         self.tw = None
 
         self.win = Gtk.Window(type=Gtk.WindowType.TOPLEVEL)
-        try:
-            data_file = open('.abacusrc', 'r')
-        except IOError:
-            data_file = open('.abacusrc', 'a+')
-            data_file.write(str(50) + '\n')
-            data_file.write(str(50) + '\n')
-            data_file.write(str(800) + '\n')
-            data_file.write(str(550) + '\n')
-            data_file.seek(0)
-        self.x = int(data_file.readline())
-        self.y = int(data_file.readline())
-        self.width = int(data_file.readline())
-        self.height = int(data_file.readline())
+        self.x = 50
+        self.y = 50
+        self.width = 800
+        self.height = 550
         self.win.set_default_size(self.width, self.height)
         self.win.move(self.x, self.y)
         self.win.maximize()
