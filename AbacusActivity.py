@@ -54,11 +54,11 @@ NAMES = {
     # TRANS: hexidecimal abacus
     'hexadecimal': _('Hexadecimal'),
     # TRANS: binary abacus
-    'binary': _('Binary'),
+    'binary1': _('Binary'),
     # TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
     'schety': _('Schety'),
     # TRANS: abacus for adding fractions
-    # 'fraction': _('Fraction'),
+    #+ 'fraction': _('Fraction'),
     # TRANS: Abacus invented by teachers in Caacupé, Paraguay
     'caacupe': _('Caacupé'),
     # TRANS: Cuisenaire Rods
@@ -144,7 +144,7 @@ class AbacusActivity(activity.Activity):
         self._add_abacus_button('nepohualtzintzin',
                                 self.abacus_buttons['decimal'])
         self._add_abacus_button('hexadecimal', self.abacus_buttons['decimal'])
-        self._add_abacus_button('binary', self.abacus_buttons['decimal'])
+        self._add_abacus_button('binary1', self.abacus_buttons['decimal'])
 
         self.sep.append(separator_factory(self.abacus_toolbar))
 
