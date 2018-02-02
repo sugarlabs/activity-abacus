@@ -30,7 +30,7 @@ from abacus_window import Abacus
 
 class AbacusMain:
     ABACI = {
-        'b': 'binary',
+        'b': 'binary1',
         'c': 'suanpan',
         'f': 'fraction',
         'h': 'hexadecimal',
