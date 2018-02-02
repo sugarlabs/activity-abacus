@@ -791,7 +791,7 @@ class Abacus():
         self.suanpan = None
         self.nepohualtzintzin = None
         self.hexadecimal = None
-        self.binary = None
+        self.binary1 = None
         self.russian = None
         self.fraction = None
         self.caacupe = None
@@ -805,7 +805,7 @@ class Abacus():
                           'nepohualtzintzin': [self.nepohualtzintzin,
                                                Nepohualtzintzin],
                           'hexadecimal': [self.hexadecimal, Hexadecimal],
-                          'binary': [self.binary, Binary],
+                          'binary1': [self.binary1, Binary],
                           'schety': [self.russian, Schety],
                           'fraction': [self.fraction, Fractions],
                           'caacupe': [self.caacupe, Caacupe],
@@ -1503,7 +1503,7 @@ class Binary(AbacusGeneric):
 
     def set_parameters(self):
         ''' create a Binary abacus: 15 by (1,0) '''
-        self.name = 'binary'
+        self.name = 'binary1'
         self.num_rods = 15
         self.bot_beads = 1
         self.top_beads = 0
