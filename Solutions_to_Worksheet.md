@@ -2,7 +2,7 @@
 ## Ways to make 1/2
 Ways to make 1/2 just using one string
 
-[Abacus1of2.jpg]()|[Abacus2of4.jpg]()|[Abacus3of6.jpg]()|[Abacus4of8.jpg]()|[Abacus5of10.jpg]()|[Abacus6of12.jpg]()
+![Abacus1of2.jpg](img/Abacus1of2.jpg)|![Abacus2of4.jpg](img/Abacus2of4.jpg)|![Abacus3of6.jpg](img/Abacus3of6.jpg)|![Abacus4of8.jpg](img/Abacus4of8.jpg)|![Abacus5of10.jpg](img/Abacus5of10.jpg)|![Abacus6of12.jpg](img/Abacus6of12.jpg)
 
 To make 1/2 just using one string, the fraction denominator must be divisible by 2. The string must contain an even number of beads, 2 4 6 8 10 12
 
