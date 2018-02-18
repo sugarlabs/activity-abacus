@@ -2,15 +2,15 @@
 
 # About Abacus 
 
-![abacus](https://wiki.sugarlabs.org/images/3/3a/Abacus-activity.png)
+![abacus](img/Abacus-icon.png)
 
 [Abacus](http://en.wikipedia.org/wiki/Abacus) lets the learner explore different representations of numbers using different mechanical counting systems developed by the ancient Romans and Chinese. There are several different variants available for exploration: a [suanpan](http://en.wikipedia.org/wiki/Suanpan), the traditional Chinese abacus with 2 beads on top and 5 beads below; a [soroban](http://en.wikipedia.org/wiki/Soroban), the traditional Japanese abacus with 1 bead on top and 4 beads below; the [schety](http://en.wikipedia.org/wiki/Abacus#Russian_abacus), the traditional Russian abacus, with 10 beads per column, with the exception of one column with just 4 beads used for counting in fourths; and the [nepohualtzintzin](http://en.wikipedia.org/wiki/Abacus#Native_American_abaci), a Mayan abacus, 3 beads on top and 4 beads below (base 20). There is also a binary abacus, a hexadecimal abacus, and several abacuses that lets you calculate with common fractions: 1/2, 1/3, 1/4, 1/5, 1/6, 1/8, 1/9, 1/10, and 1/12. And there is a customization toolbar that lets you design your own abacus. The [Incan abacus (Yupana)](https://wiki.sugarlabs.org/go/Activities/Yupana) as a standalone program.
 
 [Traducción español](http://wiki.sugarlabs.org/go/Activities/Abacus/Abacos)
 
-[Abacus.jpg]()
+![Abacus.jpg](img/Abacus.jpg)
 
-[Abacus-activity.png]()
+![Abacus-activity.png](img/Abacus-activity.png)
 
 # Where to get Abacus 
 
