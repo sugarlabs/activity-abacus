@@ -35,27 +35,27 @@ The current value is always displayed on the frame. Experiment and you will quic
 **Examples:** In the gallery below, several simple examples are shown. In the gallery of images above, the number 54321 is shown on each of the different abaci.
 
 
-[Abacus-1.png]()1 bottom bead is up, corresponding to 1 unit
+![Abacus-1.png](img/Abacus-1.png)1 bottom bead is up, corresponding to 1 unit
 
-[Abacus-5.png]()1 top bead is down, corresponding to 5 units
+![Abacus-5.png](img/Abacus-5.png)1 top bead is down, corresponding to 5 units
 
-[Abacus-5b.png]()5 bottom beads are up, also corresponding to 5 units
+![Abacus-5b.png](img/Abacus-5b.png)5 bottom beads are up, also corresponding to 5 units
 
-[Abacus-6.png]()1 bottom bead is up and 1 top bead is down, corresponding to 6 units
+![Abacus-6.png](img/Abacus-6.png)1 bottom bead is up and 1 top bead is down, corresponding to 6 units
 
-[Abacus-10.png]()5 bottom beads are up and 1 top bead is down, corresponding to 10 units (time to "carry" to the left)
+![Abacus-10.png](img/Abacus-10.png)5 bottom beads are up and 1 top bead is down, corresponding to 10 units (time to "carry" to the left)
 
-[Abacus-10x1.png]()This 10 is equivalent to...
+![Abacus-10x1.png](img/Abacus-10x1.png)This 10 is equivalent to...
 
-[Abacus-1x10.png]()... this 10
+![Abacus-1x10.png](img/Abacus-1x10.png)... this 10
 
-[Abacus-54321.png]()54321
+![Abacus-54321.png](img/Abacus-54321.png)54321
 
 
 **Note:** The display always assumes a fixed unit column, but you can override this choice.
 
 
-[Abacus-highlight.png]()The beads moved most recently are highlighted.
+![Abacus-highlight.png](img/Abacus-highlight.png)The beads moved most recently are highlighted.
 
 ## Addition 
 
