@@ -44,7 +44,7 @@ Find all the ways to make 1/3 and 2/3
 ## Other representations of fraction addition
 Draw your solutions as pie charts, you can use Paint, TurtleArt, Socialcalc or Gnumeric in Gnome.
 
-[1on2piedraw.jpg]() |  [Fractionpieturtle.jpg]() |  [Fractionpiesocialcalc.jpg]()
+![1on2piedraw.jpg](img/1on2piedraw.jpg) |  ![Fractionpieturtle.jpg](img/Fractionpieturtle.jpg) |  ![Fractionpiesocialcalc.jpg](Fractionpiesocialcalc.jpg)
 
 The Caacupé abacus
 Load the Caacupé abacus [Abacuscaacupe.jpg]()
