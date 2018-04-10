@@ -1,11 +1,11 @@
 [Activity]
 name = Abacus
-activity_version = 59
-license = GPLv3
+activity_version = 60
+license = GPLv3+
 bundle_id = org.sugarlabs.AbacusActivity
 exec = sugar-activity AbacusActivity.AbacusActivity
 icon = activity-abacus
 show_launcher = yes
 summary = a tool for simple arithmetic calculations
 category = maths
-repository = https://github.com/walterbender/abacus
+repository = https://github.com/sugarlabs/abacus

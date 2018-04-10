@@ -1,3 +1,13 @@
+60
+
+* New translations (Chris Leonard et al),
+* Remove suspicious code (Robert Antoni Buj Gelonch),
+* Fix Python GI API version warnings (James Cameron),
+* Update POT file (James Cameron),
+* Remove duplicate LICENSE, use COPYING (James Cameron),
+* Adjust README.md (James Cameron),
+* Remove unused .abacusrc file  (James Cameron),
+
 59
 
 * New translations
