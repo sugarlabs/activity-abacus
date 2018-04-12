@@ -770,7 +770,10 @@ class Abacus():
         self.press = None
         self.last = None
 
-        locale.setlocale(locale.LC_NUMERIC, '')
+        try:
+            locale.setlocale(locale.LC_NUMERIC, '')
+        except locale.Error:  # doesn't matter if $LANG invalid
+            pass
         self.decimal_point = locale.localeconv()['decimal_point']
         if self.decimal_point == '' or self.decimal_point is None:
             self.decimal_point = '.'
