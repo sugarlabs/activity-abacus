@@ -65,7 +65,7 @@ NAMES = {
     'cuisenaire': _('Rods'),
     # TRANS: Custom abacus
     'custom': _('Custom')
-    }
+}
 
 
 class AbacusActivity(activity.Activity):

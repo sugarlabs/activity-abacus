@@ -884,13 +884,13 @@ class Abacus():
                 if '/' in number:  # need to convert to decimal form
                     try:
                         userdefined = {}
-                        exec('def f(): return ' + number.replace(' ', '+') + \
-                            '.', globals(), userdefined)
+                        exec('def f(): return ' + number.replace(' ', '+') +
+                             '.', globals(), userdefined)
                         value = list(userdefined.values())[0]()
                         number = str(value)
                         self.press.set_label(
                             number.replace('.', self.decimal_point) + CURSOR)
-                    except:
+                    except BaseException:
                         traceback.print_exc()
                         number = ''
                 self.press = None
