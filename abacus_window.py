@@ -151,6 +151,8 @@ readable-fractions/681534#681534
 
 def _svg_str_to_pixbuf(svg_string):
     ''' Load pixbuf from SVG string '''
+    if type(svg_string) is str:
+        svg_string = svg_string.encode()
     pl = GdkPixbuf.PixbufLoader.new_with_type('svg')
     pl.write(svg_string)
     pl.close()
@@ -589,7 +591,7 @@ class Rod():
             return
         if self.top_beads > 0:
             bot = value % self.top_factor
-            top = (value - bot) / self.top_factor
+            top = (value - bot) // self.top_factor
         else:
             bot = value
             top = 0
@@ -868,7 +870,7 @@ class Abacus():
     def _button_press_cb(self, win, event):
         ''' Callback to handle the button presses '''
         win.grab_focus()
-        x, y = map(int, event.get_coords())
+        x, y = list(map(int, event.get_coords()))
         self.press = self.sprites.find_sprite((x, y))
         self.last = self.press
         if self.press is not None:
@@ -882,9 +884,9 @@ class Abacus():
                 if '/' in number:  # need to convert to decimal form
                     try:
                         userdefined = {}
-                        exec 'def f(): return ' + number.replace(' ', '+') + \
-                            '.' in globals(), userdefined
-                        value = userdefined.values()[0]()
+                        exec('def f(): return ' + number.replace(' ', '+') + \
+                            '.', globals(), userdefined)
+                        value = list(userdefined.values())[0]()
                         number = str(value)
                         self.press.set_label(
                             number.replace('.', self.decimal_point) + CURSOR)
@@ -902,7 +904,7 @@ class Abacus():
             self.dragpos = 0
             return True
         win.grab_focus()
-        x, y = map(int, event.get_coords())
+        x, y = list(map(int, event.get_coords()))
         if self.press.type == 'mark':
             mx, my = self.mode.mark.get_xy()
             self.mode.move_mark(x - mx)
@@ -914,7 +916,7 @@ class Abacus():
             self.dragpos = 0
             return True
         win.grab_focus()
-        x, y = map(int, event.get_coords())
+        x, y = list(map(int, event.get_coords()))
         if self.press.type == 'bead':
             self.mode.move_bead(self.press, y - self.dragpos)
         self.press = None
@@ -974,7 +976,7 @@ class Abacus():
         if len(newnum) > 0 and newnum != '-':
             try:
                 float(newnum.replace(self.decimal_point, '.'))
-            except ValueError, e:
+            except ValueError as e:
                 _logger.debug('Error converting numeric input %s: %s' %
                               (str(newnum), e))
                 newnum = oldnum

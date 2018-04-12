@@ -58,7 +58,7 @@ class AbacusMain:
         self.win.connect('delete_event', lambda w, e: Gtk.main_quit())
 
         menu = Gtk.Menu()
-        for k, v in self.ABACI.iteritems():
+        for k, v in self.ABACI.items():
             menu_items = Gtk.MenuItem.new_with_label(v)
             menu.append(menu_items)
             menu_items.connect('activate', self._switch_abacus_cb, k)
