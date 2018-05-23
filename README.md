@@ -6,7 +6,7 @@ Abacus is a tool for simple arithmetic calculations.
 How to use?
 ===========
 
-Abacus is part of the Sugar desktop.  Please refer to;
+Abacus is part of the Sugar desktop. Please refer to;
 
 * [How to Get Sugar on sugarlabs.org](https://sugarlabs.org/),
 * [How to use Sugar](https://help.sugarlabs.org/),
@@ -31,3 +31,8 @@ dnf install sugar-abacus
 Abacus depends on Python, GTK+ 3, and the Sugar Toolkit.
 
 Abacus is started by [Sugar](https://github.com/sugarlabs/sugar).
+
+License
+=======
+
+The souce code is under [GNU General Public License v3](https://github.com/sugarlabs/activity-abacus/blob/master/LICENSE).
