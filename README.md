@@ -6,10 +6,11 @@ Abacus is a tool for simple arithmetic calculations.
 How to use?
 ===========
 
-Abacus is part of the Sugar desktop.  Please refer to;
+Abacus is not part of the Sugar desktop, but can be added.  Please refer to;
 
 * [How to Get Sugar on sugarlabs.org](https://sugarlabs.org/),
 * [How to use Sugar](https://help.sugarlabs.org/),
+* [Download Abacus using Browse](https://activities.sugarlabs.org/), search for `Abacus`, then download, and;
 * [How to use Abacus](https://help.sugarlabs.org/en/abacus.html)
 
 How to upgrade?
