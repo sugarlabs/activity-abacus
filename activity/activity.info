@@ -1,12 +1,14 @@
 [Activity]
 name = Abacus
 activity_version = 60.1
-license = GPLv3+
 bundle_id = org.sugarlabs.AbacusActivity
-exec = sugar-activity AbacusActivity.AbacusActivity
+license = GPLv3+
 icon = activity-abacus
-show_launcher = yes
-website = https://help.sugarlabs.org/en/abacus.html
+exec = sugar-activity AbacusActivity.AbacusActivity
 summary = A tool for simple arithmetic calculations
-category = maths
+url = https://help.sugarlabs.org/en/abacus.html
 repository = https://github.com/sugarlabs/activity-abacus
+tags =  Maths, Game, Teacher
+show_launcher = yes
+description = Abacus lets the learner explore different representations of numbers using different mechanical counting systems developed by the ancient Romans and Chinese.
+screenshots = https://github.com/Ashnidh/activity-abacus/blob/update-info/screenshots/en/1.png https://github.com/Ashnidh/activity-abacus/blob/update-info/screenshots/en/2.png https://github.com/Ashnidh/activity-abacus/blob/update-info/screenshots/en/3.png
