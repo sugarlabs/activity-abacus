@@ -1,25 +1,25 @@
 # -*- coding: utf-8 -*-
 
-#Copyright (c) 2007-8, Playful Invention Company.
-#Copyright (c) 2008-14 Walter Bender
+# Copyright (c) 2007-8, Playful Invention Company.
+# Copyright (c) 2008-14 Walter Bender
 
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
 
-#The above copyright notice and this permission notice shall be included in
-#all copies or substantial portions of the Software.
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
 
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-#THE SOFTWARE.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 
 '''
 
@@ -78,7 +78,7 @@ def svg_str_to_pixbuf(svg_string):
 
 import gi
 gi.require_version('PangoCairo', '1.0')
-from gi.repository import Gtk, GdkPixbuf, Gdk
+from gi.repository import Gdk
 from gi.repository import Pango, PangoCairo
 import cairo
 
@@ -99,7 +99,7 @@ class Sprites:
 
     def get_sprite(self, i):
         ''' Return a sprint from the array '''
-        if i < 0 or i > len(self.list)-1:
+        if i < 0 or i > len(self.list) - 1:
             return(None)
         else:
             return(self.list[i])
@@ -143,10 +143,9 @@ class Sprites:
         else:
             self.cr = cr
         if cr is None:
-            print 'sprites.redraw_sprites: no Cairo context'
             return
         for spr in self.list:
-            if area == None:
+            if area is None:
                 spr.draw(cr=cr)
             else:
                 intersection = spr.rect.intersect(area)
@@ -273,11 +272,11 @@ class Sprite:
     def set_label(self, new_label, i=0):
         ''' Set the label drawn on the sprite '''
         self._extend_labels_array(i)
-        if type(new_label) is str or type(new_label) is unicode:
+        if isinstance(new_label, bytes) or isinstance(new_label, str):
             # pango doesn't like nulls
             self.labels[i] = new_label.replace("\0", " ")
         else:
-            self.labels[i] = str(new_label)
+            self.labels[i] = str(new_label).encode()
         self.inval()
 
     def set_margins(self, l=0, t=0, r=0, b=0):
@@ -348,7 +347,6 @@ class Sprite:
         if cr is None:
             cr = self._sprites.cr
         if cr is None:
-            print 'sprite.draw: no Cairo context.'
             return
         for i, img in enumerate(self.cached_surfaces):
             cr.set_source_surface(img, self.rect[0] + self._dx[i],
@@ -390,7 +388,7 @@ class Sprite:
             if w > my_width:
                 if self._rescale[i]:
                     self._fd.set_size(
-                            int(self._scale[i] * Pango.SCALE * my_width / w))
+                        int(self._scale[i] * Pango.SCALE * my_width / w))
                     pl.set_font_description(self._fd)
                     w = pl.get_size()[0] / Pango.SCALE
                 else:
@@ -408,7 +406,7 @@ class Sprite:
                 x = int(self.rect[0] + self._margins[0] + (my_width - w) / 2)
             elif self._horiz_align[i] == 'left':
                 x = int(self.rect[0] + self._margins[0])
-            else: # right
+            else:  # right
                 x = int(self.rect[0] + self.rect[2] - w - self._margins[2])
             h = pl.get_size()[1] / Pango.SCALE
             if self._y_pos[i] is not None:
@@ -417,7 +415,7 @@ class Sprite:
                 y = int(self.rect[1] + self._margins[1] + (my_height - h) / 2)
             elif self._vert_align[i] == "top":
                 y = int(self.rect[1] + self._margins[1])
-            else: # bottom
+            else:  # bottom
                 y = int(self.rect[1] + self.rect[3] - h - self._margins[3])
             cr.save()
             cr.translate(x, y)
@@ -465,10 +463,9 @@ class Sprite:
             if array is not None:
                 offset = (y * self.images[i].get_width() + x) * 4
                 r, g, b, a = ord(array[offset]), ord(array[offset + 1]),\
-                             ord(array[offset + 2]), ord(array[offset + 3])
+                    ord(array[offset + 2]), ord(array[offset + 3])
                 return(r, g, b, a)
             else:
                 return(-1, -1, -1, -1)
         except IndexError:
-            print "Index Error: %d %d" % (len(array), offset)
             return(-1, -1, -1, -1)

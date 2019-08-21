@@ -65,7 +65,7 @@ NAMES = {
     'cuisenaire': _('Rods'),
     # TRANS: Custom abacus
     'custom': _('Custom')
-    }
+}
 
 
 class AbacusActivity(activity.Activity):
@@ -357,7 +357,7 @@ class AbacusActivity(activity.Activity):
         if text is not None:
             try:
                 self.abacus.mode.set_value_from_number(float(text))
-            except ValueError, e:
+            except ValueError as e:
                 _logger.debug(str(e))
                 return
             self.abacus.mode.label(self.abacus.generate_label())
