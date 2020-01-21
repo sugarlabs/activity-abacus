@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-05 12:51+1000\n"
+"POT-Creation-Date: 2020-01-21 14:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: activity/activity.info:2 abacus.py:64
+#: activity/activity.info:2 abacus.py:57
 msgid "Abacus"
 msgstr ""
 
 #: activity/activity.info:3
-msgid "a tool for simple arithmetic calculations"
+msgid "A tool for simple arithmetic calculations"
 msgstr ""
 
 #. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
@@ -81,7 +81,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: AbacusActivity.py:118 abacus.py:72
+#: AbacusActivity.py:118 abacus.py:65
 msgid "Reset"
 msgstr ""
 
@@ -117,6 +117,6 @@ msgstr ""
 msgid "Paste"
 msgstr ""
 
-#: abacus.py:75
+#: abacus.py:68
 msgid "Quit"
 msgstr ""

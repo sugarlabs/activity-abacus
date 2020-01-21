@@ -1,3 +1,10 @@
+61
+
+* Port to Python 3 (Rahul Bothra)
+* Update README.md (James Cameron)
+* Fixing files for deployment of ASLOv3 (Vipul Gupta)
+* Add screenshots and update metadata (Ashnidh)
+
 60.1
 
 * Fix fail to start when LANG not valid (James Cameron),
