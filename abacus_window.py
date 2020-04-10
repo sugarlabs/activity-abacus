@@ -727,7 +727,7 @@ class Rod():
         # Use hex notation on hex abacus
         if self.top_beads == 1 and self.bot_beads == 7 and \
                 self.top_factor == 8:
-            self.label.set_label('%x' % n)
+            self.label.set_label('%x' % int(n))
         # Only show 0 on binary abacus
         elif n == 0 and not (self.top_beads == 0 and self.bot_beads == 1):
             self.label.set_label('')
@@ -1305,6 +1305,8 @@ class AbacusGeneric():
 
     def label(self, string):
         ''' Label with the string. (Used with self.value) '''
+        if type(string) is not str:
+            string = str(string)
         self.label_bar.set_label(string)
 
     def move_mark(self, dx):
