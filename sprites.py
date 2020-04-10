@@ -276,7 +276,7 @@ class Sprite:
             # pango doesn't like nulls
             self.labels[i] = new_label.replace("\0", " ")
         else:
-            self.labels[i] = str(new_label).encode()
+            self.labels[i] = str(new_label)
         self.inval()
 
     def set_margins(self, left=0, top=0, right=0, bottom=0):
