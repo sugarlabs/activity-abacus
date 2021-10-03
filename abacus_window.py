@@ -66,6 +66,14 @@ COLOR_BEADS = []
 BLACK_BEAD = None
 ROD_BEADS = []
 
+KEYS_1 = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'period',
+        'minus', 'Return', 'BackSpace', 'comma']
+KEYS_2 = {'KP_7': '7', 'KP_8': '8', 
+          'KP_9': '9', 'KP_4': '4', 
+          'KP_5': '5', 'KP_6': '6',
+          'KP_1': '1', 'KP_2': '2',
+          'KP_3': '3', 'KP_0': '0'}
+
 
 def make_bead_pixbufs(scale, bead_scale=1.0):
     global WHITE_BEADS
@@ -926,8 +934,7 @@ class Abacus():
     def _keypress_cb(self, area, event):
         ''' Keypress: moving the slides with the arrow keys '''
         k = Gdk.keyval_name(event.keyval)
-        if k in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'period',
-                 'minus', 'Return', 'BackSpace', 'comma']:
+        if k in KEYS_1 or k in KEYS_2.keys():
             if self.last == self.mode.label_bar:
                 self._process_numeric_input(self.last, k)
         elif k == 'r':
@@ -958,11 +965,16 @@ class Abacus():
                 newnum = oldnum[:len(oldnum) - 1]
             else:
                 newnum = ''
-        elif keyname in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+        elif keyname in [str(x) for x in range(10)]:
             if oldnum == '0':
                 newnum = keyname
             else:
                 newnum = oldnum + keyname
+        elif keyname in KEYS_2.keys():
+            if oldnum == '0':
+                newnum = KEYS_2[keyname]
+            else:
+                newnum = oldnum + KEYS_2[keyname]
         elif keyname == 'Return':
             self.mode.reset_abacus()
             self.mode.set_value_from_number(
