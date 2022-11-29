@@ -1,3 +1,8 @@
+62
+
+* fix beads label to show string instead of bytes (Srevin Saju)
+* Add numpad key events (Ibiam Chihurumnaya)
+
 61
 
 * New translations (Chris Leonard et al),
