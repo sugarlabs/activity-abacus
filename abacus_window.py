@@ -622,7 +622,7 @@ class Rod():
         # Clear the top.
         for i in range(self.top_beads):
             if self.beads[i + self._bead_count].get_state() == 1:
-                self.beads[i].move_up()
+                self.beads[i + self._bead_count].move_up()
         # Clear the bottom.
         for i in range(self.bot_beads):
             if self.beads[self.top_beads + i + self._bead_count].get_state() \
