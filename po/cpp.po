@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-11-30 06:54+1100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: cpp\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: activity/activity.info:2 abacus.py:57
+msgid "Abacus"
+msgstr ""
+
+#: activity/activity.info:3
+msgid "A tool for simple arithmetic calculations"
+msgstr ""
+
+#. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
+#: AbacusActivity.py:47
+msgid "Suanpan"
+msgstr ""
+
+#. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
+#: AbacusActivity.py:49
+msgid "Soroban"
+msgstr ""
+
+#. TRANS: simple decimal abacus
+#: AbacusActivity.py:51
+msgid "Decimal"
+msgstr ""
+
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
+#: AbacusActivity.py:53
+msgid "Nepohualtzintzin"
+msgstr ""
+
+#. TRANS: hexidecimal abacus
+#: AbacusActivity.py:55
+msgid "Hexadecimal"
+msgstr ""
+
+#. TRANS: binary abacus
+#: AbacusActivity.py:57
+msgid "Binary"
+msgstr ""
+
+#. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
+#: AbacusActivity.py:59
+msgid "Schety"
+msgstr ""
+
+#. TRANS: abacus for adding fractions
+#. 'fraction': _('Fraction'),
+#. TRANS: Abacus invented by teachers in Caacupé, Paraguay
+#: AbacusActivity.py:63
+msgid "Caacupé"
+msgstr ""
+
+#. TRANS: Cuisenaire Rods
+#: AbacusActivity.py:65
+msgid "Rods"
+msgstr ""
+
+#. TRANS: Custom abacus
+#: AbacusActivity.py:67 AbacusActivity.py:167 AbacusActivity.py:201
+msgid "Custom"
+msgstr ""
+
+#: AbacusActivity.py:94
+msgid "Edit"
+msgstr ""
+
+#: AbacusActivity.py:118 abacus.py:65
+msgid "Reset"
+msgstr ""
+
+#: AbacusActivity.py:127
+msgid "<Ctrl>Q"
+msgstr ""
+
+#: AbacusActivity.py:178
+msgid "Rods:"
+msgstr ""
+
+#: AbacusActivity.py:181
+msgid "Top:"
+msgstr ""
+
+#: AbacusActivity.py:184
+msgid "Bottom:"
+msgstr ""
+
+#: AbacusActivity.py:187
+msgid "Factor:"
+msgstr ""
+
+#: AbacusActivity.py:190
+msgid "Base:"
+msgstr ""
+
+#: AbacusActivity.py:204
+msgid "Copy"
+msgstr ""
+
+#: AbacusActivity.py:206
+msgid "Paste"
+msgstr ""
+
+#: abacus.py:68
+msgid "Quit"
+msgstr ""
