@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-30 06:54+1100\n"
-"PO-Revision-Date: 2025-06-26 08:08+0000\n"
+"PO-Revision-Date: 2025-06-26 08:22+0000\n"
 "Last-Translator: Erdem Uygun <erdem.uygun@eba.gov.tr>\n"
 "Language-Team: Turkish <http://weblate.sugarlabs.org/projects/"
 "sugar-activities/abacus/tr/>\n"
@@ -40,88 +40,88 @@ msgstr "Soroban"
 #. TRANS: simple decimal abacus
 #: AbacusActivity.py:51
 msgid "Decimal"
-msgstr ""
+msgstr "Ondalık"
 
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Native_American_abaci
 #: AbacusActivity.py:53
 msgid "Nepohualtzintzin"
-msgstr ""
+msgstr "Nepohualtzintzin"
 
 #. TRANS: hexidecimal abacus
 #: AbacusActivity.py:55
 msgid "Hexadecimal"
-msgstr ""
+msgstr "Onaltılık"
 
 #. TRANS: binary abacus
 #: AbacusActivity.py:57
 msgid "Binary"
-msgstr ""
+msgstr "İkilik"
 
 #. TRANS: http://en.wikipedia.org/wiki/Abacus#Russian_abacus
 #: AbacusActivity.py:59
 msgid "Schety"
-msgstr ""
+msgstr "Schety (Abaküs)"
 
 #. TRANS: abacus for adding fractions
 #. 'fraction': _('Fraction'),
 #. TRANS: Abacus invented by teachers in Caacupé, Paraguay
 #: AbacusActivity.py:63
 msgid "Caacupé"
-msgstr ""
+msgstr "Caacupé"
 
 #. TRANS: Cuisenaire Rods
 #: AbacusActivity.py:65
 msgid "Rods"
-msgstr ""
+msgstr "Çubuklar"
 
 #. TRANS: Custom abacus
 #: AbacusActivity.py:67 AbacusActivity.py:167 AbacusActivity.py:201
 msgid "Custom"
-msgstr ""
+msgstr "Özel"
 
 #: AbacusActivity.py:94
 msgid "Edit"
-msgstr ""
+msgstr "Düzenle"
 
 #: AbacusActivity.py:118 abacus.py:65
 msgid "Reset"
-msgstr ""
+msgstr "Sıfırla"
 
 #: AbacusActivity.py:127
 msgid "<Ctrl>Q"
-msgstr ""
+msgstr "<Ctrl>Q"
 
 #: AbacusActivity.py:178
 msgid "Rods:"
-msgstr ""
+msgstr "Çubuklar:"
 
 #: AbacusActivity.py:181
 msgid "Top:"
-msgstr ""
+msgstr "Üst:"
 
 #: AbacusActivity.py:184
 msgid "Bottom:"
-msgstr ""
+msgstr "Alt:"
 
 #: AbacusActivity.py:187
 msgid "Factor:"
-msgstr ""
+msgstr "Çarpan:"
 
 #: AbacusActivity.py:190
 msgid "Base:"
-msgstr ""
+msgstr "Taban:"
 
 #: AbacusActivity.py:204
 msgid "Copy"
-msgstr ""
+msgstr "Kopyala"
 
 #: AbacusActivity.py:206
 msgid "Paste"
-msgstr ""
+msgstr "Yapıştır"
 
 #: abacus.py:68
 msgid "Quit"
-msgstr ""
+msgstr "İptal"
 
 #: activity/activity.info:3
 msgid "a tool for simple arithmetic calculations"
