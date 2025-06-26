@@ -8,17 +8,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-30 06:54+1100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-06-26 07:58+0000\n"
+"Last-Translator: Erdem Uygun <erdem.uygun@eba.gov.tr>\n"
+"Language-Team: Turkish <http://weblate.sugarlabs.org/projects/"
+"sugar-activities/abacus/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.4.2\n"
 
 #: activity/activity.info:2 abacus.py:57
 msgid "Abacus"
-msgstr ""
+msgstr "Abaküs"
 
 #: activity/activity.info:3
 msgid "A tool for simple arithmetic calculations"
@@ -27,7 +30,7 @@ msgstr ""
 #. TRANS: http://en.wikipedia.org/wiki/Suanpan (Chinese abacus)
 #: AbacusActivity.py:47
 msgid "Suanpan"
-msgstr ""
+msgstr "Suanpan"
 
 #. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
 #: AbacusActivity.py:49
@@ -119,3 +122,7 @@ msgstr ""
 #: abacus.py:68
 msgid "Quit"
 msgstr ""
+
+#: activity/activity.info:3
+msgid "a tool for simple arithmetic calculations"
+msgstr "basit aritmetik işlemler için bir araç"
