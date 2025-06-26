@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-30 06:54+1100\n"
-"PO-Revision-Date: 2025-06-26 07:58+0000\n"
+"PO-Revision-Date: 2025-06-26 08:08+0000\n"
 "Last-Translator: Erdem Uygun <erdem.uygun@eba.gov.tr>\n"
 "Language-Team: Turkish <http://weblate.sugarlabs.org/projects/"
 "sugar-activities/abacus/tr/>\n"
@@ -35,7 +35,7 @@ msgstr "Suanpan"
 #. TRANS: http://en.wikipedia.org/wiki/Soroban (Japanese abacus)
 #: AbacusActivity.py:49
 msgid "Soroban"
-msgstr ""
+msgstr "Soroban"
 
 #. TRANS: simple decimal abacus
 #: AbacusActivity.py:51
